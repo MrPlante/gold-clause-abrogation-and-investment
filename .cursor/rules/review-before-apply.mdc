@@ -1,0 +1,14 @@
+---
+description: Require agent to propose edits for review before applying
+alwaysApply: true
+---
+
+# Review Before Apply
+
+**When making file edits, the agent must:**
+
+1. **Propose first**: Output the proposed change as a diff or code block, clearly showing what will be modified
+2. **Wait for approval**: Ask "Apply this change?" or similar, and wait for explicit user confirmation (e.g. "yes", "apply", "go ahead")
+3. **Then apply**: Only use edit tools (search_replace, write, etc.) after the user has approved
+
+Do not apply edits directly without showing the proposal and waiting for confirmation.

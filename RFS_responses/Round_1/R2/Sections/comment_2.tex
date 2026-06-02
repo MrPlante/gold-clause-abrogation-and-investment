@@ -1,0 +1,83 @@
+\noindent \textit{\textcolor{red!60!black}{2. There are several issues with the empirical specification:}}
+\bigskip
+
+\begin{itemize}
+    \item[\textit{\textcolor{red!60!black}{a.}}] \textit{\textcolor{red!60!black}{
+    Why don't the authors use all data in the regression and estimate the treatment and the reversal in one regression on a balanced panel? This way the firm effects are consistently estimated.
+    }}
+
+    \bigskip
+
+    \noindent We agree and have substantially revised our empirical approach following your suggestion. In the revised manuscript, we now estimate the treatment and reversal effects jointly in a single regression spanning the entire 1926--1940 sample period. For convenience, we report estimation results of the baseline investment regression depicted in Figure R.I (Figure 3 in the revised manuscript) at the beginning of our response. This unified specification allows firm fixed effects to be consistently estimated using all available observations, addressing your concern about inconsistent estimation from separate regressions.
+    
+    Specifically, our baseline specification in Table 3 (Section 5.2) interacts gold clause exposure $\tilde{d}$ with year indicators for each year from 1926 to 1940, using 1932 as the omitted category. This design presents year-by-year effects rather than grouping into two-year intervals, providing a more transparent view of the treatment dynamics. The coefficient pattern now shows: (i) no pre-trends from 1926--1931, (ii) significant negative effects in 1933 and 1934, and (iii) reversal after the 1935 Supreme Court decision. Following R6's suggestion, to strengthen identification we fix $\tilde{d}$ at its 1930 value---before Britain's departure from the gold standard---for all subsequent years, as detailed in Section 4.
+    
+    Regarding balanced panels, we conduct robustness checks in Internet Appendix Table IA.12. We repeat our baseline regression using: (i) firms with uninterrupted data for 1930--1936 (Column 2, $N = 6,064$), (ii) 1929--1940 (Column 3, $N = 5,435$), and (iii) the full 1926--1940 period (Column 4, $N = 3,630$). While requiring a fully balanced panel for 15 years substantially reduces the sample, the interactions of $\tilde{d}$ with the 1933 and 1934 indicators remain negative and statistically significant in most specifications. For instance, in the 1930--1936 balanced panel, the coefficients are $-0.035$ and $-0.033$ for 1933 and 1934, respectively, both significant at the 1\% level.
+    
+    \item[\textit{\textcolor{red!60!black}{b.}}] \textit{\textcolor{red!60!black}{
+    There seems to be entry and exit, so it would be useful to know whether firms with gold clauses were more likely to exit. The answer is likely to be no given the results for profits. This would help the authors to the extent that it complements the profit non-result, as one would expect from an uncertainty shock. More generally, the authors should consider the effects of entry and exit in their calculations in table 11.
+    }}
+
+    \bigskip
+
+    \noindent Consistent with your conjecture, we examined the data and found no evidence that gold-exposed firms were more likely to exit. As you note, this is consistent with the profit results in Table 4 (Column 4), which show no differential profitability for gold-exposed firms in 1933--1934. The balanced panel results in Internet Appendix Table IA.12 provide further indirect evidence that differential exit is not driving our findings, as we find similar results when restricting to firms with continuous data.
+    
+    Regarding the aggregation exercise (Table 7 in the revised manuscript, Section 5.6), we compute total investment using only firms with data for two consecutive years. Specifically, the formula for the gold clause effect weights each firm's contribution by its fixed capital in the previous year and requires presence in both years $t$ and $t-1$. This design ensures that our aggregate estimates reflect changes in investment behavior among continuing firms rather than compositional shifts from entry or exit.
+    
+    \item[\textit{\textcolor{red!60!black}{c.}}] \textit{\textcolor{red!60!black}{
+    If available, I would like to understand whether the presence of the gold clause is related to the bond origination date. Specifically, I would expect gold clauses to be more likely to be present, the later the bond was issued (closer to 1933) since some countries had already left the gold standard. If true, the authors should also provide evidence that the timing of issuances does not affect their results (selection).
+    }}
+
+    \bigskip
+
+    \noindent A key fact to keep in mind: in 1932, about 97\% (99\%) of the corporate bonds in our sample by count (by outstanding par value) had the gold clause. In our original submission, we had this information in a footnote, but now feature it more prominently in the paper. 
+    
+    We nonetheless examined the data looking for meaningful time-series variation in the presence of the gold clause as a function of the issuance year. The data reveals that the gold clause was ubiquitous across all issuance cohorts. Given this near-universal prevalence, variation in issuance timing should not meaningfully affect our estimates of gold clause exposure effects.
+
+    We now emphasize the near-universal prevalence of gold clauses throughout the paper. In the introduction, we state: ``around 97\% of outstanding corporate bonds were subject to a gold clause.'' Section 3.1 discusses the emergence and adoption of the gold clause, noting that ``the clause is present in the vast majority of corporate bonds (97\% in our sample).'' We also include President Hoover's 1932 statement that ``most of our industrial and all of our Government, most of our State and municipal bonds, and most other long-term obligations are written as payable in gold,'' which reflects the contemporary understanding that gold clauses were standard practice. Section 4 reiterates this point when defining gold clause exposure in equation (1). Table 2 reports detailed statistics on the number of bonds and the fraction containing gold clauses.
+
+    \item[\textit{\textcolor{red!60!black}{d.}}] \textit{\textcolor{red!60!black}{
+    In table 6 the authors control for several balance sheet variables, some of which could be changing due to the gold clauses. The authors should present results that show whether gold clauses affected leverage and cash holdings as one response to uncertainty would be increasing cash and reducing leverage. This could be shown in table 6 and columns 2-8 could be relegated to the appendix.
+    }}
+
+    \bigskip
+
+    \noindent Thank you for this suggestion. We now include results for profits, cash, and leverage in Table 4 of the revised manuscript, discussed in Section 5.3. We find no evidence that high-$\tilde{d}$ firms increased cash holdings or reduced leverage in 1933--1934 relative to other firms. 
+    
+    We agree that the precautionary motive you describe is intuitive: firms facing uncertainty might build cash buffers or reduce leverage. However, we also believe this motive competes with the incentive under debt overhang to extract resources from the firm. When equityholders anticipate losing their claim with higher probability, they have limited incentive to strengthen the balance sheet and may instead prefer to pay out value. The evidence is consistent with the view that the two effects roughly cancel out.
+
+    \item[\textit{\textcolor{red!60!black}{e.}}] \textit{\textcolor{red!60!black}{
+    Following up on the previous point, the authors could present more results on financing constraints. In addition to credit rating in table 5, showing whether the effect is larger for smaller firms, firms with low cash holdings, firms with higher book leverage would be standard in a paper like this.
+    }}
+
+    \bigskip
+
+    \noindent We agree and now present additional results with triple interactions of gold clause exposure $d$, year indicators, and indicators for small firms, low cash firms, and high-leverage firms (Internet Appendix Table IA.13). The effects are larger for smaller firms, likely reflecting their more limited funding alternatives. While we do not find significant effects for cash or leverage, we do find that firms with lower credit ratings were more affected (Table 5), which is perhaps a more direct measure of how uncertainty differentially impacted firms through debt overhang.
+    
+    \item[\textit{\textcolor{red!60!black}{f.}}] \textit{\textcolor{red!60!black}{
+    I would also like to see some additional specification for the intensive margin: consider a dummy for high exposure at different cutoffs, d>0.2, d>0.4.
+    }}
+
+    \bigskip
+
+    \noindent We have conducted an additional test regressing investment on dummies for positive $\tilde{d}$, above-median $\tilde{d}$, and above-75th percentile $\tilde{d}$, with results reported in Internet Appendix Table IA.16. In this design, we interact these $\tilde{d}$ indicators with four time dummies: 1926–1932 (Before), 1933, 1934, and 1935–1940 (After), using Before as the omitted category. Column 1 shows that the results hold at the extensive margin: firms with $\tilde{d}>0$ invested significantly less than $\tilde{d}=0$ firms in 1933 and 1934 relative to the pre-period. We agree that non-linear effects are plausible, and consistent with this, we observe negative point estimates for high-$\tilde{d}$ interactions, though the coefficients are imprecisely estimated. For example, above-median $\tilde{d}$ firms show an additional negative effect in 1933 (Column 2), while the negative estimate for 1934 is not statistically significant. We briefly refer to these results in a footnote at the end of Section 5.4.
+    
+    \item[\textit{\textcolor{red!60!black}{g.}}] \textit{\textcolor{red!60!black}{
+    The authors need to cluster standard errors on a time dimension. Given the number of years in the sample, clustering on the industry-year level is appropriate.
+    }}
+
+    \bigskip
+
+    \noindent We agree that accounting for time-series correlation in the errors is important, and we now two-way cluster standard errors by firm and year in all specifications. We chose firm-year clustering rather than industry-year clustering for the following reasons. 
+    
+    First, firm-level clustering addresses serial correlation within firms over time, which is a first-order concern in panel settings with firm fixed effects. Second, clustering by year accounts for cross-sectional correlation driven by common shocks---such as the gold clause resolution itself---that affect all firms simultaneously. With 15 years in our extended sample, we have sufficient time-series variation for year-level clustering to be well-behaved.
+
+    \item[\textit{\textcolor{red!60!black}{h.}}] \textit{\textcolor{red!60!black}{
+    In table 11, I would also show a panel for firms with d=0.
+    }}
+
+    \bigskip
+
+    \noindent In the aggregation exercise (Table 7 in the revised paper), we now report the aggregated investment rate for $d = 0$ firms in Panel C. As expected, their net investment rates are less negative compared to $d > 0$ firms. 
+
+\end{itemize}

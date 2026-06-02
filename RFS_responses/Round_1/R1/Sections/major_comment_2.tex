@@ -1,0 +1,140 @@
+\noindent \textit{\textcolor{red!60!black}{Major Comment 2.\\ My biggest concern is the plausibility of the identifying assumptions within the research design of this paper. The implicit assumption here for these estimated effects to be valid is that over the two year period of 1933 and 1934, the only difference of any importance driving variation in the change in net investment for firms with and without long-term corporate bonds (or more vs. less bonded debt as a \% of total liabilities) is leverage risk from the gold clauses they have. This is despite the fact that firms with gold clauses – aka those with bonded debt – are on average more than twice as large, more than 50\% more highly levered, have higher payouts, have more non-current assets, and lower profits. While it is comforting that the authors show that their findings are largely unchanged controlling both linearly and non-parametrically for many of these observed differences, it seems almost certain these firms differ on dimensions not analyzed/observed by the authors as well. Since the period examined is the aftermath of the Great Depression and includes the "first 100 days" period of FDR presidency, the establishment of the SEC, the Glass-Steagall Act, and huge numbers of other regulatory changes, market fluctuations, and re-organizations it is likely one of the more challenging periods in economic history to argue for the absence of concurrent confounds. With that in mind, I think there are a number of dimensions along which the authors could try to improve how they address these concerns:}}
+
+\noindent We fully agree with your assessment. The implicit assumption in our empirical design is that, after controlling for observables and time-invariant unobservable factors, variation in investment rates is driven by firms' exposure to the gold clause. As you point out, this leaves room for time-varying unobservable confounding factors. And as you also note, the Great Depression saw many concurrent policy changes, making this one of the more challenging periods in economic history to study. We now explicitly acknowledge this challenge in the introduction of the revised manuscript.
+
+Despite these methodological difficulties, we believe this episode remains important to study given the Great Depression's profound influence on macroeconomics and finance research. We are grateful for the concrete suggestions you provided to strengthen our identification strategy. As detailed below, we have implemented each of them, and we believe these changes have substantially improved the paper.
+
+\begin{itemize}
+    \item[\textit{\textcolor{red!60!black}{a.}}] \textit{\textcolor{red!60!black}{
+    \underline{Controls for observables:} 
+    Since these firms differ in terms of their 1931-1932 payout/fixed capital it would be helpful to control for that interacted with the year linearly and nonparametrically just as is done for the other pretreatment values in Table 6. The following additional variables may not need to be in the main paper, but at a minimum in the appendix it would be helpful to include stock return volatility, Fama-French factor beta loadings, sales/assets, and location controls (ex. NYC vs. not). It would also be useful to see the full distribution of 1931-1932 variables for d>0, d=0, d<0.44, and d>0.44, even if it is just in an appendix.
+    }}
+
+    \bigskip
+
+    \noindent In the revised manuscript, we add payout (now normalized by the book value of common stock) to the set of linear controls interacted with year (Column 2 of Table 6) and also include it nonparametrically, as we did the other controls (Column 7 of Table 6). Following your suggestion, we additionally control for the mean, volatility, and Fama–French three-factor betas, with results reported in Internet Appendix Table IA.17. As discussed in Section 5.5, our results remain robust to these additional controls. The Moody's Manuals are inconsistent in their reporting of sales: sometimes sales are reported as gross revenues, and sometimes as net revenues. This inconsistency is visible both across firms and within the same firm over time, making it impossible to construct a reliable sales measure. For this reason, we were unable to include sales as a control. Finally, Internet Appendix Tables IA.4–IA.7 report the full distribution of firm characteristics in our extended sample for 1926–1932, 1933–1934, and 1935–1940, separately for $d>0$, $d=0$, below-median $d$, and above-median $d$ firms. In sum, adding these controls---whether linearly or nonparametrically---does not materially alter our estimates, reinforcing the conclusion that gold clause exposure, rather than correlated firm characteristics, drove the investment decline during the leverage uncertainty period.
+    
+    \item[\textit{\textcolor{red!60!black}{b.}}] \textit{\textcolor{red!60!black}{
+    \underline{Difference-in-Differences (DiD) Design:} 
+    One of the primary arguments the authors put forth for why selection on unobservables is unlikely to be an issue is the evidence from their DiD design. That being said, the current implementation doesn't appear particularly compelling and I would encourage the authors to improve this substantially. It would be helpful to see the actual DiD coefficients plotted annually at a minimum all the years the authors state they already have data for (1930-1936). The way things are presented now, in just two-year aggregated increments, it is almost impossible to assess the validity of the DiD assumptions. Even more useful would be for them to extend their dataset to cover a few additional years both before and after the 1933 abrogation and 1935 supreme court decision to show that firms with gold clauses responded with net investment similarly in all years, except the two "treated" years of interest in 1933 and 1934. There is obviously no hard rule here, but something like 1925-1940 would at least be somewhat more convincing if DiD coefficients are plotted year-by-year and it is only 1933 and 1934 which are each statistically significantly lower, while all other years there is no differential net investment, relative to the omitted period.
+    }}
+
+    \bigskip
+
+    \noindent We sincerely thank you for this comment. We believe your recommendation has significantly improved the paper. Specifically, we made two major updates to our analysis:
+
+    \begin{enumerate}
+    \item Following your suggestion, we extended our sample period to 1925–1940 by hand-collecting annual balance sheet and income statement items from the Moody's Industrial Manuals, as described in Section 4. All analyses in the revised manuscript use this extended dataset (1926–1940 to allow for the construction of growth-rate variables). This extension required extensive quality checks and a full re-collection of the earlier sample period to ensure consistency across years, which was the main reason for the delayed resubmission. 
+        
+    \item We now present our baseline results year by year rather than grouping into two-year intervals. In addition, we estimate the effects jointly over the entire sample period in a single regression, rather than running separate regressions for treatment and reversal.  
+    
+    \end{enumerate}
+
+    In the revised manuscript, Section 5.2 presents our baseline investment results. These regressions also control for Tobin's $Q$, motivated by the conceptual framework developed in Section 5.1. Drawing on \cite{Hennessy2004}'s dynamic debt overhang theory, this framework shows that debt overhang drives a wedge between marginal and average $Q$, making it essential to condition on $Q$ when estimating the effect of gold clause exposure on investment.
+
+    Figure 3 of the paper presents the result we believe you have in mind. We reproduced that figure at the beginning of our response, see Figure \ref{fig:rev_gold_coeffs}. The corresponding regression coefficients are reported in Table 3 of the paper. The figure plots the interaction coefficients between $\tilde{d}$ (our measure of gold clause exposure) and year indicators along with 95\% confidence intervals, using 1932 as the omitted category. The coefficient pattern shows: (i) no statistically significant relationship between $\tilde{d}$ and investment in the pre-treatment years (1926--1932), supporting the parallel trends assumption; (ii) negative and statistically significant coefficients in 1933 and 1934, the years of gold clause litigation ($-0.060$ and $-0.041$, respectively, both significant at the 1\% level); and (iii) a return to statistically insignificant coefficients after the Supreme Court's 1935 decision. The absence of effects in 1937--38---another period of economic distress---further validates that gold exposure does not capture general sensitivity to downturns.
+
+    We also note that, following a suggestion by R6, $\tilde{d}$ is time-varying before and through 1930 but is fixed at the 1930 value for subsequent years to address potential endogeneity from post-1931 strategic adjustments (following Britain's departure from the gold standard), as discussed in Section 4 of the manuscript. The year-by-year structure also reveals that the investment decline was concentrated in 1933, with a smaller (though still significant) effect in 1934.
+
+    Thank you for this suggestion. The fact that 1933 and 1934 stand out as unique relative to all other years from 1926 to 1940 helps address concerns about alternative channels and concurrent confounds. We now adopt this specification throughout the paper and use the full 1926--1940 dataset in all tests.
+    
+    \bigskip
+
+    \item[\textit{\textcolor{red!60!black}{c.}}] \textit{\textcolor{red!60!black}{
+    \underline{Secondary market data:}
+    Rather than looking at firms with publicly listed common stock on the NYSE (aka what is in CRSP) as a convenience sample, one justification is that there are a number of approaches using secondary market data that could help validate the research design. Monthly estimates of equity volatilities, average returns, volume of trading, bid-ask spreads, Fama-French factor loadings, et al. could all provide evidence of no differential trends in gold clause firms in the months prior to the events of interest, and a reversal that lines of up with what would be expected.
+    }}
+
+    \bigskip
+    
+    \noindent Focusing on public firms limits our sample but is conceptually essential: our investment–$Q$ regressions in the presence of debt overhang require market-based measures of firm value. These regressions play a larger role in the revised manuscript and help interpret our results. We clarify this motivation at the beginning of Section 4.
+
+    That said, you are right that secondary market equity data can help validate our research design. We address this in two ways. First, as detailed in our response to Comment 2.a, we incorporate stock return characteristics (mean, volatility, and Fama–French betas) as additional controls in Internet Appendix Table IA.17, and our results remain robust. 
+    
+    Second, we analyze equity returns around key gold clause events to verify that the market reacted in accordance with our hypothesis. As detailed below, we find that gold-exposed firms experienced positive abnormal returns when the abrogation was passed (favorable news) and negative abnormal returns during the Supreme Court hearings (unfavorable news), with the pattern reversing upon the Court's favorable ruling. This evidence, which we discuss further in Section 3 of the manuscript, supports the view that markets perceived gold clause exposure as economically meaningful during the litigation period.
+
+    \bigskip
+    
+    \textit{\textcolor{red!60!black}{
+    For some of this period Edwards et al. (2015) even has measures of market implied probability of the gold clause "mattering" based on the spread between treasuries with and without the clause. Higher frequency data, like would be available with secondary market equity prices, could help validate that effects line up with changes in the more cleanly identified movements in Edwards et al. (2015). Dividend payouts are also higher frequency than annual and not paid out at the same time of year for all firms. That should provide additional higher frequency evidence on whether dividend payouts really change at the times that are expected given the events of interest.
+    }}
+
+    We agree that secondary market equity data can help validate our research design. While we cannot construct a daily ``gold premium'' series comparable to \cite{Edwards2015}---who exploit variation across Treasury bonds with and without gold clauses---we follow \cite{Kroszner1999} and analyze equity returns around key gold clause events to test whether markets reacted consistently with our hypothesis. We also provide a detailed discussion of how our findings relate to \cite{Edwards2015} in our response to Minor Comment 8 below.
+
+    Based on the event timeline in \cite{Edwards2018}, we identify three episodes: (i) the Joint Resolution of Congress abrogating the clause (May 26--June 5, 1933), which we interpret as favorable to gold-exposed firms; (ii) the Supreme Court hearings (January 8--February 17, 1935), during which the government's weak performance increased uncertainty, unfavorable to gold-exposed firms; and (iii) the Supreme Court ruling upholding the abrogation (February 18, 1935), favorable to gold-exposed firms. These events are described in detail in Section 3 of the manuscript.
+    
+    Table \ref{tab:market_metrics} reports cumulative returns for a $d$-weighted portfolio (where firm $j$'s weight is $w_j = d_j / \sum_k d_k$), the market portfolio, and abnormal returns using CAPM and Fama-French three-factor models.
+    
+    \begin{table}[h]
+    \centering
+    \begin{tabular}{lrrrrc}
+    \toprule
+    Event Type & $d$-Weighted & Market & Abnormal & Abnormal & Favorable \\
+     & Portfolio & & (CAPM) & (FF3F) & to Issuer \\
+    \midrule
+    Legislative & 0.272 & 0.117 & 0.143 & 0.042 & Yes \\
+    Pre-Judicial & -0.051 & -0.044 & -0.051 & -0.020 & No \\
+    Judicial & 0.037 & 0.029 & 0.007 & 0.004 & Yes \\
+    \bottomrule
+    \end{tabular}
+    \caption{\\Cumulative returns and abnormal returns during key episodes}
+    \label{tab:market_metrics}
+    \end{table}
+    
+    The return evidence is consistent with our interpretation. During the Legislative episode, the $d$-weighted portfolio returned 27.2\% compared to 11.7\% for the market, with positive abnormal returns under both CAPM (14.3\%) and FF3F (4.2\%). During the Pre-Judicial period, both the market ($-4.4\%$) and the $d$-weighted portfolio ($-5.1\%$) declined, with negative abnormal returns for gold-exposed firms. On the day of the favorable Supreme Court ruling, the $d$-weighted portfolio returned 3.7\% versus 2.9\% for the market, though the abnormal returns are modest (0.7\% CAPM, 0.4\% FF3F). These results echo \cite{Kroszner1999}, who also finds positive effects of the abrogation on gold-exposed firms' stock returns.
+
+    We incorporate this evidence in Section 3 of the revised manuscript to complement the historical narrative. We thank you for this suggestion, which provides independent validation that markets perceived gold clause exposure as economically significant during the litigation period.
+
+    Regarding the referee's suggestion to examine dividends at a higher frequency, we estimate our baseline dividend specification separately for each calendar quarter, using quarterly cash dividends as the dependent variable. Because dividends exhibit strong seasonal patterns and are sticky, this approach tests whether the timing of dividend increases aligns with the events of interest. The results are reported in Internet Appendix Table IA.14. Although the statistical evidence is somewhat weaker at this higher frequency, the evidence is strongest in the second quarter: the Q2 interaction coefficients for 1933 and 1934 are both 0.010, statistically significant at the 1\% and 5\% levels, respectively. This timing is consistent with the abrogation in June 1933 and the litigation that followed through 1934. We also examine the robustness of the annual dividend results to sample restrictions and alternative normalizations in Internet Appendix Table IA.15. As discussed in Section 5.3 of the revised manuscript, the dividend increase is concentrated among prior dividend payers and is robust across several alternative definitions of the dependent variable.
+    
+    \bigskip
+    
+    \item[\textit{\textcolor{red!60!black}{d.}}] \textit{\textcolor{red!60!black}{
+    \underline{\% of long-term debt with gold clauses:}
+    I don't think there are, but if there are enough firms with bonds without gold clauses then it seems reasonable that the main specification should probably be the \% of bonds (among those firms with bonds) outstanding with gold clauses. Given that the above is unlikely the most convincing evidence is likely the absence of any effects for preferred stock. Given that it would be helpful to see the results using just variation in the \% of long-term debt (preferred stock + bonds) with gold clauses among those with either preferred stock or bonds. Just like with the primary design it would be helpful to see how within the sub-group those with or without any gold clauses (and pre period correlations with covariates) differ along other dimensions. 
+    }}
+
+    \bigskip
+
+
+    \noindent Thank you for this suggestion, which became a key element of our revision. You are correct that the ideal variation would be across bonds with and without gold clauses. Since this approach is not feasible—nearly all bonds contained gold clauses, as explained above—we now define $d$ as the share of gold clause bonds in total long-term debt, including preferred shares, following your recommendation. We discuss this methodological change in the data section (Section 4) and provide the explicit definition of $d$ in equation (1). The largest component of long-term liabilities other than bonds is preferred shares; among firms with long-term liabilities, bonds and preferred shares account for approximately 96\% of long-term liabilities, with the remainder consisting of items such as bank debt and bonds without gold clauses.
+
+    In our baseline tests, we continue to include firms that use neither bonds nor preferred shares for financing, assigning them $d = 0$. Following your suggestion, we also replicate the baseline results for the subsample of firms with bonds, preferred equity, or bank debt outstanding in 1930. These results are reported in Table 3 (Column 5) and discussed in Section 5.2 of the manuscript, with summary statistics provided in Internet Appendix Table IA.10. The results are consistent with our baseline findings: the interaction coefficients for 1933 and 1934 are $-0.058$ and $-0.043$, respectively, both statistically significant at the 1\% level, compared to $-0.060$ and $-0.041$ in the baseline specification.
+
+    As you requested, Table 1 now reports pre-period characteristic differences between $d = 0$ and $d > 0$ firms.
+
+    \textit{\textcolor{red!60!black}{
+    Then historical discussions of why preferred don't include gold clauses and what drove decisions to issue one vs the other (ex. should we be concerned about differential exposure to the interest tax shield?). Any concerns addressed here are relevant for the original primary design, but alleviates many of the other concerns. 
+    }}
+
+    \bigskip
+    
+    We discuss the historical origins of the gold clause and its differential adoption across security types in Section 3.1 of the manuscript. As we write there:
+    
+    \begin{quote}
+    ``The gold clause emerged in the United States during the Civil War when gold-backed currency and fiat money (greenbacks) circulated simultaneously... By the time the US returned to the gold standard in 1879, gold clauses had become a standard feature in most corporate and utility bonds, as well as many farm and house mortgages... This selective use of the clause in long-term contracts can be seen among the large industrial firms studied in this paper. While the clause is present in the vast majority of corporate bonds (97\% in our sample), it is entirely absent from preferred shares... The exact reason why gold clauses were included in nearly all corporate bonds, present in some mortgages, and absent from preferred shares remains unclear. Despite extensive investigation of contemporary sources and legal studies, we found no definitive explanation for this differential adoption pattern.''
+    \end{quote}
+    
+    We conclude in the manuscript that ``the widespread use of the gold clause in corporate bonds originated from the monetary disruptions of the Civil War. This historical accident would prove consequential 70 years later when the United States abandoned the gold standard in the midst of the Great Depression.''
+    
+    Regarding the factors driving the choice between preferred stocks and corporate bonds, we note that both were widely used in the 1930s. In our sample, preferred stocks and corporate bonds constituted roughly equal proportions of firms' capital structures, and firms frequently used both. While corporate bonds were tax advantaged relative to preferred shares, the US corporate tax rate was relatively modest at 13.75\% at the time of the abrogation, limiting the potential for differential selection into bonds versus preferred shares based on tax considerations.
+
+    Despite these distinctions, preferred shares also represent a financing choice that commits firms to stable payments. While missing such payments is not legally equivalent to defaulting on a bond coupon, it would often entail higher financing costs and restrictions on common payouts (e.g., an ``arrears overhang''). Thus, we believe that contrasting bonds with preferred shares remains useful, as both represent long-term fixed commitments by firms.
+    
+  \textit{\textcolor{red!60!black}{
+    In fact, I would argue even ex-ante this source of variation is much more likely to have plausible causal interpretation and the authors should seriously consider if an approach like this would be a more appropriate primary specification.
+    }}
+
+    \bigskip
+
+    We agree, and we have adopted this approach as our primary specification. As described in Section 4, our main measure $d$ is now defined as gold clause bonds divided by long-term liabilities (bonds, preferred shares, and bank loans), rather than by total liabilities as in the previous draft. This definition, formalized in equation (1), is used throughout all analyses in the revised manuscript. We continue to include firms without long-term liabilities (assigning them $d = 0$) to preserve sample size, but the underlying measure follows your recommendation.
+    
+    We also report results restricting the sample to firms with positive long-term liabilities in Table 3 (Column 5), as discussed above. Consistent with your intuition that ``the most convincing evidence is likely the absence of any effects for preferred stock,'' we report placebo tests in Section 5.2 of the manuscript. As we write there:
+    
+    \begin{quote}
+    ``We next conduct placebo tests to verify that the documented investment effect is specifically attributable to gold clause exposure. To do so, we re-estimate [our baseline specification] while replacing the numerator of $\tilde{d}$ with the book value of preferred shares. If the investment effect documented in our baseline specification results from gold exposure, we do not expect to find any effect when replacing the numerator of $\tilde{d}$ with preferred shares since the gold clause was not included in those securities. The results in column 6 support this conjecture: the interaction coefficients in 1933 and 1934 are positive and statistically insignificant.''
+    \end{quote}
+    
+    The preferred shares coefficients (0.024 and 0.016) are economically small and statistically insignificant, in stark contrast to the large and highly significant negative coefficients for gold bonds ($-0.060$ and $-0.041$, both significant at the 1\% level). This confirms that our baseline results are specific to gold clause exposure rather than long-term financing more broadly.  
+    
+\end{itemize}

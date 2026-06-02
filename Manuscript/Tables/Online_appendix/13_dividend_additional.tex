@@ -1,0 +1,32 @@
+\begin{landscape}
+\begin{table}[p]\centering
+\caption{\\ Additional analysis on dividends}
+\scriptsize \label{tabapp:divadd}
+\renewcommand{\arraystretch}{1.2}
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{8}{D{.}{.}{-1}}}
+\toprule
+                    &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}&\multicolumn{1}{c}{(7)}&\multicolumn{1}{c}{(8)}\\
+\midrule
+\ensuremath{\text{1933} \times \tilde{d}}&       0.064\sym{***}&       0.002         &       0.081\sym{***}&       0.004         &      -0.001         &       0.037\sym{*}  &       0.031\sym{*}  &       0.517\sym{*}  \\
+                    &     (0.018)         &     (0.007)         &     (0.020)         &     (0.014)         &     (0.011)         &     (0.018)         &     (0.016)         &     (0.243)         \\
+\ensuremath{\text{1934} \times \tilde{d}}&       0.083\sym{***}&       0.018\sym{*}  &       0.080\sym{***}&       0.022         &       0.186\sym{***}&       0.050\sym{**} &       0.027         &       0.341         \\
+                    &     (0.024)         &     (0.009)         &     (0.023)         &     (0.015)         &     (0.057)         &     (0.017)         &     (0.015)         &     (0.208)         \\
+\ensuremath{\text{After} \times \tilde{d}}&      -0.011         &       0.010         &       0.017         &      -0.009         &       0.020         &       0.025         &       0.025         &       0.382         \\
+                    &     (0.029)         &     (0.007)         &     (0.034)         &     (0.014)         &     (0.035)         &     (0.020)         &     (0.017)         &     (0.271)         \\
+\midrule
+Firm FE             &\multicolumn{1}{c}{Yes}&\multicolumn{1}{c}{Yes}&\multicolumn{1}{c}{Yes}&\multicolumn{1}{c}{Yes}&\multicolumn{1}{c}{Yes}&\multicolumn{1}{c}{Yes}&\multicolumn{1}{c}{Yes}&\multicolumn{1}{c}{Yes}\\
+Year FE             &\multicolumn{1}{c}{Yes}&\multicolumn{1}{c}{Yes}&\multicolumn{1}{c}{Yes}&\multicolumn{1}{c}{Yes}&\multicolumn{1}{c}{Yes}&\multicolumn{1}{c}{Yes}&\multicolumn{1}{c}{Yes}&\multicolumn{1}{c}{Yes}\\
+\ensuremath{R^2}    &       0.800         &       0.437         &       0.802         &       0.456         &       0.202         &       0.140         &       0.152         &       0.183         \\
+Observations        &\multicolumn{1}{r}{4,367$\phantom{000}$}&\multicolumn{1}{r}{2,594$\phantom{000}$}&\multicolumn{1}{r}{2,967$\phantom{000}$}&\multicolumn{1}{r}{3,878$\phantom{000}$}&\multicolumn{1}{r}{6,063$\phantom{000}$}&\multicolumn{1}{r}{7,073$\phantom{000}$}&\multicolumn{1}{r}{7,066$\phantom{000}$}&\multicolumn{1}{r}{4,807$\phantom{000}$}\\
+\bottomrule
+\end{tabular}
+}
+
+
+\vspace*{3mm} \justifying \noindent
+\scriptsize{\textit{Notes.} This table tests the robustness of the dividend results to sample restrictions and alternative dependent variable definitions. It reports results from panel regressions of dividends on gold clause exposure $\tilde{d}$, and period $\times$ $\tilde{d}$ interactions, where the pre-abrogation period (1926--1932) is the omitted category. Columns 1--4 use cash dividends normalized by fixed capital in 1930 as the dependent variable: column 1 (2) includes firm-year observations where a firm paid a positive (zero) amount of cash dividends in the previous year; column 3 (4) includes firms that paid a positive (zero) amount of cash dividends in 1932. Columns 5--8 use the full sample with alternative dependent variable definitions: column 5 uses annual dividend growth (set to zero if dividends are zero in both years); column 6 uses dividends divided by lagged book equity; column 7 uses dividends divided by market capitalization in 1930; column 8 uses dividends as a share of net income for firms with positive net income exceeding the dividend. All regressions include firm and year fixed effects. All variables are winsorized at the 0.5\% and 99.5\% levels within each year. Standard errors in parentheses are two-way clustered by firm and year. $^{*}p<0.10$, $^{**}p<0.05$, $^{***}p<0.01$.}
+\end{table}
+\end{landscape}

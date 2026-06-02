@@ -1,0 +1,57 @@
+\begin{table}[p]
+    \centering
+    \caption{\\ Omitting repayers and balanced panels}
+    \scriptsize
+    \renewcommand{\arraystretch}{1.2}
+    \label{tabapp:repay}
+    {
+        \def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+        \begin{tabular}{l*{4}{D{.}{.}{-1}}}
+            \toprule
+                                &\multicolumn{1}{c}{Omit repayer}&\multicolumn{1}{c}{1930--1936}&\multicolumn{1}{c}{1929--1940}&\multicolumn{1}{c}{1926--1940}\\
+                                &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
+            \midrule
+            Q                   &       0.085\sym{***}&       0.080\sym{***}&       0.080\sym{***}&       0.075\sym{***}\\
+                                &     (0.015)         &     (0.016)         &     (0.017)         &     (0.017)         \\
+            \ensuremath{\tilde{d}}      &      -0.097\sym{**} &      -0.037         &      -0.034         &      -0.069\sym{***}\\
+                                &     (0.033)         &     (0.023)         &     (0.024)         &     (0.021)         \\
+            1926 \ensuremath{\times \tilde{d}}&       0.057\sym{**} &       0.021         &       0.002         &       0.029         \\
+                                &     (0.021)         &     (0.018)         &     (0.019)         &     (0.019)         \\
+            1927 \ensuremath{\times \tilde{d}}&       0.026         &      -0.032         &      -0.045\sym{**} &      -0.010         \\
+                                &     (0.028)         &     (0.022)         &     (0.020)         &     (0.022)         \\
+            1928 \ensuremath{\times \tilde{d}}&       0.061\sym{*}  &       0.008         &       0.002         &       0.038         \\
+                                &     (0.030)         &     (0.025)         &     (0.028)         &     (0.032)         \\
+            1929 \ensuremath{\times \tilde{d}}&       0.046         &       0.032         &       0.051\sym{*}  &       0.093\sym{**} \\
+                                &     (0.029)         &     (0.026)         &     (0.028)         &     (0.037)         \\
+            1930 \ensuremath{\times \tilde{d}}&      -0.018         &      -0.016         &      -0.033\sym{**} &      -0.023         \\
+                                &     (0.022)         &     (0.018)         &     (0.015)         &     (0.016)         \\
+            1931 \ensuremath{\times \tilde{d}}&       0.004         &      -0.004         &       0.006         &       0.015         \\
+                                &     (0.014)         &     (0.009)         &     (0.010)         &     (0.013)         \\
+            1933 \ensuremath{\times \tilde{d}}&      -0.068\sym{***}&      -0.035\sym{***}&      -0.025\sym{***}&      -0.032\sym{*}  \\
+                                &     (0.013)         &     (0.010)         &     (0.006)         &     (0.016)         \\
+            1934 \ensuremath{\times \tilde{d}}&      -0.032\sym{***}&      -0.033\sym{***}&      -0.029\sym{***}&       0.005         \\
+                                &     (0.011)         &     (0.006)         &     (0.007)         &     (0.010)         \\
+            1935 \ensuremath{\times \tilde{d}}&       0.025\sym{**} &       0.015\sym{***}&       0.018\sym{**} &       0.013         \\
+                                &     (0.010)         &     (0.005)         &     (0.006)         &     (0.010)         \\
+            1936 \ensuremath{\times \tilde{d}}&       0.001         &      -0.009         &       0.011         &       0.028         \\
+                                &     (0.012)         &     (0.009)         &     (0.011)         &     (0.019)         \\
+            1937 \ensuremath{\times \tilde{d}}&       0.015         &       0.017         &       0.021         &       0.017         \\
+                                &     (0.016)         &     (0.013)         &     (0.014)         &     (0.014)         \\
+            1938 \ensuremath{\times \tilde{d}}&       0.000         &       0.002         &       0.003         &      -0.004         \\
+                                &     (0.019)         &     (0.018)         &     (0.015)         &     (0.014)         \\
+            1939 \ensuremath{\times \tilde{d}}&      -0.021         &      -0.019         &      -0.016         &      -0.000         \\
+                                &     (0.015)         &     (0.011)         &     (0.012)         &     (0.012)         \\
+            1940 \ensuremath{\times \tilde{d}}&      -0.005         &      -0.008         &       0.004         &       0.003         \\
+                                &     (0.016)         &     (0.012)         &     (0.011)         &     (0.015)         \\
+            \midrule
+            Firm FE             &\multicolumn{1}{c}{Yes}&\multicolumn{1}{c}{Yes}&\multicolumn{1}{c}{Yes}&\multicolumn{1}{c}{Yes}\\
+            Year FE             &\multicolumn{1}{c}{Yes}&\multicolumn{1}{c}{Yes}&\multicolumn{1}{c}{Yes}&\multicolumn{1}{c}{Yes}\\
+            \ensuremath{R^2}    &       0.221         &       0.211         &       0.220         &       0.189         \\
+            Observations        &\multicolumn{1}{r}{5,572$\phantom{000}$}&\multicolumn{1}{r}{6,064$\phantom{000}$}&\multicolumn{1}{r}{5,435$\phantom{000}$}&\multicolumn{1}{r}{3,630$\phantom{000}$}\\
+            \bottomrule
+        \end{tabular}
+    }
+    
+    \vspace*{3mm} \justifying \noindent
+    \scriptsize{\textit{Notes.} This table reports results from panel regressions of net investment on $Q$, gold clause exposure $\tilde{d}$, and year $\times$ $\tilde{d}$ interactions, where 1932 is the omitted category. Column 1 excludes firms that repaid all of their gold clause debt anytime from 1931 to 1935. Columns 2--4 restrict the sample to balanced panels of firms with observations in each year for 1930--1936, 1929--1940, and 1926--1940, respectively. All regressions include firm and year fixed effects. All variables are winsorized at the 0.5\% and 99.5\% levels within each year. Standard errors in parentheses are two-way clustered by firm and year. $^{*}p<0.10$, $^{**}p<0.05$, $^{***}p<0.01$.}
+\end{table}

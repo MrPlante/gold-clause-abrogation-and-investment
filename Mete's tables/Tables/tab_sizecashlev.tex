@@ -1,0 +1,36 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{3}{D{.}{.}{-1}}}
+\toprule
+                    &\multicolumn{1}{c}{Small}&\multicolumn{1}{c}{Low cash}&\multicolumn{1}{c}{High leverage}\\
+\midrule
+Q                   &       0.095\sym{***}&       0.096\sym{***}&       0.097\sym{***}\\
+                    &     (0.017)         &     (0.017)         &     (0.017)         \\
+\ensuremath{d}      &       0.017         &      -0.033         &      -0.046\sym{**} \\
+                    &     (0.029)         &     (0.029)         &     (0.021)         \\
+\ensuremath{d} \ensuremath{\times \text{ I}}&      -0.103\sym{***}&      -0.033         &       0.004         \\
+                    &     (0.032)         &     (0.080)         &     (0.075)         \\
+1933 \ensuremath{\times \text{ I}}&      -0.005         &      -0.089\sym{***}&      -0.057         \\
+                    &     (0.020)         &     (0.023)         &     (0.043)         \\
+1934 \ensuremath{\times \text{ I}}&      -0.004         &       0.014         &      -0.037         \\
+                    &     (0.018)         &     (0.017)         &     (0.036)         \\
+After \ensuremath{\times \text{ I}}&      -0.004         &      -0.016         &      -0.024         \\
+                    &     (0.018)         &     (0.018)         &     (0.032)         \\
+1933 \ensuremath{\times d}&      -0.053\sym{**} &      -0.096\sym{***}&      -0.043\sym{**} \\
+                    &     (0.025)         &     (0.027)         &     (0.020)         \\
+1934 \ensuremath{\times d}&      -0.013         &      -0.052\sym{**} &      -0.037\sym{***}\\
+                    &     (0.022)         &     (0.020)         &     (0.012)         \\
+After \ensuremath{\times d}&      -0.023         &      -0.024         &       0.007         \\
+                    &     (0.024)         &     (0.020)         &     (0.016)         \\
+1933 \ensuremath{\times d \times \text{I}}&      -0.017         &       0.104\sym{**} &      -0.027         \\
+                    &     (0.041)         &     (0.045)         &     (0.065)         \\
+1934 \ensuremath{\times d \times \text{I}}&      -0.055\sym{*}  &       0.011         &      -0.001         \\
+                    &     (0.031)         &     (0.035)         &     (0.053)         \\
+After \ensuremath{\times d \times \text{I}}&       0.026         &       0.042         &      -0.026         \\
+                    &     (0.028)         &     (0.038)         &     (0.042)         \\
+\midrule
+\ensuremath{R^2}    &       0.240         &       0.239         &       0.239         \\
+Observations        &       7,074         &       7,074         &       7,074         \\
+\bottomrule
+\end{tabular}
+}

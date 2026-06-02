@@ -1,0 +1,143 @@
+\noindent \textit{\textcolor{red!60!black}{
+3. Adjustments in di\\ 
+I understand why the authors would want to keep di constant at the pre-abrogation decision level. But this does not mean that firms should not have strategically adjusted before, if they could. As the authors noted, in September 1931 UK left the gold standard, which was once unthinkable. This triggered a speculative attack on the dollar, under the belief that a devaluation in the US was imminent, and a banking panic in the US: https://www.federalreserve.gov/boarddocs/speeches/2004/200403022/default.htm. While the Fed chose to support the Gold Standard, it is quite reasonable to believe that uncertainty about a possible devaluation and what it would mean to borrowers should have been heightened. Especially since legal precedent was that contracts in gold would be upheld, one would expect unconstrained firms run by savvy managers to pay down their gold-denominated debts as much as possible. And to do so before December 1932. Thus, it is unclear one could treat the 1932 numbers as exogenous. Defining treatment as of 1932 is pre gold clause but not pre depression or pre dislocations in debt markets.
+}}
+
+\noindent Thank you for raising this important point. You are right that Britain's departure from the gold standard in September 1931 could have prompted firms to anticipate similar policy changes in the United States, leading them to strategically adjust their gold clause exposure. If only financially unconstrained firms were able to reduce their gold-denominated liabilities prior to the abrogation, the remaining firms with high gold exposure would disproportionately consist of constrained firms, potentially biasing the estimated effect of gold exposure on investment by conflating it with the impact of pre-existing financial constraints. This concern is critical to the validity of our empirical setting, and we have devoted considerable effort to assessing its impact on our results.
+
+We begin by examining whether firms actually adjusted their gold clause exposure in the years preceding the abrogation. Table 2 of the revised manuscript tracks the evolution of gold-denominated liabilities from 1930 to 1935 for a balanced panel of 157 firms with corporate bonds outstanding at the end of 1930. The evidence suggests minimal adjustment prior to 1933. 
+
+On the extensive margin, of the 150 firms with at least some gold-denominated bonds at the end of 1930, 144 still had gold-denominated bonds by the end of 1932. The total number of gold-denominated bonds declined only modestly, from 250 to 240 over the same period. On the intensive margin, the average value of gold clause exposure, $d_{j,t}$, among exposed firms remained virtually unchanged at 0.57 in 1930 and 0.58 in 1932. The stability of average $d$ among exposed firms suggests that selection---whereby only unconstrained firms reduced their exposure---was minimal. In contrast, the pace of adjustment accelerated markedly after the abrogation: 36 bonds were redeemed in 1933 and 15 in 1934.
+
+We were initially surprised by how little adjustment occurred prior to 1933, which led us to investigate the historical context more thoroughly. We have expanded Section 3 (Historical Background) to provide a fuller account of why firm managers may not have anticipated the abrogation.
+
+On the political front, President Hoover remained a staunch defender of the gold standard throughout his presidency, describing it as ``a little short of a sacred formula'' \citep{Eichengreen2000}. Even during the 1932 presidential campaign, Hoover attacked Roosevelt for allegedly proposing fiat money \citep{Edwards2018}, while Roosevelt vigorously denied any intention to abandon gold, pointing to the gold clauses in Treasury bonds as evidence of the government's commitment. 
+
+On the economic front, even if some managers perceived the risk, market conditions may have made debt restructuring prohibitively expensive. As Figure IA.1 in the Internet Appendix shows, many industrial bonds traded at steep discounts to par value in 1931, which implies that most call options were deeply out-of-the-money. Open-market repurchases would have been similarly costly, as buying large quantities of bonds would likely have moved prices against the firms. 
+
+Finally, the exchange rate evidence corroborates the view that the abrogation came as a surprise: as shown in Figure 1 of the revised manuscript, the dollar remained stable against sterling and the franc until the suspension of convertibility in April 1933, at which point it depreciated rapidly.
+
+Nonetheless, following one of your subsequent suggestions, we now construct a modified measure, $\tilde{d}_{j,t}$, that fixes each firm's gold clause exposure at its 1930 level---before Britain's departure from the gold standard---for all subsequent years:
+\begin{equation*}
+\tilde{d}_{j,t} = \begin{dcases}
+d_{j,t}, & \text{if } t \leq 1930 \\
+d_{j,1930}, & \text{if } t > 1930
+\end{dcases}.
+\end{equation*}
+By construction, $\tilde{d}_{j,t}$ is immune to any strategic adjustments firms may have made after 1930. We use $\tilde{d}_{j,t}$ as our primary exposure measure throughout all regressions in the revised manuscript.
+
+\bigskip
+
+\textit{\textcolor{red!60!black}{
+Similarly, it is unclear to me whether firms were able to pay interest and principal at the devalued or at the pre-abrogation levels from June 1932 to February 1935. If so, the reason why uncertainty may have affected activity is that they may have chosen to massively repay in case the Supreme Court decided against the devaluation. So they paid more to creditors and shareholders. Is that the case? Note that dropping firms with maturing bonds does not help here.
+}}
+
+\bigskip
+
+\noindent This is an important point that was not sufficiently clear in our original submission. Between June 1933\footnote{We believe you meant June 1933 rather than June 1932.} and February 1935, firms were able to make payments at the devalued dollar rate. That is, a bond with a \$25 semi-annual coupon continued to pay exactly \$25 throughout the litigation period and beyond, rather than an amount adjusted for the dollar's devaluation against gold. We have clarified this in Section 3 with a footnote stating: ``Throughout the litigation surrounding the abrogation of the gold clause, payments on bonds containing the clause were not indexed to gold.'' As \cite{Edwards2018} reports, lower courts had already ruled against indexing to gold as early as May 1933. The Joint Resolution then made the abrogation law, and the Supreme Court upheld it in 1935.
+
+You also raise the interesting point that in 1933–1934 firms may have redeemed bonds to protect themselves against the risk that the Supreme Court would rule against abrogation. The evidence in Table 2 is consistent with this view: the number of gold-denominated bonds declined from 250 in 1930 to 212 in 1933 and 189 in 1934. We agree that dropping firms with maturing bonds does not address this concern, since firms could have voluntarily redeemed bonds to reduce exposure. To test whether this redemption channel drives our results, we re-estimate our baseline specification excluding firms that repurchased their bond issues in 1933 and 1934. As reported in Column 4 of Table 3, the interaction coefficients for 1933 and 1934 remain economically and statistically significant (-0.068 and -0.032, respectively). These results indicate that the decline in investment among gold-exposed firms extends beyond those actively managing their debt obligations through redemptions during the litigation period.
+
+We greatly appreciate this point, as it has provided substantial clarity both for us and for readers.
+
+\bigskip
+
+\textit{\textcolor{red!60!black}{
+It would be nice to do validations with earlier ratios (1930 or ideally 1929), as well as to show the evolution of this ratio from 1929 to 1936.
+}}
+
+\bigskip
+
+\noindent Following your suggestion here and in Comment 4, we now use $\tilde{d}_{j,t}$ as our measure of gold clause exposure. By definition, $\tilde{d}_{j,t}$ fixes each firm's exposure at its 1930 level for all subsequent years, ensuring that post-1930 adjustments do not affect our treatment variable. Measuring exposure in 1930 places it before both the leverage uncertainty period and Britain's departure from the gold standard.
+
+We also report the evolution of $d$ in Table 2 of the revised manuscript. The table shows that the number of firms with positive gold clause bonds was stable until 1933, then declined, while the average and median $d$ (conditional on having gold clause bonds) remained around 58\%. This pattern suggests that adjustments in gold clause exposure occurred primarily on the extensive margin, with some firms exiting entirely rather than gradually reducing their exposure. 
+
+\bigskip
+
+\textit{\textcolor{red!60!black}{
+One other historical validation would be to look at the downturn in 1937-38. By then gold denomination should not have mattered. Did interest bearing debt still affect investment choices then?
+}}
+
+\bigskip
+
+\noindent This is a valuable point that we can now address with the additional data collected (our original sample ended in 1936). Table 3 shows that in 1937 and 1938 the coefficient on $\tilde{d}$ is not statistically significant, consistent with the expectation that the impact of gold clauses disappeared after the Supreme Court's decision.
+
+The absence of effects in 1937 and 1938 is particularly noteworthy because these were also years of economic distress. As you note, by then gold denomination should not have mattered---and indeed, we find that the composition of fixed-payment liabilities (gold-denominated versus non-gold-denominated) no longer affected investment choices. If $\tilde{d}$ instead captured inherent firm characteristics that made some companies more vulnerable during downturns, we would expect to observe differential investment patterns whenever economic conditions deteriorated. 
+
+We interpret these results as suggestive evidence that our 1933--1934 findings reflect the specific impact of gold clause litigation rather than persistent differences in firms' sensitivity to adverse economic conditions. We highlight this finding in Section 5.2 as an important validation test for our results.
+
+\bigskip
+
+\textit{\textcolor{red!60!black}{
+It would also be helpful to see what happened to the market value of firms by di around the September 1931 event.
+}}
+
+\bigskip
+
+\noindent Table \ref{tab:R6_market_metrics} reports market performance metrics around Britain's departure from the gold standard on September 21, 1931. We construct a $d$-weighted portfolio in which each firm's weight is proportional to its gold clause exposure $d_{j,t}$, so that firms with higher exposure receive greater weight. Panel A presents daily returns for the market portfolio, the $d$-weighted portfolio, and abnormal returns of the $d$-weighted portfolio using both CAPM and Fama-French three-factor (FF3F) models for risk adjustment. Panel B presents cumulative returns over the same period, normalized to zero on September 19, 1931---the last trading day before Britain left the gold standard.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{lrrrr}
+\toprule
+\multicolumn{5}{c}{\textit{Panel A: Daily Returns}} \\
+\midrule
+Date & Market & $d$-Weighted & Abnormal & Abnormal \\
+     &        & Portfolio    & (CAPM)   & (FF3F) \\
+\midrule
+9/15/1931 & -0.0129 & -0.0242 & -0.0127 & -0.0058 \\
+9/16/1931 & -0.0097 & -0.0137 & -0.0054 & -0.0065 \\
+9/17/1931 & 0.0135 & 0.0081 & -0.0066 & 0.0066 \\
+9/18/1931 & -0.0445 & -0.0429 & -0.0001 & -0.0102 \\
+9/19/1931 & -0.0341 & -0.0249 & 0.0077 & 0.0180 \\
+\rowcolor{gray!20} 9/21/1931 & -0.0156 & -0.0325 & -0.0184 & 0.0070 \\
+9/22/1931 & -0.0106 & -0.0123 & -0.0031 & 0.0061 \\
+9/23/1931 & 0.0645 & 0.0630 & -0.0022 & -0.0014 \\
+9/24/1931 & -0.0677 & -0.0263 & 0.0395 & 0.0117 \\
+9/25/1931 & 0.0160 & -0.0017 & -0.0188 & 0.0133 \\
+9/26/1931 & -0.0117 & 0.0068 & 0.0171 & -0.0099 \\
+\midrule
+\multicolumn{5}{c}{\textit{Panel B: Cumulative Returns (normalized to 9/19/1931)}} \\
+\midrule
+Date & Market & $d$-Weighted & Abnormal & Abnormal \\
+     &        & Portfolio    & (CAPM)   & (FF3F) \\
+\midrule
+9/15/1931 & 0.0748 & 0.0734 & 0.0044 & -0.0078 \\
+9/16/1931 & 0.0651 & 0.0597 & -0.0010 & -0.0144 \\
+9/17/1931 & 0.0786 & 0.0678 & -0.0076 & -0.0078 \\
+9/18/1931 & 0.0341 & 0.0249 & -0.0077 & -0.0180 \\
+9/19/1931 & 0.0000 & 0.0000 & 0.0000 & 0.0000 \\
+\rowcolor{gray!20} 9/21/1931 & -0.0156 & -0.0325 & -0.0184 & 0.0070 \\
+9/22/1931 & -0.0262 & -0.0448 & -0.0214 & 0.0131 \\
+9/23/1931 & 0.0383 & 0.0181 & -0.0237 & 0.0117 \\
+9/24/1931 & -0.0294 & -0.0082 & 0.0158 & 0.0234 \\
+9/25/1931 & -0.0134 & -0.0099 & -0.0030 & 0.0367 \\
+9/26/1931 & -0.0251 & -0.0031 & 0.0141 & 0.0268 \\
+\bottomrule
+\end{tabular}
+\caption{Market returns around UK's departure from gold standard}
+\label{tab:R6_market_metrics}
+\end{table}
+
+Panel A shows that the market reacted negatively to Britain's departure from the gold standard on September 21, 1931, with a return of $-1.6\%$. Consistent with the view that firms with gold-denominated debt had more to lose if the US followed suit, the $d$-weighted portfolio declined by $-3.3\%$ that day---more than twice the market decline. The CAPM abnormal return of $-1.8\%$ supports the same interpretation. However, the FF3F abnormal return on that day was slightly positive ($+0.7\%$), suggesting that part of the underperformance may be attributable to size and value factor exposures rather than gold clause exposure per se.
+
+However, Panel B reveals that this underperformance was short-lived. Starting from zero on September 19, the cumulative return of the $d$-weighted portfolio dropped to $-3.3\%$ on September 21, versus $-1.6\%$ for the market. But by September 24, the $d$-weighted portfolio ($-0.8\%$) had largely recovered and outperformed the market ($-2.9\%$). By the end of our window on September 26, the $d$-weighted portfolio had outperformed the market by 2.2 percentage points ($-0.3\%$ versus $-2.5\%$). The cumulative CAPM abnormal return, which reached $-1.8\%$ on September 21, had fully reversed by September 26 and turned positive ($+1.4\%$). The cumulative FF3F abnormal return was positive throughout the post-event period, reaching $+2.7\%$ by September 26.
+
+This evidence is consistent with the view that while markets may have initially perceived gold-exposed firms as somewhat vulnerable to a potential US departure from the gold standard, concerns appear to have dissipated within days. As discussed in Section 3, the Federal Reserve responded to Britain's departure by raising its discount rate, which swiftly stemmed gold outflows and signaled the government's commitment to defending the standard. Moreover, as documented earlier in this response, firms did not subsequently adjust their gold clause exposure despite having nearly two years to do so before the abrogation. This inaction, combined with the exchange rate stability shown in Figure 1 of the revised manuscript and the reversal of abnormal returns documented in Table \ref{tab:R6_market_metrics}, is suggestive---though not conclusive---that initial concerns were short-lived. 
+
+\bigskip
+
+\textit{\textcolor{red!60!black}{
+If gold-denominated debt cannot be differentiated from bonds, then it is possible that the effects are instead driven by the constraints in making high interest payments during tough years (1933-34) relative to recovery years? Thus, there is a conflict of interest between creditors and shareholders, but it is not driven by the gold clause.
+}}
+
+\bigskip
+
+\noindent This is a legitimate concern. In our original submission, gold-denominated debt could not be readily distinguished from bonds more generally, making it difficult to separate the effect of gold clauses from the effect of high fixed payments.
+
+In response to your concern and a related suggestion from R1's suggestion, we have revised our definition of $d$. As now defined in equation (1), both the numerator (gold-denominated corporate bonds) and the denominator (corporate bonds plus preferred stock) consist of securities requiring fixed payments. Importantly, preferred dividend rates were typically higher than bond coupon rates, consistent with preferred stock's subordinated claim on firm cash flows. Thus, if the effects were driven by constraints from making high fixed payments during tough years, we would not expect variation in $d$---the share of fixed-payment liabilities that is gold-denominated---to predict investment.
+
+We acknowledge that preferred dividends are optional rather than mandatory. However, in our review of the Moody's Manuals, we did not find many instances where preferred dividends were suspended in 1933 and 1934. Moreover, we found that exposed firms increased their regular (common) dividends more than unexposed firms during the litigation period, providing indirect evidence that preferred payments were maintained: to pay common dividends, firms must first be current on their preferred obligations. 
+
+This evidence is of course not definitive, but it is consistent with the view that shareholders were extracting value amid gold clause uncertainty rather than firms facing binding cash flow constraints from fixed payments.

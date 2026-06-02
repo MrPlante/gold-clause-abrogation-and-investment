@@ -1,0 +1,56 @@
+\clearpage
+\appendix 
+{\flushleft{\LARGE \bf  {Appendix}}}
+\setcounter{equation}{0}
+\setcounter{table}{0}
+\setcounter{figure}{0}
+%\numberwithin{table}{section}
+\renewcommand{\theequation}{A.\arabic{equation}} 
+%\renewcommand{\thetable}{A.\arabic{table}} 
+%\renewcommand{\thefigure}{A.\arabic{figure}} 
+\renewcommand{\thesection}{\Alph{section}} 
+%\section{Additional figures}
+%\end{comment}
+
+\section{Variables}
+\label{secapp:vars}
+\noindent This appendix presents the construction of variables in our analysis. The Moody's Manual in year $t$ usually reports annual balance sheet and income statement data from year $t-7$ to $t-1$.\footnote{For some firms, the coverage includes as little as two years.} For variables that require data from multiple years, we use data from the same manual. We collect data for the period from 1925 to 1940. Because some of our variables are growth rates, our sample period spans 1926 to 1940.
+	
+We use firm-year observations of the following variables constructed from the hand-collected data in Moody's Manuals:
+	\begin{itemize}
+		\item Net investment is given by $\frac{\text{Fixed capital}_t}{\text{Fixed capital}_{t-1}} - 1$.
+
+        \item Market capitalization is the product of share price with the amount of shares outstanding in January of the year from the Center for Research in Security Prices (CRSP).
+        
+		\item Tobin's Q is the sum of total equity market capitalization and total liabilities divided by total assets.
+
+        \item Log(Assets) is the logarithm of total assets.
+
+        \item Net income/assets is the ratio of net income from the income statement to total assets. 
+
+        \item Cash/assets is the ratio of cash (cash, bank deposit, and Treasuries) to total assets. 
+
+		\item Payout/common stock is the ratio of equity payouts to the book value of common stock, where the denominator is fixed at its 1930 value (or the first available year after 1930). Equity payout is computed using cash dividends and share repurchases following \cite{Boudoukh2007}. 
+        
+		\item Book leverage is the ratio of total assets minus book equity to total assets.
+
+        \item Market leverage is the ratio of total liabilities to the sum of total liabilities and equity market capitalization. 
+        
+        \item Long-term liabilities (LTL) are the sum of the book value of corporate bonds, preferred shares, and bank debt. 
+		
+		\item Pref. shares/LTL is the ratio of preferred shares to long-term liabilities (LTL).
+		
+		\item Bank debt/LTL is the ratio of bank debt (the sum of bank loans and notes payable) to total long-term liabilities (LTL).		
+		
+        \item $d$ is the ratio of bond amount outstanding with gold clauses to long-term liabilities (LTL), as defined in equation (\ref{eq:d}). 
+        
+        \item $\mathbb{I}_{d>0}$ is an indicator function that is one if $d > 0$. 
+
+        \item $\tilde{d}$ is the ratio of bond amount outstanding with gold clauses to long-term liabilities (LTL), as defined in equation (\ref{eq:tilde_d}). 
+        
+        \item $\mathbb{I}_{\tilde{d}>0}$ is an indicator function that is one if $\tilde{d} > 0$. 
+       
+        \item Profits and cash, which are used as the dependent variable in Table \ref{tab:other_outcomes}, are net income from the income statement and cash from balance sheet from each year normalized by fixed capital in 1930. 
+	\end{itemize}
+
+    Firm-level control variables are constructed using data from 1930. These control variables are used to construct characteristic-year interaction terms and decile fixed effects. All variables are winsorized at the bottom and top 0.5\% every year. 

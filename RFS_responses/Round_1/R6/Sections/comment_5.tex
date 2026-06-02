@@ -1,0 +1,101 @@
+\noindent \textit{\textcolor{red!60!black}{
+5. Other comments\\
+}}
+
+\begin{itemize}
+    \item[\textit{\textcolor{red!60!black}{a.}}] \textit{\textcolor{red!60!black}{
+    Why is investment rate trimmed and all other variables winsorized? Can you be consistent?
+    }}
+
+    \bigskip
+
+    \noindent Thanks for pointing this out. We now apply a consistent approach: all variables are winsorized at the 0.5\% and 99.5\% levels within each year throughout the paper. This is now documented in the notes of all tables presenting regression results, which state: ``All variables are winsorized at the 0.5\% and 99.5\% levels within each year.'' 
+    
+    \item[\textit{\textcolor{red!60!black}{b.}}] \textit{\textcolor{red!60!black}{
+    How can payout be negative for some firms?
+    }}
+
+    \bigskip
+
+    \noindent Our measure of payout includes dividend payment and net share repurchases (share repurchases minus share issuance). That is, if the net value of the shares a firm issued surpasses the firm's dividend payment in a given year, its payout is negative. Having said that, we now report results separately for payout components in Table 4. Column 1 reports results for total payout, while columns 2 and 3 decompose the effect into dividends and net repurchases. 
+    
+    The results show that the payout effect is driven entirely by cash dividends (column 2), which are always non-negative. The dividend coefficients for 1933 and 1934 are $0.028$ and $0.036$, both statistically significant, while the net repurchase coefficients (column 3) are small and insignificant. This pattern is consistent with the observation that before 1982, dividend payments were the primary driver of payout policy.
+    
+    
+    \item[\textit{\textcolor{red!60!black}{c.}}] \textit{\textcolor{red!60!black}{
+    Why is payout defined over fixed assets? This is certainly not standard.
+    }}
+
+    \bigskip
+
+    \noindent Following your suggestion, we now use a more standard definition: payouts (including dividends and net repurchases) are normalized by the book value of common stock in 1930. This is now stated in the notes to Table 4 and defined in Section 5.3. 
+    
+    In response to a suggestion from R1, we also experimented with alternative definitions of dividends and report the results in Internet Appendix Table IA.15. This table examines eight alternative specifications: (1) dividends normalized by 1930 fixed capital for firms that paid positive dividends in the previous year, (2) the same for firms that paid zero dividends, (3-4) similar splits based on 1932 dividend status, (5) annual dividend growth, (6) dividends divided by lagged book equity, (7) dividends divided by 1930 market capitalization, and (8) dividends as a share of net income for profitable firms. The results are generally consistent across specifications, with positive point estimates for 1933 and 1934 that are statistically significant in most cases. The sample size varies across specifications, particularly for column (8), where requiring positive net income that exceeds dividends substantially reduces observations.
+
+    \item[\textit{\textcolor{red!60!black}{d.}}] \textit{\textcolor{red!60!black}{
+    Why is the sample restricted to publicly traded firms? Prices are almost not necessary, other than for the market leverage control, and this comes at the cost of losing about half the firms in the Moodys manuals.
+    }}
+
+    \bigskip
+
+    \noindent Besides putting convenient bounds on the scope of our data collection, focusing on publicly traded firms is essential for our conceptual framework. The revised manuscript relies on the investment--$Q$ framework developed in \cite{Hennessy2004}, which requires equity market values to construct average $Q$. Section 5.1 develops the conceptual framework showing how debt overhang creates a wedge between marginal $q$ (which governs investment) and average $Q$ (which is observable), and equation (3) derives the empirical specification that guides our analysis. Without market prices, we would be unable to implement this framework or interpret our coefficient estimates through the lens of $Q$-theory. We clarify this motivation at the beginning of Section 4 with a footnote explaining why the sample is restricted to CRSP-covered firms.
+
+    \item[\textit{\textcolor{red!60!black}{e.}}] \textit{\textcolor{red!60!black}{
+    Since tables report t-stats, it is harder to estimate the range of estimates. At least in the text, the paper should describe the confidence interval for investment effects.
+    }}
+       
+    \bigskip
+
+    \noindent We are now reporting standard errors in all tables.
+    
+    \item[\textit{\textcolor{red!60!black}{f.}}] \textit{\textcolor{red!60!black}{
+    It is not obvious that the effects of di should be linear. Especially since less than half of the sample has positive numbers, it would be good to assess where the effects are coming from.
+    }}
+
+    \bigskip
+
+    \noindent We address this concern in two ways. First, to ensure that our results are not driven by comparisons between firms with and without long-term liabilities, Column 5 of Table 3 restricts the sample to firms with positive long-term liabilities in 1930. This reduces the sample from 7,074 to 6,048 firm-year observations, focusing on firms that could potentially have gold exposure. The coefficients on $1933 \times \tilde{d}$ and $1934 \times \tilde{d}$ are $-0.058$ and $-0.043$, respectively, both statistically significant and similar in magnitude to the baseline estimates.
+    
+    Second, we conduct additional tests regressing investment on dummies for positive $\tilde{d}$, above-median $\tilde{d}$, and above-75th percentile $\tilde{d}$, with results reported in Internet Appendix Table IA.16. In this design, we interact these $\tilde{d}$ indicators with four time dummies: 1926--1932 (Before), 1933, 1934, and 1935--1940 (After), using Before as the omitted category. 
+    
+    Column 1 shows that the results hold at the extensive margin: firms with $\tilde{d}>0$ invested significantly less than $\tilde{d}=0$ firms in 1933 and 1934 relative to the pre-period. The coefficients on $1933 \times (\tilde{d}>0)$ and $1934 \times (\tilde{d}>0)$ are $-0.045$ and $-0.029$, respectively, both statistically significant at the 1\% level. Columns 2 and 3 progressively add interactions for above-median and above-75th percentile exposure. While we observe negative point estimates for high-$\tilde{d}$ interactions---suggesting that more exposed firms may have experienced larger effects---these coefficients are imprecisely estimated. For instance, the coefficient on $1934 \times (\tilde{d} > \tilde{d}_{0.75})$ is $-0.055$, economically substantial but not statistically significant. We interpret this evidence as consistent with non-linear effects but note that the limited variation in $\tilde{d}$ within the exposed subsample makes it difficult to precisely identify intensive-margin non-linearities. We briefly reference these results in Section 5.5.
+
+    \item[\textit{\textcolor{red!60!black}{g.}}] \textit{\textcolor{red!60!black}{
+    Are the effects equally salient for small or large firms? Debt overhang may be worse for firms with fewer alternative sources of financing. If so, how does this affect the aggregate effect calculation?
+    }}
+
+    \bigskip
+
+    \noindent Thank you for recommending this test. Internet Appendix Table IA.13 reports results from specifications where the regressors are interacted with firm-level dummies for small firms (below-median assets in 1930), low cash holdings, and high book leverage. Column 1 focuses on firm size: the coefficients on Small $\times$ 1933 $\times \tilde{d}$ and Small $\times$ 1934 $\times \tilde{d}$ are both negative ($-0.049$ and $-0.073$), suggesting that the effect of gold exposure on investment is larger for small firms. The triple interaction is statistically significant at the 5\% level for 1934, indicating that small firms experienced notably larger investment declines from gold exposure that year. The results for cash and leverage (columns 2--3) show similar patterns, though the triple interactions are less precisely estimated.
+    
+   We incorporate these heterogeneous effects into our aggregation exercise. Table 7 reports alternative aggregation results using coefficients from regressions that include triple interaction terms for Low rating (Table 5) and Small (Table IA.13). As you conjectured, incorporating firm size heterogeneity reduces the aggregate gold clause effect in 1934 (from $-1.23\%$ to $-0.45\%$), reflecting that large firms---which account for a disproportionate share of aggregate capital---experienced smaller effects. By contrast, the 1933 effect is similar when accounting for size heterogeneity ($-1.54\%$ versus $-1.79\%$). We discuss these results in Section 5.6. 
+
+    \item[\textit{\textcolor{red!60!black}{h.}}] \textit{\textcolor{red!60!black}{
+    The paper states that low ratings have no effect on investment, but it actually seems that the coefficient is too noisily estimated to be conclusive one way or the other. This is important because the paper seems to lever the difference in the ratings effect for investment and payouts.
+    }}
+
+    \bigskip
+
+    \noindent You are right that we should not over-interpret the lack of statistical significance. We believe the new results in the revised manuscript, which are based on the extended 1926--1940 dataset and the year-by-year specification (rather than the earlier two-year grouping), provide a more transparent perspective on this issue.
+    
+    In the revised manuscript, we report results for interactions with low rating in Table 5 and discuss them in Section 5.4. The results show that the coefficient on Low $\times$ 1933 is negative and statistically significant ($-0.038$, significant at the 5\% level), indicating that low-rated firms with median gold exposure reduced investment by an additional 3.8 percentage points relative to high-rated firms in 1933. The coefficient for 1934 is positive but only marginally significant. Table 5 also shows that higher $\tilde{d}$ is associated with higher cash dividends in both 1933 and 1934. Low-rated firms at median gold exposure increased dividends more than high-rated firms in both years, consistent with stronger debt overhang effects for firms closer to default. However, the triple interaction coefficients---capturing the differential marginal effect of gold exposure for low-rated firms---are imprecisely estimated for investment and negative for dividends, suggesting a more nuanced pattern that we discuss in the manuscript.
+    
+    Importantly, we have toned down the language throughout Section 5.4 to reflect the mixed nature of the evidence. For example, regarding the 1934 investment coefficient, we note: ``The positive coefficient in 1934, however, is inconsistent with this prediction, though we note that it is only marginally statistically significant.'' For the triple interaction coefficients, we state: ``However, the coefficients are imprecisely estimated, so we interpret this evidence with caution.'' The section concludes: ``In sum, the credit rating results provide mixed but generally supportive evidence for the hypothesis that debt overhang effects are more pronounced for firms closer to default... We therefore interpret these findings as suggestive rather than definitive evidence on the role of credit ratings in mediating debt overhang effects.''  
+
+    \item[\textit{\textcolor{red!60!black}{i.}}] \textit{\textcolor{red!60!black}{
+    In Table 2 it would be nice to add the number of firms for each column. In fact, I could not find a description of the number of firms with non-zero di.
+    }}
+
+    \bigskip
+
+    \noindent We now provide more detailed information on sample composition. Internet Appendix Table IA.3 reports summary statistics separately for $\tilde{d} > 0$ and $\tilde{d} = 0$ firms across the three sample periods. Internet Appendix Tables IA.4 and IA.5 provide additional distributional statistics separately for $\tilde{d} > 0$ and $\tilde{d} = 0$ firms, including the number of firm-year observations in each group. In the pre-1933 period, we have 1,430 firm-year observations with $\tilde{d} > 0$ (330 unique firms) and 1,759 firm-year observations with $\tilde{d} = 0$ (410 unique firms). Tables IA.6 and IA.7 further decompose the $\tilde{d} > 0$ sample into below-median and above-median exposure groups, showing that high-$\tilde{d}$ firms are slightly smaller and have lower leverage relative to low-$\tilde{d}$ firms within the exposed subsample.
+    
+    \item[\textit{\textcolor{red!60!black}{j.}}] \textit{\textcolor{red!60!black}{
+    Table 10 states that in Column (3) firms in regulated industries (transportation, communication, and utilities) are excluded. Surely it is strange that these firms were included in the industrials manual in the first place, so they should be dropped everywhere. In fact, these cannot be representative of the industries, which were covered in other manuals.
+    }}
+
+    \bigskip
+
+    \noindent You are right, and we apologize for the confusion in the original submission, which was poorly worded on this point. To clarify: transportation, communication, and utilities firms are \textit{not} included in the Moody's Industrial Manuals---these sectors have their own separate Moody's manuals (e.g., Moody's Public Utility Manual, Moody's Transportation Manual, Moody's Financial Manual). Our sample is drawn exclusively from the Moody's Industrial Manuals precisely because industrial firms were not subject to the heavy regulation that characterized utilities, transportation, and communication firms during this period. The original wording incorrectly suggested we were excluding regulated firms from the Industrial Manuals, when in fact we restricted our data collection to the Industrial Manuals to focus on unregulated firms from the outset. We have clarified this in Section 4, which now states that ``regulated industries (transportation, communication, and utilities) and financial firms---which are covered in separate Moody's manuals---are not part of our sample.'' 
+
+\end{itemize}

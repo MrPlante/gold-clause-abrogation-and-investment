@@ -1,0 +1,243 @@
+\documentclass[hidelinks,12pt]{article}
+\usepackage{booktabs,threeparttable,dcolumn}
+\usepackage{booktabs,threeparttable,siunitx}
+\sisetup{
+  input-symbols = ( ),          % allow parentheses in cells (for SEs)
+  table-align-text-post = false % don't mis-align because of trailing )
+}
+
+\usepackage{etex}
+\usepackage{bbm}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{relsize}
+\usepackage{mathrsfs,amsmath}
+\usepackage[toc]{appendix}
+\usepackage{setspace}
+\setstretch{1.4}
+\usepackage{float}
+\usepackage{adjustbox}
+\usepackage{natbib}
+%\usepackage{biblatex}
+\usepackage{geometry}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{dcolumn}
+\usepackage{multirow}
+\usepackage{colortbl}
+\usepackage[normalsize,labelfont=bf]{caption}
+\usepackage{bbm}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage[T1]{fontenc} 
+\usepackage{lmodern}
+\usepackage[justification=centering]{caption}
+\usepackage{siunitx}
+\usepackage{pdflscape}
+% S column type should not interpret comma as decimal 
+\sisetup{
+  group-digits = true,
+  group-minimum-digits = 4,
+  group-separator = {,},
+  input-decimal-markers = {.},
+  output-decimal-marker = {.},
+}
+
+\renewcommand{\cite}{\citet*}
+\geometry{left=1in,right=1in,top=1in,bottom=1in} \allowdisplaybreaks[1]
+
+%\addbibresource{06_MA.bib}
+
+\usepackage[all]{xy}
+\usepackage{tikz}
+\definecolor{black}{rgb}{0.0, 0.0, 0.55}
+\usepackage{hyperref}
+\usepackage{ragged2e}
+\definecolor{pink}{rgb}{0.858, 0.188, 0.478}
+% \usepackage[colorlinks=true, linkcolor=pink, citecolor = pink, bookmarks=false, urlcolor= pink]{hyperref}
+\urlstyle{same}
+\usepackage{epstopdf}
+\usepackage{ctable}
+\usepackage{comment}
+\usepackage{subcaption}
+\usepackage{booktabs}
+
+% small stars
+\newcommand{\sym}[1]{\ensuremath{^{#1}}}
+
+% convenience macro
+\newcommand{\est}[3]{#1\sym{#3} & \footnotesize{(#2)}}
+
+
+
+\usepackage{indentfirst}
+%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[labelsep=none]{caption}
+\usepackage[singlelinecheck=true]{caption}
+
+\interfootnotelinepenalty=10000
+\usepackage{lscape}
+\usepackage{pdflscape}
+\usepackage{float}
+\floatplacement{table}{t}
+
+%%%%%%%%%%%%%%%%%%%%%%%
+
+\definecolor{lightgray}{gray}{0.9}
+\newcounter{c1}
+\newcounter{c2}
+\newcounter{c4}
+\newcounter{c5}
+
+%\renewcommand{\cite}{\citet}
+\geometry{left=1in,right=1in,top=1in,bottom=1in} \allowdisplaybreaks[1]
+
+\usepackage[figure,table]{hypcap} % Correct a problem with hyperref
+
+\tikzstyle{level 1}=[level distance=4cm, sibling distance=3.5cm,->]
+\tikzstyle{level 2}=[level distance=4cm, sibling distance=2cm,->]
+
+% Define styles for bags and leafs
+\tikzstyle{bag} = [text width=2em, text centered]
+\tikzstyle{end} = []
+
+\makeatletter
+\renewcommand{\refname}{\centerline{REFERENCES}}
+
+%THIS WILL CHANGE THE FONT SIZE OF FIGURE AND TABLE
+\newenvironment{localsize}[1]
+{%
+  \clearpage
+  \let\orignewcommand\newcommand
+  \let\newcommand\renewcommand
+  \makeatletter
+  \input{bk#1.clo}%
+  \makeatother
+  \let\newcommand\orignewcommand
+}
+{%
+  \clearpage
+}
+
+%\PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}
+
+
+% change the margin of front page
+\def\changemargin#1#2{\list{}{\rightmargin#2\leftmargin#1}\item[]}
+\let\endchangemargin=\endlist 
+
+\textheight=21.5cm \topmargin=-5.5mm
+\oddsidemargin=-0mm \evensidemargin=-0mm
+% For the use of smaller subscript font size
+\newcommand{\ms}{\scriptscriptstyle}
+\usepackage{fancyhdr}
+\usepackage{ifthen}
+
+\usepackage{color, colortbl}
+\usepackage{booktabs, dcolumn}
+% Now I create my own color to highlight text
+\definecolor{red4}{rgb}{0.545,0.000,0.000}
+%\newcommand{\mcdr}[1]{{{\bf \color{red4}#1}}}  red4
+\newcommand{\mcdr}[1]{{{\color{red4}#1}}}
+       \newcolumntype{F}[3]{>{\color{black}\DC@{#1}{#2}{#3}}c<{\DC@end}}
+    \newcolumntype{d}[1]{F{.}{.}{#1}}
+
+%CREATE A SEMILARGE FUNT
+\makeatletter 
+\newcommand\semiLarge{\@setfontsize\semiLarge{15.5}{18.6}}
+\makeatother
+
+\makeatletter
+\newcommand*\semiscriptsize{%
+  \@setfontsize\semiscriptsize{9}{10.2}%
+}
+\makeatother
+
+\captionsetup[figure]{labelfont={bf},name={Figure},labelsep=period}
+
+\sisetup{
+input-symbols = {()},
+group-digits  = false,
+}
+
+\begin{document}
+
+%: \\ Monetary Policy and Risk Taking in Financial Markets
+
+\begin{titlepage} 
+\title{{ \large \textbf{Debt Overhang During Policy Uncertainty: \\  The Case of Gold Clauses in the 1930s}\!\!}
+\thanks{We are grateful to Harjoat Bhamra, Patrick Bolton, Briana Chang, Sudheer Chava, Carola Frydman, Harry DeAngelo, Gustavo Grullon, Larry Harris, Zhiguo He, Jerry Hoberg, Ayse Imrohoroglu, Selo Imrohoroglu, Marcin Kacperczyk, Raymond Kim, Arthur Korteweg, Peter Koudijs, Zack Liu, William Mann, Kevin Murphy, Dimitris Papanikolaou, Lubos Pastor, Vincenzo Quadrini, Mark Ready, Rodney Ramcharan, Tarun Ramodorai, Alejandro Rivera, Lukas Schmid, Ivan Shaliastovich, Selale Tuzel, Jessica Wachter, Jessie Wang, and Miao Ben Zhang; seminar participants at the UBC Winter Finance Conference, WFA, AEA, the University of Kentucky Finance Conference, the Tel Aviv University Finance Conference, the SFS Cavalcade, the 14th California Corporate Finance Conference, MFA, Imperial College London, McGill University, Syracuse University, USC Marshall, and the University of Wisconsin-Madison for helpful comments; and Simon Oh, Imran Majeed, and Ally Rilling for excellent research assistance. Financial support for this research was provided by the University of Wisconsin-Madison Office of the Vice Chancellor for Research and Graduate Education with funding from the Wisconsin Alumni Research Foundation as well as Jacobs Levy Equity Management Center for Quantitative Financial Research. This paper was previously titled ``Leverage Risk and Investment: The Case of Gold Clauses in the 1930s.''}\vspace*{4mm}}
+
+\author{Joao Gomes 
+\footnote{The Wharton School, University of Pennsylvania. E-mail: gomesj@wharton.upenn.edu.} \\
+\and 
+Mete Kilic 
+\footnote{Marshall School of Business, University of Southern California. Email: mkilic@marshall.usc.edu.}
+\and 
+S\'ebastien Plante
+\footnote{Wisconsin School of Business, University of Wisconsin-Madison. E-mail: splante@wisc.edu.} \vspace*{10mm}}
+
+
+%\thanks{We are grateful to Anna Cieslak, Zhiguo He, Lukas Schmid, and participants at the ... for helpful comments.}
+
+\maketitle
+\thispagestyle{empty}
+
+%\begin{center}
+%\textit{Preliminary}
+%\end{center}
+\vspace*{-1cm}
+\begin{abstract}
+\small 
+
+\onehalfspacing
+
+ 
+%\input{Section_0_Abstract}
+
+\end{abstract}
+%JEL Classification:E22, E23, G12, J24
+
+
+
+\end{titlepage}
+\clearpage
+\setcounter{page}{1}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\section*{Tables and Figures} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\onehalfspacing
+\doublespacing
+
+\begin{comment}
+\input{Section_1_Intro}
+
+\input{Section_2_Literature}
+
+\input{Section_3_Historical_background}
+
+\input{Section_4_Data}
+
+\input{Section_5_Main_results}
+
+\input{Section_8_Conclusion}
+\input{Section_Appendix}
+
+\clearpage
+{\small
+\onehalfspacing 
+\bibliographystyle{jf}
+\bibliography{gold_bib}
+}
+\input{Tables_Figures}
+
+\end{comment}
+\input{Tables_Figures}
+\input{Section_OnlineAppendix}
+
+\end{document}

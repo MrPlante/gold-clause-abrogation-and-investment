@@ -1,0 +1,29 @@
+\begin{table}[p]\centering
+\caption{\\ Gold clause exposure, investment, and payout by credit rating} \footnotesize 
+\label{tab:rating}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{lccc}
+\toprule
+ & Net investment & Payout & Cash Dividend \\
+\midrule
+1933 $\times d$                  & -0.043\sym{**} & 0.079\sym{**} & 0.089\sym{**} \\
+                                 & (0.017)        & (0.035)       & (0.032)       \\
+1934 $\times d$                  & -0.053\sym{***}& 0.081\sym{**} & 0.097\sym{**} \\
+                                 & (0.016)        & (0.034)       & (0.032)       \\
+After $\times d$                 & -0.022         & 0.042         & -0.007        \\
+                                 & (0.019)        & (0.037)       & (0.076)       \\
+1933 $\times d \times$ Low rating& -0.084\sym{*}  & 0.038         & 0.050\sym{**} \\
+                                 & (0.043)        & (0.023)       & (0.021)       \\
+1934 $\times d \times$ Low rating& 0.014          & 0.012         & 0.032         \\
+                                 & (0.023)        & (0.023)       & (0.022)       \\
+After $\times d \times$ Low rating& 0.021         & 0.006         & 0.017         \\
+                                 & (0.028)        & (0.026)       & (0.025)       \\
+\midrule
+$R^2$                            & 0.221          & 0.644         & 0.525         \\
+Observations                     & 6{,}738        & 6{,}738       & 6{,}738       \\
+\bottomrule
+\end{tabular} \\
+
+\vspace*{3mm} \justifying \noindent
+\footnotesize{\textit{Notes.} This table reports results from panel regressions of net investment, equity payout rate, and cash dividends on an interaction of indicators for 1926--1932 (Before), 1933, 1934, and 1935--1940 (After) with $d$ where Before is the omitted category. The net investment regression controls for $Q$. Low rating is a firm-level dummy variable that is 1 if a firm's bond ratings are Ba or below in 1930. All regressions include firm and year fixed effects. Standard errors in parentheses are two-way clustered by firm and year. $^{*}p<0.10$, $^{**}p<0.05$, $^{***}p<0.01$.}
+\end{table}

@@ -1,0 +1,36 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{3}{D{.}{.}{-1}}}
+\toprule
+                    &\multicolumn{1}{c}{Net investment}&\multicolumn{1}{c}{Payout}&\multicolumn{1}{c}{Dividend}\\
+\midrule
+Q                   &       0.096\sym{***}&       0.060\sym{*}  &       0.111\sym{***}\\
+                    &     (0.016)         &     (0.031)         &     (0.018)         \\
+\ensuremath{d}      &      -0.041\sym{**} &       0.000         &       0.009         \\
+                    &     (0.017)         &     (0.040)         &     (0.021)         \\
+\ensuremath{d} \ensuremath{\times \text{ Low rating}}&      -0.068         &      -0.115         &       0.031         \\
+                    &     (0.082)         &     (0.146)         &     (0.029)         \\
+1933 \ensuremath{\times \text{ Low rating}}&      -0.113\sym{*}  &       0.126         &       0.016         \\
+                    &     (0.053)         &     (0.095)         &     (0.028)         \\
+1934 \ensuremath{\times \text{ Low rating}}&      -0.045         &       0.155         &       0.021         \\
+                    &     (0.051)         &     (0.097)         &     (0.028)         \\
+After \ensuremath{\times \text{ Low rating}}&      -0.090\sym{*}  &       0.062         &      -0.032         \\
+                    &     (0.050)         &     (0.111)         &     (0.034)         \\
+1933 \ensuremath{\times d}&      -0.037\sym{**} &       0.064\sym{*}  &       0.035\sym{**} \\
+                    &     (0.015)         &     (0.030)         &     (0.014)         \\
+1934 \ensuremath{\times d}&      -0.048\sym{***}&       0.087\sym{**} &       0.045\sym{**} \\
+                    &     (0.011)         &     (0.030)         &     (0.016)         \\
+After \ensuremath{\times d}&      -0.016         &       0.033         &       0.009         \\
+                    &     (0.012)         &     (0.031)         &     (0.021)         \\
+1933 \ensuremath{\times d \times \text{Low rating}}&       0.067         &      -0.198         &      -0.016         \\
+                    &     (0.057)         &     (0.131)         &     (0.044)         \\
+1934 \ensuremath{\times d \times \text{Low rating}}&       0.068         &      -0.255\sym{*}  &      -0.027         \\
+                    &     (0.059)         &     (0.136)         &     (0.042)         \\
+After \ensuremath{\times d \times \text{Low rating}}&       0.139\sym{**} &      -0.138         &       0.004         \\
+                    &     (0.058)         &     (0.157)         &     (0.050)         \\
+\midrule
+\ensuremath{R^2}    &       0.240         &       0.415         &       0.788         \\
+Observations        &       7,074         &       7,074         &       7,074         \\
+\bottomrule
+\end{tabular}
+}

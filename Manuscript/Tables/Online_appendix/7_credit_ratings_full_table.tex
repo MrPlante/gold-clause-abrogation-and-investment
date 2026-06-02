@@ -1,0 +1,124 @@
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\scriptsize
+\begin{longtable}{l*{3}{D{.}{.}{-1}}}
+    \caption{\\ Gold clause exposure, investment, and payout by credit rating} 
+    \label{tabapp:credit_rating} \\
+    
+    \toprule
+                        &\multicolumn{1}{c}{Net investment}&\multicolumn{1}{c}{Payout}&\multicolumn{1}{c}{Dividend}\\
+                        &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}\\
+    \midrule
+    \endfirsthead
+    
+    \multicolumn{4}{l}{\textit{Table \ref{tabapp:credit_rating} continued from previous page}} \\
+    \toprule
+                        &\multicolumn{1}{c}{Net investment}&\multicolumn{1}{c}{Payout}&\multicolumn{1}{c}{Dividend}\\
+                        &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}\\
+    \midrule
+    \endhead
+    
+    \midrule
+    \multicolumn{4}{r}{\textit{Continued on next page}} \\
+    \endfoot
+    
+    \midrule
+    Firm FE             &\multicolumn{1}{c}{Yes}&\multicolumn{1}{c}{Yes}&\multicolumn{1}{c}{Yes}\\
+    Year FE             &\multicolumn{1}{c}{Yes}&\multicolumn{1}{c}{Yes}&\multicolumn{1}{c}{Yes}\\
+    \ensuremath{R^2}    &       0.244         &       0.416         &       0.789         \\
+    Observations        &\multicolumn{1}{r}{7,074$\phantom{000}$}&\multicolumn{1}{r}{7,074$\phantom{000}$}&\multicolumn{1}{r}{7,074$\phantom{00000000000000000}$}\\
+    \bottomrule
+    
+    \multicolumn{4}{p{0.85\textwidth}}{\vspace*{3mm} \justifying \scriptsize{\textit{Notes.} This table reports results from panel regressions of net investment, equity payout rate, and cash dividends on interactions of individual year indicators with $\tilde{d}$, where 1932 is the omitted year. The net investment regression controls for $Q$. Low rating is a firm-level dummy variable that is 1 if a firm's bond ratings are Ba or below in 1930. All regressions include firm and year fixed effects. All variables are winsorized at the 0.5\% and 99.5\% levels within each year. Standard errors in parentheses are two-way clustered by firm and year. $^{*}p<0.10$, $^{**}p<0.05$, $^{***}p<0.01$.}} \\
+    \endlastfoot
+    
+    Q                   &       0.096\sym{***}&       0.059\sym{*}  &       0.111\sym{***}\\
+                        &     (0.017)         &     (0.031)         &     (0.018)         \\
+    \ensuremath{\tilde{d}}      &      -0.043\sym{*}  &       0.048         &       0.024         \\
+                        &     (0.021)         &     (0.047)         &     (0.025)         \\
+    Low rating          &       0.086         &      -0.333         &       0.042         \\
+                        &     (0.129)         &     (0.264)         &     (0.077)         \\
+    1926 \ensuremath{\times \tilde{d}}&       0.051\sym{**} &       0.010         &      -0.025         \\
+                        &     (0.022)         &     (0.042)         &     (0.019)         \\
+    1927 \ensuremath{\times \tilde{d}}&       0.016         &      -0.077         &      -0.030         \\
+                        &     (0.030)         &     (0.053)         &     (0.026)         \\
+    1928 \ensuremath{\times \tilde{d}}&       0.013         &      -0.107         &      -0.019         \\
+                        &     (0.026)         &     (0.065)         &     (0.031)         \\
+    1929 \ensuremath{\times \tilde{d}}&       0.008         &      -0.041         &      -0.002         \\
+                        &     (0.027)         &     (0.049)         &     (0.030)         \\
+    1930 \ensuremath{\times \tilde{d}}&      -0.033         &      -0.054         &      -0.011         \\
+                        &     (0.022)         &     (0.039)         &     (0.023)         \\
+    1931 \ensuremath{\times \tilde{d}}&       0.001         &       0.021\sym{**} &       0.000         \\
+                        &     (0.010)         &     (0.010)         &     (0.011)         \\
+    1933 \ensuremath{\times \tilde{d}}&      -0.036\sym{***}&       0.033\sym{*}  &       0.025\sym{*}  \\
+                        &     (0.012)         &     (0.016)         &     (0.014)         \\
+    1934 \ensuremath{\times \tilde{d}}&      -0.047\sym{***}&       0.055\sym{**} &       0.035\sym{**} \\
+                        &     (0.007)         &     (0.019)         &     (0.013)         \\
+    1935 \ensuremath{\times \tilde{d}}&       0.021\sym{***}&      -0.006         &       0.007         \\
+                        &     (0.006)         &     (0.013)         &     (0.010)         \\
+    1936 \ensuremath{\times \tilde{d}}&      -0.016\sym{**} &       0.008         &       0.035         \\
+                        &     (0.006)         &     (0.027)         &     (0.024)         \\
+    1937 \ensuremath{\times \tilde{d}}&      -0.005         &      -0.038         &      -0.005         \\
+                        &     (0.014)         &     (0.030)         &     (0.028)         \\
+    1938 \ensuremath{\times \tilde{d}}&       0.001         &       0.015         &      -0.012         \\
+                        &     (0.025)         &     (0.017)         &     (0.014)         \\
+    1939 \ensuremath{\times \tilde{d}}&      -0.051\sym{***}&       0.031         &      -0.015         \\
+                        &     (0.014)         &     (0.018)         &     (0.018)         \\
+    1940 \ensuremath{\times \tilde{d}}&      -0.043\sym{**} &      -0.002         &      -0.017         \\
+                        &     (0.014)         &     (0.017)         &     (0.023)         \\
+    1926 \ensuremath{\times} Low rating&       0.005         &       0.098\sym{***}&       0.062\sym{**} \\
+                        &     (0.021)         &     (0.030)         &     (0.022)         \\
+    1927 \ensuremath{\times} Low rating&       0.016         &       0.064\sym{*}  &       0.016         \\
+                        &     (0.024)         &     (0.030)         &     (0.019)         \\
+    1928 \ensuremath{\times} Low rating&       0.053         &       0.043         &      -0.014         \\
+                        &     (0.037)         &     (0.043)         &     (0.024)         \\
+    1929 \ensuremath{\times} Low rating&       0.091\sym{**} &      -0.053         &       0.022         \\
+                        &     (0.036)         &     (0.067)         &     (0.020)         \\
+    1930 \ensuremath{\times} Low rating&       0.090\sym{*}  &       0.031         &       0.017         \\
+                        &     (0.046)         &     (0.051)         &     (0.023)         \\
+    1931 \ensuremath{\times} Low rating&      -0.007         &      -0.037\sym{***}&      -0.031\sym{***}\\
+                        &     (0.016)         &     (0.010)         &     (0.007)         \\
+    1933 \ensuremath{\times} Low rating&      -0.038\sym{**} &       0.022\sym{**} &       0.013\sym{**} \\
+                        &     (0.015)         &     (0.008)         &     (0.005)         \\
+    1934 \ensuremath{\times} Low rating&       0.029\sym{*}  &       0.016         &       0.011\sym{*}  \\
+                        &     (0.016)         &     (0.010)         &     (0.006)         \\
+    1935 \ensuremath{\times} Low rating&       0.000         &      -0.036\sym{*}  &       0.001         \\
+                        &     (0.015)         &     (0.018)         &     (0.008)         \\
+    1936 \ensuremath{\times} Low rating&       0.042\sym{**} &       0.058\sym{***}&      -0.043\sym{***}\\
+                        &     (0.017)         &     (0.018)         &     (0.014)         \\
+    1937 \ensuremath{\times} Low rating&       0.000         &       0.004         &      -0.039\sym{**} \\
+                        &     (0.020)         &     (0.023)         &     (0.017)         \\
+    1938 \ensuremath{\times} Low rating&       0.025         &       0.000         &       0.002         \\
+                        &     (0.021)         &     (0.010)         &     (0.007)         \\
+    1939 \ensuremath{\times} Low rating&       0.053\sym{***}&      -0.028\sym{*}  &      -0.019\sym{*}  \\
+                        &     (0.017)         &     (0.015)         &     (0.010)         \\
+    1940 \ensuremath{\times} Low rating&       0.044\sym{***}&      -0.039\sym{***}&      -0.045\sym{***}\\
+                        &     (0.014)         &     (0.012)         &     (0.012)         \\
+    1926 \ensuremath{\times \tilde{d} \times} Low rating&      -0.273\sym{***}&       0.141         &      -0.016         \\
+                        &     (0.091)         &     (0.204)         &     (0.084)         \\
+    1927 \ensuremath{\times \tilde{d} \times} Low rating&      -0.056         &       0.285         &       0.001         \\
+                        &     (0.097)         &     (0.206)         &     (0.081)         \\
+    1928 \ensuremath{\times \tilde{d} \times} Low rating&      -0.268         &       0.483\sym{**} &       0.062         \\
+                        &     (0.192)         &     (0.214)         &     (0.082)         \\
+    1929 \ensuremath{\times \tilde{d} \times} Low rating&      -0.230\sym{**} &       0.367         &      -0.032         \\
+                        &     (0.101)         &     (0.229)         &     (0.070)         \\
+    1930 \ensuremath{\times \tilde{d} \times} Low rating&      -0.388         &       0.232         &      -0.060         \\
+                        &     (0.229)         &     (0.184)         &     (0.066)         \\
+    1931 \ensuremath{\times \tilde{d} \times} Low rating&      -0.071         &      -0.010         &      -0.021         \\
+                        &     (0.106)         &     (0.018)         &     (0.013)         \\
+    1933 \ensuremath{\times \tilde{d} \times} Low rating&      -0.073         &      -0.025         &      -0.025         \\
+                        &     (0.047)         &     (0.027)         &     (0.019)         \\
+    1934 \ensuremath{\times \tilde{d} \times} Low rating&      -0.077         &      -0.084\sym{**} &      -0.037\sym{**} \\
+                        &     (0.052)         &     (0.032)         &     (0.016)         \\
+    1935 \ensuremath{\times \tilde{d} \times} Low rating&      -0.040         &       0.082         &       0.005         \\
+                        &     (0.060)         &     (0.074)         &     (0.018)         \\
+    1936 \ensuremath{\times \tilde{d} \times} Low rating&      -0.043         &       0.005         &      -0.022         \\
+                        &     (0.057)         &     (0.047)         &     (0.031)         \\
+    1937 \ensuremath{\times \tilde{d} \times} Low rating&       0.064         &       0.103         &      -0.043         \\
+                        &     (0.065)         &     (0.063)         &     (0.040)         \\
+    1938 \ensuremath{\times \tilde{d} \times} Low rating&      -0.080         &      -0.024         &      -0.001         \\
+                        &     (0.055)         &     (0.043)         &     (0.018)         \\
+    1939 \ensuremath{\times \tilde{d} \times} Low rating&       0.024         &       0.035         &       0.004         \\
+                        &     (0.054)         &     (0.056)         &     (0.026)         \\
+    1940 \ensuremath{\times \tilde{d} \times} Low rating&       0.059         &      -0.010         &       0.018         \\
+                        &     (0.054)         &     (0.049)         &     (0.027)         \\
+\end{longtable}

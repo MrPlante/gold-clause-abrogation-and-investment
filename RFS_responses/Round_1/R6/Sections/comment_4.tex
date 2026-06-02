@@ -1,0 +1,41 @@
+\noindent \textit{\textcolor{red!60!black}{
+4. Differences in trends and panel structure\\ 
+Another concern with defining treatment in 1932 is that more profitable firms in 1931-32 have less gold-denominated debt. It is possible that firms that were more recession proof paid their debt disproportionately, and also did better during tough years in 1933 and 1934. Ruling this omitted variable is challenging.
+}}
+
+\noindent Thank you for raising this concern, which is distinct from, yet related to, Comment 3. Whereas Comment 3 focused on whether firms strategically anticipated the abrogation, this comment raises the possibility that firms with lower gold exposure in 1931--32 were simply more profitable or ``recession-proof,'' and that these characteristics---rather than gold clause exposure---explain their stronger performance in 1933--34.
+
+In the revision, we look at this concern in several ways. First, we now measure $\tilde{d}$ in 1930 throughout the revised manuscript. This timing reduces the scope for reverse causality whereby 1931--32 profitability determines both gold exposure at the end of 1932 and investment in subsequent years.
+
+Second, as documented in our response to Comment 3, we find minimal adjustment in gold clause exposure prior to 1933. The evidence in Table 2 shows that 144 of 150 firms with gold-denominated bonds in 1930 still had such bonds in 1932, and the average $d$ among exposed firms remained virtually unchanged (0.57 in 1930, 0.58 in 1932). This stability suggests that the hypothesized selection---whereby recession-proof firms disproportionately paid down gold debt---was limited in practice.
+
+Third, we directly test whether the firms that adjusted the gold content of their liabilities drive our results. As reported in Column 4 of Table 3, we re-estimate our baseline specification excluding firms that redeemed bond issues during 1933--1934, years where we find significant evidence of adjustment. The interaction coefficients for 1933 and 1934 remain economically and statistically significant, indicating that our findings extend beyond firms actively managing their debt obligations.
+
+We discuss these robustness checks in Section 5.2 of the revised manuscript.
+
+
+\noindent \textit{\textcolor{red!60!black}{
+It is also hard within the structure of the data to argue that there are no pre-trends. I do not understand why the information is treated over two-year intervals, as opposed to using a panel structure. This would allow authors to show year-to-year estimates of the effects of di, ideally measured in 1930, over time, and show the specific years in which investment changes. It would also simplify the comparison over time. Similar magnitudes of the main coefficient over the two main periods with reversing signs are harder to contrast when the entire point is that investment declined over the first period.
+}}
+
+\bigskip
+
+\noindent We fully agree that this approach is preferable and have restructured the analysis accordingly. In the revised manuscript, we implement an event-study specification that interacts $\tilde{d}$ (measured in 1930) with year indicators for each year from 1926 to 1940, omitting 1932 as the reference year. This allows us to trace out the year-by-year relationship between gold clause exposure and investment in a single regression framework.
+
+Table 3 of the manuscript reports the coefficient estimates from this specification. Figure 3 plots the  interaction coefficients along with 95\% confidence intervals, providing a visual assessment of pre-trends and treatment effects. The results show: (i) no statistically significant relationship between $\tilde{d}$ and investment in the pre-treatment years (1926--1932), supporting the parallel trends assumption; (ii) negative and statistically significant coefficients in 1933 and 1934, the years of gold clause litigation; and (iii) a return to statistically insignificant coefficients after the Supreme Court's 1935 decision. This pattern---no effect before, negative effect during, no effect after---is consistent with gold clause uncertainty affecting investment during the litigation period, though we acknowledge that alternative explanations cannot be fully ruled out. We also note that the 1935 interaction coefficient is positive and marginally significant, suggesting a partial rebound in investment by exposed firms following the Supreme Court's resolution of the gold clause question.
+
+The year-by-year structure also reveals that the investment decline was concentrated in 1933, with a smaller (though still significant) effect in 1934.
+
+\bigskip
+
+\noindent \textit{\textcolor{red!60!black}{
+It is also hard to understand the findings when the panel is not balanced, because firms may be dropping in and out of the sample for endogenous reasons. Say that only firms with di=0 go bankrupt. Would these have investment rate of minus infinity? A cleaner way would be to at least run a robustness check with a balanced panel.
+}}
+
+\bigskip
+
+\noindent We agree that endogenous attrition is a valid concern and conduct robustness checks with balanced panels. Internet Appendix Table IA.12 reports the results. Columns 2--4 repeat our baseline investment regression restricting the sample to firms with uninterrupted data for three progressively longer windows: 1930--1936 (7 years), 1929--1940 (12 years), and 1926--1940 (15 years).
+
+Overall, the results are robust to requiring balanced panels. For the 1930--1936 balanced panel, the interaction coefficients for 1933 and 1934 are $-0.035$ and $-0.033$, respectively, both statistically significant at the 1\% level. For the 1929--1940 balanced panel, the coefficients are $-0.025$ and $-0.029$, again both significant at the 1\% level. Even for the most demanding specification---a fully balanced panel spanning 15 years from 1926 to 1940---the 1933 coefficient remains negative and significant ($-0.032$), though the 1934 coefficient loses significance. This attenuation is not surprising given the substantial reduction in sample size (from over 6,000 observations to 3,630) required to maintain a balanced panel over such a long horizon.
+
+Importantly, in all balanced panel specifications, the interaction coefficients for years outside the litigation period remain statistically insignificant, supporting the parallel trends assumption.
