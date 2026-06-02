@@ -1,0 +1,143 @@
+\begin{figure}[p]
+     \caption{Gold clause effect on investment by year}
+     \begin{center}
+    \includegraphics[width=\linewidth]{figures/gold_coeffs.pdf}
+    \end{center}
+    \footnotesize \textit{Notes.} This figure plots the point estimates and the 95\% confidence bands from a regression of net investment rate on $Q$ and $d$ interacted with Year including firm and year fixed effects. The estimates are also listed in Column 2 of Table \ref{tab:inv_main}.
+    \label{fig:gold_coeffs}
+\end{figure}
+
+\begin{table}[p]\centering
+\caption{\\ Summary statistics}\scriptsize
+\label{tab:sum_main}
+  \input{tables/tab_summary_panels.tex}
+
+
+\vspace*{3mm} \justifying \noindent
+\scriptsize{\textit{Notes.} This table reports summary statistics of firm characteristics for firm-year level observations. Panel A includes data from 1926 to 1932, Panel B from 1933 to 1934, and Panel C from 1935 to 1940. See Appendix \ref{secapp:vars} for details.}
+\end{table}
+
+\begin{table}[p]\centering
+\caption{\\ Bond statistics}\scriptsize
+\label{tab:sum_diff}  \input{tables/tab_bonds_1930_1935}
+
+
+\vspace*{3mm} \justifying \noindent
+\scriptsize{\textit{Notes.} This table reports summary statistics in the bond data by year. The columns report the number of firms with bonds outstanding, the number of bonds, the fraction of bonds with a gold clause, number of firms with a positive amount of gold clause bonds outstanding, mean and median of $d$ using outstanding bonds of the respective year, and the correlation of $d$ in a particular year with $d$ in 1930.}
+\end{table}
+
+\begin{table}[p]\centering
+\caption{\\ NEW: Average characteristics for $d = 0$ and $d > 0$ firms}\scriptsize
+\label{tabapp:bonds}
+  \input{tables/tab_d_groups_dorig}
+
+
+\vspace*{3mm} \justifying \noindent
+\scriptsize{\textit{Notes.} This table reports averages of firm characteristics for firm-year level observations for $d = 0$ and $d > 0$ firms, and the $p$-value of the difference between these two groups. Panel A includes data from 1926 to 1932, Panel B from 1933 to 1934, and Panel C from 1935 to 1940.}
+\end{table}
+
+\begin{table}[p]\centering
+\caption{\\ Average characteristics for $d = 0$ and $d > 0$ firms}\scriptsize
+\label{tabapp:bonds}
+  \input{tables/tab_d_groups}
+
+
+\vspace*{3mm} \justifying \noindent
+\scriptsize{\textit{Notes.} This table reports averages of firm characteristics for firm-year level observations for $d = 0$ and $d > 0$ firms, and the $p$-value of the difference between these two groups. Panel A includes data from 1926 to 1932, Panel B from 1933 to 1934, and Panel C from 1935 to 1940.}
+\end{table}
+
+\begin{table}[p]\centering
+\caption{\\ Average characteristics for $d = 0$ and $d > 0$ firms}\scriptsize
+\label{tab:pretrend}  \input{tables/tab_changes_1926_1930}
+
+
+\vspace*{3mm} \justifying \noindent
+\scriptsize{\textit{Notes.} This table reports average changes of firm characteristics from 1926 to 1930 for $d = 0$ and $d > 0$ firms, and the $p$-value of the difference between these two groups. The last two columns report the point estimate and the $p$-value of the coefficient in univariate cross-sectional regressions of the 1926--1930 change in a characteristic on $d$  measured gold bonds in 1930.}
+\end{table}
+
+\begin{table}[p]\centering
+\caption{\\ Leverage and investment} \scriptsize   
+\label{tab:inv_main}  \renewcommand{\arraystretch}{1.2}
+\input{tables/tab_reghdfe_main}
+
+
+\vspace*{3mm} \justifying \noindent
+\scriptsize{\textit{Notes.} This table reports results from panel regressions of firm-year net investment rate observations on Q, $d$, and an interaction of year indicators with $d$ where 1932 is the omitted category. Column 2 includes results from our baseline definition of $d$. Column 3 defines $d$ as share of gold bonds in the sum of corporate bonds and preferred share, and restricts the sample to firms who have a positive amount of either corporate bonds or preferred stock or both in 1930. Column 4 defined $d$ as share of bank debt in long-term liabilities. Column 5 defined $d$ as share of preferred stock in long-term liabilities. Column 6 repeats the specification in Column 2 omitting firms with expiring bonds from 1931 to 1934. All regressions include firm and year fixed effects. Standard errors in parentheses are two-way clustered by firm and year. $^{*}p<0.10$, $^{**}p<0.05$, $^{***}p<0.01$.}
+\end{table}
+
+\begin{table}[p]\centering
+\caption{\\ Gold clause exposure and other outcomes} \scriptsize   
+\label{tab:div_main} \renewcommand{\arraystretch}{1.2}
+\input{tables/tab_reghdfe_others}
+
+
+\vspace*{3mm} \justifying \noindent
+\scriptsize{\textit{Notes.} This table reports results from panel regressions of firm-year  observations on Q, $d$ and an interaction of year indicators with $d$ where 1932 is the omitted category. Payout is the total annual equity payout. Dividend is the cash dividend. Net rep. is the annual net share repurchase. Payout, Dividend, and Net rep. are normalized by the book value of common stock in 1930 or the first available data year after 1930. Profits is the annual net income from the income statement. Cash includes cash, cash equivalents, and marketable securities. Profits and Cash are normalized by fixed capital in 1930 or the first available data year after 1930. Leverage is the book leverage from the baance sheet. All regressions include firm and year fixed effects. Standard errors in parentheses are two-way clustered by firm and year. $^{*}p<0.10$, $^{**}p<0.05$, $^{***}p<0.01$.}
+\end{table}
+
+\begin{table}[p]\centering
+\caption{\\ Gold clause exposure, investment, and payout by credit rating} \scriptsize   
+\label{tab:rating} \renewcommand{\arraystretch}{1.2}
+\input{tables/tab_reghdfe_Q_d_low}
+
+
+\vspace*{3mm} \justifying \noindent
+\scriptsize{\textit{Notes.} This table reports results from panel regressions of net investment, equity payout rate, and cash dividends on an interaction of indicators for 1926--1932 (Before), 1933, 1934, and 1935--1940 (After) with $d$ where Before is the omitted category. The net investment regression controls for $Q$. Low rating is a firm-level dummy variable that is 1 if a firm's bond ratings are Ba or below in 1930. All regressions include firm and year fixed effects. Standard errors in parentheses are two-way clustered by firm and year. $^{*}p<0.10$, $^{**}p<0.05$, $^{***}p<0.01$.}
+\end{table}
+
+\clearpage
+\begin{table}[t!]\centering
+\caption{\\ Gold clause exposure and net investment with controls} \scriptsize   
+\label{tab:controls} \renewcommand{\arraystretch}{1.2}
+\resizebox{1\textwidth}{!}{%
+
+\input{tables/tab_reghdfe_controls}
+}
+
+\vspace*{3mm} \justifying \noindent
+\scriptsize{\textit{Notes.} This table reports results from panel regressions of firm-year level net investment on an interaction of indicators for 1926--1932 (Before), 1933, 1934, and 1935--1940 (After) with $d$ where Before is the omitted category. Column 1 is the baseline regression with industry-year fixed effects. Column 2--10 include controls for $Q$, log assets, $Q$, net income/assets, cash/assets, payout/common stock,   book leverage, market leverage, and log long-term liabilities. Column 2 includes all controls measured in 1930 or the first available year after 1930 interacted with year indicators. Columns 3--10 include decile dummies ((3) $Q$, (4) log assets, (5) net income/assets, (6) cash/assets, (7) payout/common stock, (8)  book leverage, (9) market leverage, and (10) log long-term liabilities) for an individual characteristic measured in 1930 interacted with year indicators. All regressions include firm and SIC2 industry-year fixed effects. Standard errors in parentheses are two-way clustered by firm and year. $^{*}p<0.10$, $^{**}p<0.05$, $^{***}p<0.01$.}
+\end{table}
+
+\begin{table}[p]\centering
+\caption{\\ ... } \scriptsize   
+\label{tab:...}  \renewcommand{\arraystretch}{1.2}
+
+\resizebox{0.3\textheight}{!}{%
+\input{tables/tab_ratings_year}
+}
+
+\vspace*{3mm} \justifying \noindent
+\scriptsize{\textit{Notes.}  ... All regressions include firm and year fixed effects. Standard errors in parentheses are two-way clustered by firm and year. $^{*}p<0.10$, $^{**}p<0.05$, $^{***}p<0.01$.}
+\end{table}
+
+\begin{table}[p]\centering
+\caption{\\Aggregated investment effects}\footnotesize
+\label{tab:agg}
+\begin{tabular}{lrrr}
+\toprule
+& 1933 & 1934 & After \\
+\midrule
+\multicolumn{4}{c}{\textit{Panel A: All firms}}\\
+\midrule
+Total net investment in \%                 & -5.47 & -2.47 & -0.21 \\
+Gold clause effect in \%                 & -1.79 & -1.23 & -0.15 \\
+Gold clause effect in \% (with rating)   & -1.40 & -1.74 & -0.49 \\
+Gold clause effect in \% (with size)     & -1.54 & -0.45 & -0.54 \\
+\midrule
+\multicolumn{4}{c}{\textit{Panel B: $d>0$ firms}}\\
+\midrule
+Total net investment in \%                  & -6.59 & -3.01 & -0.75 \\
+Gold clause effect in \%                 & -3.27 & -2.18 & -0.28 \\
+Gold clause effect in \% (with rating)   & -2.56 & -3.08 & -0.90 \\
+Gold clause effect in \% (with size)     & -2.82 & -0.80 & -0.99 \\
+\midrule
+\multicolumn{4}{c}{\textit{Panel C: $d=0$ firms}}\\
+\midrule
+Total net investment in \%                  & -4.10 & -1.77 & 0.56 \\
+\bottomrule
+
+\end{tabular}\\
+
+\vspace*{3mm} \justifying \noindent
+\footnotesize{\textit{Notes.} This table reports aggregated effects of gold clause exposure on the total net investment of firms in our sample. Total net investment denotes the total change in fixed capital from the previous to the current year divided by the total fixed capital in the previous year for firms present in the sample in both years. See Section \ref{sec:agg} for details on the calculation of gold clause effects.}
+\end{table}

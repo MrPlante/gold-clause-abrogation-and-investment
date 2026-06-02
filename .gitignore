@@ -1,5 +1,5 @@
 # Data files (not versioned)
-Data/
+data/
 
 # LaTeX build artifacts
 texput.log
