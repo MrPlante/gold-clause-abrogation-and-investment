@@ -3,3 +3,6 @@ data/
 
 # LaTeX build artifacts
 texput.log
+
+# Python
+__pycache__/
