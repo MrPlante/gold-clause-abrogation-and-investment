@@ -8,12 +8,14 @@ definitions from manuscript/tables/body/3_investment_reg.tex.
 from __future__ import annotations
 
 from dataclasses import dataclass
+from pathlib import Path
 
 import pandas as pd
 
-from config import A1_FIRM_PATH, A4_PATH, MANUSCRIPT_BODY_TABLES
+from config import A1_FIRM_PATH, A4_PATH, COEF_TOLERANCE, MANUSCRIPT_BODY_TABLES, REFACTOR_OUTPUT_TABLES_BODY
 from lib.io import read_dta
 from lib.regressions import fit_classic, fit_overhang
+from lib.render_investment_reg_tex import render_table3_latex
 from lib.sample import bond_repurchase_firms_1933_1934
 
 
@@ -121,12 +123,17 @@ def validate_against_manuscript(models: dict[str, object]) -> list[tuple[str, fl
     return checks
 
 
+def write_latex_table(models: dict[str, object], path: Path | None = None) -> Path:
+    out = path or (REFACTOR_OUTPUT_TABLES_BODY / "3_investment_reg.tex")
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(render_table3_latex(models), encoding="utf-8")
+    return out
+
+
 def main() -> dict[str, object]:
     df = load_panel()
     models = run_models(df)
     checks = validate_against_manuscript(models)
-
-    from config import COEF_TOLERANCE
 
     failures = [
         f"{name}: expected {exp:.4f}, got {act:.4f}"
@@ -136,9 +143,12 @@ def main() -> dict[str, object]:
     if failures:
         raise AssertionError("Table 3 validation failed:\n" + "\n".join(failures))
 
-    print("Table 3 — all manuscript checks passed (tol={})".format(COEF_TOLERANCE))
+    print(f"Table 3 — all manuscript checks passed (tol={COEF_TOLERANCE})")
     for name, exp, act in checks:
         print(f"  {name}: {act:.4f} (expected {exp:.4f})")
+
+    out_path = write_latex_table(models)
+    print(f"  Wrote LaTeX table -> {out_path}")
 
     return models
 

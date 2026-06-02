@@ -6,3 +6,4 @@ texput.log
 
 # Python
 __pycache__/
+code/refactor/.venv/
