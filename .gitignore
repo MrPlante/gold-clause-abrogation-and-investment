@@ -1,5 +1,5 @@
-# Data files (not versioned)
-data/
+# Data files (not versioned) — repo-root only
+/data/
 
 # LaTeX build artifacts
 texput.log
