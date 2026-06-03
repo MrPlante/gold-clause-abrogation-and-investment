@@ -5,11 +5,9 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 import pandas as pd
-import pyfixest as pf
-
-from config import CLUSTER, OMITTED_YEAR, SAMPLE_YEARS
+from config import OMITTED_YEAR, SAMPLE_YEARS
 from lib.io import read_dta
-from lib.regressions import year_interaction_cols
+from lib.regressions import feols_clustered, year_interaction_cols
 
 
 @dataclass(frozen=True)
@@ -29,7 +27,7 @@ def _baseline_year_betas(df: pd.DataFrame) -> dict[int, float]:
     """Year-specific d coefficients from Table 3 baseline overhang spec."""
     dy = year_interaction_cols("d")
     fml = f"var_inv_rate ~ var_Q + d + {' + '.join(dy)} | permno + year"
-    model = pf.feols(fml, data=df, vcov=CLUSTER)
+    model = feols_clustered(fml, df)
 
     betas: dict[int, float] = {OMITTED_YEAR: 0.0}
     lo, hi = SAMPLE_YEARS

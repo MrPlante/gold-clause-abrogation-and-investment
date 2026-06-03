@@ -1,8 +1,8 @@
 """
 Table 4 — Gold clause exposure and other outcomes (tab:other_outcomes).
 
-Replicates Stata A10_otheroutcomes.do. Payout and leverage use A4-merge winsorized
-``var_*`` outcomes; dividend and net rep. are winsorized at estimation time.
+Replicates Stata A10_otheroutcomes.do. Payout and leverage use A4-merge winsorized ``var_*`` outcomes; dividend,
+net rep., profits, and cash are winsorized at estimation time (Stata winsor2).
 """
 
 from __future__ import annotations
@@ -15,8 +15,8 @@ from lib.io import read_dta
 from lib.other_outcomes import MODEL_ORDER, run_models
 from lib.render_other_outcomes_tex import render_table4_latex
 
-# Columns with full manuscript match at tol=0.001 (0-indexed).
-VALIDATED_COLUMNS = {0, 5}
+# All six columns validated at tol=0.001 (0-indexed).
+VALIDATED_COLUMNS = {0, 1, 2, 3, 4, 5}
 
 
 def load_panel():
@@ -47,12 +47,22 @@ def _parse_manuscript_table(tex_path: Path) -> dict[str, list[float | None]]:
         parts = [p.strip() for p in line.split("&")]
         if len(parts) != 7:
             continue
-        label = _normalize_label(parts[0])
-        if label is None:
+        if "Observations" in parts[0]:
+            key = "_N"
+        else:
+            label = _normalize_label(parts[0])
+            if label is None:
+                continue
+            key = label
+        if key is None:
             continue
         vals: list[float | None] = []
         for cell in parts[1:]:
             cell = re.sub(r"\\sym\{[*]+\}", "", cell).rstrip("\\").strip()
+            cell = cell.replace(",", "").replace("$", "").replace(r"\phantom{000}", "")
+            m = re.search(r"\{([0-9.]+)\}\s*$", cell)
+            if m:
+                cell = m.group(1)
             if not cell:
                 vals.append(None)
                 continue
@@ -61,7 +71,7 @@ def _parse_manuscript_table(tex_path: Path) -> dict[str, list[float | None]]:
             except ValueError:
                 vals.append(None)
         if any(v is not None for v in vals):
-            rows[label] = vals
+            rows[key] = vals
     return rows
 
 
@@ -87,6 +97,11 @@ def validate_against_manuscript(models: dict[str, object]) -> list[tuple[str, fl
                 continue
             actual = _model_coef(models, col_key, "var_Q" if term == "Q" else term)
             checks.append((f"{col_key}.{term}", expected, actual))
+
+        if "_N" in parsed:
+            expected = parsed["_N"][col_idx]
+            if expected is not None:
+                checks.append((f"{col_key}._N", expected, float(int(models[col_key]._N))))
 
     return checks
 

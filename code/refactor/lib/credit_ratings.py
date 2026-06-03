@@ -3,15 +3,18 @@
 from __future__ import annotations
 
 import pandas as pd
-import pyfixest as pf
-
-from config import CLUSTER, OMITTED_YEAR, SAMPLE_YEARS
+from config import OMITTED_YEAR, SAMPLE_YEARS
+from lib.regressions import feols_clustered
 from lib.winsor import winsorize_by
 
-MODEL_ORDER = ["var_inv_rate", "cashrat"]
+MODEL_ORDER = ["var_inv_rate", "payout", "cashrat"]
+
+# Body Table 5 shows net investment (m1) and dividend/cashrat (m3) from A21.
+TABLE5_MODEL_ORDER = ["var_inv_rate", "cashrat"]
 
 DEP_BY_MODEL = {
     "var_inv_rate": "var_inv_rate",
+    "payout": "payout",
     "cashrat": "cashrat",
 }
 
@@ -52,6 +55,6 @@ def ratings_formula(dep: str) -> str:
 def run_models(df: pd.DataFrame) -> dict[str, object]:
     panel = prepare_panel(df)
     return {
-        key: pf.feols(ratings_formula(DEP_BY_MODEL[key]), data=panel, vcov=CLUSTER)
+        key: feols_clustered(ratings_formula(DEP_BY_MODEL[key]), panel)
         for key in MODEL_ORDER
     }

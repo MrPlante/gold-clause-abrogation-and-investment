@@ -14,6 +14,8 @@ A2_PATH = DATA_DIR / "A2_marcap.dta"
 A3_MONTHLY_PATH = DATA_DIR / "A3_dividend_monthly.dta"
 A3_ANNUAL_PATH = DATA_DIR / "A3_dividend_annual.dta"
 A4_PATH = DATA_DIR / "A4_merged.dta"
+MONTHLY_DIV_PATH = DATA_DIR / "monthly_div.dta"
+CHARS_ANNUAL_PATH = DATA_DIR / "chars_annual.dta"
 CRSP_MONTHLY_PATH = DATA_DIR / "crsp_monthly.dta"
 NETINCOME_PATH = DATA_DIR / "netincome.dta"
 
@@ -23,6 +25,8 @@ GOLD_CLAUSES_XLSX = RAW_DIR / "gold_clauses.xlsx"
 
 MANUSCRIPT_BODY_TABLES = REPO_ROOT / "manuscript" / "tables" / "body"
 MANUSCRIPT_APPENDIX_TABLES = REPO_ROOT / "manuscript" / "tables" / "online-appendix"
+MANUSCRIPT_BODY_FIGURES = REPO_ROOT / "manuscript" / "figures" / "body"
+MANUSCRIPT_APPENDIX_FIGURES = REPO_ROOT / "manuscript" / "figures" / "online-appendix"
 
 REFACTOR_OUTPUT = Path(__file__).resolve().parent / "output"
 REFACTOR_OUTPUT_TABLES = REFACTOR_OUTPUT / "tables"
@@ -38,5 +42,8 @@ WINSOR_CUTS = (0.005, 0.995)  # Stata cuts(0.5 99.5)
 UNRELIABLE_PERMNO = {11631, 15093, 15528, 24475, 13063, 14250}
 
 CLUSTER = {"CRV1": "permno + year"}
+
+# Two-way cluster SEs: set USE_STATA_VCOV=1 to match reghdfe exactly (requires stata-mp).
+# Default "auto" uses Stata when /usr/local/stata/stata-mp exists; else CGM fix on pyfixest vcov.
 
 COEF_TOLERANCE = 0.001

@@ -27,6 +27,19 @@ DEP_BY_MODEL = {
 }
 
 
+def _netppe_denominator(df: pd.DataFrame) -> pd.Series:
+    """
+    Fixed-capital denominator for ``nippe`` / ``cashppe`` (A10_otheroutcomes.do).
+
+    Uses ``netppe_bs`` through ``min_year``. Firms with no post-1930 years have
+    missing ``min_year`` in A4; Stata still includes them in the regression, so
+    fall back to each firm's earliest sample year (matches manuscript N).
+    """
+    min_year = df["min_year"].fillna(df.groupby("permno")["year"].transform("min"))
+    denom2 = df["netppe_bs"].where(df["year"] <= min_year)
+    return denom2.groupby(df["permno"]).transform("mean")
+
+
 def prepare_panel(df: pd.DataFrame) -> pd.DataFrame:
     """
     Build Table 4 variables following A10_otheroutcomes.do.
@@ -38,8 +51,7 @@ def prepare_panel(df: pd.DataFrame) -> pd.DataFrame:
     out = df.copy()
     out = winsorize_by(out, ["cashrat", "netrep"])
 
-    out["denom2"] = out["netppe_bs"].where(out["year"] <= out["min_year"])
-    out["denom"] = out.groupby("permno")["denom2"].transform("mean")
+    out["denom"] = _netppe_denominator(out)
     out["cashppe"] = out["cash_bs"] / out["denom"]
     out["nippe"] = out["ni_is"] / out["denom"]
     out = winsorize_by(out, ["cashppe", "nippe"])

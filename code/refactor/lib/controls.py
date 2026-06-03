@@ -2,9 +2,7 @@
 
 from __future__ import annotations
 
-import pyfixest as pf
-
-from config import CLUSTER
+from lib.regressions import feols_clustered
 
 MODEL_ORDER = [
     "industry_year_fe",
@@ -81,23 +79,20 @@ def _formula(dep: str, rhs: list[str], fe: str) -> str:
 def run_models(df) -> dict[str, object]:
     models: dict[str, object] = {}
 
-    models["industry_year_fe"] = pf.feols(
+    models["industry_year_fe"] = feols_clustered(
         _formula("var_inv_rate", CORE_TERMS, "permno + sic2_year"),
-        data=df,
-        vcov=CLUSTER,
+        df,
     )
 
-    models["all_controls_linear"] = pf.feols(
+    models["all_controls_linear"] = feols_clustered(
         _formula("var_inv_rate", LINEAR_CONTROLS + CORE_TERMS, "permno + year"),
-        data=df,
-        vcov=CLUSTER,
+        df,
     )
 
     for key, prefix in PORTFOLIO_PREFIX_BY_MODEL.items():
-        models[key] = pf.feols(
+        models[key] = feols_clustered(
             _formula("var_inv_rate", portfolio_cols(prefix) + CORE_TERMS, "permno + year"),
-            data=df,
-            vcov=CLUSTER,
+            df,
         )
 
     return models

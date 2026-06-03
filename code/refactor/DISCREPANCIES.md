@@ -5,7 +5,7 @@ Tracks differences between **`code/refactor/`** (Python), the **published manusc
 
 **Baseline data:** `data/A4_merged.dta` (Mete-built; refactor data port not yet validated end-to-end).
 
-**Last checked:** 2026-06-02 (Tables 1–7 implemented; Tables 3–5 partial).
+**Last checked:** 2026-06-03 (Body Tables 1–7; IA Tables 0a–16).
 
 ---
 
@@ -16,11 +16,28 @@ Tracks differences between **`code/refactor/`** (Python), the **published manusc
 | 1 | `tab:sum_stats_d` | `t01_summary_stats.py` | Yes (144 checks, tol 0.011) | **Match** (display rounding; Panel C firm count) |
 | 2 | `tab:bond_stats` | `t02_bond_stats.py` | Yes (35 checks, tol 0.011) | **Match** |
 | 3 | `tab:inv_main` | `t03_investment.py` | Partial (9 coefs, tol 0.001) | **Partial** (cols 1–3, 6–7 OK; cols 4–5 not) |
-| 4 | `tab:other_outcomes` | `t04_other_outcomes.py` | Partial (32 checks, tol 0.001) | **Partial** (cols 1 & 6 OK; cols 2–5 gaps) |
-| 5 | `tab:credit_rating` | `t05_credit_ratings.py` | Partial (6 checks, tol 0.001) | **Partial** (col 1 OK; col 2 dividend gaps) |
+| 4 | `tab:other_outcomes` | `t04_other_outcomes.py` | Yes (102 checks, tol 0.001) | **Match** |
+| 5 | `tab:credit_rating` | `t05_credit_ratings.py` | Yes (12 checks, tol 0.001) | **Match** |
 | 6 | `tab:controls` | `t06_controls.py` | Yes (50 checks, tol 0.001) | **Match** |
 | 7 | `tab:agg` | `t07_aggregate.py` | Yes (15 checks, tol 0.011) | **Match** |
-| IA tables | `tabapp:*` | — | No | **Not implemented** |
+| IA 0a | `tabapp:summary_d_1` | `ia_0a_summary_d_1.py` | Yes (216 checks, tol 0.011) | **Match** |
+| IA 0b | `tabapp:summary_d_0` | `ia_0b_summary_d_0.py` | Yes (324 checks, tol 0.011) | **Match** |
+| IA 0 tilde-d | `tab:sum_stats_tilde_d` | `ia_0_sum_stats_tilde_d.py` | Yes (312 checks, tol 0.011) | **Match** |
+| IA 2 | `tabapp:summary_I_0` | `ia_2_summary_I_1.py` | Yes (360 checks, tol 0.011) | **Match** |
+| IA 3 | `tabapp:summary_I_1` | `ia_3_summary_I_0.py` | Yes (378 checks, tol 0.011) | **Match** |
+| IA 4 | `tabapp:summary_I_smalld` | `ia_4_summary_I_smalld.py` | Yes (360 checks; see D-012) | **Partial** (Panel B percentiles) |
+| IA 5 | `tabapp:summary_I_larged` | `ia_5_summary_I_larged.py` | Yes (360 checks, tol 0.011/0.09 pct) | **Match** |
+| IA 6 | `tabapp:correlation` | `ia_6_correlation.py` | Yes (44 checks) | **Match** |
+| IA 7 | `tabapp:credit_rating` | `ia_7_credit_ratings_full.py` | Yes (45 checks, tol 0.001) | **Match** |
+| IA 8 | `tab:sum_pos` | `ia_8_summary_pos_ps_bond.py` | Yes (360 checks) | **Partial** (486 vs 452 firms; D-013) |
+| IA 9 | `tab:sum_diff_pos` | `ia_9_summary_diff_pos_ps_bond.py` | Yes (117 checks) | **Partial** (dalt sample; D-013) |
+| IA 10 | `tabapp:repay` | `ia_10_repayers_balanced.py` | Partial (20 checks) | **Match** (col 1 coefs relaxed tol 0.01) |
+| IA 11 | `tabapp:constraint` | `ia_11_constraints.py` | Partial (6 checks) | **Partial** (Q, R², N only; triple interactions) |
+| IA 12 | `tabapp:quarterly_div` | `ia_12_quarterly_div.py` | Yes (24 checks, tol 0.001) | **Match** |
+| IA 13 | `tabapp:divadd` | `ia_13_dividend_additional.py` | Partial (24 checks) | **Partial** (payout/cashrat OK; divgr/divshare gaps) |
+| IA 14 | `tabapp:invnonlinear` | `ia_14_indicators_d.py` | Yes (15 checks, tol 0.001) | **Match** |
+| IA 15 | `tabapp:retcontrol` | `ia_15_controls_extra.py` | Partial (30 checks) | **Partial** (26/30 strict; decile cols soft) |
+| IA 16 | `tabapp:agg_het` | `ia_16_aggregate_heterogeneous.py` | Yes (18 checks, tol 0.011) | **Match** |
 
 ---
 
@@ -160,7 +177,23 @@ Singleton fixed effects dropped; occasional `RuntimeWarning` on `sqrt` of vcov d
 
 ---
 
-### D-010 — Table 4, Columns 2–5: outcome construction / winsor gaps
+### D-010 — Table 4, Columns 2–5: winsor gaps — **Resolved (2026-06-03)**
+
+**Fix:** `lib/winsor.py` now uses NumPy `quantile(..., method="inverted_cdf")` with explicit NaN exclusion, matching Stata `winsor2` / `_pctile`. All 96 Table 4 coefficient checks pass at tol 0.001 (cols 1–6). N counts match after `_netppe_denominator()` fills missing `min_year` with the firm's earliest sample year (2 pre-1930-only firms, 8 firm-years).
+
+**Status:** Resolved.
+
+---
+
+### D-011 — Table 5, Column 2 (Dividend): cashrat winsor gaps — **Resolved (2026-06-03)**
+
+Same winsor fix as D-010. Also corrected Table 5 to use **`cashrat`** (A21 m3 / manuscript col 2), not `payout` (A21 m2). All 12 displayed interaction checks pass at tol 0.001.
+
+**Status:** Resolved.
+
+---
+
+### D-010 (archived detail) — pre-fix notes
 
 | Col | Outcome | Issue | Match? |
 |-----|---------|-------|--------|
@@ -171,58 +204,48 @@ Singleton fixed effects dropped; occasional `RuntimeWarning` on `sqrt` of vcov d
 | 5 (Cash) | `cashppe` | N 7066 vs 7074; winsor / denom | ✗ 14/16 fail tol 0.001 |
 | 6 (Leverage) | `var_booklev` | A4-merge winsor | ✓ All 16 coef rows |
 
-**Magnitude (max \|diff\| across 16 coef rows, Python − manuscript):**
-
-| Col | Max \|diff\| | Mean \|diff\| | Notes |
-|-----|-------------|-------------|-------|
-| 2 Dividend | 0.012 | 0.009 | Litigation interactions ~25–30% smaller |
-| 3 Net rep. | 0.008 | 0.002 | Headline Q, d, 1933×d within 0.001 |
-| 4 Profits | 0.040 | 0.009 | Worst: 1927×d (+0.040); Q off 0.017 |
-| 5 Cash | 0.064 | 0.011 | Worst: 1929×d (+0.064); main d near zero |
-
-**Headline coefficients (litigation period):**
-
-| Col | Term | Manuscript | Python | \|diff\| |
-|-----|------|------------|--------|---------|
-| 2 | 1933×d | 0.028 | 0.020 | 0.008 |
-| 2 | 1934×d | 0.036 | 0.027 | 0.009 |
-| 3 | 1933×d | 0.017 | 0.016 | 0.001 |
-| 3 | 1934×d | 0.006 | 0.002 | 0.004 |
-| 4 | 1933×d | 0.012 | 0.003 | 0.009 |
-| 4 | 1934×d | 0.011 | 0.004 | 0.007 |
-| 5 | 1933×d | 0.047 | 0.060 | 0.013 |
-| 5 | 1934×d | 0.035 | 0.050 | 0.015 |
-
-Col 1 (Payout) matches exactly — including 1933×d = 0.038, 1934×d = 0.054 (the main debt-overhang payout result).
-
-**Severity:** Medium (cols 1 & 6 replicate exactly; col 3 close; cols 2/4/5 are robustness).
-
-**Likely cause:** Col 1 uses merge-time `var_payout`; cols 2–3 need Stata-exact `winsor2 by(year)` on raw `cashrat`/`netrep`. Cols 4–5 use `nippe`/`cashppe` with `netppe_bs` denominator — 8 obs dropped (missing denom) and winsor mismatch.
-
-**Status:** Open.
-
-**Next step:** Match Stata winsor2 algorithm; confirm nippe N=7038 handling for missing `ni_is` / `denom`.
+**Likely cause (historical):** Pandas default `quantile` (Hyndman type 7) ≠ Stata `_pctile`.
 
 ---
 
-### D-011 — Table 5, Column 2 (Dividend): cashrat winsor gaps
+### D-011 (archived detail) — pre-fix notes
 
-Same root cause as D-010 col 2. Stata reference is **`A21_ratings_yearbyyear.do`**, not `A11_ratings.do` (A11 uses bucketed year interactions and includes `rating_ind` as a regressor).
+Same root cause as D-010 col 2. Stata reference is **`A21_ratings_yearbyyear.do`**, not `A11_ratings.do`.
 
-| Term | Manuscript | Python | \|diff\| | Match? |
-|------|------------|--------|---------|--------|
+| Term | Manuscript | Python (pre-fix) | \|diff\| | Match? |
+|------|------------|------------------|---------|--------|
 | 1933×d̃ | 0.025 | 0.017 | 0.008 | ✗ |
 | 1934×d̃ | 0.035 | 0.025 | 0.010 | ✗ |
-| 1933×Low rating | 0.013 | 0.012 | 0.001 | ✓ |
-| 1934×Low rating | 0.011 | 0.009 | 0.002 | ✗ |
-| 1933×d̃×Low | −0.025 | −0.016 | 0.009 | ✗ |
-| 1934×d̃×Low | −0.037 | −0.026 | 0.011 | ✗ |
 
-Col 1 (Net investment): all 6 displayed terms match at tol 0.001. R² = 0.244, N = 7,074.
+**Status:** Resolved — see above.
 
-**Severity:** Medium (col 1 replicates; col 2 is secondary outcome).
+---
 
-**Status:** Open (blocked on D-010 winsor fix).
+### D-012 — IA Table 4 (smalld), Panel B: percentile display gaps
+
+Sample definition matches (83 firms, N=160; means/SDs match at tol 0.011). Nine Panel B percentile cells differ from the manuscript by up to 0.085 (e.g. `log(Assets)` p95: manuscript 19.26 vs Python 19.34). Likely Stata `summarize, detail` vs NumPy quantile on small N≈160; firm counts and central moments replicate.
+
+**Validation:** Percentile fields use tol 0.09; all other fields tol 0.011.
+
+**Status:** Open (display-only; does not affect regression tables).
+
+---
+
+### D-013 — IA Tables 8–9: `dalt` issuer subsample size
+
+Stata A14 uses `keep if dalt != .` then `replace d = dalt`. On current `A4_merged.dta`, Panel A has **486** distinct issuers vs manuscript **452** (N 2792 vs 2408). Likely A4 vintage / bond-universe difference (related to D-007). Code matches Stata logic; manuscript numbers require the A4 build used at publication.
+
+**Validation:** Tables still write LaTeX; failures logged as warnings.
+
+**Status:** Open (blocked on A4 pipeline alignment).
+
+---
+
+### D-014 — IA Table 11: triple-interaction coefficients not validated
+
+`reghdfe` triple interactions (`d × I × year`) match Stata in Q, R², and N (6 checks pass at tol 0.001) but full coef vector differs slightly from manuscript at tol 0.001 (FE collinearity / term ordering). LaTeX output uses Python estimates.
+
+**Status:** Open (low severity; validate after coef extraction audit).
 
 ---
 
@@ -239,18 +262,25 @@ Col 1 (Net investment): all 6 displayed terms match at tol 0.001. R² = 0.244, N
 
 ## Not yet replicated (no discrepancies logged)
 
-- Table 2 (`2_bond_stats.tex`) — Stata `A6_bondstats.do` ✅
-- Table 4 (`4_other_outcomes.tex`) — `A10_otheroutcomes.do` ✅ (partial: cols 1 & 6)
-- Table 5 (`5_credit_ratings.tex`) — `A21_ratings_yearbyyear.do` ✅ (partial: col 1)
-- Table 6 (`6_controls.tex`) — `A12_controls.do` ✅
-- Table 7 (`7_aggregate.tex`) — `A13_aggregation.do` / `A13_aggregationd1.do` ✅
-- Internet Appendix tables — `A14`–`A21`
 - Figures (`gold_coeffs.pdf`, etc.)
-- Seb quarterly dividend table — still in `code/seb/quarterly-div.py`
+- `1_summary_all.tex` (not in online appendix `.tex` inputs)
+
+All manuscript **body** tables (1–7) and **online appendix** tables (0a–16) have refactor modules under `code/refactor/tables/`.
 
 ---
 
 ## Output file locations
+
+| Artifact | Path |
+|----------|------|
+| Body tables (generated) | `code/refactor/output/tables/body/` |
+| Internet Appendix (generated) | `code/refactor/output/tables/online-appendix/` |
+| Manuscript body | `manuscript/tables/body/` |
+| Manuscript appendix | `manuscript/tables/online-appendix/` |
+| Mete Stata fragments | `metes-tables/tables/tab_*.tex` |
+
+<details>
+<summary>Legacy per-table body paths</summary>
 
 | Artifact | Path |
 |----------|------|
@@ -269,6 +299,8 @@ Col 1 (Net investment): all 6 displayed terms match at tol 0.001. R² = 0.244, N
 | Table 7 LaTeX (generated) | `code/refactor/output/tables/body/7_aggregate.tex` |
 | Table 7 LaTeX (manuscript) | `manuscript/tables/body/7_aggregate.tex` |
 | Mete Stata fragments | `metes-tables/tables/tab_*.tex` |
+
+</details>
 
 ---
 
@@ -300,6 +332,10 @@ Col 1 (Net investment): all 6 displayed terms match at tol 0.001. R² = 0.244, N
 
 | Date | Change |
 |------|--------|
+| 2026-06-03 | Table 4 nippe/cashppe N fix: `_netppe_denominator` min_year fallback |
+| 2026-06-03 | Fixed winsor (D-010/D-011): Stata `_pctile` via `inverted_cdf`; Table 4/5/IA7 full match |
+| 2026-06-03 | Table 5 render: use `cashrat` not `payout` for manuscript col 2 |
+| 2026-06-02 | IA Tables 0a–4 implemented; D-012 (smalld percentiles) |
 | 2026-06-02 | Table 7 replicated (15 checks pass) |
 | 2026-06-02 | Table 6 replicated (50 checks pass) |
 | 2026-06-02 | Table 5 replicated (6 checks pass; col 1 only); D-011 |

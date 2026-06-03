@@ -8,6 +8,7 @@ from lib.summary_stats import PANELS, PanelStats, VariableRow
 
 LATEX_ROW_LABELS: dict[str, str] = {
     "d": r"\ensuremath{d}",
+    r"\ensuremath{\tilde{d}}": r"\ensuremath{\tilde{d}}",
     "Corp. bonds/LTL": r"Corp.\ bonds/LTL",
     "Pref. share/LTL": r"Pref.\ share/LTL",
 }
@@ -149,6 +150,79 @@ def render_table1_latex(panels: dict[str, PanelStats]) -> str:
             r"    ",
             r"    \vspace*{3mm} \justifying \noindent",
             f"    {TABLE1_NOTES}",
+            r"\end{table}",
+            "",
+        ]
+    )
+    return "\n".join(lines)
+
+
+TILDE_D_NOTES = (
+    r"\scriptsize{\textit{Notes.} This table reports summary statistics separately "
+    r"for firms with no gold clause exposure ($\tilde{d} = 0$) and firms with positive "
+    r"gold clause exposure ($\tilde{d} > 0$). The number of unique firms in each group "
+    r"is reported in parentheses. $\Delta$ Mean is the difference in means "
+    r"($\tilde{d} > 0$ minus $\tilde{d} = 0$), and p-val is the $p$-value of the "
+    r"difference. Panel A covers 1926--1932, Panel B covers 1933--1934, and Panel C "
+    r"covers 1935--1940. In Panels A and B, $\tilde{d}$ can be slightly greater than "
+    r"Corp.\ bonds/LTL because $\tilde{d}$ is calculated using the reported amount "
+    r"outstanding of each bond, whereas Corp.\ bonds/LTL is based on balance sheet "
+    r"information. In Panel C, $\tilde{d}$ can differ significantly from Corp.\ "
+    r"bonds/LTL because $\tilde{d}$ is frozen at each firm's 1930 value while "
+    r"Corp.\ bonds/LTL is contemporaneous. See Appendix \ref{secapp:vars} for variable "
+    r"definitions.}"
+)
+
+
+def render_tilde_d_summary_latex(panels: dict[str, PanelStats]) -> str:
+    from lib.summary_stats import TILDE_D_PANELS
+
+    lines: list[str] = [
+        r"\begin{table}[p]\centering",
+        r"    \caption{\\ Summary statistics by gold clause exposure}",
+        r"    \scriptsize",
+        r"    \label{tab:sum_stats_tilde_d}",
+        r"    ",
+        r"    \begin{threeparttable}",
+        r"        \begin{tabular}{l rrr rrr rr}",
+        r"            \toprule",
+    ]
+
+    for panel_key in ("A", "B", "C"):
+        cfg = TILDE_D_PANELS[panel_key]
+        lo, hi = cfg["year_lo"], cfg["year_hi"]
+        panel = panels[panel_key]
+
+        if panel_key != "A":
+            lines.append(r"            \midrule")
+
+        lines.append(
+            rf"            \multicolumn{{9}}{{c}}{{\textit{{Panel {panel_key}: {lo}--{hi}}}}} \\"
+        )
+        lines.append(r"            \midrule")
+
+        g0, g1 = panel.rows[0].group0, panel.rows[0].group1
+        assert g0 is not None and g1 is not None
+        lines.extend(
+            [
+                rf"             & \multicolumn{{3}}{{c}}{{$\tilde{{d}} = 0$ ({g0.n_firms} firms)}} "
+                rf"& \multicolumn{{3}}{{c}}{{$\tilde{{d}} > 0$ ({g1.n_firms} firms)}} "
+                r"& \multicolumn{2}{c}{$\Delta$ Mean} \\",
+                r"            \cmidrule(lr){2-4} \cmidrule(lr){5-7} \cmidrule(lr){8-9}",
+                r"             & N & Mean & SD & N & Mean & SD & $\Delta$ & p-val \\",
+            ]
+        )
+        for row in panel.rows:
+            lines.append(f"            {_row_split(row)} \\\\")
+
+    lines.extend(
+        [
+            r"            \bottomrule",
+            r"        \end{tabular}",
+            r"    \end{threeparttable}\\",
+            r"    ",
+            r"    \vspace*{3mm} \justifying \noindent",
+            f"    {TILDE_D_NOTES}",
             r"\end{table}",
             "",
         ]

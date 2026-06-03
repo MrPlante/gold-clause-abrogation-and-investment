@@ -2,8 +2,7 @@
 Table 5 — Gold clause exposure, investment, and payout by credit rating.
 
 Replicates Stata A21_ratings_yearbyyear.do (not A11_ratings.do, which uses a
-different interaction parameterization). Column 1 (net investment) matches the
-manuscript at tol=0.001; column 2 (dividend) has cashrat winsor gaps (D-011).
+different interaction parameterization). Both columns validated against the manuscript at tol=0.001.
 """
 
 from __future__ import annotations
@@ -12,12 +11,12 @@ import re
 from pathlib import Path
 
 from config import A4_PATH, COEF_TOLERANCE, MANUSCRIPT_BODY_TABLES, REFACTOR_OUTPUT_TABLES_BODY
-from lib.credit_ratings import MODEL_ORDER, run_models
+from lib.credit_ratings import TABLE5_MODEL_ORDER, run_models
 from lib.io import read_dta
 from lib.render_credit_ratings_tex import DISPLAY_ROWS, render_table5_latex
 
-# Column 0 (net investment): all 6 displayed coef rows match manuscript.
-VALIDATED_COLUMNS = {0}
+# Both columns validated at tol=0.001 (0-indexed).
+VALIDATED_COLUMNS = {0, 1}
 
 
 def load_panel():
@@ -69,7 +68,7 @@ def validate_against_manuscript(models: dict[str, object]) -> list[tuple[str, fl
     parsed = _parse_manuscript_table(MANUSCRIPT_BODY_TABLES / "5_credit_ratings.tex")
     checks: list[tuple[str, float, float]] = []
 
-    for col_idx, col_key in enumerate(MODEL_ORDER):
+    for col_idx, col_key in enumerate(TABLE5_MODEL_ORDER):
         if col_idx not in VALIDATED_COLUMNS:
             continue
         for _label, term in DISPLAY_ROWS:
@@ -107,7 +106,7 @@ def main() -> dict[str, object]:
         )
 
     print(f"Table 5 — all {len(checks)} manuscript checks passed (tol={COEF_TOLERANCE})")
-    for key in MODEL_ORDER:
+    for key in TABLE5_MODEL_ORDER:
         m = models[key]
         print(f"  {key}: N={int(m._N)}, R2={m._r2:.3f}")
 

@@ -20,8 +20,37 @@ code/refactor/
 │   │   ├── body/       # generated body .tex
 │   │   └── online-appendix/
 │   └── figure/
-└── tests/              # auto-check vs manuscript .tex (tol=0.001)
+├── tests/              # auto-check vs manuscript .tex (tol=0.001)
+└── compare/            # Stata vs Python regression diff (see compare/README.md)
 ```
+
+## Stata vs Python comparison
+
+Run the same `reghdfe` specifications in Mete’s Stata `.do` files and in the Python refactor, then diff coefficients:
+
+```bash
+bash code/refactor/compare/run_compare.sh
+```
+
+Or:
+
+```bash
+code/refactor/.venv/bin/python code/refactor/run.py --stage compare
+```
+
+**Requirements:** Stata on the machine (`STATA_BIN`, default `/usr/local/stata/stata-mp`), `data/A4_merged.dta`, and user packages `require`, `ftools`, `reghdfe`, `winsor2` (installed automatically on first run).
+
+**Outputs:** `compare/output/stata_regressions.csv`, `python_regressions.csv`, `comparison_report.md`.
+
+On a full run (Tables 3–5 subset): **221/221** matched coefficient cells agree within `1e-3`; standard errors match when Python uses Stata `reghdfe` vcov (`USE_STATA_VCOV=auto`). See `compare/README.md`.
+
+## Figures
+
+```bash
+code/refactor/.venv/bin/python code/refactor/run.py --stage figures
+```
+
+Writes PDFs under `manuscript/figures/body/` (parallel-trend plot from Table 3 col. 2; macro series from FRED). See `figures/README.md` for Hickman bond-issuance CSV and the static appendix scan.
 
 ## Setup (virtual environment)
 
@@ -193,6 +222,39 @@ Capital-weighted gold-clause effects use baseline Table 3 year × `d` coefficien
 **Validated:** all 15 percentage checks pass at tol 0.011 (2-decimal display).
 
 Writes `code/refactor/output/tables/body/7_aggregate.tex`.
+
+## Internet Appendix (in progress)
+
+Appendix tables mirror `manuscript/tables/online-appendix/` and write to
+`code/refactor/output/tables/online-appendix/`.
+
+### Table 0a — Summary stats for $d>0$ firms (implemented)
+
+```bash
+code/refactor/.venv/bin/python code/refactor/run.py --stage ia0a
+code/refactor/.venv/bin/python code/refactor/tests/test_ia_0a_summary_d_1.py
+```
+
+Stata reference: `A14_summary_stats_IA.do` (first block). Uses **`d_orig > 0`**
+(contemporaneous exposure) to match the manuscript; Mete's export filters on
+`d > 0` and includes extra $\tilde{d}$ rows.
+
+**Validated:** 216 checks (Panels A & B), tol 0.011.
+
+Writes `code/refactor/output/tables/online-appendix/0a_summary_d_1.tex`.
+
+### Table 0b — Summary stats for $d=0$ firms (implemented)
+
+```bash
+code/refactor/.venv/bin/python code/refactor/run.py --stage ia0b
+code/refactor/.venv/bin/python code/refactor/tests/test_ia_0b_summary_d_0.py
+```
+
+Uses **`d_orig == 0`**, Panels A–C (Panel C omits $d$ rows).
+
+**Validated:** 324 checks, tol 0.011.
+
+Writes `code/refactor/output/tables/online-appendix/0b_summary_d_0.tex`.
 
 ## Table map (remaining — stubs)
 

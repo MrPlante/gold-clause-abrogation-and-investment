@@ -1,0 +1,49 @@
+\begin{table}[p]\centering
+\scriptsize
+\renewcommand{\arraystretch}{1.2}
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\caption{\\ Gold clause exposure at the extensive margin and investment} \label{tabapp:invnonlinear}
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{3}{D{.}{.}{-1}}}
+\toprule
+                    &\multicolumn{1}{c}{(1)} & \multicolumn{1}{c}{(2)} & \multicolumn{1}{c}{(3)} \
+\midrule
+Q & 0.096\sym{***} & 0.096\sym{***} & 0.096\sym{***} \\
+ & (0.017) & (0.017) & (0.017) \\
+\ensuremath{(\tilde{d} > 0)} & -0.039\sym{*} & -0.034 & -0.035\sym{*} \\
+ & (0.019) & (0.019) & (0.019) \\
+\ensuremath{(\tilde{d} > \tilde{d}_{0.5})} &  & -0.009 & -0.022 \\
+ &  & (0.014) & (0.016) \\
+\ensuremath{(\tilde{d} > \tilde{d}_{0.75})} &  &  & 0.021 \\
+ &  &  & (0.022) \\
+1933 \ensuremath{\times (\tilde{d} > 0)} & -0.045\sym{***} & -0.034\sym{*} & -0.035\sym{*} \\
+ & (0.012) & (0.016) & (0.017) \\
+1934 \ensuremath{\times (\tilde{d} > 0)} & -0.029\sym{***} & -0.025\sym{**} & -0.026\sym{**} \\
+ & (0.007) & (0.011) & (0.012) \\
+After \ensuremath{\times (\tilde{d} > 0)} & -0.007 & -0.006 & -0.006 \\
+ & (0.008) & (0.012) & (0.012) \\
+1933 \ensuremath{\times (\tilde{d} > \tilde{d}_{0.5})} &  & -0.022 & -0.007 \\
+ &  & (0.018) & (0.028) \\
+1934 \ensuremath{\times (\tilde{d} > \tilde{d}_{0.5})} &  & -0.007 & 0.018 \\
+ &  & (0.011) & (0.022) \\
+After \ensuremath{\times (\tilde{d} > \tilde{d}_{0.5})} &  & -0.002 & 0.003 \\
+ &  & (0.008) & (0.018) \\
+1933 \ensuremath{\times (\tilde{d} > \tilde{d}_{0.75})} &  &  & -0.030 \\
+ &  &  & (0.034) \\
+1934 \ensuremath{\times (\tilde{d} > \tilde{d}_{0.75})} &  &  & -0.055 \\
+ &  &  & (0.033) \\
+After \ensuremath{\times (\tilde{d} > \tilde{d}_{0.75})} &  &  & -0.004 \\
+ &  &  & (0.033) \\
+\midrule
+Firm FE & \multicolumn{1}{c}{Yes} & \multicolumn{1}{c}{Yes} & \multicolumn{1}{c}{Yes} \\
+Year FE & \multicolumn{1}{c}{Yes} & \multicolumn{1}{c}{Yes} & \multicolumn{1}{c}{Yes} \\
+\ensuremath{R^2} & 0.239 & 0.239 & 0.239 \\
+Observations & \multicolumn{1}{r}{7,074$\phantom{000}$} & \multicolumn{1}{r}{7,074$\phantom{000}$} & \multicolumn{1}{r}{7,074$\phantom{000}$} \\
+\bottomrule
+\end{tabular}
+}
+
+\vspace*{3mm} \justifying \noindent
+\scriptsize{\textit{Notes.} This table tests whether debt overhang effects operate at the extensive margin (any gold clause exposure versus none) and whether effects vary with exposure intensity. It reports results from panel regressions of net investment on $Q$, indicator variables for gold clause exposure, and period $\times$ indicator interactions, where the pre-abrogation period (1926--1932) is the omitted category. Column 1 uses a single indicator $(\tilde{d} > 0)$. Column 2 adds an indicator for above-median exposure $(\tilde{d} > \tilde{d}_{0.50})$. Column 3 further adds an indicator for the top quartile $(\tilde{d} > \tilde{d}_{0.75})$, where $\tilde{d}_{0.50}$ and $\tilde{d}_{0.75}$ are the 50th and 75th percentiles of $\tilde{d}$ among firms with positive exposure. All regressions include firm and year fixed effects. All variables are winsorized at the 0.5\% and 99.5\% levels within each year. Standard errors in parentheses are two-way clustered by firm and year. $^{*}p<0.10$, $^{**}p<0.05$, $^{***}p<0.01$.}
+\end{table}

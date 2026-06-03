@@ -1,0 +1,33 @@
+\begin{table}[p]\centering
+\caption{\\ Gold clause exposure and investment with return-based controls}
+\scriptsize \label{tabapp:retcontrol}
+\renewcommand{\arraystretch}{1.2}
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{6}{D{.}{.}{-1}}}
+\toprule
+                    &\multicolumn{1}{c}{(1)} & \multicolumn{1}{c}{(2)} & \multicolumn{1}{c}{(3)} & \multicolumn{1}{c}{(4)} & \multicolumn{1}{c}{(5)} & \multicolumn{1}{c}{(6)} \
+\midrule
+Q & 0.098\sym{***} & 0.095\sym{***} & 0.096\sym{***} & 0.096\sym{***} & 0.096\sym{***} & 0.095\sym{***} \\
+ & (0.019) & (0.017) & (0.017) & (0.016) & (0.017) & (0.017) \\
+\ensuremath{\tilde{d}} & -0.047\sym{*} & -0.046\sym{*} & -0.047\sym{**} & -0.046\sym{**} & -0.048\sym{**} & -0.047\sym{**} \\
+ & (0.022) & (0.022) & (0.020) & (0.021) & (0.022) & (0.021) \\
+\ensuremath{\text{1933} \times \tilde{d}} & -0.036\sym{***} & -0.058\sym{***} & -0.077\sym{***} & -0.066\sym{***} & -0.059\sym{***} & -0.050\sym{***} \\
+ & (0.012) & (0.012) & (0.015) & (0.012) & (0.014) & (0.010) \\
+\ensuremath{\text{1934} \times \tilde{d}} & -0.023\sym{*} & -0.043\sym{***} & -0.047\sym{***} & -0.043\sym{***} & -0.044\sym{***} & -0.038\sym{***} \\
+ & (0.012) & (0.008) & (0.009) & (0.006) & (0.005) & (0.008) \\
+\ensuremath{\text{After} \times \tilde{d}} & 0.007 & -0.008 & -0.012 & -0.006 & -0.007 & -0.003 \\
+ & (0.014) & (0.011) & (0.010) & (0.009) & (0.009) & (0.010) \\
+\midrule
+Firm FE & \multicolumn{1}{c}{Yes} & \multicolumn{1}{c}{Yes} & \multicolumn{1}{c}{Yes} & \multicolumn{1}{c}{Yes} & \multicolumn{1}{c}{Yes} & \multicolumn{1}{c}{Yes} \\
+Year FE & \multicolumn{1}{c}{Yes} & \multicolumn{1}{c}{Yes} & \multicolumn{1}{c}{Yes} & \multicolumn{1}{c}{Yes} & \multicolumn{1}{c}{Yes} & \multicolumn{1}{c}{Yes} \\
+Industry-year FE & \multicolumn{1}{c}{No} & \multicolumn{1}{c}{Yes} & \multicolumn{1}{c}{Yes} & \multicolumn{1}{c}{Yes} & \multicolumn{1}{c}{Yes} & \multicolumn{1}{c}{Yes} \\
+\ensuremath{R^2} & 0.246 & 0.240 & 0.242 & 0.240 & 0.241 & 0.241 \\
+Observations & \multicolumn{1}{r}{7,039$\phantom{000}$} & \multicolumn{1}{r}{7,074$\phantom{000}$} & \multicolumn{1}{r}{7,074$\phantom{000}$} & \multicolumn{1}{r}{7,074$\phantom{000}$} & \multicolumn{1}{r}{7,074$\phantom{000}$} & \multicolumn{1}{r}{7,074$\phantom{000}$} \\
+\bottomrule
+\end{tabular}
+}
+
+\vspace*{3mm} \justifying \noindent
+\scriptsize{\textit{Notes.} This table tests whether the effect of gold clause exposure on investment is robust to controlling for equity return characteristics. It reports results from panel regressions of net investment on $Q$, gold clause exposure $\tilde{d}$, and period $\times$ $\tilde{d}$ interactions, where the pre-abrogation period (1926--1932) is the omitted category. Column 1 includes all controls from Column 2 of Table \ref{tab:controls} as well as equity return average and volatility, and Fama-French betas from the three-factor model computed using daily data. Columns 2--6 use a non-parametric approach: each column includes decile dummies for a return-based characteristic measured in 1930 interacted with year indicators, along with SIC2 industry-year fixed effects. All regressions include firm fixed effects. All variables are winsorized at the 0.5\% and 99.5\% levels within each year. Standard errors in parentheses are two-way clustered by firm and year. $^{*}p<0.10$, $^{**}p<0.05$, $^{***}p<0.01$.}
+\end{table}
