@@ -1,9 +1,11 @@
 * Export parallel-trend coefficient figure (matches A9_inv_results.do gold_coeffs block).
+*   bash code/refactor/scripts/run_stata_do.sh code/refactor/stata/export_parallel_trend_figure.do
 version 16
 set more off
 args repo
 if "`repo'" == "" {
-    local repo "/project/splante/git/gold-clause-abrogation-and-investment"
+    display as error "Run via code/refactor/scripts/run_stata_do.sh"
+    exit 198
 }
 
 use "`repo'/data/A4_merged.dta", clear

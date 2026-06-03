@@ -1,11 +1,15 @@
 * Export regression coefficients for Python vs Stata comparison.
-* Run from repository root:
-*   /usr/local/stata/stata-mp -b do code/refactor/compare/export_regressions.do
+* Run (logs under logs/stata/):
+*   bash code/refactor/scripts/run_stata_do.sh code/refactor/compare/export_regressions.do
 version 16
 set more off
 set linesize 255
 
-local REPO "`c(pwd)'"
+args repo
+if "`repo'" == "" {
+    local repo "`c(pwd)'"
+}
+local REPO "`repo'"
 local DATA "`REPO'/data"
 local OUT  "`REPO'/code/refactor/compare/output"
 cap mkdir "`OUT'"

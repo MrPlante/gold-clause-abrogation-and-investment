@@ -59,10 +59,12 @@ bash code/refactor/compare/run_compare.sh --fail-on-mismatch
 
 ```bash
 cd /path/to/gold-clause-abrogation-and-investment
-/usr/local/stata/stata-mp -b do code/refactor/compare/export_regressions.do
+bash code/refactor/scripts/run_stata_do.sh code/refactor/compare/export_regressions.do
 code/refactor/.venv/bin/python code/refactor/compare/export_python.py
 code/refactor/.venv/bin/python code/refactor/compare/compare_results.py
 ```
+
+Stata batch logs are written to `logs/stata/` (see `logs/README.md`).
 
 ## Tolerances
 

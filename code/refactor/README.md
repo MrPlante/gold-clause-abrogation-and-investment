@@ -42,7 +42,7 @@ code/refactor/.venv/bin/python code/refactor/run.py --stage compare
 
 **Outputs:** `compare/output/stata_regressions.csv`, `python_regressions.csv`, `comparison_report.md`.
 
-On a full run (Tables 3–5 subset): **221/221** matched coefficient cells agree within `1e-3`; standard errors match when Python uses Stata `reghdfe` vcov (`USE_STATA_VCOV=auto`). See `compare/README.md`.
+On a full run (Tables 3–5 subset): **221/221** matched coefficient cells agree within `1e-3`; standard errors match when Python uses Stata `reghdfe` vcov (`USE_STATA_VCOV=auto`). See `compare/README.md`. Stata batch logs go to `logs/stata/` (`code/refactor/scripts/run_stata_do.sh`).
 
 ## Figures
 

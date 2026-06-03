@@ -10,21 +10,10 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/../../.." && pwd)"
 REFACTOR="${REPO_ROOT}/code/refactor"
 VENV_PY="${REFACTOR}/.venv/bin/python"
-STATA_BIN="${STATA_BIN:-/usr/local/stata/stata-mp}"
-
-cd "${REPO_ROOT}"
 
 echo "==> Stata export (reghdfe + winsor2)"
-if ! command -v "${STATA_BIN}" >/dev/null 2>&1; then
-  echo "ERROR: Stata not found at ${STATA_BIN}. Set STATA_BIN." >&2
-  exit 127
-fi
-
-"${STATA_BIN}" -b do code/refactor/compare/export_regressions.do
-LOG="${REPO_ROOT}/code/refactor/compare/export_regressions.log"
-if [[ ! -f "${LOG}" ]]; then
-  LOG="${REPO_ROOT}/export_regressions.log"
-fi
+bash "${REFACTOR}/scripts/run_stata_do.sh" "${SCRIPT_DIR}/export_regressions.do"
+LOG="${REPO_ROOT}/logs/stata/export_regressions.log"
 if [[ -f "${LOG}" ]]; then
   if grep -E "^\s*r\([0-9]+\);\s*$" "${LOG}" | grep -v "end of do-file" >/dev/null 2>&1; then
     echo "Stata log may contain errors; see ${LOG}" >&2
@@ -39,6 +28,7 @@ if [[ ! -f "${SCRIPT_DIR}/output/stata_regressions.csv" ]]; then
 fi
 
 echo "==> Python export"
+cd "${REPO_ROOT}"
 "${VENV_PY}" "${SCRIPT_DIR}/export_python.py"
 
 echo "==> Compare"

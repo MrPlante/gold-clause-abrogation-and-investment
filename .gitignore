@@ -4,15 +4,9 @@
 # LaTeX build artifacts
 texput.log
 
-# Stata smoke / debug (local only)
-_stata_smoke.log
-stata.log
-stata_deps.log
-stata_deps2.log
-stata_test.log
-export_regressions.log
-debug_noconstant.log
-debug_vcov.log
+# Stata batch logs (see logs/README.md)
+logs/*
+!logs/README.md
 code/mete/_stata_smoke.do
 
 # Python

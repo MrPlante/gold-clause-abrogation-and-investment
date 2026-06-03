@@ -40,8 +40,7 @@ Use par value of new industrial corporate bond offerings from Hickman (1953), Ta
 ### Stata alternative (parallel trend)
 
 ```bash
-/usr/local/stata/stata-mp -b do code/refactor/stata/export_parallel_trend_figure.do \
-  /project/splante/git/gold-clause-abrogation-and-investment
+bash code/refactor/scripts/run_stata_do.sh code/refactor/stata/export_parallel_trend_figure.do
 ```
 
 Writes `manuscript/figures/body/parallel_trend_plot_stata.pdf` for cross-check.
