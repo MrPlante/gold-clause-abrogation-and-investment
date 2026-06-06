@@ -78,6 +78,7 @@ def build_merged() -> pd.DataFrame:
     df = df.merge(netinc, on=["permno", "year"], how="left")
 
     df["sic"] = df.get("sic", pd.Series(0, index=df.index)).fillna(0)
+    df["sic2"] = (df["sic"] // 100).astype(int)
     df = drop_excluded_industries(df)
     df = drop_unreliable_permnos(df)
     df = df.dropna(subset=["inv_rate"])
@@ -96,6 +97,8 @@ def build_merged() -> pd.DataFrame:
 
     df["ll_bs_new"] = df["cb_bs"] + df["ps_bs"] + df["bd_bs"]
     df["Lll_bs_new"] = df["Lcb_bs"] + df["Lps_bs"] + df["Lbd_bs"]
+    # Stata: egen sic2_year = group(sic2 year) — used as industry×year FE in Table 6
+    df["sic2_year"] = df.groupby(["sic2", "year"]).ngroup()
 
     for col in ("fd_amount", "fd_amount_g0", "fd_amount_g1"):
         if col in df.columns:
@@ -198,6 +201,27 @@ def build_merged() -> pd.DataFrame:
         df[f"{v}_1933"] = df[f"fix_{v}"] * (df["year"] == 1933)
         df[f"{v}_1934"] = df[f"fix_{v}"] * (df["year"] == 1934)
         df[f"{v}_after"] = df[f"fix_{v}"] * (df["year"] > 1934)
+
+    # Stata A4_merge.do: decile portfolios for each fix_var_* (Table 6 controls).
+    # astile creates 1..10 decile ranks (same as xtile with 10 bins).
+    fix_cols = [f"fix_{v}" for v in var_cols]
+    for fc in fix_cols:
+        # Assign decile rank (1..10) based on cross-firm distribution.
+        # Use firm-level (first obs per permno) values to avoid within-panel ties.
+        firm_vals = df.groupby("permno")[fc].first()
+        port_col = f"{fc}_port"
+        firm_vals_notna = firm_vals.dropna()
+        if len(firm_vals_notna) >= 10:
+            labels = pd.qcut(firm_vals_notna, q=10, labels=False, duplicates="drop") + 1
+            df[port_col] = df["permno"].map(labels.to_dict())
+        else:
+            df[port_col] = np.nan
+        for decile in range(1, 11):
+            mask = df[port_col] == decile
+            df[f"{fc}_port_{decile}_before"] = (mask & (df["year"] < 1933)).astype(float)
+            df[f"{fc}_port_{decile}_1933"] = (mask & (df["year"] == 1933)).astype(float)
+            df[f"{fc}_port_{decile}_1934"] = (mask & (df["year"] == 1934)).astype(float)
+            df[f"{fc}_port_{decile}_after"] = (mask & (df["year"] > 1934)).astype(float)
 
     write_dta(df, A4_PATH)
     return df
