@@ -18,7 +18,7 @@ TABLE2_NOTES = (
 
 
 def _fmt_int(n: int) -> str:
-    return str(n)
+    return f"{n:,}"
 
 
 def _fmt_float(x: float) -> str:

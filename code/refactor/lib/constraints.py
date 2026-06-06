@@ -46,12 +46,12 @@ TERM_LABELS = {
 
 def _stata_quantile(values: pd.Series, q: float) -> float:
     import numpy as np
+    from lib.winsor import STATA_QUANTILE_METHOD
 
     x = values.dropna().to_numpy()
     if len(x) == 0:
         return float("nan")
-    method = "linear"
-    return float(np.quantile(x, q, method=method))
+    return float(np.quantile(x, q, method=STATA_QUANTILE_METHOD))
 
 
 def prepare_firm_indicators(df: pd.DataFrame) -> pd.DataFrame:

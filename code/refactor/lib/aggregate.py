@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 import pandas as pd
-from config import OMITTED_YEAR, SAMPLE_YEARS
+from config import A4_PATH, OMITTED_YEAR, SAMPLE_YEARS
 from lib.io import read_dta
 from lib.regressions import feols_clustered, year_interaction_cols
 

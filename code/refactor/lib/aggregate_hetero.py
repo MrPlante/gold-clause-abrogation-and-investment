@@ -8,7 +8,7 @@ import numpy as np
 import pandas as pd
 from config import OMITTED_YEAR, SAMPLE_YEARS
 from lib.regressions import feols_clustered
-from lib.aggregate import PeriodValues, _baseline_year_betas, _prepare_flows
+from lib.aggregate import PeriodValues, _baseline_year_betas, _period_values, _prepare_flows
 from lib.constraints import _stata_quantile
 from lib.regressions import year_interaction_cols
 
@@ -19,13 +19,6 @@ class HeteroGoldEffects:
     rating: PeriodValues
     size: PeriodValues
 
-
-def _period_values(year_df: pd.DataFrame, col: str) -> PeriodValues:
-    return PeriodValues(
-        y1933=float(year_df.loc[1933, col] * 100),
-        y1934=float(year_df.loc[1934, col] * 100),
-        after=float(year_df.loc[year_df.index >= 1935, col].mean() * 100),
-    )
 
 
 def _rating_year_betas(df: pd.DataFrame) -> tuple[dict[int, float], dict[int, float]]:

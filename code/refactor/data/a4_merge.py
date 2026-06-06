@@ -12,6 +12,7 @@ from config import (
     A3_ANNUAL_PATH,
     A4_PATH,
     NETINCOME_PATH,
+    OMITTED_YEAR,
     SAMPLE_YEARS,
 )
 from lib.io import read_dta, write_dta
@@ -19,12 +20,14 @@ from lib.sample import drop_excluded_industries, drop_unreliable_permnos
 from lib.winsor import winsorize_by
 
 
-def _add_year_interactions(df: pd.DataFrame, exposure: str) -> pd.DataFrame:
+def _add_year_interactions(
+    df: pd.DataFrame, exposure: str, *, include_omitted_year: bool = False
+) -> pd.DataFrame:
     lo, hi = SAMPLE_YEARS
     for yr in range(lo, hi + 1):
         if f"year_{yr}" not in df.columns:
             df[f"year_{yr}"] = (df["year"] == yr).astype(int)
-        if yr != 1932:
+        if yr != OMITTED_YEAR or include_omitted_year:
             df[f"{exposure}_year_{yr}"] = df[exposure] * df[f"year_{yr}"]
     return df
 
@@ -51,10 +54,12 @@ def _exposure_from_1930(
 
     df[f"{name}_1930"] = base
     df[name] = df.groupby("permno")[f"{name}_1930"].transform("mean")
-    all_ratio = lag_num / lag_denom
-    df.loc[df["year"] <= 1930, name] = all_ratio[df["year"] <= 1930]
+    all_ratio = np.where(lag_denom > 0, lag_num / lag_denom, np.nan)
+    df.loc[df["year"] <= 1930, name] = pd.Series(all_ratio, index=df.index)[df["year"] <= 1930]
     df[name] = df[name].fillna(0)
-    return _add_year_interactions(df, name)
+    # bd and ps keep the omitted-year interaction in A4 (Stata A4_merge.do does
+    # not drop bd_year_1932 or ps_year_1932, unlike d_year_1932).
+    return _add_year_interactions(df, name, include_omitted_year=True)
 
 
 def build_merged() -> pd.DataFrame:
@@ -80,14 +85,16 @@ def build_merged() -> pd.DataFrame:
     df = df.sort_values(["permno", "year"])
     df["Lta_bs"] = df.groupby("permno")["ta_bs"].shift(1)
     df["Lbeq_bs"] = df.groupby("permno")["beq_bs"].shift(1)
+    # Compute component lags before filtering so gaps created by Q.notna() don't
+    # cause positional shift to bridge over missing years (Stata uses pre-stored L. lags).
+    for c in ("cb", "ps", "bd"):
+        df[f"L{c}_bs"] = df.groupby("permno")[f"{c}_bs"].shift(1)
     df["Q"] = (df["marcap"] + df["Lta_bs"] - df["Lbeq_bs"]) / df["Lta_bs"]
 
     lo, hi = SAMPLE_YEARS
     df = df.loc[(df["year"] >= lo) & (df["year"] <= hi) & df["Q"].notna()].copy()
 
     df["ll_bs_new"] = df["cb_bs"] + df["ps_bs"] + df["bd_bs"]
-    for c in ("cb", "ps", "bd"):
-        df[f"L{c}_bs"] = df.groupby("permno")[f"{c}_bs"].shift(1)
     df["Lll_bs_new"] = df["Lcb_bs"] + df["Lps_bs"] + df["Lbd_bs"]
 
     for col in ("fd_amount", "fd_amount_g0", "fd_amount_g1"):
@@ -99,11 +106,12 @@ def build_merged() -> pd.DataFrame:
     df.loc[(df["year"] == 1930) & (df["ll_bs_new"] == 0), "d_1930"] = 0
     df.loc[(df["year"] == 1930) & (df["d_1930"] > 1), "d_1930"] = 1
     df["d"] = df.groupby("permno")["d_1930"].transform("mean")
-    df["d_all"] = df["Lcb_bs"] / df["Lll_bs_new"]
+    df["d_all"] = np.where(df["Lll_bs_new"] > 0, df["Lcb_bs"] / df["Lll_bs_new"], np.nan)
     df.loc[df["year"] <= 1930, "d"] = df.loc[df["year"] <= 1930, "d_all"]
     df["d"] = df["d"].fillna(0)
 
-    df["dd"] = df["fd_amount_g1"] / df["ll_bs_new"]
+    # Guard: Stata produces missing (.) when denominator is 0; avoid Inf in .dta
+    df["dd"] = np.where(df["ll_bs_new"] > 0, df["fd_amount_g1"] / df["ll_bs_new"], np.nan)
     df["d_orig"] = df["d"]
     df.loc[(df["year"] >= 1932) & (df["year"] <= 1936), "d_orig"] = df.groupby("permno")["dd"].shift(1)
     df["d_orig"] = df["d_orig"].fillna(0)
@@ -122,38 +130,48 @@ def build_merged() -> pd.DataFrame:
 
     df["d_Low"] = df["d"] * df["rating_ind"]
     for yr in range(lo, hi + 1):
-        if yr != 1932:
-            df[f"d_year_{yr}_Low"] = df["d"] * (df["year"] == yr) * df["rating_ind"]
+        # Create all years (including omitted 1932) so Stata export do files
+        # that create-then-drop the 1932 column work against our A4.
+        df[f"d_year_{yr}_Low"] = df["d"] * (df["year"] == yr) * df["rating_ind"]
+        df[f"year_{yr}_Low"] = df[f"year_{yr}"] * df["rating_ind"]
 
     df = _exposure_from_1930(df, "bd_bs", "bd", allow_missing_gt_one=True)
     df = _exposure_from_1930(df, "ps_bs", "ps", allow_missing_gt_one=True)
 
     denom_dalt = df["bd_bs"] + df["cb_bs"] + df["ps_bs"]
-    df["dalt_1930"] = np.where(df["year"] == 1930, df["fd_amount_g1"] / denom_dalt, np.nan)
+    df["dalt_1930"] = np.where(
+        (df["year"] == 1930) & (denom_dalt > 0),
+        df["fd_amount_g1"] / denom_dalt,
+        np.nan,
+    )
     df.loc[(df["year"] == 1930) & (df["dalt_1930"] > 1), "dalt_1930"] = 1
     for c in ("bd_bs", "cb_bs", "ps_bs"):
         df[f"m_{c[:2]}"] = df.groupby("permno")[c].transform("mean")
     has_debt = (df["m_bd"] > 0) | (df["m_cb"] > 0) | (df["m_ps"] > 0)
     df.loc[(df["year"] == 1930) & df["dalt_1930"].isna() & has_debt, "dalt_1930"] = 0
     df["dalt"] = df.groupby("permno")["dalt_1930"].transform("mean")
-    df["dalt_all"] = df["Lcb_bs"] / (df["Lbd_bs"] + df["Lcb_bs"] + df["Lps_bs"])
+    _dalt_lag_denom = df["Lbd_bs"] + df["Lcb_bs"] + df["Lps_bs"]
+    df["dalt_all"] = np.where(_dalt_lag_denom > 0, df["Lcb_bs"] / _dalt_lag_denom, np.nan)
     df.loc[df["dalt_all"].isna() & has_debt, "dalt_all"] = 0
     df.loc[df["year"] <= 1930, "dalt"] = df.loc[df["year"] <= 1930, "dalt_all"]
-    df["ddalt"] = df["fd_amount_g1"] / denom_dalt
+    df["ddalt"] = np.where(denom_dalt > 0, df["fd_amount_g1"] / denom_dalt, np.nan)
     df["dalt_orig"] = df["dalt"]
     df.loc[(df["year"] >= 1932) & (df["year"] <= 1936), "dalt_orig"] = df.groupby("permno")["ddalt"].shift(1)
     df["dalt_orig"] = df["dalt_orig"].fillna(0)
     df["daltind_orig"] = (df["dalt"] > 0).astype(int)
-    df = _add_year_interactions(df, "dalt")
+    # Stata A4_merge.do keeps dalt_year_1932 (no drop), so include it here.
+    df = _add_year_interactions(df, "dalt", include_omitted_year=True)
 
     df["year2"] = df["year"].where(df["year"] >= 1930)
     df["min_year"] = df.groupby("permno")["year2"].transform("min")
-    base_cs = df.loc[df["year"] == df["min_year"], ["permno", "cs_bs"]].drop_duplicates("permno")
-    base_cs = base_cs.rename(columns={"cs_bs": "denom"})
-    df = df.merge(base_cs, on="permno", how="left")
-    df["cashrat"] = (df["cashdiv"] / df["denom"]).fillna(0)
-    df["payout"] = ((df["cashdiv"] - df["netissue"]) / df["denom"]).fillna(0)
-    df["netrep"] = ((-df["netissue"]) / df["denom"]).fillna(0)
+    # Stata: gen denom2 = cs_bs if year <= min_year; bys permno: egen denom3 = mean(denom2)
+    df["_cs_pre"] = df["cs_bs"].where(df["year"] <= df["min_year"])
+    df["denom"] = df.groupby("permno")["_cs_pre"].transform("mean")
+    df = df.drop(columns=["_cs_pre"])
+    _denom_safe = df["denom"].replace(0, np.nan)
+    df["cashrat"] = (df["cashdiv"] / _denom_safe).fillna(0)
+    df["payout"] = ((df["cashdiv"] - df["netissue"]) / _denom_safe).fillna(0)
+    df["netrep"] = ((-df["netissue"]) / _denom_safe).fillna(0)
 
     df["var_inv_rate"] = df["inv_rate"]
     df["var_Q"] = df["Q"]

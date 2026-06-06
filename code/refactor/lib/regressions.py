@@ -5,7 +5,7 @@ from __future__ import annotations
 import pyfixest as pf
 
 from config import CLUSTER, OMITTED_YEAR, SAMPLE_YEARS
-from lib.vcov import attach_cluster_vcov
+from lib.vcov import _parse_formula, attach_cluster_vcov
 
 
 def year_interaction_cols(prefix: str = "d") -> list[str]:
@@ -31,9 +31,7 @@ def feols_clustered(
 ):
     """``feols`` with two-way cluster vcov aligned to Stata ``reghdfe`` when possible."""
     model = pf.feols(fml, data=data, vcov=CLUSTER, **kwargs)
-    dep = fml.split("~", 1)[0].strip()
-    rhs_part = fml.split("~", 1)[1].split("|", 1)[0]
-    rhs = [t.strip() for t in rhs_part.split("+") if t.strip()]
+    dep, rhs = _parse_formula(fml)
     return attach_cluster_vcov(
         model, data, dep=dep, rhs=rhs, winsor_cols=winsor_cols
     )
