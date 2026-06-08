@@ -1,4 +1,4 @@
-\begin{thebibliography}{34}
+\begin{thebibliography}{35}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[Abel and Eberly(1994)]{Abel1994}
@@ -132,6 +132,10 @@ Mian, Atif, Amir Sufi, and Francesco Trebbi, 2014, Resolving debt overhang:
 \bibitem[Myers(1977)]{Myers1977}
 Myers, Stewart~C, 1977, Determinants of corporate borrowing, {\em Journal of
   Financial Economics\/} 5, 147--175.
+
+\bibitem[{New York Times}(1935)]{NYT1935}
+{New York Times}, 1935, Gold issue hits highest since 1917, {\em New York
+  Times\/} ~2.
 
 \bibitem[Payne et~al.(2025)Payne, Szőke, Hall, and Sargent]{Payne2025}
 Payne, Jonathan, Bálint Szőke, George Hall, and Thomas~J. Sargent, 2025,

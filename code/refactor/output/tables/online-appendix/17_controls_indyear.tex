@@ -1,0 +1,37 @@
+\begin{landscape}
+\begin{table}[t!]\centering
+\caption{\\ Gold clause exposure and net investment with controls: industry-year fixed effects}
+\scriptsize
+\label{tabapp:controls_indyear}
+\renewcommand{\arraystretch}{1.2}{
+    \def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+    \resizebox{\linewidth}{!}{
+    \begin{tabular}{l*{9}{D{.}{.}{-1}}}
+        \toprule
+         & \multicolumn{1}{c}{All controls} & \multicolumn{1}{c}{Q} & \multicolumn{1}{c}{Assets} & \multicolumn{1}{c}{NI/assets} & \multicolumn{1}{c}{Cash/assets} & \multicolumn{1}{c}{Payout} & \multicolumn{1}{c}{Book leverage} & \multicolumn{1}{c}{Market leverage} & \multicolumn{1}{c}{LT lia.} \\
+         & \multicolumn{1}{c}{linear} & \multicolumn{1}{c}{deciles} & \multicolumn{1}{c}{deciles} & \multicolumn{1}{c}{deciles} & \multicolumn{1}{c}{deciles} & \multicolumn{1}{c}{deciles} & \multicolumn{1}{c}{deciles} & \multicolumn{1}{c}{deciles} & \multicolumn{1}{c}{deciles} \\
+         & \multicolumn{1}{c}{(1)} & \multicolumn{1}{c}{(2)} & \multicolumn{1}{c}{(3)} & \multicolumn{1}{c}{(4)} & \multicolumn{1}{c}{(5)} & \multicolumn{1}{c}{(6)} & \multicolumn{1}{c}{(7)} & \multicolumn{1}{c}{(8)} & \multicolumn{1}{c}{(9)} \\
+        \midrule
+        Q                                                    &      0.078\sym{***}     &      0.076\sym{***}     &      0.074\sym{***}     &      0.076\sym{***}     &      0.076\sym{***}     &      0.077\sym{***}     &      0.075\sym{***}     &      0.075\sym{***}     &      0.074\sym{***}    \\
+                                                             &      (0.013)            &      (0.012)            &      (0.012)            &      (0.013)            &      (0.011)            &      (0.012)            &      (0.011)            &      (0.012)            &      (0.011)           \\
+        \ensuremath{\tilde{d}}                               &      -0.070\sym{**}     &      -0.070\sym{**}     &      -0.070\sym{**}     &      -0.068\sym{**}     &      -0.073\sym{**}     &      -0.073\sym{**}     &      -0.067\sym{**}     &      -0.069\sym{**}     &      -0.068\sym{**}    \\
+                                                             &      (0.031)            &      (0.027)            &      (0.028)            &      (0.027)            &      (0.027)            &      (0.027)            &      (0.026)            &      (0.026)            &      (0.027)           \\
+        \ensuremath{\text{1933} \times \tilde{d}}            &      -0.026             &      -0.053\sym{***}    &      -0.054\sym{**}     &      -0.058\sym{***}    &      -0.032\sym{*}      &      -0.040\sym{**}     &      -0.058\sym{***}    &      -0.055\sym{**}     &      -0.052\sym{***}   \\
+                                                             &      (0.015)            &      (0.018)            &      (0.019)            &      (0.019)            &      (0.017)            &      (0.014)            &      (0.018)            &      (0.020)            &      (0.016)           \\
+        \ensuremath{\text{1934} \times \tilde{d}}            &      -0.011             &      -0.030\sym{*}      &      -0.034\sym{*}      &      -0.036             &      -0.030             &      -0.033\sym{*}      &      -0.022             &      -0.017             &      -0.025            \\
+                                                             &      (0.018)            &      (0.016)            &      (0.018)            &      (0.027)            &      (0.018)            &      (0.017)            &      (0.018)            &      (0.017)            &      (0.017)           \\
+        \ensuremath{\text{After} \times \tilde{d}}           &      0.005              &      -0.008             &      -0.009             &      -0.005             &      -0.010             &      -0.010             &      -0.009             &      -0.010             &      -0.010            \\
+                                                             &      (0.019)            &      (0.018)            &      (0.019)            &      (0.027)            &      (0.019)            &      (0.017)            &      (0.020)            &      (0.020)            &      (0.019)           \\
+        \midrule
+        Firm FE & \multicolumn{1}{c}{Yes} & \multicolumn{1}{c}{Yes} & \multicolumn{1}{c}{Yes} & \multicolumn{1}{c}{Yes} & \multicolumn{1}{c}{Yes} & \multicolumn{1}{c}{Yes} & \multicolumn{1}{c}{Yes} & \multicolumn{1}{c}{Yes} & \multicolumn{1}{c}{Yes} \\
+        Year FE & \multicolumn{1}{c}{No} & \multicolumn{1}{c}{No} & \multicolumn{1}{c}{No} & \multicolumn{1}{c}{No} & \multicolumn{1}{c}{No} & \multicolumn{1}{c}{No} & \multicolumn{1}{c}{No} & \multicolumn{1}{c}{No} & \multicolumn{1}{c}{No} \\
+        Industry-year FE & \multicolumn{1}{c}{Yes} & \multicolumn{1}{c}{Yes} & \multicolumn{1}{c}{Yes} & \multicolumn{1}{c}{Yes} & \multicolumn{1}{c}{Yes} & \multicolumn{1}{c}{Yes} & \multicolumn{1}{c}{Yes} & \multicolumn{1}{c}{Yes} & \multicolumn{1}{c}{Yes} \\
+        Observations & \multicolumn{1}{r}{6,683\phantom{0}} & \multicolumn{1}{r}{6,705\phantom{0}} & \multicolumn{1}{r}{6,705\phantom{0}} & \multicolumn{1}{r}{6,705\phantom{0}} & \multicolumn{1}{r}{6,705\phantom{0}} & \multicolumn{1}{r}{6,705\phantom{0}} & \multicolumn{1}{r}{6,705\phantom{0}} & \multicolumn{1}{r}{6,705\phantom{0}} & \multicolumn{1}{r}{6,705\phantom{0}} \\
+        \bottomrule
+    \end{tabular}
+    }
+}\\
+\justifying \noindent
+\scriptsize{\textit{Notes.} This table replicates columns 2--10 of Table~\ref{tab:controls} replacing firm and year fixed effects (\texttt{absorb(permno year)}) with firm and industry-year fixed effects (\texttt{absorb(permno sic2\_year)}), so that all specifications share the same fixed-effect structure as column 1 of Table~\ref{tab:controls}. The characteristic-interacted controls are identical to those in Table~\ref{tab:controls}: column (1) includes all 1930 firm characteristics interacted with year indicators as linear controls; columns (2)--(9) each include decile dummies for a single 1930 characteristic interacted with year indicators. All regressions include firm and SIC2 industry-year fixed effects. All variables are winsorized at the 0.5\% and 99.5\% levels within each year. Standard errors in parentheses are two-way clustered by firm and year. $^{*}p<0.10$, $^{**}p<0.05$, $^{***}p<0.01$.}
+\end{table}
+\end{landscape}
