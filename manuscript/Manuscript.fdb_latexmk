@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex Manuscript"] 1780965706.24591 "Manuscript.aux" "Manuscript.bbl" "Manuscript" 1780965716.97201 0
+["bibtex Manuscript"] 1780966333.9447 "Manuscript.aux" "Manuscript.bbl" "Manuscript" 1780966344.20018 0
   "./bibliography/gold_bib.bib" 1780867976.19536 21356 972063936f0107aedb74fa0e2dba9c7d ""
   "./bibliography/jf.bst" 1780425520.20006 26844 8f215f42ac1c5badfbebdc63e82b76ba ""
-  "Manuscript.aux" 1780965716.47488 22944 aed7c14d1849d69d330e85f118997ac0 "pdflatex"
+  "Manuscript.aux" 1780966343.72691 22944 3c5738860d8e65d2404a4765283bfe94 "pdflatex"
   (generated)
   "Manuscript.bbl"
   "Manuscript.blg"
   (rewritten before read)
-["pdflatex"] 1780965706.2922 "Manuscript.tex" "Manuscript.pdf" "Manuscript" 1780965716.97263 0
+["pdflatex"] 1780966333.98747 "Manuscript.tex" "Manuscript.pdf" "Manuscript" 1780966344.20123 0
   "/home/s/splante/texmf/tex/latex/bbm/bbm.sty" 1780867469.70839 171 38f8d35eff3d7271349dbe2f2fe918da ""
   "/home/s/splante/texmf/tex/latex/comment/comment.sty" 1780867564.80845 51 756abb2a8c665ebaa4832cd1bd9a0442 ""
   "/home/s/splante/texmf/tex/latex/everysel/everysel.sty" 1780867552.51557 151 e4c088197a6b976acc1e96befeac2fcf ""
@@ -278,8 +278,8 @@
   "/usr/share/texlive/texmf-dist/tex/latex/xkeyval/xkeyval.sty" 1687444220 4902 efb3d66683a2da2a232f71e3a571a899 ""
   "/usr/share/texlive/texmf-dist/web2c/texmf.cnf" 1687443968 39615 4ca7b2be4e89b50848d4f0b4d97130bb ""
   "/usr/share/texlive/texmf-var/web2c/pdftex/pdflatex.fmt" 1776855394.97914 1481783 dda9a9484d1f81d64bf6cef12b33246b ""
-  "Manuscript.aux" 1780965716.47488 22944 aed7c14d1849d69d330e85f118997ac0 "pdflatex"
-  "Manuscript.bbl" 1780965706.27798 7365 ada338e729ab50840973da7845cca818 "bibtex Manuscript"
+  "Manuscript.aux" 1780966343.72691 22944 3c5738860d8e65d2404a4765283bfe94 "pdflatex"
+  "Manuscript.bbl" 1780966333.972 7365 ada338e729ab50840973da7845cca818 "bibtex Manuscript"
   "Manuscript.tex" 1780428321.31726 760 71774d2c2d14f0057a08c9d9cffd1d19 ""
   "figures/body/dollar_to_franc.pdf" 1780785896.70657 12846 0c2978a462266adc8e988c003cf03af7 ""
   "figures/body/dollar_to_sterling.pdf" 1780785896.70157 13498 655efd04849456bc5a8671eea8593e12 ""
@@ -293,12 +293,12 @@
   "figures/online-appendix/event_overview.pdf" 1780965603.23795 28532 b2071913901162d0ef06ed66da42f67e ""
   "sections/0_title_page.tex" 1780428321.34126 2876 35e84ada5f6d527fce24be72413221a5 ""
   "sections/10_tables.tex" 1780867072.78537 371 8c88cbe0ed7deed69c4455ee391a8f43 ""
-  "sections/11_online_appendix.tex" 1780964502.90743 4463 c86a5f9b5505e4045d6cfe262d275bf5 ""
+  "sections/11_online_appendix.tex" 1780966248.0778 4498 40f0252a6c80a694dcb07a02de854e8a ""
   "sections/1_intro.tex" 1780428321.43726 11898 c77f130a82b6a5d4de8c0941a1cee96b ""
   "sections/2_literature.tex" 1780428321.41526 3503 8700a898b352cb446f5535ec102afb95 ""
   "sections/3_historical_background.tex" 1780964508.15238 13923 b99cbf9a2bb3a1ac9c50acd9ae822f03 ""
   "sections/4_data.tex" 1780428321.44826 9833 de349af91cea75447a91963f11dcce0c ""
-  "sections/5_main_results.tex" 1780965661.14741 37526 ebd6073e45572abc95db85ac1832f160 ""
+  "sections/5_main_results.tex" 1780966242.60285 37476 0a9daabf021e1fd10de490422db2a0e1 ""
   "sections/6_conclusion.tex" 1780428321.47126 2931 dbeabfb815a0444064b511fb7affb827 ""
   "sections/7_appendix.tex" 1780428321.46526 3628 198c16b58fabfbc8409603b478c99ffd ""
   "sections/8_references.tex" 1780428321.48626 111 798478c3fe6086b61e6b8b25195a9821 ""

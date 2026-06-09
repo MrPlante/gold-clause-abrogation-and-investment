@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2026.4.22)  8 JUN 2026 19:41
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2026.4.22)  8 JUN 2026 19:56
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1128,9 +1128,9 @@ File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 /comment-1.tex
 [2
 
-]) (./sections/comment-2.tex [3] [4]) (./sections/comment-3.tex [5]) [6]
-(./sections/comment-4.tex) (./sections/cover-letter-comment.tex [7] [8])
-[9] (./response-r6.bbl
+]) (./sections/comment-2.tex [3] [4]) (./sections/comment-3.tex [5])
+(./sections/comment-4.tex [6]) (./sections/cover-letter-comment.tex [7]
+[8]) [9] (./response-r6.bbl
 
 Package natbib Warning: Empty `thebibliography' environment on input line 4.
 
@@ -1161,7 +1161,7 @@ t/fonts/type1/public/lm/lmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
 blic/lm/lmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/lm/lmri10.p
 fb></usr/share/texlive/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/share/
 texlive/texmf-dist/fonts/type1/public/lm/lmsy8.pfb>
-Output written on response-r6.pdf (10 pages, 143674 bytes).
+Output written on response-r6.pdf (10 pages, 143628 bytes).
 PDF statistics:
  100 PDF objects out of 1000 (max. 8388607)
  79 compressed objects within 1 object stream
