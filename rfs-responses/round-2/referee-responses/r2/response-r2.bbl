@@ -1,0 +1,7 @@
+\begin{thebibliography}{1}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+
+\bibitem[NYT(1935)]{NYT1935}
+, 1935, Gold issue hits highest since 1917, {\em New York Times\/} ~2.
+
+\end{thebibliography}
