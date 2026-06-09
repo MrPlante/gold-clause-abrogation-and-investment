@@ -3,6 +3,8 @@
 
 # LaTeX build artifacts
 texput.log
+*.blg
+*.log
 
 # Stata batch logs (see logs/README.md)
 logs/*
