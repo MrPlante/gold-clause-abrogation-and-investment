@@ -52,6 +52,7 @@ def load(path):
 
 
 def cumulative(df, anchor, end):
+    """Cumulative gross-return index, normalized to 100 at the anchor."""
     sub = df[(df["_date"] >= anchor) & (df["_date"] <= end)].copy()
     out = {"_date": sub["_date"].tolist()}
     for col, *_ in SERIES:
@@ -60,27 +61,35 @@ def cumulative(df, anchor, end):
         for v in sub[col]:
             if pd.notna(v):
                 running *= (1 + v)
-            vals.append((running - 1) * 100)
+            vals.append(running * 100)
         out[col] = vals
     return out
 
 
 def make_figure(cum):
     fig, ax = plt.subplots(figsize=(8.5, 4.4))
-    ax.axhline(0, color="black", linewidth=0.6, zorder=1)
 
     for col, label, color, ls, lw in SERIES:
         ax.plot(cum["_date"], cum[col], color=color, linestyle=ls,
                 linewidth=lw, label=label, zorder=3)
 
+    # Log scale: a 12% market move and a 31% gold move are both visible,
+    # and the gold line's level (partly a small-firm effect over this
+    # window) is not visually exaggerated relative to the market.
+    ax.set_yscale("log")
+    yticks = [100, 150, 200, 300, 400, 600]
+    ax.set_yticks(yticks)
+    ax.set_yticklabels([f"{v - 100:+d}%" for v in yticks])
+    ax.yaxis.set_minor_formatter(plt.NullFormatter())
+    ax.axhline(100, color="black", linewidth=0.6, zorder=1)
+
     ymin, ymax = ax.get_ylim()
     for date, label, hfrac in EVENTS:
         ax.axvline(date, color="#999999", linewidth=0.9, linestyle="--", zorder=2)
-        ax.text(date, ymin + hfrac * (ymax - ymin), "  " + label, rotation=90,
+        ax.text(date, ymin * (ymax / ymin) ** hfrac, "  " + label, rotation=90,
                 va="top", ha="left", fontsize=7.5, color="#555555", zorder=4)
 
-    ax.set_ylabel("Cumulative return (%)", fontsize=10)
-    ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f"{x:.0f}%"))
+    ax.set_ylabel("Cumulative return (log scale)", fontsize=10)
     ax.xaxis.set_major_locator(mdates.MonthLocator(interval=2))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%b %Y"))
     plt.xticks(rotation=30, ha="right", fontsize=8)
