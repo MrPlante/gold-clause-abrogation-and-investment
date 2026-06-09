@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex response-r6"] 1780964749.77246 "response-r6.aux" "response-r6.bbl" "response-r6" 1780964756.06006 0
+["bibtex response-r6"] 1780964749.77246 "response-r6.aux" "response-r6.bbl" "response-r6" 1780965723.65304 0
   "../../gold-bib.bib" 1780784090.51644 21541 5e659c3d3e8ee819544360660115bd50 ""
   "../../jf.bst" 1780430020.70294 26844 8f215f42ac1c5badfbebdc63e82b76ba ""
-  "response-r6.aux" 1780964755.83102 800 50722c1f44cf0e66fd24d60f218b5640 "pdflatex"
+  "response-r6.aux" 1780965723.25881 800 50722c1f44cf0e66fd24d60f218b5640 "pdflatex"
   (generated)
   "response-r6.bbl"
   "response-r6.blg"
   (rewritten before read)
-["pdflatex"] 1780964749.80793 "response-r6.tex" "response-r6.pdf" "response-r6" 1780964756.06076 0
+["pdflatex"] 1780965717.12631 "response-r6.tex" "response-r6.pdf" "response-r6" 1780965723.65365 0
   "../../preamble.tex" 1780430020.61094 6751 98f1bd98bec9c71c61308da603419f9b ""
   "../../revision-summary.tex" 1780846866.51181 1214 797552a530b33bec9216765a04a9b5cd ""
   "/home/s/splante/texmf/tex/latex/bbm/bbm.sty" 1780867469.70839 171 38f8d35eff3d7271349dbe2f2fe918da ""
@@ -238,12 +238,12 @@
   "/usr/share/texlive/texmf-dist/tex/latex/xkeyval/xkeyval.sty" 1687444220 4902 efb3d66683a2da2a232f71e3a571a899 ""
   "/usr/share/texlive/texmf-dist/web2c/texmf.cnf" 1687443968 39615 4ca7b2be4e89b50848d4f0b4d97130bb ""
   "/usr/share/texlive/texmf-var/web2c/pdftex/pdflatex.fmt" 1776855394.97914 1481783 dda9a9484d1f81d64bf6cef12b33246b ""
-  "response-r6.aux" 1780964755.83102 800 50722c1f44cf0e66fd24d60f218b5640 "pdflatex"
+  "response-r6.aux" 1780965723.25881 800 50722c1f44cf0e66fd24d60f218b5640 "pdflatex"
   "response-r6.bbl" 1780964749.79708 121 176ef3ab05ccef1cd7a1f3b4a71ca9dc "bibtex response-r6"
   "response-r6.tex" 1780781891.19033 780 c5cb1dde76ab7668861ae73cfa4e06c6 ""
   "sections/comment-1.tex" 1780963356.64449 3649 0d380f8bda4f3ab79523da54bb474862 ""
-  "sections/comment-2.tex" 1780963791.37317 6571 11d13d2f655b6990496f55e1dce608da ""
-  "sections/comment-3.tex" 1780963846.20265 3070 53b25a619444c69bea1125778b652f95 ""
+  "sections/comment-2.tex" 1780965534.9126 6609 ed00a16194cbe447b16b4d312a85214f ""
+  "sections/comment-3.tex" 1780965510.03783 3072 8ba7a72afb57ea823390fedee9f6ef2c ""
   "sections/comment-4.tex" 1780963820.91089 2059 1b3fd2bf4fd72436d3399c9737d04c59 ""
   "sections/cover-letter-comment.tex" 1780963799.44309 5139 28f77486fc44f0d669f7808f78d4a86d ""
   (generated)
