@@ -2,15 +2,13 @@
 Event study figures for the three key legal events around gold clause abrogation.
 Outputs one PDF per event to code/output/figures/event-study/.
 
-Series shown in each panel:
-  mkt       — CRSP value-weighted market
-  dwret     — gold-exposure-weighted portfolio (d_j weights)
-  ewret_yes — gold-clause firms (equal-weighted)
-  ewret_no  — non-gold-clause firms (equal-weighted)
-
-Cumulative returns are indexed to 0 at the close of the last trading day
-before the event window opens (the anchor). The left dashed line and shaded
+Y-axis: raw cumulative return, indexed to 0 at the close of the last trading
+day before the event window opens (the anchor). The left dashed line and shaded
 area begin at the anchor so the 0% level aligns exactly with the left edge.
+
+Series shown in each panel:
+  ewret_yes — gold-clause firms, equal-weighted (d > 0)
+  ewret_no  — non-gold-clause firms, equal-weighted (d = 0)
 """
 
 import os
@@ -34,7 +32,7 @@ EVENTS = [
     },
     {
         "filename": "event2_weak_showing.pdf",
-        "title":    "Supreme Court Arguments (Jan. 8–10, 1935)",
+        "title":    "Supreme Court Arguments (Jan. 8–10, 1935)",
         "start":    datetime(1935, 1, 8),
         "end":      datetime(1935, 1, 10),
         "pre":      5,
@@ -42,7 +40,7 @@ EVENTS = [
     },
     {
         "filename": "event3_sc_decision.pdf",
-        "title":    "Supreme Court Decision (Feb. 18, 1935)",
+        "title":    "Supreme Court Decision (Feb. 18, 1935)",
         "start":    datetime(1935, 2, 18),
         "end":      datetime(1935, 2, 18),
         "pre":      5,
@@ -51,8 +49,8 @@ EVENTS = [
 ]
 
 SERIES = [
-    ("mkt",   "Market",                 "#333333", "-",  2.0),
-    ("dwret", "Gold-weighted portfolio","#1f77b4", "--", 2.0),
+    ("ewret_yes", "Gold exposure (d>0), equal-wt.",  "#1f77b4", "--", 2.0),
+    ("ewret_no",  "No gold exposure (d=0), equal-wt.","#d62728", ":",  2.0),
 ]
 
 
