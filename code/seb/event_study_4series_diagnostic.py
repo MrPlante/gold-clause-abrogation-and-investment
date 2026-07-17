@@ -1,103 +1,133 @@
 """
-DIAGNOSTIC: 4-series version of the full-period cumulative-return overview.
+4-series event-study figures, built from gold_claude.crsp (research DB).
 
-This is the figure R2 actually asked for (round 2): time series of cumulative
-returns for (a) the market, (b) gold-exposed firms equal-weighted, (c) gold-
-exposed firms gold-exposure-weighted, (d) firms without gold exposure, with
-event lines.
+This is the figure R2 asked for (round 2): time series of cumulative returns
+for (a) the market, (b) gold-exposed firms equal-weighted, (c) gold-exposed
+firms gold-exposure-weighted, (d) firms without gold exposure, with event
+lines. Produces the full-period overview plus a 4-series zoom for each of the
+three key events.
 
-The manuscript ships only the 2-series version (market + gold-weighted) because
-the non-exposed series (ewret_no) rallies almost as hard as the gold series over
-the Joint Resolution window, which complicates the "gold-specific" narrative.
-This script regenerates the full 4-series view so that issue can be re-examined.
+All four series are constructed here from raw CRSP daily data rather than
+read from data/returns/pf_returns.xls: the ewret_yes/ewret_no columns in that
+file are SWAPPED (verified 2026-07-16 — his "yes" matches the rebuilt d=0
+portfolio at corr 0.9993 over 5,963 days and vice versa). The rebuilt series
+reproduce the file's mkt/dwret to within a few bp.
 
-Uses xlrd directly (pandas read_excel is broken by an xlrd version mismatch in
-this environment).
+Series:
+  mkt      — value-weighted market (prev-day cap weights, CRSP convention)
+  ew_yes   — equal-weighted, firms with gold exposure (fixed d > 0, 175 firms)
+  ew_no    — equal-weighted, firms without gold exposure (fixed d = 0, 378)
+  dwret    — d-weighted gold portfolio (daily rebalanced, weights = fixed d)
 
-Output: output/figures/event-study/event_overview_4series.{pdf,png}
+Fixed exposure d = the paper's treatment variable from A4_merged (constant
+within firm from 1931 on: 1930 gold-clause debt / 1930 LT liabilities).
+
+Requires a valid Kerberos ticket (klist). Reads the DB via psql (the local
+psycopg2 wheel has no GSSAPI support).
+
+Outputs (output/figures/event-study/):
+  event_overview_4series.{pdf,png}
+  event1_4series.{pdf,png}, event2_4series.{pdf,png}, event3_4series.{pdf,png}
 """
 
+import io
 import os
-from datetime import datetime, timedelta
+import subprocess
+from datetime import datetime
 
 import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
-import xlrd
+import pandas as pd
 
-DATA_PATH = "../../data/returns/pf_returns.xls"
-OUT_PATHS = [
-    "../../output/figures/event-study/event_overview_4series.pdf",
-    "../../output/figures/event-study/event_overview_4series.png",
-]
+DB = ("postgresql://splante%40ads.ssc.wisc.edu@researchdb.ssc.wisc.edu/splante"
+      "?sslmode=require&gssencmode=require")
+A4_PATH = "../../data/A4_merged.dta"
+OUT_DIR = "../../output/figures/event-study"
 
+PULL_START, PULL_END = "1933-03-01", "1935-04-30"
 ANCHOR = datetime(1933, 3, 31)
-WINDOW_END = datetime(1935, 4, 30)
 
-# (column, label, color, linestyle, linewidth)
 SERIES = [
-    ("mkt",       "Market (CRSP VW)",                  "#333333", "-",  1.8),
-    ("ewret_no",  "No gold exposure (equal-wt.)",      "#d62728", ":",  2.0),
-    ("ewret_yes", "Gold exposure (equal-wt.)",         "#2ca02c", "-.", 2.0),
-    ("dwret",     "Gold exposure (exposure-wt.)",      "#1f77b4", "--", 2.2),
+    ("mkt",    "Market (CRSP VW)",                 "#333333", "-",  1.8),
+    ("ew_no",  "No gold exposure (equal-wt.)",     "#d62728", ":",  2.0),
+    ("ew_yes", "Gold exposure (equal-wt.)",        "#2ca02c", "-.", 2.0),
+    ("dwret",  "Gold exposure (exposure-wt.)",     "#1f77b4", "--", 2.2),
 ]
 
-EVENTS = [
+OVERVIEW_EVENTS = [
     (datetime(1933, 4, 19), "Gold standard suspended", 0.55),
     (datetime(1933, 6, 5),  "Joint Resolution (abrogation)", 0.98),
     (datetime(1935, 1, 8),  "Supreme Court oral arguments", 0.55),
     (datetime(1935, 2, 18), "Supreme Court decision", 0.98),
 ]
 
-# Joint Resolution event window for the printed CAR diagnostic.
-JR_WINDOW = ((1933, 5, 26), (1933, 6, 6))
+EVENTS = [
+    ("event1_4series", "Joint Resolution (May 26–June 6, 1933)",
+     datetime(1933, 5, 26), datetime(1933, 6, 6)),
+    ("event2_4series", "Supreme Court Arguments (Jan. 8–10, 1935)",
+     datetime(1935, 1, 8), datetime(1935, 1, 10)),
+    ("event3_4series", "Supreme Court Decision (Feb. 18, 1935)",
+     datetime(1935, 2, 18), datetime(1935, 2, 18)),
+    # Exploratory: cert grant in Bankers Trust (Nov 5) + Democratic midterm
+    # landslide (Nov 6, market closed; results traded Nov 7). Anchor = Nov 3
+    # close (Saturday), i.e. the value going into the election weekend.
+    ("midterm_1934_4series", "Cert. Grant & Midterm Election (Nov. 5–7, 1934)",
+     datetime(1934, 11, 5), datetime(1934, 11, 7)),
+]
+EVENT_BUFFER = 5  # trading days before anchor / after event end
 
 
-def load(path):
-    wb = xlrd.open_workbook(path)
-    sh = wb.sheet_by_name("Sheet1")
-    headers = [sh.cell_value(0, c) for c in range(sh.ncols)]
-    rows = []
-    for r in range(1, sh.nrows):
-        serial = sh.cell_value(r, 0)
-        if not serial:
-            continue
-        row = {h: sh.cell_value(r, c) for c, h in enumerate(headers)}
-        row["_date"] = datetime(1899, 12, 30) + timedelta(days=int(serial))
-        rows.append(row)
-    rows.sort(key=lambda x: x["_date"])
-    return rows
+def build_series():
+    """Daily returns for the four portfolios, from gold_claude.crsp + A4 d."""
+    a4 = pd.read_stata(A4_PATH)
+    post = a4[a4.year >= 1931]
+    d_fix = post.groupby(post.permno.astype(int))["d"].max()
+
+    sql = f"""
+    with lagged as (
+      select permno, date, ret,
+             lag(cap) over (partition by permno order by date) as prevcap
+      from gold_claude.crsp
+      where date between '{PULL_START}'::date - interval '7 days' and '{PULL_END}'
+    )
+    select permno, date, ret, prevcap from lagged
+    where ret is not null and date between '{PULL_START}' and '{PULL_END}'
+    """
+    out = subprocess.run(["psql", DB, "-Atc", sql, "-F", ","],
+                         capture_output=True, text=True, check=True)
+    fd = pd.read_csv(io.StringIO(out.stdout),
+                     names=["permno", "date", "ret", "prevcap"])
+    fd["date"] = pd.to_datetime(fd.date)
+    fd["d"] = fd.permno.map(d_fix)
+
+    vw = fd.dropna(subset=["prevcap"])
+    mkt = vw.groupby("date").apply(
+        lambda g: (g.prevcap * g.ret).sum() / g.prevcap.sum(), include_groups=False)
+    ew_yes = fd[fd.d > 0].groupby("date")["ret"].mean()
+    ew_no = fd[fd.d == 0].groupby("date")["ret"].mean()
+    gold = fd[fd.d > 0]
+    dwret = gold.groupby("date").apply(
+        lambda g: (g.d * g.ret).sum() / g.d.sum(), include_groups=False)
+
+    return pd.DataFrame({"mkt": mkt, "ew_yes": ew_yes,
+                         "ew_no": ew_no, "dwret": dwret}).sort_index()
 
 
-def cumulative(rows, anchor, end):
-    sub = [r for r in rows if anchor <= r["_date"] <= end]
-    out = {"_date": [r["_date"] for r in sub]}
-    for col, *_ in SERIES:
-        running, vals = 1.0, []
-        for r in sub:
-            v = r.get(col)
-            if v not in ("", None):
-                running *= 1 + v
-            vals.append(running * 100)
-        out[col] = vals
-    return out
+def cum_index(df, anchor):
+    """Cumulative index = 100 at the last trading day <= anchor."""
+    cum = (1 + df.fillna(0)).cumprod()
+    base = cum[cum.index <= anchor].iloc[-1]
+    return cum / base * 100
 
 
-def compound(rows, start, end, col):
-    s, e = datetime(*start), datetime(*end)
-    period = [r for r in rows if s <= r["_date"] <= e and r.get(col) not in ("", None)]
-    prod = 1.0
-    for r in period:
-        prod *= 1 + r[col]
-    return prod - 1, len(period)
-
-
-def make_figure(cum):
+def make_overview(df):
+    cum = cum_index(df[df.index >= ANCHOR], ANCHOR)
     fig, ax = plt.subplots(figsize=(9.5, 4.8))
     for col, label, color, ls, lw in SERIES:
-        ax.plot(cum["_date"], cum[col], color=color, linestyle=ls,
+        ax.plot(cum.index, cum[col], color=color, linestyle=ls,
                 linewidth=lw, label=label, zorder=3)
 
     ax.set_yscale("log")
@@ -108,7 +138,7 @@ def make_figure(cum):
     ax.axhline(100, color="black", linewidth=0.6, zorder=1)
 
     ymin, ymax = ax.get_ylim()
-    for date, label, hfrac in EVENTS:
+    for date, label, hfrac in OVERVIEW_EVENTS:
         ax.axvline(date, color="#999999", linewidth=0.9, linestyle="--", zorder=2)
         ax.text(date, ymin * (ymax / ymin) ** hfrac, "  " + label, rotation=90,
                 va="top", ha="left", fontsize=7.5, color="#555555", zorder=4)
@@ -125,25 +155,65 @@ def make_figure(cum):
     return fig
 
 
-def main():
-    rows = load(DATA_PATH)
+def make_event_zoom(df, title, start, end):
+    dates = df.index
+    pre_pool = dates[dates < start]
+    anchor = pre_pool[-1]
+    lo = pre_pool[-(EVENT_BUFFER + 1)]
+    post_pool = dates[dates > end]
+    hi = post_pool[min(EVENT_BUFFER, len(post_pool)) - 1] if len(post_pool) else dates[-1]
 
-    # Print the Joint Resolution event-window raw returns for all 4 series.
-    (s, e) = JR_WINDOW
-    print(f"Joint Resolution window {s} -> {e} (raw compounded returns):")
-    print(f"  {'series':<28}{'return':>9}{'ndays':>7}")
-    for col, label, *_ in SERIES:
-        ret, n = compound(rows, s, e, col)
-        print(f"  {label:<28}{ret*100:>8.2f}%{n:>7}")
-    print()
+    win = df.loc[lo:hi]
+    cum = (1 + win.fillna(0)).cumprod()
+    cum = (cum / cum.loc[anchor] - 1) * 100
 
-    cum = cumulative(rows, ANCHOR, WINDOW_END)
-    fig = make_figure(cum)
-    for p in OUT_PATHS:
-        os.makedirs(os.path.dirname(p), exist_ok=True)
-        fig.savefig(p, bbox_inches="tight", dpi=150)
-        print(f"Saved: {p}")
+    fig, ax = plt.subplots(figsize=(7, 3.5))
+    shade_end = end if start != end else start
+    ax.axvspan(anchor, shade_end, color="#f0f0f0", zorder=0)
+    ax.axhline(0, color="black", linewidth=0.6, zorder=1)
+    ax.axvline(anchor, color="#888888", linewidth=0.8, linestyle="--", zorder=2)
+    ax.axvline(shade_end, color="#888888", linewidth=0.8, linestyle="--", zorder=2)
+
+    for col, label, color, ls, lw in SERIES:
+        ax.plot(cum.index, cum[col], color=color, linestyle=ls,
+                linewidth=lw, label=label, zorder=3)
+
+    ax.set_title(title, fontsize=11, pad=8)
+    ax.set_ylabel("Cumulative return (%)", fontsize=9)
+    ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f"{x:.0f}%"))
+    ax.set_xticks([mdates.date2num(anchor), mdates.date2num(shade_end)])
+    ax.xaxis.set_major_formatter(mdates.DateFormatter("%b %-d"))
+    plt.xticks(rotation=30, ha="right", fontsize=8)
+    ax.tick_params(axis="y", labelsize=8)
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+    ax.legend(fontsize=8, frameon=False, loc="best")
+    fig.tight_layout()
+    return fig
+
+
+def save(fig, stem):
+    for ext in ("pdf", "png"):
+        path = os.path.join(OUT_DIR, f"{stem}.{ext}")
+        fig.savefig(path, bbox_inches="tight", dpi=150)
+        print(f"Saved: {path}")
     plt.close(fig)
+
+
+def main():
+    os.makedirs(OUT_DIR, exist_ok=True)
+    df = build_series()
+    print(f"Built series: {len(df)} trading days "
+          f"({df.index[0].date()} to {df.index[-1].date()})")
+
+    # JR-window sanity print
+    jr = df.loc["1933-05-26":"1933-06-06"]
+    for col, label, *_ in SERIES:
+        print(f"  JR window {label:<32}{((1+jr[col]).prod()-1)*100:+7.2f}%")
+
+    save(make_overview(df), "event_overview_4series")
+    for stem, title, start, end in EVENTS:
+        save(make_event_zoom(df, title, start, end), stem)
 
 
 if __name__ == "__main__":
