@@ -24,7 +24,7 @@ Memory files live in:
 
 | Path | Contents |
 |---|---|
-| `manuscript/` | Main LaTeX paper (compiled via `pdflatex Manuscript.tex`) |
+| `manuscript/` | Main LaTeX paper (`main.tex`, compiled via `latexmk main.tex` into `gold-clause.pdf`) |
 | `manuscript/sections/` | One `.tex` file per section |
 | `manuscript/tables/` | Body and online-appendix tables |
 | `manuscript/figures/` | Body and online-appendix figures |
@@ -71,13 +71,14 @@ Logs land in `logs/` (gitignored). Stata must be in PATH.
 
 ```bash
 cd manuscript
-latexmk Manuscript.tex
+latexmk main.tex
 ```
 
 That is the whole recipe: `manuscript/.latexmkrc` runs the full
 pdflatex/bibtex cycle, routes build artifacts (`.aux`, `.bbl`, `.log`, …)
-to the gitignored `manuscript/build/`, and writes `Manuscript.pdf` at the
-manuscript root (versioned). `latexmk -C` cleans all generated files.
+to the gitignored `manuscript/build/`, and writes `gold-clause.pdf` at the
+manuscript root (versioned; the jobname is set in the rc file).
+`latexmk -C` cleans all generated files.
 
 ### Compiling a referee response PDF
 
@@ -252,7 +253,7 @@ All three root documents `\input{../../preamble.tex}` and
 - Do not edit generated `.tex` table files directly; edit the Python builder
   that generates them and re-run.
 - Do not assume table numbers are stable; always verify against the `\input`
-  order in `11_online_appendix.tex` and the main `Manuscript.tex`.
+  order in `11_online_appendix.tex` and the main `manuscript/main.tex`.
 - Do not use old table numbers (Table 1 = main, Table 6 = controls) in referee
   responses; the current numbering is Table 4 = main, Table 7 = controls.
 - Do not reference IA.17 for the industry-year robustness table; it is IA.19.
