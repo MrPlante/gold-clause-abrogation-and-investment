@@ -91,7 +91,7 @@ OTHER_EVENTS = [
 ]
 JR_ROW = ("Joint Resolution (reference)", "May 26--June 6, 1933", "1933-05-26", 9)
 
-MIDTERM = ("midterm_1934", "Cert. Grant \\& Midterm Election (Nov. 5–7, 1934)",
+MIDTERM = ("midterm_1934", "Cert. Grant & Midterm Election (Nov. 5–7, 1934)",
            datetime(1934, 11, 5), datetime(1934, 11, 7))
 
 OVERVIEW_ANCHOR = datetime(1933, 3, 31)

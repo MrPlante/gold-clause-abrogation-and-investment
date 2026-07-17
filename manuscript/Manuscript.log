@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2026.4.22)  17 JUL 2026 18:11
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2026.4.22)  17 JUL 2026 18:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -962,7 +962,7 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 )
 \Hy@SectionHShift=\skip94
 )
-Package hyperref Info: Option `colorlinks' set `false' on input line 116.
+Package hyperref Info: Option `colorlinks' set `false' on input line 127.
 
 (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/hypcap.sty
 Package: hypcap 2016/05/16 v1.12 Adjusting the anchors of captions (HO)
@@ -1207,28 +1207,28 @@ Package pdftex.def Info: figures/body/inflation.pdf  used on input line 25.
 File: figures/body/event1_joint_resolution.pdf Graphic file (type pdf)
 <use figures/body/event1_joint_resolution.pdf>
 Package pdftex.def Info: figures/body/event1_joint_resolution.pdf  used on inpu
-t line 38.
+t line 39.
 (pdftex.def)             Requested size: 399.29463pt x 197.19595pt.
  [44 <./figures/body/event1_joint_resolution.pdf>]
 <figures/body/event2_weak_showing.pdf, id=765, 497.95285pt x 245.89842pt>
 File: figures/body/event2_weak_showing.pdf Graphic file (type pdf)
 <use figures/body/event2_weak_showing.pdf>
 Package pdftex.def Info: figures/body/event2_weak_showing.pdf  used on input li
-ne 49.
+ne 52.
 (pdftex.def)             Requested size: 399.29463pt x 197.18425pt.
  [45 <./figures/body/event2_weak_showing.pdf>]
 <figures/body/event3_sc_decision.pdf, id=823, 497.95285pt x 245.94391pt>
 File: figures/body/event3_sc_decision.pdf Graphic file (type pdf)
 <use figures/body/event3_sc_decision.pdf>
 Package pdftex.def Info: figures/body/event3_sc_decision.pdf  used on input lin
-e 60.
+e 65.
 (pdftex.def)             Requested size: 399.29463pt x 197.22073pt.
  [46 <./figures/body/event3_sc_decision.pdf>]
 <figures/body/parallel_trend_plot.pdf, id=881, 534.85007pt x 318.02423pt>
 File: figures/body/parallel_trend_plot.pdf Graphic file (type pdf)
 <use figures/body/parallel_trend_plot.pdf>
 Package pdftex.def Info: figures/body/parallel_trend_plot.pdf  used on input li
-ne 70.
+ne 76.
 (pdftex.def)             Requested size: 352.31659pt x 250.10086pt.
  [47 <./figures/body/parallel_trend_plot.pdf>]
 
@@ -1239,7 +1239,7 @@ pdfTeX warning: pdflatex (file ./figures/body/industrial_corp_bond_issuance.pdf
 File: figures/body/industrial_corp_bond_issuance.pdf Graphic file (type pdf)
 <use figures/body/industrial_corp_bond_issuance.pdf>
 Package pdftex.def Info: figures/body/industrial_corp_bond_issuance.pdf  used o
-n input line 81.
+n input line 87.
 (pdftex.def)             Requested size: 352.33836pt x 250.10486pt.
 ) (./sections/10_tables.tex [48 <./figures/body/industrial_corp_bond_issuance.p
 df>] (./tables/body/0_event_study.tex
@@ -1289,7 +1289,7 @@ nput line 58.
 File: figures/online-appendix/event_overview.pdf Graphic file (type pdf)
 <use figures/online-appendix/event_overview.pdf>
 Package pdftex.def Info: figures/online-appendix/event_overview.pdf  used on in
-put line 69.
+put line 70.
 (pdftex.def)             Requested size: 469.75502pt x 235.3724pt.
  [3 <./figures/online-appendix/event_overview.pdf>] (./tables/online-appendix/0
 a_summary_d_1.tex)
@@ -1359,17 +1359,17 @@ File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 File: figures/online-appendix/midterm_1934.pdf Graphic file (type pdf)
 <use figures/online-appendix/midterm_1934.pdf>
 Package pdftex.def Info: figures/online-appendix/midterm_1934.pdf  used on inpu
-t line 152.
+t line 157.
 (pdftex.def)             Requested size: 399.29463pt x 197.19545pt.
  [27 <./figures/online-appendix/midterm_1934.pdf>]) (./Manuscript.aux) ) 
 Here is how much of TeX's memory you used:
- 27785 strings out of 480932
- 522916 string characters out of 5906277
- 839625 words of memory out of 5000000
- 44112 multiletter control sequences out of 15000+600000
+ 27792 strings out of 480932
+ 522991 string characters out of 5906277
+ 839741 words of memory out of 5000000
+ 44119 multiletter control sequences out of 15000+600000
  537721 words of font info for 127 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 92i,18n,120p,2165b,937s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 92i,18n,120p,2171b,937s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/s
 hare/texlive/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/share/texlive/texmf-
 dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvip
@@ -1393,9 +1393,9 @@ ublic/lm/lmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/lm/lmsy6.
 pfb></usr/share/texlive/texmf-dist/fonts/type1/public/lm/lmsy8.pfb></usr/share/
 texlive/texmf-dist/fonts/type1/public/lm/lmtt8.pfb></usr/share/texlive/texmf-di
 st/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on Manuscript.pdf (84 pages, 3595735 bytes).
+Output written on Manuscript.pdf (84 pages, 3595998 bytes).
 PDF statistics:
- 1383 PDF objects out of 1440 (max. 8388607)
+ 1382 PDF objects out of 1440 (max. 8388607)
  897 compressed objects within 9 object streams
  181 named destinations out of 1000 (max. 500000)
  196 words of extra memory for PDF output out of 10000 (max. 10000000)
