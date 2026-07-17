@@ -1,36 +1,59 @@
 \begin{table}[htbp]
 \centering
-\caption{Stock market responses to key legal events}
+\caption{\\ Stock market responses to key legal events}
 \label{tab:event_study}
 \small
+\setlength{\tabcolsep}{4pt}
 \medskip
-\textit{Panel A: Cumulative returns over event windows}
+\textit{Panel A: Cumulative raw returns over event windows}
 \medskip
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lcccccc}
+\toprule
+Event & Dates & Days & Market & No gold & Gold & Gold \\
+ & & & & (equal-wt.) & (equal-wt.) & (exposure-wt.) \\
+\midrule
+Joint Resolution & May 26--June 6, 1933 & 9 & +12.1\% & +25.4\% & +31.0\% & +31.6\% \\
+Supreme Court oral arguments & Jan.~8--10, 1935 & 3 & -1.3\% & -1.4\% & -1.3\% & -1.4\% \\
+Supreme Court decision & Feb.~18, 1935 & 1 & +2.9\% & +3.2\% & +3.7\% & +3.6\% \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\medskip
+
+\textit{Panel B: CAPM cumulative abnormal returns}
+\medskip
+\begin{adjustbox}{max width=\textwidth}
 \begin{tabular}{lccccc}
 \toprule
-Event & Dates & Days & Market & \multicolumn{2}{c}{Gold-weighted} \\
-\cmidrule(l){5-6}
- &  &  &  & Raw return & CAR \\
+Event & Dates & Days & No gold & Gold & Gold \\
+ & & & (equal-wt.) & (equal-wt.) & (exposure-wt.) \\
 \midrule
-Joint Resolution & May 26--June 6, 1933 & 9 & +12.0\% & +31.2\% & +16.1\% \\
-Supreme Court oral arguments & Jan.~8--10, 1935 & 3 & -1.2\% & -1.5\% & -0.7\% \\
-Supreme Court decision & Feb.~18, 1935 & 1 & +2.9\% & +3.6\% & +0.9\% \\
+Joint Resolution & May 26--June 6, 1933 & 9 & +12.7\% & +15.9\% & +16.3\% \\
+Supreme Court oral arguments & Jan.~8--10, 1935 & 3 & -0.7\% & -0.5\% & -0.5\% \\
+Supreme Court decision & Feb.~18, 1935 & 1 & +0.7\% & +0.9\% & +0.7\% \\
 \bottomrule
 \end{tabular}
+\end{adjustbox}
 \medskip
-\textit{Panel B: Daily return summary statistics}
+
+\textit{Panel C: Daily return summary statistics}
 \medskip
-\begin{tabular}{lcc}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lcccc}
 \toprule
- & Market & Gold-weighted \\
+ & Market & No gold & Gold & Gold \\
+ & & (equal-wt.) & (equal-wt.) & (exposure-wt.) \\
 \midrule
-Mean daily return (\%) & 0.032 & 0.123 \\
-Std.~deviation (\%)    & 1.419 & 1.769 \\
-Trading days            & \multicolumn{2}{c}{5,814} \\
-Sample period           & \multicolumn{2}{c}{July 1926--December 1945} \\
-Firms (total / gold-clause) & \multicolumn{2}{c}{558 / 276} \\
+Mean daily return (\%) & 0.032 & 0.113 & 0.126 & 0.122 \\
+Std.~deviation (\%)    & 1.417 & 1.507 & 1.767 & 1.778 \\
+Pre-abrogation $\hat\beta$ & --- & 0.81 & 0.92 & 0.93 \\
+Trading days            & \multicolumn{4}{c}{5,814} \\
+Sample period           & \multicolumn{4}{c}{July 1926--December 1945} \\
+Firms (gold-clause / no gold clause) & \multicolumn{4}{c}{175 / 378} \\
 \bottomrule
 \end{tabular}
+\end{adjustbox}
 \medskip
-\begin{minipage}{0.85\textwidth}\footnotesize \textit{Notes.} The market return is the CRSP value-weighted index. The gold-weighted portfolio weights each firm by its gold-clause exposure $d_j$, as defined in equation~(\ref{eq:d}). Raw returns are the compound product of daily returns over each event window. The cumulative abnormal return (CAR) is the sum of daily abnormal returns $\hat{\varepsilon}_t = r_t - \hat{\alpha} - \hat{\beta}\, r_{m,t}$, where $\hat{\alpha}$ and $\hat{\beta}$ are estimated by OLS on the full pre-abrogation period (July~1, 1926--April~25, 1933; 2,021 trading days), yielding $\hat{\beta}=0.92$. The same estimation window is used for all three events. For the Supreme Court decision (February~18), the benchmark is the close of February~16---the last trading day before the ruling, as the exchange was open on Saturdays. The modest decline during the oral arguments (January~8--10) understates the market anxiety triggered by the government's weak showing: press coverage in the following days drove sustained selling, with Liberty Bond prices reaching their highest level since 1917 by January~13 \citep{NYT1935}. Panel~B statistics cover the full sample.\end{minipage}
+\begin{minipage}{0.95\textwidth}\footnotesize \textit{Notes.} All series are constructed from CRSP daily returns. The market return is value-weighted using previous-day market capitalization and reproduces the CRSP value-weighted index. Firms are classified by the gold-clause exposure measure $d_j$ defined in equation~(\ref{eq:d}): the two equal-weighted portfolios contain firms with $d_j>0$ and $d_j=0$, respectively, and the exposure-weighted portfolio weights firms with $d_j>0$ by $w_j = d_j/\sum_k d_k$. Portfolios are rebalanced daily over firms with a return on each day. Raw returns are the compound product of daily returns over each event window. The cumulative abnormal return (CAR) in Panel~B is the sum of daily abnormal returns $\hat{\varepsilon}_t = r_t - \hat{\alpha} - \hat{\beta}\, r_{m,t}$, where $\hat{\alpha}$ and $\hat{\beta}$ are estimated by OLS on the full pre-abrogation period (July~1, 1926--April~25, 1933; 2,021 trading days); the estimated betas are reported in Panel~C. The same estimation window is used for all three events. For the Supreme Court decision (February~18), the benchmark is the close of February~16---the last trading day before the ruling, as the exchange was open on Saturdays. The modest decline during the oral arguments (January~8--10) understates the market anxiety triggered by the government's weak showing: press coverage in the following days drove sustained selling, with Liberty Bond prices reaching their highest level since 1917 by January~13 \citep{NYT1935}. Internet Appendix Section~\ref{sec:ia_other_events} examines the remaining legal and political events of the litigation period. Panel~C statistics cover the full sample.\end{minipage}
 \end{table}
