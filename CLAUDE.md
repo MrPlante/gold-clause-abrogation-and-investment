@@ -69,12 +69,17 @@ Logs land in `logs/` (gitignored). Stata must be in PATH.
 
 ### Compiling the manuscript
 
+Build artifacts (`.aux`, `.bbl`, `.log`, …) go to `manuscript/build/`
+(gitignored); the compiled PDF is copied back to `manuscript/Manuscript.pdf`
+(versioned). Always compile with `-output-directory=build`:
+
 ```bash
 cd manuscript
-pdflatex Manuscript.tex
-bibtex Manuscript
-pdflatex Manuscript.tex
-pdflatex Manuscript.tex
+pdflatex -interaction=nonstopmode -output-directory=build Manuscript.tex
+bibtex build/Manuscript
+pdflatex -interaction=nonstopmode -output-directory=build Manuscript.tex
+pdflatex -interaction=nonstopmode -output-directory=build Manuscript.tex
+cp build/Manuscript.pdf Manuscript.pdf
 ```
 
 ### Compiling a referee response PDF
