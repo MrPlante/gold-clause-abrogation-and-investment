@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2026.4.22)  8 JUN 2026 19:25
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2026.4.22)  17 JUL 2026 11:04
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1128,36 +1128,36 @@ File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 /comment-1.tex
 [2
 
-]) (./sections/comment-2.tex [3]) [4] (./response-r2.bbl)
+] [3]) (./sections/comment-2.tex [4]) [5] (./response-r2.bbl)
 
 Package caption Warning: Unused \captionsetup[figure] on input line 51.
 See the caption package documentation for explanation.
 
-[5
+[6
 
 ] (./response-r2.aux) ) 
 Here is how much of TeX's memory you used:
- 26941 strings out of 480932
- 506670 string characters out of 5906277
+ 26942 strings out of 480932
+ 506676 string characters out of 5906277
  777129 words of memory out of 5000000
  43600 multiletter control sequences out of 15000+600000
  450209 words of font info for 62 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 92i,5n,120p,1129b,724s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texlive/texmf-dist/fonts/enc/dvips/lm/lm-mat
-hit.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/share
+ 92i,5n,120p,1555b,724s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texlive/texmf-dist/fonts/enc/dvips/lm/lm-rm.
+enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/share
 /texlive/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/share/texlive/texmf-dist
 /fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvip
 s/lm/lm-ts1.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/lm/lmbx10.pfb
 ></usr/share/texlive/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/share/te
 xlive/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/share/texlive/texmf-dis
-t/fonts/type1/public/lm/lmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
-blic/lm/lmri10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/lm/lmsy10.
-pfb>
-Output written on response-r2.pdf (5 pages, 122563 bytes).
+t/fonts/type1/public/lm/lmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
+blic/lm/lmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/lm/lmri10.p
+fb></usr/share/texlive/texmf-dist/fonts/type1/public/lm/lmsy10.pfb>
+Output written on response-r2.pdf (6 pages, 131809 bytes).
 PDF statistics:
- 74 PDF objects out of 1000 (max. 8388607)
- 60 compressed objects within 1 object stream
- 9 named destinations out of 1000 (max. 500000)
+ 82 PDF objects out of 1000 (max. 8388607)
+ 66 compressed objects within 1 object stream
+ 10 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 
