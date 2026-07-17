@@ -91,6 +91,35 @@ pdflatex response-r6.tex
 
 Same pattern for `r2/response-r2.tex` and `editor/response-editor.tex`.
 
+### CRSP daily data (research DB)
+
+Firm-level CRSP daily returns live in the **`gold_claude.crsp`** table on the
+research Postgres server (database `splante` on `researchdb.ssc.wisc.edu`,
+Kerberos auth). Any script that needs CRSP daily data must read this table —
+do **not** query `crsp.daily_stock_returns` directly and do **not** download
+from WRDS.
+
+```python
+import pandas as pd, sqlalchemy
+engine = sqlalchemy.create_engine(
+    "postgresql://splante%40ads.ssc.wisc.edu@researchdb.ssc.wisc.edu/splante"
+    "?sslmode=require&gssencmode=require")
+df = pd.read_sql("select permno, date, ret from gold_claude.crsp where ...", engine)
+```
+
+Contents: 1925-12-31 to 1945-12-31, all stocks (4,396,736 rows, 1,146 permnos).
+Columns: `permno, date, ret, retx, prc, close, cap, vol, facprc, orddivamt,
+nonorddivamt` (CIZ format; delisting returns already integrated into `ret`).
+Built/rebuilt by `code/seb/build_gold_claude_crsp.sql` (run instructions in the
+file header). Requires a valid Kerberos ticket (`klist` to check).
+
+The companion table **`gold_claude.crsp_names`** (same build script) holds the
+CRSP security-info/names history for those 1,146 permnos: the permno→permco
+map plus issuer/security names, share class, ticker, SIC, exchange, and
+delisting fields, one row per validity spell (`secinfostartdt`–`secinfoenddt`).
+All 1,146 permnos map to 1,123 permcos; only 21 permcos have multiple share
+classes listed.
+
 ---
 
 ## Table and figure mapping (post-round-2 renumbering)
