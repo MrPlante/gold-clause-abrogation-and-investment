@@ -6,6 +6,7 @@ texput.log
 *.blg
 *.log
 manuscript/build/
+rfs-responses/**/build/
 
 # Stata batch logs (see logs/README.md)
 logs/*

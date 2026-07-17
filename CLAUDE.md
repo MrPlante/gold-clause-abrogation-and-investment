@@ -82,17 +82,19 @@ manuscript root (versioned; the jobname is set in the rc file).
 
 ### Compiling a referee response PDF
 
-Each referee response is a standalone document. To compile R6:
+Each referee response is a standalone document following the same template as
+the manuscript: the root file is `main.tex`, a local `.latexmkrc` routes
+artifacts to a gitignored `build/` and names the PDF (e.g. `response-r6.pdf`).
+To compile R6:
 
 ```bash
 cd rfs-responses/round-2/referee-responses/r6
-pdflatex response-r6.tex
-bibtex response-r6
-pdflatex response-r6.tex
-pdflatex response-r6.tex
+latexmk main.tex
 ```
 
-Same pattern for `r2/response-r2.tex` and `editor/response-editor.tex`.
+Same pattern for every document directory under
+`rfs-responses/round-{1,2}/referee-responses/` (round 1: editor, r1, r2, r6;
+round 2: editor, r2, r6).
 
 ### CRSP daily data (research DB)
 
@@ -175,12 +177,13 @@ Round-2 responses live under `rfs-responses/round-2/referee-responses/`.
 ```
 referee-responses/
   r2/
-    response-r2.tex          ← root document (inputs preamble + sections)
+    main.tex                 ← root document (inputs preamble + sections)
+    .latexmkrc               ← jobname response-r2 → compiles to response-r2.pdf
     sections/
       comment-1.tex          ← event study figures and table
       comment-2.tex          ← Liberty bond sentence + NYT citation
   r6/
-    response-r6.tex
+    main.tex                 ← compiles to response-r6.pdf
     sections/
       comment-1.tex          ← preferred share concern
       comment-2.tex          ← industry×year FEs in cols 2-10
@@ -188,11 +191,13 @@ referee-responses/
       comment-4.tex          ← repurchases
       cover-letter-comment.tex ← cover letter point
   editor/
-    response-editor.tex
+    main.tex                 ← compiles to response-editor.pdf
 ```
 
 All three root documents `\input{../../preamble.tex}` and
-`\input{../../revision-summary.tex}` for shared boilerplate.
+`\input{../../revision-summary.tex}` for shared boilerplate. Round-1
+responses under `rfs-responses/round-1/referee-responses/` follow the same
+layout.
 
 ---
 
