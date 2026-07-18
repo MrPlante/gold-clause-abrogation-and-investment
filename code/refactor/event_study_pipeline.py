@@ -41,6 +41,7 @@ import os
 import shutil
 import subprocess
 from datetime import datetime
+from pathlib import Path
 
 import matplotlib
 
@@ -52,12 +53,13 @@ import pandas as pd
 
 DB = ("postgresql://splante%40ads.ssc.wisc.edu@researchdb.ssc.wisc.edu/splante"
       "?sslmode=require&gssencmode=require")
-A4_PATH = "../../data/A4_merged.dta"
-OUT_DIR = "../../output/figures/event-study"
-MS_BODY_FIG = "../../manuscript/figures/body"
-MS_IA_FIG = "../../manuscript/figures/online-appendix"
-MS_BODY_TAB = "../../manuscript/tables/body"
-MS_IA_TAB = "../../manuscript/tables/online-appendix"
+ROOT = Path(__file__).resolve().parents[2]  # repo root, independent of cwd
+A4_PATH = ROOT / "data" / "A4_merged.dta"
+OUT_DIR = ROOT / "output" / "figures" / "event-study"
+MS_BODY_FIG = ROOT / "manuscript" / "figures" / "body"
+MS_IA_FIG = ROOT / "manuscript" / "figures" / "online-appendix"
+MS_BODY_TAB = ROOT / "manuscript" / "tables" / "body"
+MS_IA_TAB = ROOT / "manuscript" / "tables" / "online-appendix"
 
 SAMPLE_START, SAMPLE_END = "1926-07-01", "1945-12-31"
 EST_START, EST_END = "1926-07-01", "1933-04-25"   # pre-abrogation window

@@ -2,7 +2,7 @@
 IA Table 17 — Table 6 columns 2-10 re-estimated with industry-year FEs.
 
 Reads Stata output from output/tables/t6_indyear_robustness.csv (produced by
-code/mete/A12_controls_indyear.do) and renders a landscape LaTeX table.
+code/refactor/stata/A12_controls_indyear.do) and renders a landscape LaTeX table.
 """
 
 from __future__ import annotations

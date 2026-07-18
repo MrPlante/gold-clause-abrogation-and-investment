@@ -1,7 +1,7 @@
 """
 Internet Appendix Table 12 — Quarter-specific dividend regressions.
 
-Port of ``code/seb/quarterly-div.py`` (cluster SEs by permno only).
+Port of ``code/legacy/seb/quarterly-div.py`` (cluster SEs by permno only).
 """
 
 from __future__ import annotations

@@ -1,7 +1,7 @@
 # Refactor vs original results — discrepancy log
 
 Tracks differences between **`code/refactor/`** (Python), the **published manuscript**
-(`manuscript/tables/`), and **Mete’s Stata pipeline** (`code/mete/`, `metes-tables/`).
+(`manuscript/tables/`), and **Mete’s Stata pipeline** (`code/legacy/mete/`, `metes-tables/`).
 
 **Baseline data:** `data/A4_merged.dta` (Mete-built; refactor data port not yet validated end-to-end).
 

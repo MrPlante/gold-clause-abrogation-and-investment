@@ -11,7 +11,7 @@ rfs-responses/**/build/
 # Stata batch logs (see logs/README.md)
 logs/*
 !logs/README.md
-code/mete/_stata_smoke.do
+code/legacy/mete/_stata_smoke.do
 
 # Python
 __pycache__/

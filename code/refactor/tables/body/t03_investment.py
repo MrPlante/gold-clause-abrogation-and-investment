@@ -1,7 +1,7 @@
 """
 Table 3 — Leverage and investment (manuscript tab:inv_main).
 
-Replicates panel regressions from code/mete/A9_inv_results.do with column
+Replicates panel regressions from code/legacy/mete/A9_inv_results.do with column
 definitions from manuscript/tables/body/3_investment_reg.tex.
 """
 

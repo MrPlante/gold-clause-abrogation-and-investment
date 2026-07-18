@@ -1,7 +1,9 @@
 # Python refactor of Mete's Stata pipeline
 
-Replicates all manuscript tables from `code/mete/` with Stata-matched econometrics
-(two-way clustered SEs, same sample windows, winsorization).
+Replicates all manuscript tables from `code/legacy/mete/` with Stata-matched econometrics
+(two-way clustered SEs, same sample windows, winsorization). Together with the
+event-study pipeline (below) this directory is the complete replication package
+for the paper.
 
 ## Layout
 
@@ -10,6 +12,9 @@ code/refactor/
 ├── config.py           # paths, constants
 ├── run.py              # CLI entry point
 ├── setup.sh            # create .venv and install dependencies
+├── event_study_pipeline.py  # Table 1, Figs 3–5, IA.2/IA.3, Table IA.20 (research DB)
+├── sql/                # build script for gold_claude.crsp on researchdb
+├── stata/              # do-files still in the production path (IA.19 exact SEs)
 ├── data/               # A0–A4 data build (Stata A0_accounting … A4_merge)
 ├── lib/                # regressions, winsorization, LaTeX, validation
 ├── tables/
@@ -23,6 +28,34 @@ code/refactor/
 ├── tests/              # auto-check vs manuscript .tex (tol=0.001)
 └── compare/            # Stata vs Python regression diff (see compare/README.md)
 ```
+
+## Event study (Table 1, Figures 3–5, IA.2, IA.3, Table IA.20)
+
+```bash
+python3 code/refactor/run.py --stage eventstudy
+```
+
+Builds the four daily portfolio return series (VW market, equal-weighted
+d>0 / d=0, and d-weighted) from `gold_claude.crsp` on the research DB plus
+`data/A4_merged.dta`, and writes all event figures and tables directly into
+`manuscript/`. **Not part of `--stage all`**: it needs a valid Kerberos
+ticket for `researchdb.ssc.wisc.edu` (check with `klist`). The DB extract
+itself is built by `sql/build_gold_claude_crsp.sql` (run instructions in the
+file header). Uses only numpy/pandas/matplotlib + `psql`, so the system
+`python3` works — no venv needed for this stage.
+
+## IA.19 (industry-year robustness): known Stata dependency
+
+Table IA.19's coefficients and standard errors come from
+`stata/A12_controls_indyear.do` (run with
+`stata-mp -b do code/refactor/stata/A12_controls_indyear.do` from the repo
+root), which writes `output/tables/t6_indyear_robustness.csv`;
+`--stage ia17` then renders that CSV to LaTeX. This is deliberate: the
+portfolio-decile + industry×year specifications crash the in-process
+Stata vcov bridge, and the pure-Python CGM standard errors are close but
+not identical to `reghdfe`. The CSV is versioned, so `--stage ia17` (and
+`--stage all`) work without Stata; rerun the do-file only if the underlying
+data changes.
 
 ## Stata vs Python comparison
 

@@ -43,12 +43,15 @@ def main(argv: list[str] | None = None) -> None:
             "ia14",
             "ia15",
             "ia16",
+            "ia17",
+            "eventstudy",
             "compare",
             "figures",
             "all",
         ],
         default="table3",
-        help="Pipeline stage to run",
+        help="Pipeline stage to run (eventstudy needs researchdb Kerberos "
+        "access and is not part of 'all')",
     )
     parser.add_argument(
         "--skip-raw",
@@ -188,10 +191,23 @@ def main(argv: list[str] | None = None) -> None:
 
         run_ia16()
 
+    if args.stage in ("ia17", "all"):
+        from tables.appendix.ia_17_controls_indyear import main as run_ia17
+
+        run_ia17()
+
     if args.stage in ("figures", "all"):
         from figures.build import main as run_figures
 
         run_figures()
+
+    if args.stage == "eventstudy":
+        # Excluded from "all": needs a Kerberos ticket for researchdb
+        # (gold_claude.crsp). Regenerates Table 1, Figures 3-5, IA.2, IA.3,
+        # and Table IA.20 directly into manuscript/.
+        from event_study_pipeline import main as run_event_study
+
+        run_event_study()
 
     if args.stage == "compare":
         import subprocess
