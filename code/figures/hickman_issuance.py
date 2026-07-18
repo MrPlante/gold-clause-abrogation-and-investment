@@ -1,8 +1,11 @@
 """Figure — industrial corporate bond offerings (Hickman 1953).
 
-Place annual par amounts (millions USD) in ``data/raw/figures/hickman_industrial_bonds.csv``
-with columns ``year,par_millions``. The manuscript cites Hickman (1953); this file is not
-built from A4/A1 and must be supplied from the NBER volume or Mete's original figure data.
+Data: ``figures/data/hickman_industrial_bonds.csv`` (versioned), transcribed
+from Hickman (1953), Appendix A, Table A-2 (straight corporate bonds),
+Industrials panel, column "Offered during year", 1920-1940, millions of
+dollars par value. Verified 2026-07-17 against the NBER chapter scan
+(nber.org/chapters/c3090) and against a calibrated pixel extraction of the
+original manuscript figure (max deviation 4.5 USDm, within rendering error).
 """
 
 from __future__ import annotations
@@ -12,9 +15,9 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import pandas as pd
 
-from config import MANUSCRIPT_BODY_FIGURES, RAW_DIR, REFACTOR_OUTPUT_FIGURES
+from config import MANUSCRIPT_BODY_FIGURES, REFACTOR_OUTPUT_FIGURES
 
-HICKMAN_CSV = RAW_DIR / "figures" / "hickman_industrial_bonds.csv"
+HICKMAN_CSV = Path(__file__).resolve().parent / "data" / "hickman_industrial_bonds.csv"
 
 
 def build_hickman_issuance_plot(*, out_dir: Path | None = None) -> Path | None:
