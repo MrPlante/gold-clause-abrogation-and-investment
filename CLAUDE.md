@@ -172,32 +172,40 @@ order in `manuscript/sections/11_online_appendix.tex`:
 
 ## Referee response structure
 
-Round-2 responses live under `rfs-responses/round-2/referee-responses/`.
+Round-2 responses live under `rfs-responses/round-2/`.
 
 ```
-referee-responses/
-  r2/
-    main.tex                 ← root document (inputs preamble + sections)
-    .latexmkrc               ← jobname response-r2 → compiles to response-r2.pdf
-    sections/
-      comment-1.tex          ← event study figures and table
-      comment-2.tex          ← Liberty bond sentence + NYT citation
-  r6/
-    main.tex                 ← compiles to response-r6.pdf
-    sections/
-      comment-1.tex          ← preferred share concern
-      comment-2.tex          ← industry×year FEs in cols 2-10
-      comment-3.tex          ← parallel trends / 1930 coefficient
-      comment-4.tex          ← repurchases
-      cover-letter-comment.tex ← cover letter point
-  editor/
-    main.tex                 ← compiles to response-editor.pdf
+round-2/
+  shared/                    ← material shared by all response documents
+    referee-reports/         ← the incoming reports being responded to
+    preamble.tex
+    revision-summary.tex
+    gold-bib.bib
+    jf.bst
+  referee-responses/
+    r2/
+      main.tex               ← root document (inputs shared/ + sections)
+      .latexmkrc             ← jobname response-r2 → compiles to response-r2.pdf
+      sections/
+        comment-1.tex        ← event study figures and table
+        comment-2.tex        ← Liberty bond sentence + NYT citation
+    r6/
+      main.tex               ← compiles to response-r6.pdf
+      sections/
+        comment-1.tex        ← preferred share concern
+        comment-2.tex        ← industry×year FEs in cols 2-10
+        comment-3.tex        ← parallel trends / 1930 coefficient
+        comment-4.tex        ← repurchases
+        cover-letter-comment.tex ← cover letter point
+    editor/
+      main.tex               ← compiles to response-editor.pdf
 ```
 
-All three root documents `\input{../../preamble.tex}` and
-`\input{../../revision-summary.tex}` for shared boilerplate. Round-1
-responses under `rfs-responses/round-1/referee-responses/` follow the same
-layout.
+All three root documents `\input{../../shared/preamble.tex}` and
+`\input{../../shared/revision-summary.tex}` for shared boilerplate, and take
+their bibliography from `shared/gold-bib.bib` with `shared/jf.bst`. Round-1
+under `rfs-responses/round-1/` follows the same layout (with an extra `r1/`
+response).
 
 ---
 
