@@ -1,6 +1,6 @@
 # Stata vs Python regression comparison
 
-Runs the **same regressions** in Mete’s Stata pipeline (`code/legacy/mete/`) and the Python refactor (`code/refactor/`), exports coefficients / SE / N / R², and writes a diff report.
+Runs the **same regressions** in Mete’s Stata pipeline (formerly `code/mete/`, in git history at d54b0c3) and the Python refactor (`code/refactor/`), exports coefficients / SE / N / R², and writes a diff report.
 
 ## Prerequisites
 

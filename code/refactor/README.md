@@ -1,6 +1,6 @@
 # Python refactor of Mete's Stata pipeline
 
-Replicates all manuscript tables from `code/legacy/mete/` with Stata-matched econometrics
+Replicates all manuscript tables from the original Stata pipeline (removed from the tree; retrieve with `git checkout d54b0c3 -- code/legacy`) with Stata-matched econometrics
 (two-way clustered SEs, same sample windows, winsorization). Together with the
 event-study pipeline (below) this directory is the complete replication package
 for the paper.
