@@ -9,10 +9,9 @@ texput.log
 manuscript/build/
 rfs-responses/**/build/
 
-# Stata batch logs (see logs/README.md)
-logs/*
-!logs/README.md
+# Stata batch logs (run_stata_do.sh creates logs/stata/ on demand)
+logs/
 
 # Python
 __pycache__/
-code/refactor/.venv/
+code/.venv/

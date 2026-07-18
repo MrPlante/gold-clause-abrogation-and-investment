@@ -64,7 +64,7 @@ code/.venv/bin/python code/compare/export_python.py
 code/.venv/bin/python code/compare/compare_results.py
 ```
 
-Stata batch logs are written to `logs/stata/` (see `logs/README.md`).
+Stata batch logs are written to `logs/stata/` (gitignored; the run_stata_do.sh wrapper creates it on demand).
 
 ## Tolerances
 
