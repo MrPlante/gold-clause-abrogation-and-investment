@@ -358,3 +358,13 @@ reproducible, replace the series ids with ones that cover the 1930s
 (`CPIAUCNS` for CPI; NBER macrohistory series for the sterling/franc rates)
 and add a source for the RFC gold purchasing-program price, then match the
 original figure's content before re-enabling the manuscript copy step.
+
+**RESOLVED 2026-07-18:** the figures are now fully reproducible. The original
+MATLAB PDFs are vector graphics, so every plotted series was recovered at
+data precision from the path coordinates and versioned in
+`figures/data/macro_monthly.csv` (FX indices; gold purchasing-program and
+official prices), with CPI replaced by the citable FRED `CPIAUCNS`
+(normalized 12/1932; matches the original in 10 of 13 plotted months,
+June-August 1933 differ by one 0.1-point tick from an older CPI vintage).
+`macro_plots.py` now reads the versioned CSV — no network dependency — and
+the regenerated figures replace the originals in the manuscript.

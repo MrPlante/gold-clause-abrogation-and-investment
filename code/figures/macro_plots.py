@@ -1,133 +1,135 @@
-"""Historical macro figures (FX, gold, CPI) for manuscript Figures 1–2."""
+"""Manuscript Figures 1-2: gold price vs exchange rates and inflation.
+
+Data: ``figures/data/macro_monthly.csv`` (versioned), monthly 12/1930-12/1936.
+
+Provenance (assembled 2026-07-18, see DISCREPANCIES.md D-015):
+- ``usd_gbp_index`` / ``usd_frf_index``: dollar/sterling and dollar/franc
+  exchange rates indexed to December 1932 = 1, recovered at full precision
+  from the vector paths of the original MATLAB figures (the underlying
+  source file was never in the repo). Consistent with the interwar record:
+  sterling collapses on Britain's September 1931 exit, the franc devalues
+  with the September 1936 Tripartite Agreement.
+- ``cpi_index``: BLS CPI, all urban consumers, NSA (FRED ``CPIAUCNS``),
+  normalized to December 1932 (= 13.1). Matches the original figure in 10
+  of 13 plotted months; June-August 1933 differ by one 0.1-point CPI tick
+  (the original used an older CPI vintage).
+- ``gold_purchase_usd``: U.S. government gold purchasing-program price,
+  $20.67 through 8/1933, Treasury/RFC purchase prices 9/1933-1/1934
+  (28.00, 29.01, 31.96, 33.32, 34.06), $35.00 from 2/1934 (Gold Reserve
+  Act of January 30, 1934). Values as plotted in the original figure.
+- ``gold_official_usd``: official (statutory) gold price, $20.67 to
+  1/1934, $35.00 after.
+
+The vertical black line marks Executive Order 6102 (April 5, 1933), the
+requirement to deliver gold holdings to the government.
+"""
 
 from __future__ import annotations
 
-import io
+from datetime import date
 from pathlib import Path
-from urllib.request import urlopen
 
+import matplotlib
+
+matplotlib.use("Agg")
+import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
 
-from config import MANUSCRIPT_BODY_FIGURES, RAW_DIR, REFACTOR_OUTPUT_FIGURES
+from config import MANUSCRIPT_BODY_FIGURES, REFACTOR_OUTPUT_FIGURES
 
-RAW_FIGURES_DIR = RAW_DIR / "figures"
-MONTHLY_MACRO_CSV = RAW_FIGURES_DIR / "monthly_macro.csv"
+MONTHLY_MACRO_CSV = Path(__file__).resolve().parent / "data" / "macro_monthly.csv"
 
-# FRED graph export (no API key); series chosen for 1930s coverage.
-FRED_SERIES = {
-    "sterling": "EXUSUK",  # U.S. dollars per U.K. pound
-    "franc": "EXCHUS",  # U.S. dollars per French franc (monthly)
-    "cpi": "CPIAUCSL",
-}
+MATLAB_BLUE = (0.00, 0.45, 0.74)
+MATLAB_RED = (0.85, 0.33, 0.10)
+GOLD_ORDER = date(1933, 4, 5)  # Executive Order 6102
 
 
-def _fred_csv(series_id: str, start: str = "1930-01-01", end: str = "1936-12-31") -> pd.Series:
-    url = (
-        f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={series_id}"
-        f"&cosrd={start}&coerd={end}"
-    )
-    with urlopen(url, timeout=60) as resp:
-        raw = resp.read().decode("utf-8")
-    frame = pd.read_csv(io.StringIO(raw))
-    frame.columns = ["date", series_id]
-    frame["date"] = pd.to_datetime(frame["date"])
-    s = frame.set_index("date")[series_id].astype(float)
-    return s.replace(".", np.nan).dropna()
+def _load() -> pd.DataFrame:
+    return pd.read_csv(MONTHLY_MACRO_CSV, parse_dates=["date"]).set_index("date")
 
 
-def fetch_monthly_macro(cache: Path = MONTHLY_MACRO_CSV) -> pd.DataFrame:
-    """Download monthly macro series from FRED and cache locally."""
-    cache.parent.mkdir(parents=True, exist_ok=True)
-    cols = {}
-    for name, sid in FRED_SERIES.items():
-        cols[name] = _fred_csv(sid)
-    out = pd.concat(cols, axis=1, sort=True)
-    # Official U.S. gold price steps (USD/troy oz) for annotation lines.
-    out["gold_official_us"] = np.nan
-    out.loc[out.index >= "1934-01-31", "gold_official_us"] = 35.0
-    out.loc[(out.index >= "1933-01-31") & (out.index < "1934-01-31"), "gold_official_us"] = 20.67
-    out.to_csv(cache)
-    return out
+def _fx_panel(frame: pd.DataFrame, fx_col: str, fx_label: str, out_path: Path) -> Path:
+    fig, ax = plt.subplots(figsize=(5.5, 4.1), dpi=150)
+    axr = ax.twinx()
 
+    ax.plot(frame.index, frame["gold_purchase_usd"], color=MATLAB_BLUE,
+            linewidth=1.6, label="Gold purchase price")
+    axr.plot(frame.index, frame[fx_col], color=MATLAB_RED, linestyle="--",
+             linewidth=1.6, label=fx_label)
+    ax.axvline(pd.Timestamp(GOLD_ORDER), color="black", linewidth=4.0)
 
-def _load_macro() -> pd.DataFrame:
-    if MONTHLY_MACRO_CSV.is_file():
-        frame = pd.read_csv(MONTHLY_MACRO_CSV, parse_dates=["date"]).set_index("date")
-    else:
-        frame = fetch_monthly_macro()
-    return frame
+    ax.set_xlim(pd.Timestamp("1930-12-31"), pd.Timestamp("1936-09-15"))
+    ax.set_ylim(20, 35)
+    ax.set_yticks([20, 25, 30, 35])
+    ax.set_ylabel("Dollars per ounce", color=MATLAB_BLUE)
+    ax.tick_params(axis="y", colors=MATLAB_BLUE)
+    axr.set_ylim(0.96, 1.72)
+    axr.set_yticks([1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7])
+    axr.set_ylabel("Exchange rate (12/1932 = 1)", color=MATLAB_RED)
+    axr.tick_params(axis="y", colors=MATLAB_RED)
+    ax.xaxis.set_major_locator(mdates.YearLocator(month=12, day=31))
+    ax.xaxis.set_major_formatter(mdates.DateFormatter("%m/%Y"))
+    ax.tick_params(axis="x", labelsize=7)
+    ax.tick_params(axis="y", labelsize=8)
+    axr.tick_params(axis="y", labelsize=8)
 
-
-def _norm_dec_1932(s: pd.Series) -> pd.Series:
-    dec = s.loc["1932-12":"1932-12"]
-    base = float(dec.iloc[-1]) if len(dec) else float(s.iloc[0])
-    return s / base if base else s
-
-
-def _vline_gold_order(ax) -> None:
-    """April 5, 1933 — Executive Order 6102."""
-    ax.axvline(pd.Timestamp("1933-04-05"), color="black", linewidth=1.0)
+    handles = [
+        plt.Line2D([], [], color="black", linewidth=4.0, label="Ban on gold holdings"),
+        plt.Line2D([], [], color=MATLAB_BLUE, linewidth=1.6, label="Gold purchase price"),
+        plt.Line2D([], [], color=MATLAB_RED, linestyle="--", linewidth=1.6, label=fx_label),
+    ]
+    ax.legend(handles=handles, loc="upper left", fontsize=8, frameon=True, edgecolor="black")
+    fig.tight_layout()
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(out_path, bbox_inches="tight")
+    plt.close(fig)
+    return out_path
 
 
 def plot_dollar_to_sterling(frame: pd.DataFrame, out_path: Path) -> Path:
-    fx = _norm_dec_1932(frame["sterling"])
-    fig, ax = plt.subplots(figsize=(5.5, 3.2), dpi=150)
-    ax.plot(fx.index, fx, color="C3", linestyle="--", linewidth=1.2, label="USD / sterling")
-    if "gold_official_us" in frame.columns:
-        g = frame["gold_official_us"].dropna()
-        if not g.empty:
-            ax.plot(g.index, _norm_dec_1932(g), color="C0", linewidth=1.2, label="Gold (US)")
-    _vline_gold_order(ax)
-    ax.set_xlim(pd.Timestamp("1930-12-31"), pd.Timestamp("1934-03-31"))
-    ax.set_ylabel("Index (Dec. 1932 = 1)")
-    ax.legend(loc="best", fontsize=8, frameon=False)
-    fig.tight_layout()
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(out_path, bbox_inches="tight")
-    plt.close(fig)
-    return out_path
+    return _fx_panel(frame, "usd_gbp_index", "Dollar/Sterling", out_path)
 
 
 def plot_dollar_to_franc(frame: pd.DataFrame, out_path: Path) -> Path:
-    fx = _norm_dec_1932(frame["franc"])
-    fig, ax = plt.subplots(figsize=(5.5, 3.2), dpi=150)
-    ax.plot(fx.index, fx, color="C3", linestyle="--", linewidth=1.2, label="USD / franc")
-    if "gold_official_us" in frame.columns:
-        g = frame["gold_official_us"].dropna()
-        if not g.empty:
-            ax.plot(g.index, _norm_dec_1932(g), color="C0", linewidth=1.2, label="Gold (US)")
-    _vline_gold_order(ax)
-    ax.set_xlim(pd.Timestamp("1930-12-31"), pd.Timestamp("1934-03-31"))
-    ax.set_ylabel("Index (Dec. 1932 = 1)")
-    ax.legend(loc="best", fontsize=8, frameon=False)
-    fig.tight_layout()
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(out_path, bbox_inches="tight")
-    plt.close(fig)
-    return out_path
+    return _fx_panel(frame, "usd_frf_index", "Dollar/Franc", out_path)
 
 
 def plot_inflation(frame: pd.DataFrame, out_path: Path) -> Path:
-    cpi = _norm_dec_1932(frame["cpi"])
-    fig, ax = plt.subplots(figsize=(5.5, 3.2), dpi=150)
-    if "gold_official_us" in frame.columns:
-        g = frame["gold_official_us"].dropna()
-        if not g.empty:
-            ax.plot(
-                g.index,
-                _norm_dec_1932(g),
-                color="C0",
-                linestyle=":",
-                linewidth=1.2,
-                label="Official gold price",
-            )
-    ax.plot(cpi.index, cpi, color="C3", linestyle="--", linewidth=1.2, label="CPI")
-    _vline_gold_order(ax)
-    ax.set_xlim(pd.Timestamp("1933-01-01"), pd.Timestamp("1934-12-31"))
-    ax.set_ylabel("Index (Dec. 1932 = 1)")
-    ax.legend(loc="best", fontsize=8, frameon=False)
+    window = frame.loc["1932-12-01":"1934-05-31"]
+    fig, ax = plt.subplots(figsize=(5.5, 4.1), dpi=150)
+    axr = ax.twinx()
+
+    ax.plot(window.index, window["gold_official_usd"], color=MATLAB_BLUE,
+            linestyle="-.", linewidth=1.6, label="Domestic gold price")
+    ax.plot(window.index, window["gold_purchase_usd"], color=MATLAB_BLUE,
+            linewidth=1.6, label="Gold purchase price")
+    axr.plot(window.index, window["cpi_index"], color=MATLAB_RED, linestyle="--",
+             linewidth=1.6, label="CPI")
+    ax.axvline(pd.Timestamp(GOLD_ORDER), color="black", linewidth=4.0)
+
+    ax.set_xlim(pd.Timestamp("1932-12-31"), pd.Timestamp("1934-05-31"))
+    ax.set_ylim(20, 35)
+    ax.set_yticks([20, 25, 30, 35])
+    ax.set_ylabel("Dollars per ounce", color=MATLAB_BLUE)
+    ax.tick_params(axis="y", colors=MATLAB_BLUE)
+    axr.set_ylim(0.96, 1.69)
+    axr.set_yticks([1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6])
+    axr.set_ylabel("CPI (12/1932 = 1)", color=MATLAB_RED)
+    axr.tick_params(axis="y", colors=MATLAB_RED)
+    ax.xaxis.set_major_locator(mdates.MonthLocator(bymonth=(2, 4, 6, 8, 10, 12), bymonthday=28))
+    ax.xaxis.set_major_formatter(mdates.DateFormatter("%m/%Y"))
+    ax.tick_params(axis="x", labelsize=7)
+    ax.tick_params(axis="y", labelsize=8)
+    axr.tick_params(axis="y", labelsize=8)
+
+    handles = [
+        plt.Line2D([], [], color="black", linewidth=4.0, label="Ban on gold holdings"),
+        plt.Line2D([], [], color=MATLAB_BLUE, linestyle="-.", linewidth=1.6, label="Domestic gold price"),
+        plt.Line2D([], [], color=MATLAB_BLUE, linewidth=1.6, label="Gold purchase price"),
+        plt.Line2D([], [], color=MATLAB_RED, linestyle="--", linewidth=1.6, label="CPI"),
+    ]
+    ax.legend(handles=handles, loc="upper left", fontsize=8, frameon=True, edgecolor="black")
     fig.tight_layout()
     out_path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(out_path, bbox_inches="tight")
@@ -136,21 +138,7 @@ def plot_inflation(frame: pd.DataFrame, out_path: Path) -> Path:
 
 
 def build_macro_figures(*, out_dir: Path | None = None) -> dict[str, Path]:
-    frame = _load_macro()
-    # Coverage guard: the plot windows are 1931-1934, but the FRED series ids
-    # currently configured (EXUSUK, EXCHUS, CPIAUCSL) have NO pre-1947 data,
-    # which silently produced BLANK manuscript Figures 1-2 from 2026-06-03 to
-    # 2026-07-18. Never overwrite the (correct, original) manuscript figures
-    # unless the data actually covers the 1930s.
-    window = frame.loc[:"1935-12-31"]
-    if window.drop(columns=["gold_official_us"], errors="ignore").dropna(how="all").empty:
-        print(
-            "SKIP macro figures: no pre-1936 observations in "
-            f"{MONTHLY_MACRO_CSV} (FRED series lack 1930s coverage). "
-            "Manuscript figures left untouched; fix FRED_SERIES first "
-            "(e.g. CPIAUCNS + NBER macrohistory FX series)."
-        )
-        return {}
+    frame = _load()
     dest = Path(out_dir) if out_dir is not None else REFACTOR_OUTPUT_FIGURES
     paths = {
         "dollar_to_sterling": plot_dollar_to_sterling(frame, dest / "dollar_to_sterling.pdf"),
