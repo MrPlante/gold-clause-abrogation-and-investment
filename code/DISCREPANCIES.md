@@ -343,3 +343,18 @@ All manuscript **body** tables (1–7) and **online appendix** tables (0a–16) 
 | 2026-06-02 | Table 4 replicated (32 checks pass; cols 1 & 6 only) |
 | 2026-06-02 | Table 2 replicated (35 checks pass) |
 | 2026-06-02 | Initial log: Table 1 + partial Table 3; cols 4–5, Panel C firms, data pipeline |
+
+### D-015 — Macro figures (manuscript Figures 1-2) were blank from 2026-06-03 to 2026-07-18
+
+The `figures/macro_plots.py` FRED series ids (`EXUSUK`, `EXCHUS`, `CPIAUCSL`)
+have no pre-1947 observations, so the 1931-1934 plot windows were empty: the
+builder overwrote the correct original figures with axes-only blanks at
+73a03d1 (2026-06-03) and every compiled manuscript since shipped blank
+Figures 1-2, unnoticed until a visual review on 2026-07-18. Resolution: the
+original figures were restored from 348d60f into `manuscript/figures/body/`
+and `output/figure/`, and `build_macro_figures()` now refuses to write
+anything when the cache has no pre-1936 data. To make these figures
+reproducible, replace the series ids with ones that cover the 1930s
+(`CPIAUCNS` for CPI; NBER macrohistory series for the sterling/franc rates)
+and add a source for the RFC gold purchasing-program price, then match the
+original figure's content before re-enabling the manuscript copy step.

@@ -137,6 +137,20 @@ def plot_inflation(frame: pd.DataFrame, out_path: Path) -> Path:
 
 def build_macro_figures(*, out_dir: Path | None = None) -> dict[str, Path]:
     frame = _load_macro()
+    # Coverage guard: the plot windows are 1931-1934, but the FRED series ids
+    # currently configured (EXUSUK, EXCHUS, CPIAUCSL) have NO pre-1947 data,
+    # which silently produced BLANK manuscript Figures 1-2 from 2026-06-03 to
+    # 2026-07-18. Never overwrite the (correct, original) manuscript figures
+    # unless the data actually covers the 1930s.
+    window = frame.loc[:"1935-12-31"]
+    if window.drop(columns=["gold_official_us"], errors="ignore").dropna(how="all").empty:
+        print(
+            "SKIP macro figures: no pre-1936 observations in "
+            f"{MONTHLY_MACRO_CSV} (FRED series lack 1930s coverage). "
+            "Manuscript figures left untouched; fix FRED_SERIES first "
+            "(e.g. CPIAUCNS + NBER macrohistory FX series)."
+        )
+        return {}
     dest = Path(out_dir) if out_dir is not None else REFACTOR_OUTPUT_FIGURES
     paths = {
         "dollar_to_sterling": plot_dollar_to_sterling(frame, dest / "dollar_to_sterling.pdf"),
