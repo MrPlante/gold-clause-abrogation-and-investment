@@ -31,7 +31,7 @@ Memory files live in:
 | `rfs-responses/round-2/` | Round-2 referee responses (R2, R6, editor) |
 | `code/` | The full replication package: Python tables/figures (pyfixest), event-study pipeline, DB build SQL, production Stata do-files |
 | *(no `code/legacy/`)* | The original Stata pipeline (`mete/`) and retired scripts (`seb/`) were removed from the tree; retrieve with `git checkout d54b0c3 -- code/legacy` |
-| `data/` | Panel data (not versioned); key file: `A4_merged.dta` |
+| `data/` | Panel data (not versioned; see `data/README.md`): `A4_merged.dta` at the root, sources in `raw/`, A0–A3 in `intermediates/`, retired files in `attic/` |
 | `output/` | Generated tables and figures (versioned) |
 
 ---

@@ -1,5 +1,6 @@
-# Data files (not versioned) — repo-root only
-/data/
+# Data files (not versioned) — repo-root only; README is the one exception
+/data/*
+!/data/README.md
 
 # LaTeX build artifacts
 texput.log

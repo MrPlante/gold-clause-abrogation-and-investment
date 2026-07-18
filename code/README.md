@@ -115,12 +115,10 @@ python code/run.py --stage all
 
 ## Data
 
-Place raw files (not in git) under `data/raw/`:
-
-- `accounting_data.csv`
-- `gold_clauses.xlsx`
-
-Intermediate `.dta` files live in `data/` (same as Mete's Stata `Data/` folder).
+See `data/README.md` for the full layout and provenance of every file.
+In short: source inputs live in `data/raw/` (including the not-yet-present
+`accounting_data.csv` and `gold_clauses.xlsx`), the A0-A3 intermediates in
+`data/intermediates/`, and the merged panel at `data/A4_merged.dta`.
 
 Build merged panel:
 
