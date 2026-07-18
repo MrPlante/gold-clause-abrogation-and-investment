@@ -57,7 +57,10 @@ from config import MANUSCRIPT_BODY_FIGURES, REFACTOR_OUTPUT_FIGURES
 MONTHLY_MACRO_CSV = Path(__file__).resolve().parent / "data" / "macro_monthly.csv"
 
 MATLAB_BLUE = (0.00, 0.45, 0.74)
-MATLAB_RED = (0.85, 0.33, 0.10)
+# The original MATLAB figures used the default orange (#D95319) while the
+# figure notes say "red-dashed"; use the true red of the event-study figures
+# (#d62728) so the figures match the notes.
+SERIES_RED = (0.839, 0.153, 0.157)
 GOLD_ORDER = date(1933, 4, 5)  # Executive Order 6102
 
 
@@ -76,7 +79,7 @@ def _fx_panel(frame: pd.DataFrame, fx_col: str, fx_label: str, out_path: Path) -
 
     ax.plot(frame.index, frame["gold_purchase_usd"], color=MATLAB_BLUE,
             linewidth=1.6, label="Gold purchase price")
-    axr.plot(frame.index, frame[fx_col], color=MATLAB_RED, linestyle="--",
+    axr.plot(frame.index, frame[fx_col], color=SERIES_RED, linestyle="--",
              linewidth=1.6, label=fx_label)
     ax.axvline(pd.Timestamp(GOLD_ORDER), color="black", linewidth=4.0)
 
@@ -87,8 +90,8 @@ def _fx_panel(frame: pd.DataFrame, fx_col: str, fx_label: str, out_path: Path) -
     ax.tick_params(axis="y", colors=MATLAB_BLUE)
     axr.set_ylim(0.96, 1.72)
     axr.set_yticks([1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7])
-    axr.set_ylabel("Exchange rate (12/1932 = 1)", color=MATLAB_RED)
-    axr.tick_params(axis="y", colors=MATLAB_RED)
+    axr.set_ylabel("Exchange rate (12/1932 = 1)", color=SERIES_RED)
+    axr.tick_params(axis="y", colors=SERIES_RED)
     ax.xaxis.set_major_locator(mdates.YearLocator(month=12, day=31))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m/%Y"))
     ax.tick_params(axis="x", labelsize=7)
@@ -98,7 +101,7 @@ def _fx_panel(frame: pd.DataFrame, fx_col: str, fx_label: str, out_path: Path) -
     handles = [
         plt.Line2D([], [], color="black", linewidth=4.0, label="Ban on gold holdings"),
         plt.Line2D([], [], color=MATLAB_BLUE, linewidth=1.6, label="Gold purchase price"),
-        plt.Line2D([], [], color=MATLAB_RED, linestyle="--", linewidth=1.6, label=fx_label),
+        plt.Line2D([], [], color=SERIES_RED, linestyle="--", linewidth=1.6, label=fx_label),
     ]
     ax.legend(handles=handles, loc="upper left", fontsize=8, frameon=True, edgecolor="black")
     fig.tight_layout()
@@ -125,7 +128,7 @@ def plot_inflation(frame: pd.DataFrame, out_path: Path) -> Path:
             linestyle="-.", linewidth=1.6, label="Domestic gold price")
     ax.plot(window.index, window["gold_purchase_usd"], color=MATLAB_BLUE,
             linewidth=1.6, label="Gold purchase price")
-    axr.plot(window.index, window["cpi_index"], color=MATLAB_RED, linestyle="--",
+    axr.plot(window.index, window["cpi_index"], color=SERIES_RED, linestyle="--",
              linewidth=1.6, label="CPI")
     ax.axvline(pd.Timestamp(GOLD_ORDER), color="black", linewidth=4.0)
 
@@ -136,8 +139,8 @@ def plot_inflation(frame: pd.DataFrame, out_path: Path) -> Path:
     ax.tick_params(axis="y", colors=MATLAB_BLUE)
     axr.set_ylim(0.96, 1.69)
     axr.set_yticks([1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6])
-    axr.set_ylabel("CPI (12/1932 = 1)", color=MATLAB_RED)
-    axr.tick_params(axis="y", colors=MATLAB_RED)
+    axr.set_ylabel("CPI (12/1932 = 1)", color=SERIES_RED)
+    axr.tick_params(axis="y", colors=SERIES_RED)
     ax.xaxis.set_major_locator(mdates.MonthLocator(bymonth=(2, 4, 6, 8, 10, 12), bymonthday=28))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m/%Y"))
     ax.tick_params(axis="x", labelsize=7)
@@ -148,7 +151,7 @@ def plot_inflation(frame: pd.DataFrame, out_path: Path) -> Path:
         plt.Line2D([], [], color="black", linewidth=4.0, label="Ban on gold holdings"),
         plt.Line2D([], [], color=MATLAB_BLUE, linestyle="-.", linewidth=1.6, label="Domestic gold price"),
         plt.Line2D([], [], color=MATLAB_BLUE, linewidth=1.6, label="Gold purchase price"),
-        plt.Line2D([], [], color=MATLAB_RED, linestyle="--", linewidth=1.6, label="CPI"),
+        plt.Line2D([], [], color=SERIES_RED, linestyle="--", linewidth=1.6, label="CPI"),
     ]
     ax.legend(handles=handles, loc="upper left", fontsize=8, frameon=True, edgecolor="black")
     fig.tight_layout()
