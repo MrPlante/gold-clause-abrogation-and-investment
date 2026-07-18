@@ -375,9 +375,14 @@ reproducible from versioned primary-source data in
 - CPI: FRED `CPIAUCNS` raw levels, normalized to 12/1932 in code (matches
   the original in 10 of 13 plotted months; June-August 1933 one 0.1-tick
   off from an older vintage).
-- Gold: purchasing-program monthly values as plotted in the original
-  (documented anchors: $20.67 statutory; Treasury buying from 9/8/1933;
-  RFC from 10/25/1933; $35 from the Gold Reserve Act, 1/30/1934).
+- Gold: monthly averages of the official daily purchasing-program prices
+  from the Federal Reserve Bulletin "Official Price of Gold" tables
+  (Dec. 1933, Jan. 1934, Feb. 1934 issues; FRASER): 30.77, 30.82, 33.34,
+  34.03, 34.27 for 9/1933-1/1934, $20.67 before, $35.00 after. The
+  original figure plotted 28.00, 29.01, 31.96, 33.32, 34.06 — sampling
+  unidentified (three values appear verbatim in the daily tables at
+  non-month-end dates); the primary-source averages replace them, which
+  shifts the plotted gold path slightly upward in Sept-Dec 1933.
 
 `macro_plots.py` reads the versioned CSV (no network dependency) and the
 regenerated figures replace the originals in the manuscript.

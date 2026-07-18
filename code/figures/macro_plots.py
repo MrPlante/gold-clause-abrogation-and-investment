@@ -20,12 +20,19 @@ Provenance (assembled 2026-07-18, see DISCREPANCIES.md D-015):
   raw index level; normalized here to 12/1932 (= 13.1). Matches the
   original figure in 10 of 13 plotted months; June-August 1933 differ by
   one 0.1-point tick (the original used an older CPI vintage).
-- ``gold_purchase_usd``: U.S. government gold purchasing-program price:
-  $20.67 statutory through 8/1933, Treasury/RFC purchase prices
-  9/1933-1/1934 (28.00, 29.01, 31.96, 33.32, 34.06), $35.00 from the
-  Gold Reserve Act (January 30, 1934). Monthly values as plotted in the
-  original figure; the anchors (program start September 8, 1933; RFC
-  buying from October 25, 1933; $35 statutory price) are standard.
+- ``gold_purchase_usd``: U.S. government gold purchasing-program price,
+  monthly averages of the official daily prices published in the Federal
+  Reserve Bulletin ("Official Price of Gold" tables: Dec. 1933 issue for
+  Sept. 8-Dec. 1, Jan. 1934 issue for December, Feb. 1934 issue for
+  January; FRASER): $20.67 statutory through 8/1933; 30.77 (9/1933,
+  Treasury sales price under the EO of Aug. 29); 30.82 (10/1933,
+  Treasury through Oct. 24, RFC-note rate from Oct. 25); 33.34
+  (11/1933); 34.03 (12/1933); 34.27 (1/1934, 34.06 through Jan. 15 and
+  34.45 after); $35.00 from the Gold Reserve Act (Jan. 30, 1934). The
+  original figure plotted lower values (28.00, 29.01, 31.96, 33.32,
+  34.06) whose sampling could not be identified (three of them appear in
+  the daily tables at non-month-end dates); the primary-source averages
+  replace them.
 - ``gold_official_usd``: official (statutory) gold price, $20.67 to
   1/1934, $35.00 after.
 
