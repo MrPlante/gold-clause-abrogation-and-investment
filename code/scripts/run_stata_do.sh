@@ -2,7 +2,7 @@
 # Run Stata batch with logs under logs/stata/ (repo root passed to the .do file).
 #
 # Usage:
-#   bash code/refactor/scripts/run_stata_do.sh path/to/script.do [extra-do-args...]
+#   bash code/scripts/run_stata_do.sh path/to/script.do [extra-do-args...]
 #
 # The .do file should accept the repository root as its first argument (see export_regressions.do).
 

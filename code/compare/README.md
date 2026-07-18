@@ -1,6 +1,6 @@
 # Stata vs Python regression comparison
 
-Runs the **same regressions** in Mete’s Stata pipeline (formerly `code/mete/`, in git history at d54b0c3) and the Python refactor (`code/refactor/`), exports coefficients / SE / N / R², and writes a diff report.
+Runs the **same regressions** in Mete’s Stata pipeline (formerly `code/mete/`, in git history at d54b0c3) and the Python refactor (`code/`), exports coefficients / SE / N / R², and writes a diff report.
 
 ## Prerequisites
 
@@ -14,7 +14,7 @@ Runs the **same regressions** in Mete’s Stata pipeline (formerly `code/mete/`,
    ftools, compile
    ```
 3. **Data:** `data/A4_merged.dta` (Mete-built panel).
-4. **Python venv:** `code/refactor/.venv` with refactor dependencies.
+4. **Python venv:** `code/.venv` with refactor dependencies.
 
 **Standard errors:** Python export uses `reghdfe` vcov via Stata when `stata-mp` is available (`USE_STATA_VCOV=auto`, default). Set `USE_STATA_VCOV=0` to use pyfixest with a Cameron–Gelbach–Miller PSD fix only (may differ slightly on some year interactions).
 
@@ -23,7 +23,7 @@ Runs the **same regressions** in Mete’s Stata pipeline (formerly `code/mete/`,
 From the repository root:
 
 ```bash
-bash code/refactor/compare/run_compare.sh
+bash code/compare/run_compare.sh
 ```
 
 Outputs:
@@ -38,7 +38,7 @@ Outputs:
 Fail CI-style if any coefficient differs:
 
 ```bash
-bash code/refactor/compare/run_compare.sh --fail-on-mismatch
+bash code/compare/run_compare.sh --fail-on-mismatch
 ```
 
 ## What is compared
@@ -59,9 +59,9 @@ bash code/refactor/compare/run_compare.sh --fail-on-mismatch
 
 ```bash
 cd /path/to/gold-clause-abrogation-and-investment
-bash code/refactor/scripts/run_stata_do.sh code/refactor/compare/export_regressions.do
-code/refactor/.venv/bin/python code/refactor/compare/export_python.py
-code/refactor/.venv/bin/python code/refactor/compare/compare_results.py
+bash code/scripts/run_stata_do.sh code/compare/export_regressions.do
+code/.venv/bin/python code/compare/export_python.py
+code/.venv/bin/python code/compare/compare_results.py
 ```
 
 Stata batch logs are written to `logs/stata/` (see `logs/README.md`).

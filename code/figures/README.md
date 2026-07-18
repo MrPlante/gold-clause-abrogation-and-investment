@@ -5,12 +5,12 @@
 From the repository root:
 
 ```bash
-code/refactor/.venv/bin/python code/refactor/run.py --stage figures
+code/.venv/bin/python code/run.py --stage figures
 ```
 
 Outputs are written to:
 
-- `code/refactor/output/figure/`
+- `code/output/figure/`
 - `manuscript/figures/body/`
 - `manuscript/figures/online-appendix/` (existing static files only)
 
@@ -40,7 +40,7 @@ Use par value of new industrial corporate bond offerings from Hickman (1953), Ta
 ### Stata alternative (parallel trend)
 
 ```bash
-bash code/refactor/scripts/run_stata_do.sh code/refactor/stata/export_parallel_trend_figure.do
+bash code/scripts/run_stata_do.sh code/stata/export_parallel_trend_figure.do
 ```
 
 Writes `manuscript/figures/body/parallel_trend_plot_stata.pdf` for cross-check.

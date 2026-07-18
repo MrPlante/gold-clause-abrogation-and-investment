@@ -42,7 +42,7 @@ WHERE dlycaldt BETWEEN '1925-12-31' AND '1945-12-31';
 
 COMMENT ON TABLE gold_claude.crsp IS
     'CRSP daily returns 1925-12-31..1945-12-31, all stocks, extracted from '
-    'crsp.daily_stock_returns (CIZ). Built by code/refactor/sql/build_gold_claude_crsp.sql '
+    'crsp.daily_stock_returns (CIZ). Built by code/sql/build_gold_claude_crsp.sql '
     'in the gold-clause-abrogation-and-investment repo.';
 
 CREATE INDEX ix_gold_claude_crsp_permno_date ON gold_claude.crsp (permno, date);
@@ -92,7 +92,7 @@ COMMENT ON TABLE gold_claude.crsp_names IS
     'CRSP security-info/names history (incl. permno-permco map) for the '
     'permnos in gold_claude.crsp, spells starting on or before 1945-12-31. '
     'Source: crsp.security_info_history (CIZ). Built by '
-    'code/refactor/sql/build_gold_claude_crsp.sql.';
+    'code/sql/build_gold_claude_crsp.sql.';
 
 CREATE INDEX ix_gold_claude_crsp_names_permno ON gold_claude.crsp_names (permno);
 CREATE INDEX ix_gold_claude_crsp_names_permco ON gold_claude.crsp_names (permco);

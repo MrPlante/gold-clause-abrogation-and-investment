@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 # Run Stata export, Python export, and diff report.
 # Usage (from anywhere):
-#   bash code/refactor/compare/run_compare.sh
-#   bash code/refactor/compare/run_compare.sh --fail-on-mismatch
+#   bash code/compare/run_compare.sh
+#   bash code/compare/run_compare.sh --fail-on-mismatch
 
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/../../.." && pwd)"
-REFACTOR="${REPO_ROOT}/code/refactor"
+REFACTOR="${REPO_ROOT}/code"
 VENV_PY="${REFACTOR}/.venv/bin/python"
 
 echo "==> Stata export (reghdfe + winsor2)"

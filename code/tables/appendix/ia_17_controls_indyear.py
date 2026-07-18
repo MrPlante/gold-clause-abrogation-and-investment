@@ -2,7 +2,7 @@
 IA Table 17 — Table 6 columns 2-10 re-estimated with industry-year FEs.
 
 Reads Stata output from output/tables/t6_indyear_robustness.csv (produced by
-code/refactor/stata/A12_controls_indyear.do) and renders a landscape LaTeX table.
+code/stata/A12_controls_indyear.do) and renders a landscape LaTeX table.
 """
 
 from __future__ import annotations
@@ -16,12 +16,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from config import REFACTOR_OUTPUT_TABLES_APPENDIX
 
 CSV_PATH = (
-    Path(__file__).resolve().parents[4]
+    Path(__file__).resolve().parents[3]
     / "output" / "tables" / "t6_indyear_robustness.csv"
 )
 
 MANUSCRIPT_APPENDIX = (
-    Path(__file__).resolve().parents[4]
+    Path(__file__).resolve().parents[3]
     / "manuscript" / "tables" / "online-appendix"
 )
 

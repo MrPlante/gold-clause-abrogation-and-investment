@@ -8,7 +8,7 @@ for the paper.
 ## Layout
 
 ```
-code/refactor/
+code/
 ├── config.py           # paths, constants
 ├── run.py              # CLI entry point
 ├── setup.sh            # create .venv and install dependencies
@@ -32,7 +32,7 @@ code/refactor/
 ## Event study (Table 1, Figures 3–5, IA.2, IA.3, Table IA.20)
 
 ```bash
-python3 code/refactor/run.py --stage eventstudy
+python3 code/run.py --stage eventstudy
 ```
 
 Builds the four daily portfolio return series (VW market, equal-weighted
@@ -48,7 +48,7 @@ file header). Uses only numpy/pandas/matplotlib + `psql`, so the system
 
 Table IA.19's coefficients and standard errors come from
 `stata/A12_controls_indyear.do` (run with
-`stata-mp -b do code/refactor/stata/A12_controls_indyear.do` from the repo
+`stata-mp -b do code/stata/A12_controls_indyear.do` from the repo
 root), which writes `output/tables/t6_indyear_robustness.csv`;
 `--stage ia17` then renders that CSV to LaTeX. This is deliberate: the
 portfolio-decile + industry×year specifications crash the in-process
@@ -62,25 +62,25 @@ data changes.
 Run the same `reghdfe` specifications in Mete’s Stata `.do` files and in the Python refactor, then diff coefficients:
 
 ```bash
-bash code/refactor/compare/run_compare.sh
+bash code/compare/run_compare.sh
 ```
 
 Or:
 
 ```bash
-code/refactor/.venv/bin/python code/refactor/run.py --stage compare
+code/.venv/bin/python code/run.py --stage compare
 ```
 
 **Requirements:** Stata on the machine (`STATA_BIN`, default `/usr/local/stata/stata-mp`), `data/A4_merged.dta`, and user packages `require`, `ftools`, `reghdfe`, `winsor2` (installed automatically on first run).
 
 **Outputs:** `compare/output/stata_regressions.csv`, `python_regressions.csv`, `comparison_report.md`.
 
-On a full run (Tables 3–5 subset): **221/221** matched coefficient cells agree within `1e-3`; standard errors match when Python uses Stata `reghdfe` vcov (`USE_STATA_VCOV=auto`). See `compare/README.md`. Stata batch logs go to `logs/stata/` (`code/refactor/scripts/run_stata_do.sh`).
+On a full run (Tables 3–5 subset): **221/221** matched coefficient cells agree within `1e-3`; standard errors match when Python uses Stata `reghdfe` vcov (`USE_STATA_VCOV=auto`). See `compare/README.md`. Stata batch logs go to `logs/stata/` (`code/scripts/run_stata_do.sh`).
 
 ## Figures
 
 ```bash
-code/refactor/.venv/bin/python code/refactor/run.py --stage figures
+code/.venv/bin/python code/run.py --stage figures
 ```
 
 Writes PDFs under `manuscript/figures/body/` (parallel-trend plot from Table 3 col. 2; macro series from FRED). See `figures/README.md` for Hickman bond-issuance CSV and the static appendix scan.
@@ -90,27 +90,27 @@ Writes PDFs under `manuscript/figures/body/` (parallel-trend plot from Table 3 c
 One-time setup (from repo root):
 
 ```bash
-bash code/refactor/setup.sh
+bash code/setup.sh
 ```
 
 Or manually:
 
 ```bash
-python3 -m venv code/refactor/.venv
-code/refactor/.venv/bin/pip install -r code/refactor/requirements.txt
+python3 -m venv code/.venv
+code/.venv/bin/pip install -r code/requirements.txt
 ```
 
 Run commands from the repo root using the venv Python:
 
 ```bash
-code/refactor/.venv/bin/python code/refactor/run.py --stage table1
+code/.venv/bin/python code/run.py --stage table1
 ```
 
 Or activate the venv first:
 
 ```bash
-source code/refactor/.venv/bin/activate
-python code/refactor/run.py --stage all
+source code/.venv/bin/activate
+python code/run.py --stage all
 ```
 
 ## Data
@@ -125,15 +125,15 @@ Intermediate `.dta` files live in `data/` (same as Mete's Stata `Data/` folder).
 Build merged panel:
 
 ```bash
-code/refactor/.venv/bin/python code/refactor/run.py --stage data --skip-raw   # use existing A0–A3
-code/refactor/.venv/bin/python code/refactor/run.py --stage data              # full rebuild from raw
+code/.venv/bin/python code/run.py --stage data --skip-raw   # use existing A0–A3
+code/.venv/bin/python code/run.py --stage data              # full rebuild from raw
 ```
 
 ## Table 1 (implemented)
 
 ```bash
-code/refactor/.venv/bin/python code/refactor/run.py --stage table1
-code/refactor/.venv/bin/python code/refactor/tests/test_table1.py
+code/.venv/bin/python code/run.py --stage table1
+code/.venv/bin/python code/tests/test_table1.py
 ```
 
 Summary stats by `dind_orig` (original gold exposure indicator) split into $d=0$ vs $d>0$
@@ -143,18 +143,18 @@ $t$-tests (Stata `ttest, uneq`). Stata reference: `A7_differences.do` (manuscrip
 Generate LaTeX table:
 
 ```bash
-code/refactor/.venv/bin/python code/refactor/run.py --stage table1
+code/.venv/bin/python code/run.py --stage table1
 ```
 
-Writes `code/refactor/output/tables/body/1_sum_stats_d.tex` (full `\begin{table}...\end{table}` environment).
+Writes `code/output/tables/body/1_sum_stats_d.tex` (full `\begin{table}...\end{table}` environment).
 
 See **`DISCREPANCIES.md`** for a running log of differences vs the published manuscript and Mete’s Stata output.
 
 ## Table 2 (implemented)
 
 ```bash
-code/refactor/.venv/bin/python code/refactor/run.py --stage table2
-code/refactor/.venv/bin/python code/refactor/tests/test_table2.py
+code/.venv/bin/python code/run.py --stage table2
+code/.venv/bin/python code/tests/test_table2.py
 ```
 
 Balanced panel of 157 firms with bonds in 1930 and investment data in 1935 (Stata `A6_bondstats.do`).
@@ -168,16 +168,16 @@ Merges firm-year panel with bond-level counts from `A1_bond_data_bondlevel.dta`.
 | Mean / Median $d$ | Over all firms in year (Stata `summarize d_year`; matches manuscript at 2 decimals) |
 | $\rho$ | Corr(`d_year`, `d_1930`) across firms |
 
-Writes `code/refactor/output/tables/body/2_bond_stats.tex`.
+Writes `code/output/tables/body/2_bond_stats.tex`.
 
 ## Table 3 (implemented)
 
 ```bash
-code/refactor/.venv/bin/python code/refactor/run.py --stage table3
-code/refactor/.venv/bin/python code/refactor/tests/test_table3.py
+code/.venv/bin/python code/run.py --stage table3
+code/.venv/bin/python code/tests/test_table3.py
 ```
 
-Writes `code/refactor/output/tables/body/3_investment_reg.tex` (full `\begin{table}...\end{table}` environment).
+Writes `code/output/tables/body/3_investment_reg.tex` (full `\begin{table}...\end{table}` environment).
 
 Regression spec (all columns with exposure):
 
@@ -199,8 +199,8 @@ vcov: cluster permno × year
 ## Table 4 (implemented — partial)
 
 ```bash
-code/refactor/.venv/bin/python code/refactor/run.py --stage table4
-code/refactor/.venv/bin/python code/refactor/tests/test_table4.py
+code/.venv/bin/python code/run.py --stage table4
+code/.venv/bin/python code/tests/test_table4.py
 ```
 
 Six overhang regressions (Stata `A10_otheroutcomes.do`) with dependent variables:
@@ -210,13 +210,13 @@ Cash (`cashppe`), Leverage (`var_booklev`).
 **Validated:** cols 1 (Payout) and 6 (Leverage) — all 32 coefficient checks pass at tol 0.001.
 Cols 2–5 have winsorization / sample gaps (see `DISCREPANCIES.md` D-010).
 
-Writes `code/refactor/output/tables/body/4_other_outcomes.tex`.
+Writes `code/output/tables/body/4_other_outcomes.tex`.
 
 ## Table 5 (implemented — partial)
 
 ```bash
-code/refactor/.venv/bin/python code/refactor/run.py --stage table5
-code/refactor/.venv/bin/python code/refactor/tests/test_table5.py
+code/.venv/bin/python code/run.py --stage table5
+code/.venv/bin/python code/tests/test_table5.py
 ```
 
 Credit-rating heterogeneity regressions (Stata `A21_ratings_yearbyyear.do`, not `A11_ratings.do`).
@@ -226,13 +226,13 @@ interactions with low rating (Ba or below in 1930).
 **Validated:** col 1 (Net investment) — all 6 displayed coefficient checks pass at tol 0.001.
 Col 2 (Dividend) has `cashrat` winsor gaps (see `DISCREPANCIES.md` D-011).
 
-Writes `code/refactor/output/tables/body/5_credit_ratings.tex`.
+Writes `code/output/tables/body/5_credit_ratings.tex`.
 
 ## Table 6 (implemented)
 
 ```bash
-code/refactor/.venv/bin/python code/refactor/run.py --stage table6
-code/refactor/.venv/bin/python code/refactor/tests/test_table6.py
+code/.venv/bin/python code/run.py --stage table6
+code/.venv/bin/python code/tests/test_table6.py
 ```
 
 Robustness regressions with industry-year FE (col 1), linear 1930 firm controls
@@ -240,13 +240,13 @@ Robustness regressions with industry-year FE (col 1), linear 1930 firm controls
 
 **Validated:** all 50 coefficient checks (5 terms × 10 columns) pass at tol 0.001.
 
-Writes `code/refactor/output/tables/body/6_controls.tex`.
+Writes `code/output/tables/body/6_controls.tex`.
 
 ## Table 7 (implemented)
 
 ```bash
-code/refactor/.venv/bin/python code/refactor/run.py --stage table7
-code/refactor/.venv/bin/python code/refactor/tests/test_table7.py
+code/.venv/bin/python code/run.py --stage table7
+code/.venv/bin/python code/tests/test_table7.py
 ```
 
 Aggregated investment effects (Stata `A13_aggregation.do`, `A13_aggregationd1.do`).
@@ -254,18 +254,18 @@ Capital-weighted gold-clause effects use baseline Table 3 year × `d` coefficien
 
 **Validated:** all 15 percentage checks pass at tol 0.011 (2-decimal display).
 
-Writes `code/refactor/output/tables/body/7_aggregate.tex`.
+Writes `code/output/tables/body/7_aggregate.tex`.
 
 ## Internet Appendix (in progress)
 
 Appendix tables mirror `manuscript/tables/online-appendix/` and write to
-`code/refactor/output/tables/online-appendix/`.
+`code/output/tables/online-appendix/`.
 
 ### Table 0a — Summary stats for $d>0$ firms (implemented)
 
 ```bash
-code/refactor/.venv/bin/python code/refactor/run.py --stage ia0a
-code/refactor/.venv/bin/python code/refactor/tests/test_ia_0a_summary_d_1.py
+code/.venv/bin/python code/run.py --stage ia0a
+code/.venv/bin/python code/tests/test_ia_0a_summary_d_1.py
 ```
 
 Stata reference: `A14_summary_stats_IA.do` (first block). Uses **`d_orig > 0`**
@@ -274,20 +274,20 @@ Stata reference: `A14_summary_stats_IA.do` (first block). Uses **`d_orig > 0`**
 
 **Validated:** 216 checks (Panels A & B), tol 0.011.
 
-Writes `code/refactor/output/tables/online-appendix/0a_summary_d_1.tex`.
+Writes `code/output/tables/online-appendix/0a_summary_d_1.tex`.
 
 ### Table 0b — Summary stats for $d=0$ firms (implemented)
 
 ```bash
-code/refactor/.venv/bin/python code/refactor/run.py --stage ia0b
-code/refactor/.venv/bin/python code/refactor/tests/test_ia_0b_summary_d_0.py
+code/.venv/bin/python code/run.py --stage ia0b
+code/.venv/bin/python code/tests/test_ia_0b_summary_d_0.py
 ```
 
 Uses **`d_orig == 0`**, Panels A–C (Panel C omits $d$ rows).
 
 **Validated:** 324 checks, tol 0.011.
 
-Writes `code/refactor/output/tables/online-appendix/0b_summary_d_0.tex`.
+Writes `code/output/tables/online-appendix/0b_summary_d_0.tex`.
 
 ## Table map (remaining — stubs)
 
@@ -309,11 +309,11 @@ Each table module compares key coefficients to the published manuscript
 Run all implemented tests:
 
 ```bash
-code/refactor/.venv/bin/python code/refactor/tests/test_table1.py
-code/refactor/.venv/bin/python code/refactor/tests/test_table2.py
-code/refactor/.venv/bin/python code/refactor/tests/test_table3.py
-code/refactor/.venv/bin/python code/refactor/tests/test_table4.py
-code/refactor/.venv/bin/python code/refactor/tests/test_table5.py
-code/refactor/.venv/bin/python code/refactor/tests/test_table6.py
-code/refactor/.venv/bin/python code/refactor/tests/test_table7.py
+code/.venv/bin/python code/tests/test_table1.py
+code/.venv/bin/python code/tests/test_table2.py
+code/.venv/bin/python code/tests/test_table3.py
+code/.venv/bin/python code/tests/test_table4.py
+code/.venv/bin/python code/tests/test_table5.py
+code/.venv/bin/python code/tests/test_table6.py
+code/.venv/bin/python code/tests/test_table7.py
 ```

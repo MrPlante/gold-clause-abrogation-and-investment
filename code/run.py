@@ -212,7 +212,7 @@ def main(argv: list[str] | None = None) -> None:
     if args.stage == "compare":
         import subprocess
 
-        repo = REFACTOR_ROOT.parents[1]
+        repo = REFACTOR_ROOT.parent
         script = REFACTOR_ROOT / "compare" / "run_compare.sh"
         result = subprocess.run(["bash", str(script)], cwd=repo, check=False)
         raise SystemExit(result.returncode)

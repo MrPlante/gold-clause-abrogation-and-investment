@@ -1,11 +1,11 @@
 * Debug: export vcov diagonal for cashrat table4 model
-*   bash code/refactor/scripts/run_stata_do.sh code/refactor/compare/debug_vcov.do
+*   bash code/scripts/run_stata_do.sh code/compare/debug_vcov.do
 version 16
 clear all
 set more off
 args repo
 if "`repo'" == "" {
-    display as error "Run via code/refactor/scripts/run_stata_do.sh"
+    display as error "Run via code/scripts/run_stata_do.sh"
     exit 198
 }
 global REPO "`repo'"
@@ -21,12 +21,12 @@ preserve
 clear
 svmat V, names(v)
 gen row = _n
-save "${REPO}/code/refactor/compare/output/debug_stata_V.dta", replace
+save "${REPO}/code/compare/output/debug_stata_V.dta", replace
 restore
 
 * Export coef names and se
 tempname posth
-postfile `posth' str32 term double se diag using "${REPO}/code/refactor/compare/output/debug_stata_vcov.dta", replace
+postfile `posth' str32 term double se diag using "${REPO}/code/compare/output/debug_stata_vcov.dta", replace
 local names : colnames e(b)
 local k : colsof(e(b))
 forvalues i = 1/`k' {

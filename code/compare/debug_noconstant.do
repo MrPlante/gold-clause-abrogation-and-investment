@@ -1,10 +1,10 @@
-*   bash code/refactor/scripts/run_stata_do.sh code/refactor/compare/debug_noconstant.do
+*   bash code/scripts/run_stata_do.sh code/compare/debug_noconstant.do
 version 16
 clear all
 set more off
 args repo
 if "`repo'" == "" {
-    display as error "Run via code/refactor/scripts/run_stata_do.sh"
+    display as error "Run via code/scripts/run_stata_do.sh"
     exit 198
 }
 global REPO "`repo'"

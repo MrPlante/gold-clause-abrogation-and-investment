@@ -1,6 +1,6 @@
 # Refactor vs original results — discrepancy log
 
-Tracks differences between **`code/refactor/`** (Python), the **published manuscript**
+Tracks differences between **`code/`** (Python), the **published manuscript**
 (`manuscript/tables/`), and **Mete’s Stata pipeline** (formerly `code/mete/`, removed from the tree at d54b0c3; `metes-tables/`).
 
 **Baseline data:** `data/A4_merged.dta` (Mete-built; refactor data port not yet validated end-to-end).
@@ -89,7 +89,7 @@ Tracks differences between **`code/refactor/`** (Python), the **published manusc
 
 **Status:** Open.
 
-**Next step:** Confirm 1930 vs `min_year` rule with Mete; rebuild `A4_merged.dta` via `code/refactor/data/` and re-check N.
+**Next step:** Confirm 1930 vs `min_year` rule with Mete; rebuild `A4_merged.dta` via `code/data/` and re-check N.
 
 ---
 
@@ -265,7 +265,7 @@ Stata A14 uses `keep if dalt != .` then `replace d = dalt`. On current `A4_merge
 - Figures (`gold_coeffs.pdf`, etc.)
 - `1_summary_all.tex` (not in online appendix `.tex` inputs)
 
-All manuscript **body** tables (1–7) and **online appendix** tables (0a–16) have refactor modules under `code/refactor/tables/`.
+All manuscript **body** tables (1–7) and **online appendix** tables (0a–16) have refactor modules under `code/tables/`.
 
 ---
 
@@ -273,8 +273,8 @@ All manuscript **body** tables (1–7) and **online appendix** tables (0a–16) 
 
 | Artifact | Path |
 |----------|------|
-| Body tables (generated) | `code/refactor/output/tables/body/` |
-| Internet Appendix (generated) | `code/refactor/output/tables/online-appendix/` |
+| Body tables (generated) | `code/output/tables/body/` |
+| Internet Appendix (generated) | `code/output/tables/online-appendix/` |
 | Manuscript body | `manuscript/tables/body/` |
 | Manuscript appendix | `manuscript/tables/online-appendix/` |
 | Mete Stata fragments | `metes-tables/tables/tab_*.tex` |
@@ -284,19 +284,19 @@ All manuscript **body** tables (1–7) and **online appendix** tables (0a–16) 
 
 | Artifact | Path |
 |----------|------|
-| Table 1 LaTeX (generated) | `code/refactor/output/tables/body/1_sum_stats_d.tex` |
+| Table 1 LaTeX (generated) | `code/output/tables/body/1_sum_stats_d.tex` |
 | Table 1 LaTeX (manuscript) | `manuscript/tables/body/1_sum_stats_d.tex` |
-| Table 2 LaTeX (generated) | `code/refactor/output/tables/body/2_bond_stats.tex` |
+| Table 2 LaTeX (generated) | `code/output/tables/body/2_bond_stats.tex` |
 | Table 2 LaTeX (manuscript) | `manuscript/tables/body/2_bond_stats.tex` |
-| Table 3 LaTeX (generated) | `code/refactor/output/tables/body/3_investment_reg.tex` |
+| Table 3 LaTeX (generated) | `code/output/tables/body/3_investment_reg.tex` |
 | Table 3 LaTeX (manuscript) | `manuscript/tables/body/3_investment_reg.tex` |
-| Table 4 LaTeX (generated) | `code/refactor/output/tables/body/4_other_outcomes.tex` |
+| Table 4 LaTeX (generated) | `code/output/tables/body/4_other_outcomes.tex` |
 | Table 4 LaTeX (manuscript) | `manuscript/tables/body/4_other_outcomes.tex` |
-| Table 5 LaTeX (generated) | `code/refactor/output/tables/body/5_credit_ratings.tex` |
+| Table 5 LaTeX (generated) | `code/output/tables/body/5_credit_ratings.tex` |
 | Table 5 LaTeX (manuscript) | `manuscript/tables/body/5_credit_ratings.tex` |
-| Table 6 LaTeX (generated) | `code/refactor/output/tables/body/6_controls.tex` |
+| Table 6 LaTeX (generated) | `code/output/tables/body/6_controls.tex` |
 | Table 6 LaTeX (manuscript) | `manuscript/tables/body/6_controls.tex` |
-| Table 7 LaTeX (generated) | `code/refactor/output/tables/body/7_aggregate.tex` |
+| Table 7 LaTeX (generated) | `code/output/tables/body/7_aggregate.tex` |
 | Table 7 LaTeX (manuscript) | `manuscript/tables/body/7_aggregate.tex` |
 | Mete Stata fragments | `metes-tables/tables/tab_*.tex` |
 
@@ -308,20 +308,20 @@ All manuscript **body** tables (1–7) and **online appendix** tables (0a–16) 
 
 1. Run validations:
    ```bash
-   code/refactor/.venv/bin/python code/refactor/run.py --stage table1
-   code/refactor/.venv/bin/python code/refactor/run.py --stage table2
-   code/refactor/.venv/bin/python code/refactor/run.py --stage table3
-   code/refactor/.venv/bin/python code/refactor/run.py --stage table4
-   code/refactor/.venv/bin/python code/refactor/run.py --stage table5
-   code/refactor/.venv/bin/python code/refactor/run.py --stage table6
-   code/refactor/.venv/bin/python code/refactor/run.py --stage table7
-   code/refactor/.venv/bin/python code/refactor/tests/test_table1.py
-   code/refactor/.venv/bin/python code/refactor/tests/test_table2.py
-   code/refactor/.venv/bin/python code/refactor/tests/test_table3.py
-   code/refactor/.venv/bin/python code/refactor/tests/test_table4.py
-   code/refactor/.venv/bin/python code/refactor/tests/test_table5.py
-   code/refactor/.venv/bin/python code/refactor/tests/test_table6.py
-   code/refactor/.venv/bin/python code/refactor/tests/test_table7.py
+   code/.venv/bin/python code/run.py --stage table1
+   code/.venv/bin/python code/run.py --stage table2
+   code/.venv/bin/python code/run.py --stage table3
+   code/.venv/bin/python code/run.py --stage table4
+   code/.venv/bin/python code/run.py --stage table5
+   code/.venv/bin/python code/run.py --stage table6
+   code/.venv/bin/python code/run.py --stage table7
+   code/.venv/bin/python code/tests/test_table1.py
+   code/.venv/bin/python code/tests/test_table2.py
+   code/.venv/bin/python code/tests/test_table3.py
+   code/.venv/bin/python code/tests/test_table4.py
+   code/.venv/bin/python code/tests/test_table5.py
+   code/.venv/bin/python code/tests/test_table6.py
+   code/.venv/bin/python code/tests/test_table7.py
    ```
 2. For new tables, add a row to the summary table and open/close discrepancy entries.
 3. When a discrepancy is fixed, move it to **Resolved** with date and commit hash.

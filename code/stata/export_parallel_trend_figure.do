@@ -1,10 +1,10 @@
 * Export parallel-trend coefficient figure (matches A9_inv_results.do gold_coeffs block).
-*   bash code/refactor/scripts/run_stata_do.sh code/refactor/stata/export_parallel_trend_figure.do
+*   bash code/scripts/run_stata_do.sh code/stata/export_parallel_trend_figure.do
 version 16
 set more off
 args repo
 if "`repo'" == "" {
-    display as error "Run via code/refactor/scripts/run_stata_do.sh"
+    display as error "Run via code/scripts/run_stata_do.sh"
     exit 198
 }
 
