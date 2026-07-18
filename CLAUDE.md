@@ -254,6 +254,13 @@ response).
 
 ## Key conventions
 
+- **Recompile after every change.** Any edit that affects a PDF (manuscript
+  sections, response sections, shared/ files, or generators that write into
+  `manuscript/`) must be followed by recompiling the affected document(s)
+  before committing, and the fresh PDF goes into the same commit as the
+  source change. Verify the compile actually ran (`cd` with an absolute
+  path — the shell's working directory persists between commands and a
+  failed `cd &&` chain silently skips the build).
 - Two-way cluster SEs: firm (`permno`) and year
 - The Python refactor matches Stata reghdfe coefficients; SEs use CGM fix or
   Stata vcov depending on `USE_STATA_VCOV` env var
