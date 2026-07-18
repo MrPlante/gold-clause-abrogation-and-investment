@@ -1,7 +1,7 @@
 # Refactor vs original results — discrepancy log
 
 Tracks differences between **`code/`** (Python), the **published manuscript**
-(`manuscript/tables/`), and **Mete’s Stata pipeline** (formerly `code/mete/`, removed from the tree at d54b0c3; `metes-tables/`).
+(`manuscript/tables/`), and **Mete’s Stata pipeline** (formerly `code/mete/`, removed from the tree at d54b0c3; `archive/metes-tables/`, removed at ad2edf7 — retrieve with `git checkout ad2edf7 -- archive`).
 
 **Baseline data:** `data/A4_merged.dta` (Mete-built; refactor data port not yet validated end-to-end).
 
@@ -277,7 +277,7 @@ All manuscript **body** tables (1–7) and **online appendix** tables (0a–16) 
 | Internet Appendix (generated) | `code/output/tables/online-appendix/` |
 | Manuscript body | `manuscript/tables/body/` |
 | Manuscript appendix | `manuscript/tables/online-appendix/` |
-| Mete Stata fragments | `metes-tables/tables/tab_*.tex` |
+| Mete Stata fragments | `archive/metes-tables/tables/tab_*.tex` (git history: ad2edf7) |
 
 <details>
 <summary>Legacy per-table body paths</summary>
@@ -298,7 +298,7 @@ All manuscript **body** tables (1–7) and **online appendix** tables (0a–16) 
 | Table 6 LaTeX (manuscript) | `manuscript/tables/body/6_controls.tex` |
 | Table 7 LaTeX (generated) | `code/output/tables/body/7_aggregate.tex` |
 | Table 7 LaTeX (manuscript) | `manuscript/tables/body/7_aggregate.tex` |
-| Mete Stata fragments | `metes-tables/tables/tab_*.tex` |
+| Mete Stata fragments | `archive/metes-tables/tables/tab_*.tex` (git history: ad2edf7) |
 
 </details>
 
