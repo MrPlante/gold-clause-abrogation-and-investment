@@ -359,12 +359,25 @@ reproducible, replace the series ids with ones that cover the 1930s
 and add a source for the RFC gold purchasing-program price, then match the
 original figure's content before re-enabling the manuscript copy step.
 
-**RESOLVED 2026-07-18:** the figures are now fully reproducible. The original
-MATLAB PDFs are vector graphics, so every plotted series was recovered at
-data precision from the path coordinates and versioned in
-`figures/data/macro_monthly.csv` (FX indices; gold purchasing-program and
-official prices), with CPI replaced by the citable FRED `CPIAUCNS`
-(normalized 12/1932; matches the original in 10 of 13 plotted months,
-June-August 1933 differ by one 0.1-point tick from an older CPI vintage).
-`macro_plots.py` now reads the versioned CSV — no network dependency — and
-the regenerated figures replace the originals in the manuscript.
+**RESOLVED 2026-07-18 (primary sources):** the figures are now fully
+reproducible from versioned primary-source data in
+`figures/data/macro_monthly.csv`:
+
+- FX: monthly noon buying rates in New York (cents per pound / per franc)
+  from Board of Governors, *Banking and Monetary Statistics, 1914-1941*,
+  Table 173 (UK p. 681, France p. 670; FRASER scan). Identified as the
+  original figures' source by recovering the plotted series at data
+  precision from the MATLAB vector paths: the extraction matches Table 173
+  normalized to 12/1932 month-by-month. Cross-validation caught one OCR
+  misread (France 1/1936 = 6.6251, not 6.8251) and one real divergence
+  (France 9/1936: published month average 6.3409 straddles the Sept 26
+  Tripartite devaluation; the original figure plotted ~6.51).
+- CPI: FRED `CPIAUCNS` raw levels, normalized to 12/1932 in code (matches
+  the original in 10 of 13 plotted months; June-August 1933 one 0.1-tick
+  off from an older vintage).
+- Gold: purchasing-program monthly values as plotted in the original
+  (documented anchors: $20.67 statutory; Treasury buying from 9/8/1933;
+  RFC from 10/25/1933; $35 from the Gold Reserve Act, 1/30/1934).
+
+`macro_plots.py` reads the versioned CSV (no network dependency) and the
+regenerated figures replace the originals in the manuscript.

@@ -1,22 +1,31 @@
 """Manuscript Figures 1-2: gold price vs exchange rates and inflation.
 
-Data: ``figures/data/macro_monthly.csv`` (versioned), monthly 12/1930-12/1936.
+Data: ``figures/data/macro_monthly.csv`` (versioned), monthly 12/1930-12/1936,
+in primary-source units. Indices (12/1932 = 1) are computed here.
 
 Provenance (assembled 2026-07-18, see DISCREPANCIES.md D-015):
-- ``usd_gbp_index`` / ``usd_frf_index``: dollar/sterling and dollar/franc
-  exchange rates indexed to December 1932 = 1, recovered at full precision
-  from the vector paths of the original MATLAB figures (the underlying
-  source file was never in the repo). Consistent with the interwar record:
-  sterling collapses on Britain's September 1931 exit, the franc devalues
-  with the September 1936 Tripartite Agreement.
-- ``cpi_index``: BLS CPI, all urban consumers, NSA (FRED ``CPIAUCNS``),
-  normalized to December 1932 (= 13.1). Matches the original figure in 10
-  of 13 plotted months; June-August 1933 differ by one 0.1-point CPI tick
-  (the original used an older CPI vintage).
-- ``gold_purchase_usd``: U.S. government gold purchasing-program price,
-  $20.67 through 8/1933, Treasury/RFC purchase prices 9/1933-1/1934
-  (28.00, 29.01, 31.96, 33.32, 34.06), $35.00 from 2/1934 (Gold Reserve
-  Act of January 30, 1934). Values as plotted in the original figure.
+- ``usd_gbp_cents`` / ``usd_frf_cents``: monthly averages of noon buying
+  rates in New York, cents per pound / cents per franc, from Board of
+  Governors, *Banking and Monetary Statistics, 1914-1941* (1943), Table
+  No. 173 (United Kingdom p. 681, France p. 670; FRASER scan,
+  fraser.stlouisfed.org). Transcribed from the OCR text layer and
+  cross-validated month-by-month against a data-precision vector
+  extraction of the original MATLAB figures (which plotted exactly this
+  series normalized to 12/1932): one OCR misread corrected (France
+  1/1936, 6.6251 not 6.8251, confirmed against the page scan). The one
+  real divergence from the original figure is France 9/1936, where the
+  published month average (6.3409) straddles the September 26 Tripartite
+  devaluation while the original figure plotted ~6.51.
+- ``cpiaucns``: BLS CPI, all urban consumers, NSA (FRED ``CPIAUCNS``),
+  raw index level; normalized here to 12/1932 (= 13.1). Matches the
+  original figure in 10 of 13 plotted months; June-August 1933 differ by
+  one 0.1-point tick (the original used an older CPI vintage).
+- ``gold_purchase_usd``: U.S. government gold purchasing-program price:
+  $20.67 statutory through 8/1933, Treasury/RFC purchase prices
+  9/1933-1/1934 (28.00, 29.01, 31.96, 33.32, 34.06), $35.00 from the
+  Gold Reserve Act (January 30, 1934). Monthly values as plotted in the
+  original figure; the anchors (program start September 8, 1933; RFC
+  buying from October 25, 1933; $35 statutory price) are standard.
 - ``gold_official_usd``: official (statutory) gold price, $20.67 to
   1/1934, $35.00 after.
 
@@ -46,7 +55,12 @@ GOLD_ORDER = date(1933, 4, 5)  # Executive Order 6102
 
 
 def _load() -> pd.DataFrame:
-    return pd.read_csv(MONTHLY_MACRO_CSV, parse_dates=["date"]).set_index("date")
+    frame = pd.read_csv(MONTHLY_MACRO_CSV, parse_dates=["date"]).set_index("date")
+    base = frame.loc["1932-12-31"]
+    frame["usd_gbp_index"] = frame["usd_gbp_cents"] / base["usd_gbp_cents"]
+    frame["usd_frf_index"] = frame["usd_frf_cents"] / base["usd_frf_cents"]
+    frame["cpi_index"] = frame["cpiaucns"] / base["cpiaucns"]
+    return frame
 
 
 def _fx_panel(frame: pd.DataFrame, fx_col: str, fx_label: str, out_path: Path) -> Path:

@@ -27,12 +27,13 @@ Outputs are written to:
 
 ### Macro data (versioned)
 
-`figures/data/macro_monthly.csv` (monthly, 12/1930-12/1936): FX indices
-recovered at full precision from the vector paths of the original MATLAB
-figures; CPI from FRED `CPIAUCNS` normalized to 12/1932; gold
-purchasing-program and official prices as plotted in the originals
-(program values 9/1933-1/1934, $35 from the Gold Reserve Act). Full
-provenance in the `macro_plots.py` docstring and DISCREPANCIES.md D-015.
+`figures/data/macro_monthly.csv` (monthly, 12/1930-12/1936), primary
+sources: FX = Banking & Monetary Statistics 1914-1941, Table 173 (monthly
+noon buying rates, cents per pound/franc; FRASER), cross-validated against
+a vector extraction of the original figures; CPI = FRED `CPIAUCNS` raw
+levels (normalized to 12/1932 in code); gold purchasing-program and
+official prices with documented program anchors. Full provenance in the
+`macro_plots.py` docstring and DISCREPANCIES.md D-015.
 
 ### Hickman data (versioned)
 
