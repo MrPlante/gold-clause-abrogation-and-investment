@@ -60,10 +60,10 @@ STAGES = {
 
 
 # Stages whose builders are KNOWN not to reproduce the shipped (Mete-original)
-# manuscript tables (see DISCREPANCIES.md D-021 and the D-012/13/14 family).
-# "all" skips them so a full run cannot silently overwrite a shipped table;
-# run them explicitly with --stage to regenerate anyway.
-FROZEN = {"ia7", "ia10", "ia11"}
+# manuscript tables. "all" skips them so a full run cannot silently overwrite
+# a shipped table; run them explicitly with --stage to regenerate anyway.
+# Empty since the D-021 addendum resolved ia7/ia10/ia11 (exact reproduction).
+FROZEN: set[str] = set()
 
 
 def main(argv: list[str] | None = None) -> None:

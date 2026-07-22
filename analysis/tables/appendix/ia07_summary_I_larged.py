@@ -29,7 +29,7 @@ from tables.models.summary_stats_ia import (
 )
 
 TOL = max(COEF_TOLERANCE, 0.011)
-PERCENTILE_TOL = 0.09
+PERCENTILE_TOL = TOL  # exact reproduction since D-021 addendum
 
 VARIABLES_BY_PANEL = {
     "A": BASE_VARIABLES
@@ -37,7 +37,12 @@ VARIABLES_BY_PANEL = {
         ("d", r"\ensuremath{\tilde{d}}"),
         ("dind", r"\ensuremath{I_{\tilde{d}>0}}"),
     ],
-    "B": BASE_VARIABLES,
+    # the shipped IA.7 (unlike IA.6) also reports d-tilde rows in Panel B
+    "B": BASE_VARIABLES
+    + [
+        ("d", r"\ensuremath{\tilde{d}}"),
+        ("dind", r"\ensuremath{I_{\tilde{d}>0}}"),
+    ],
     "C": BASE_VARIABLES
     + [
         ("d", r"\ensuremath{\tilde{d}}"),

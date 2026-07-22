@@ -640,3 +640,25 @@ With the fix, cell-level numeric comparison against the shipped tables:
   `--stage all` skips them instead of silently overwriting. Resolving
   them (recover Mete's sample definitions or adopt builder output)
   remains the open decision flagged in the 2026-07-22 all-Python report.
+
+**D-021 addendum (2026-07-22) — IA.7, IA.10, IA.11 RESOLVED: exact
+reproduction.** All three "different sample" gaps were reverse-engineered
+from the verified panel and Mete's legacy A14 do-file:
+
+- IA.7: the median cutoff (`keep if d > r(p50)`, observation-level over
+  1926-32 d>0 firm-years) reproduces exactly under the D-021 quantile fix
+  (192 firms / 715 obs in Panel A). The remaining diff was structural: the
+  shipped IA.7 (unlike IA.6) reports the d-tilde rows in Panel B; rows
+  added to the builder. 386/386 numbers identical.
+- IA.10/IA.11: the shipped tables were built with the RFS-era `dalt` —
+  denominator `cb_bs + ps_bs` (preferred + bonds, NO bank debt) and no
+  zero-backfills; the panel's stored `dalt` column is the later Oct-2025
+  variant (`bd+cb+ps` + has_debt backfills), which selects 486 firms where
+  the shipped table has 452. Sample counts verified exact in all three
+  panels (452/2,408; 366/717; 355/2,016); reconstructed in
+  models/dalt_panel.py. IA.11 then reproduces 119/119 numbers; IA.10
+  (after adding the Panel B d-tilde rows) 386/386.
+
+run.py's FROZEN set is now EMPTY: every manuscript table regenerates
+exactly from the code. Validator tolerances in the three builders
+tightened back to standard (PERCENTILE_TOL fudge removed).

@@ -23,8 +23,8 @@ from tables.render.summary_stats_ia import render_distribution_table
 from tables.models.summary_stats_ia import BASE_VARIABLES, compute_distribution_table
 
 TOL = max(COEF_TOLERANCE, 0.011)
-# Manuscript built on earlier A4 (452 vs 486 firms in current panel); see DISCREPANCIES.
-PERCENTILE_TOL = 0.09
+# RFS-era dalt reconstructed in models/dalt_panel.py; exact reproduction (D-021 addendum).
+PERCENTILE_TOL = TOL
 
 VARIABLES_BY_PANEL = {
     "A": BASE_VARIABLES
@@ -32,7 +32,12 @@ VARIABLES_BY_PANEL = {
         ("d", r"\ensuremath{\tilde{d}}"),
         ("dind", r"\ensuremath{I_{\tilde{d}>0}}"),
     ],
-    "B": BASE_VARIABLES,
+    # the shipped IA.10 also reports d-tilde rows in Panel B
+    "B": BASE_VARIABLES
+    + [
+        ("d", r"\ensuremath{\tilde{d}}"),
+        ("dind", r"\ensuremath{I_{\tilde{d}>0}}"),
+    ],
     "C": BASE_VARIABLES
     + [
         ("d", r"\ensuremath{\tilde{d}}"),

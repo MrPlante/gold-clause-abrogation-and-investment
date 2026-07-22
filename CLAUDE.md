@@ -49,9 +49,10 @@ Memory files live in:
 
 Stage names match manuscript labels (`table2`..`table8`, `ia1`..`ia19`,
 `figures`, `eventstudy`, `compare`); builders write directly into
-`manuscript/tables/` and `manuscript/figures/`. `--stage all` skips the
-`FROZEN` stages (ia7, ia10, ia11 — builders that do not reproduce the
-shipped tables; DISCREPANCIES.md D-021). Run any builder after changing it.
+`manuscript/tables/` and `manuscript/figures/`. `--stage all` skips any
+stage in run.py's `FROZEN` set (guard for builders that do not reproduce
+the shipped tables — currently empty; every table regenerates exactly).
+Run any builder after changing it.
 
 To control whether pyfixest uses Stata's variance-covariance matrix:
 
@@ -281,6 +282,6 @@ response).
   order. File names carry the current labels — if you renumber, rename.
 - Do not use round-1 table numbers (Table 1 = main, Table 6 = controls) in
   referee responses; currently Table 4 = main, Table 7 = controls.
-- Do not run the FROZEN stages (ia7, ia10, ia11) expecting them to
-  reproduce the shipped tables — they do not (DISCREPANCIES.md D-021), and
-  `--stage all` deliberately skips them.
+- If a builder stops reproducing its shipped table, add its stage to
+  run.py's `FROZEN` set (skipped by `--stage all`) and log it in
+  DISCREPANCIES.md rather than committing mismatched output.

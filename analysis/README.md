@@ -62,11 +62,10 @@ A table's code shares one stem across layers: `ia15_dividend_additional.py`
 .venv/bin/python analysis/run.py --stage all        # everything
 ```
 
-`--stage all` skips the stages in `run.py`'s `FROZEN` set (currently ia7,
-ia10, ia11): their builders are known NOT to reproduce the shipped
-Mete-original tables (DISCREPANCIES.md D-021), so a full run cannot silently
-overwrite them. Run them explicitly with `--stage iaN` only if you mean to
-regenerate.
+`--stage all` skips any stage in `run.py`'s `FROZEN` set — the guard for
+builders known not to reproduce the shipped tables. The set is currently
+EMPTY: every table regenerates exactly (the last three holdouts, IA.7/10/11,
+were resolved in the D-021 addendum).
 
 ### Event study (Table 1, Figures 3–5, IA.2, IA.3, Table IA.20)
 
