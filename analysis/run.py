@@ -59,6 +59,13 @@ STAGES = {
 }
 
 
+# Stages whose builders are KNOWN not to reproduce the shipped (Mete-original)
+# manuscript tables (see DISCREPANCIES.md D-021 and the D-012/13/14 family).
+# "all" skips them so a full run cannot silently overwrite a shipped table;
+# run them explicitly with --stage to regenerate anyway.
+FROZEN = {"ia7", "ia10", "ia11"}
+
+
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description="Gold clause analysis stages")
     parser.add_argument(
@@ -77,6 +84,10 @@ def main(argv: list[str] | None = None) -> None:
         raise SystemExit(result.returncode)
 
     for stage, module in STAGES.items():
+        if args.stage == "all" and stage in FROZEN:
+            print(f"[skip] {stage}: builder does not reproduce the shipped "
+                  f"table (DISCREPANCIES.md); run --stage {stage} explicitly.")
+            continue
         if args.stage in (stage, "all"):
             importlib.import_module(module).main()
 

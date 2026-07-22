@@ -614,3 +614,29 @@ adds a previously missing N/Mean/SD header row to Panels A/B.
 Decision: adopt the builder's Table 2 (consistent with the non-negotiable
 "code reproduces the manuscript" and with D-017's treatment of Table 4);
 the table is wrapped in revblock for review in the round-2 diff.
+
+## D-021 (2026-07-22): IA summary-table quantile convention fixed; three IA builders still do not reproduce shipped tables
+
+The `summary_stats_ia` model computed p25/p50/p75 with numpy's default
+linear interpolation (with per-quantile "lower"/"higher" fudges for
+p5/p95). Stata's `summarize, detail` averages the two adjacent order
+statistics when n*q is an integer, else takes the next one up — numpy's
+`averaged_inverted_cdf` (the same convention already used for xtile
+deciles and in constraints.py). The six shipped IA.1 cells that the old
+method missed (Q p25 0.69, log-assets p75 18.22 / p25 16.28, cash p75
+0.15, book-lev p75 0.66, log-LTL p25 15.12) all reproduce exactly under
+the Stata convention.
+
+With the fix, cell-level numeric comparison against the shipped tables:
+
+- IA.1, IA.2, IA.4, IA.5, IA.6 (259-386 numbers each): ALL identical.
+  These five are now builder-generated in the tree (values unchanged;
+  formatting normalized: math-mode minus, standard notes block).
+- IA.7 (summary_I_larged), IA.10 (summary_pos_ps_bond), IA.11
+  (summary_diff_pos_ps_bond): builders produce DIFFERENT samples
+  (e.g. IA.10 first panel: 486 firms/2,792 obs vs shipped 452/2,408) —
+  the pre-existing D-012/13/14-family gaps, now measured precisely.
+  Shipped versions restored; these stages are in run.py's FROZEN set, so
+  `--stage all` skips them instead of silently overwriting. Resolving
+  them (recover Mete's sample definitions or adopt builder output)
+  remains the open decision flagged in the 2026-07-22 all-Python report.

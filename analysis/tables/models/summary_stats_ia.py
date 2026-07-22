@@ -58,17 +58,14 @@ class DistributionPanel:
 
 
 def _stata_quantile(values: pd.Series, q: float) -> float:
-    """Match Stata ``summarize, detail`` percentile definitions."""
+    """Match Stata ``summarize, detail``: average the two adjacent order
+    statistics when n*q is an integer, else take the next one up
+    (numpy's averaged_inverted_cdf). Verified cell-by-cell against the
+    shipped IA summary tables (D-021)."""
     x = values.dropna().to_numpy()
     if len(x) == 0:
         return float("nan")
-    if q == 0.05:
-        method = "lower"
-    elif q == 0.95:
-        method = "higher"
-    else:
-        method = "linear"
-    return float(np.quantile(x, q, method=method))
+    return float(np.quantile(x, q, method="averaged_inverted_cdf"))
 
 
 def _distribution_stats(sub: pd.DataFrame, var: str) -> DistributionStats:
