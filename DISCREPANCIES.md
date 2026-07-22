@@ -662,3 +662,36 @@ from the verified panel and Mete's legacy A14 do-file:
 run.py's FROZEN set is now EMPTY: every manuscript table regenerates
 exactly from the code. Validator tolerances in the three builders
 tightened back to standard (PERCENTILE_TOL fudge removed).
+
+## D-022 (2026-07-22): Full reproducibility audit — the authoritative scorecard
+
+Every table stage was regenerated and compared to the committed manuscript
+tex, number by number (SEs and all cells, not just the validated
+coefficients). Results:
+
+**Byte-identical (regenerate to the byte):** Table 4 (investment), and the
+previously verified Table 1 + IA.20 (event study), Table 2, Table 3, IA.19.
+
+**Value-identical (every number equal; formatting normalized and adopted):**
+Table 6, IA.1-IA.11, IA.14, IA.18 — i.e. IA.3, IA.8, IA.9, IA.14, IA.18
+joined the D-021 set in this audit.
+
+**Value gaps (shipped versions kept; stages FROZEN):**
+
+| Stage  | Table | Gap |
+|--------|-------|-----|
+| table5 | T5 other outcomes      | 10/213 cells, last digit (D-010 winsor/sample gaps, cols 2-5) |
+| table7 | T7 controls            | Stata-vcov bridge segfaults (rc=-11, known); CGM mode: 20/113 last-digit SE cells |
+| table8 | T8 aggregate           | 2/17 cells, last digit (inherits T4-input sensitivity) |
+| ia12   | IA.12 repayers/balanced| 21/147 cells, mostly last digit |
+| ia13   | IA.13 constraints      | 72/82 cells incl. sign flips — largest open gap (D-013) |
+| ia15   | IA.15 dividends add'l  | 22/59 cells, some large (0.064 vs 0.079; D-014 family) |
+| ia16   | IA.16 indicators       | 2/76 cells, last digit |
+| ia17   | IA.17 stock controls   | Stata-vcov crash; CGM mode: 27/69, some SEs 20-30% off |
+
+Most gaps are third-decimal SE differences consistent with the shipped
+tables having been built under a different vcov path (mixed
+Stata-vcov/CGM vintage); ia13 and ia15 look like genuine sample/spec
+mismatches in the same class D-021's addendum resolved for IA.7/10/11 —
+candidates for the same reverse-engineering treatment. The FROZEN set in
+analysis/run.py mirrors this table; `--stage all` skips those stages.

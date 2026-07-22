@@ -51,7 +51,7 @@ Stage names match manuscript labels (`table2`..`table8`, `ia1`..`ia19`,
 `figures`, `eventstudy`, `compare`); builders write directly into
 `manuscript/tables/` and `manuscript/figures/`. `--stage all` skips any
 stage in run.py's `FROZEN` set (guard for builders that do not reproduce
-the shipped tables — currently empty; every table regenerates exactly).
+the shipped tables; see the D-022 audit scorecard in DISCREPANCIES.md).
 Run any builder after changing it.
 
 To control whether pyfixest uses Stata's variance-covariance matrix:

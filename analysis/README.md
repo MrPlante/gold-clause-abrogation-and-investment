@@ -63,9 +63,9 @@ A table's code shares one stem across layers: `ia15_dividend_additional.py`
 ```
 
 `--stage all` skips any stage in `run.py`'s `FROZEN` set — the guard for
-builders known not to reproduce the shipped tables. The set is currently
-EMPTY: every table regenerates exactly (the last three holdouts, IA.7/10/11,
-were resolved in the D-021 addendum).
+builders known not to reproduce the shipped tables. The 2026-07-22 full
+audit (DISCREPANCIES.md D-022) is the authoritative scorecard: the set
+lists each frozen stage with its measured gap.
 
 ### Event study (Table 1, Figures 3–5, IA.2, IA.3, Table IA.20)
 

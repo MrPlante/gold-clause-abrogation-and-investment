@@ -59,11 +59,20 @@ STAGES = {
 }
 
 
-# Stages whose builders are KNOWN not to reproduce the shipped (Mete-original)
-# manuscript tables. "all" skips them so a full run cannot silently overwrite
-# a shipped table; run them explicitly with --stage to regenerate anyway.
-# Empty since the D-021 addendum resolved ia7/ia10/ia11 (exact reproduction).
-FROZEN: set[str] = set()
+# Stages whose builders do NOT yet reproduce the shipped manuscript tables
+# (full-audit scorecard in DISCREPANCIES.md D-022). "all" skips them so a
+# full run cannot silently overwrite a shipped table; run explicitly with
+# --stage to regenerate anyway.
+FROZEN = {
+    "table5",  # 10/213 cells differ (last digit; D-010 family)
+    "table7",  # crashes under Stata vcov (rc=-11); CGM mode: 20/113 last-digit
+    "table8",  # 2/17 cells (last digit)
+    "ia12",    # 21/147 cells
+    "ia13",    # 72/82 cells incl. sign flips (D-013)
+    "ia15",    # 22/59 cells, some large (D-014 family)
+    "ia16",    # 2/76 cells (last digit)
+    "ia17",    # crashes under Stata vcov; CGM mode: 27/69, some SEs 20-30% off
+}
 
 
 def main(argv: list[str] | None = None) -> None:
