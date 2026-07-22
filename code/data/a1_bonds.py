@@ -24,6 +24,12 @@ def build_bond_data() -> tuple[pd.DataFrame, pd.DataFrame]:
     require_file(GOLD_CLAUSES_XLSX, "gold_clauses.xlsx")
     df = pd.read_excel(GOLD_CLAUSES_XLSX, sheet_name="REAL ENTRY")
 
+    # Stata `import excel, firstrow` strips spaces/punctuation from headers
+    # ("Manual Year" -> ManualYear, "Funded Debt?" -> FundedDebt, ...); the
+    # do-file references the currency-notes column as NotesonCurrency.
+    df.columns = ["".join(ch for ch in str(c) if ch.isalnum()) for c in df.columns]
+    df = df.rename(columns={"NotesonCurrencyType": "NotesonCurrency"})
+
     df = df.rename(columns={"PERMNO": "permno"})
     df["permno_end"] = df["permno"].astype(str).str[5:6]
     df["permno"] = df["permno"].astype(str).str[:5]
@@ -50,7 +56,10 @@ def build_bond_data() -> tuple[pd.DataFrame, pd.DataFrame]:
     df = df.loc[(df["debt_ind"] == 1) & df["AmountOutstanding"].notna()].copy()
 
     df["ind_3134"] = ((df["due_year"] >= 1931) & (df["due_year"] <= 1934)).astype(float)
+    # Stata: bys permno year: egen rating_med = median(rating2) — the firm-year
+    # median broadcast to every bond
     df["rating2"] = df["Rating"].map(RATING_MAP)
+    df["rating_med"] = df.groupby(["permno", "year"], dropna=False)["rating2"].transform("median")
 
     bond = df[
         [
@@ -61,26 +70,32 @@ def build_bond_data() -> tuple[pd.DataFrame, pd.DataFrame]:
             "debt_ind",
             "year",
             "ind_3134",
-            "rating2",
+            "rating_med",
         ]
     ].copy()
-    bond = bond.rename(columns={"Rating": "rating", "rating2": "rating_med"})
-    bond = bond.sort_values(["permno", "year"])
-    bond["bondnum"] = bond.groupby(["permno", "year"]).cumcount() + 1
+    # stable sort keeps the spreadsheet's within-group bond order, matching
+    # Stata's sort + bys ... : gen bondnum = _n
+    bond = bond.sort_values(["permno", "year"], kind="stable")
+    # dropna=False: two bonds have missing ManualYear/year; Stata keeps them
+    bond["bondnum"] = bond.groupby(["permno", "year"], dropna=False).cumcount() + 1
     bond["AO_g0"] = bond["AmountOutstanding"] * (1 - bond["gold_ind"])
     bond["AO_g1"] = bond["AmountOutstanding"] * bond["gold_ind"]
     write_dta(bond, A1_BOND_PATH)
 
     firm = bond.copy()
-    agg = firm.groupby(["permno", "ManualYear"], as_index=False).agg(
+    # Stata: replace ind_3134 = 0 if missing, then
+    # bys permno: egen ind_3134_max = max(ind_3134) — a FIRM-wide max across
+    # all years, not a per-firm-year max
+    firm["ind_3134"] = firm["ind_3134"].fillna(0)
+    firm["ind_3134_max"] = firm.groupby("permno")["ind_3134"].transform("max")
+    agg = firm.groupby(["permno", "ManualYear"], as_index=False, dropna=False).agg(
         fd_amount=("AmountOutstanding", "sum"),
         fd_amount_g0=("AO_g0", "sum"),
         fd_amount_g1=("AO_g1", "sum"),
         debt_ind=("debt_ind", "max"),
         year=("year", "first"),
-        ind_3134_max=("ind_3134", "max"),
+        ind_3134_max=("ind_3134_max", "max"),
         rating_med=("rating_med", "median"),
     )
-    agg["ind_3134_max"] = agg["ind_3134_max"].fillna(0)
     write_dta(agg, A1_FIRM_PATH)
     return bond, agg

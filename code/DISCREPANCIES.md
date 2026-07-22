@@ -505,3 +505,36 @@ the CGM fix (instead of writing zero SEs) whenever Stata's e(V) comes
 back degenerate, so the code/output mirror carries the reproducible CGM
 SEs for this column. Flag for the coauthor conversation if a referee ever
 asks for col 7 SEs to be regenerated.
+
+---
+
+### D-018 — Raw -> A0-A3 chain closed; full raw-to-paper reproduction verified — **Resolved (2026-07-21)**
+
+The two raw source files missing since the repo's creation
+(`accounting_data.csv`, `gold_clauses.xlsx`) were recovered from
+`GKP Analysis Feb 2025/data/` (the exact folder Mete's A0/A1 do-files cd
+into; the `corrections/` copies are a different vintage) and installed in
+`data/raw/`. The never-before-runnable Python ports of A0-A3 were then
+tested against the known-good intermediates and fixed:
+
+- **a0_accounting.py**: lowercase headers (Stata `import delimited`),
+  calendar lags under `xtset permno_man year`, keep the `cc` scratch
+  column, reproduce Stata's all-missing float lags of string date vars.
+- **a1_bonds.py**: sanitize Excel headers the way `import excel, firstrow`
+  does; `rating_med` is the firm-year median broadcast to bonds;
+  `ind_3134_max` is a FIRM-wide max across all years (not per firm-year);
+  keep the two missing-year bonds (groupby dropna=False); stable sort for
+  bondnum.
+- **a2_marcap.py**: keep the month column under Stata's name `min_month`.
+- **a3_dividend.py**: correct as written (annual + monthly both exact).
+
+Verification: A0 (9,245 x 111), A1 firm-level (1,804 x 9), A2
+(15,625 x 7), A3 annual/monthly all match the on-disk intermediates
+column-by-column (float32 storage noise only). A1 bond-level content is
+identical as a multiset; only the meaningless within-firm-year `bondnum`
+ordering differs (Stata's non-stable sort). End-to-end: raw files ->
+A0-A3 -> a4_merge -> 7,074 x 845 panel matches `data/A4_merged.dta`
+exactly (0 mismatching columns). Combined with D-016/D-017, every number
+in the manuscript now regenerates from `data/raw/` + versioned code; the
+only external dependency is CRSP daily via `gold_claude.crsp` (licensed
+data, rebuilt by `code/sql/build_gold_claude_crsp.sql`).

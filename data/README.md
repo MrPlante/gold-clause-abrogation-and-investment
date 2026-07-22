@@ -21,13 +21,19 @@ data/
     netincome.dta           net income series (feeds the A4 merge)
     figures/monthly_macro.csv   retired FRED cache (Figures 1-2 now build
                             from versioned code/figures/data/macro_monthly.csv)
-    accounting_data.csv     [MISSING on this machine — from Mete]
-    gold_clauses.xlsx       [MISSING on this machine — from Mete]
+    accounting_data.csv     hand-collected accounting panel (restored
+                            2026-07-21 from "GKP Analysis Feb 2025/data/" —
+                            the vintage Mete's A0 do-file cd's into;
+                            NOT the corrections/ copy)
+    gold_clauses.xlsx       hand-collected bond/gold-clause data (same
+                            provenance; sheet "REAL ENTRY")
   intermediates/     ← A0-A3 pipeline stages (June 2026 build; byte-identical
     A0_accounting_data.dta, A1_bond_data_{bondlevel,firmlevel}.dta,     to
     A2_marcap.dta, A3_dividend_{annual,monthly}.dta      Mete's Oct 2025 set)
-                       Regenerable from raw/ ONLY if the two missing raw
-                       files are restored — until then these are precious.
+                       Regenerable from raw/: the full raw -> A0-A3 -> A4
+                       chain was verified 2026-07-21 (python3 code/run.py
+                       --stage data rebuilds the manuscript panel exactly,
+                       to float32 storage precision).
   attic/             ← retired; kept because data/ has no git history
     A4_merged_6768x831_deviant.dta  the pre-2026-07-21 on-disk panel. A
                             deviant build (lags recomputed after row drops,

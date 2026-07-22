@@ -30,6 +30,8 @@ def build_marcap() -> pd.DataFrame:
 
     df = df.dropna(subset=["marcap"])
     min_month = df.groupby(["permno", "year"])["month"].transform("min")
-    out = df.loc[df["month"] == min_month, ["permno", "year", "month", "prc", "shrout", "marcap", "sic"]]
+    # Stata keeps the column under the name min_month
+    out = df.loc[df["month"] == min_month].rename(columns={"month": "min_month"})
+    out = out[["permno", "year", "min_month", "prc", "shrout", "marcap", "sic"]]
     write_dta(out, A2_PATH)
     return out
