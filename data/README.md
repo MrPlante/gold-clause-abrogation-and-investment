@@ -11,7 +11,7 @@ data/
                        downstream reads this one file (all tables, the
                        event-study pipeline, the IA.19 Stata do-file).
                        Rebuild (both verified exact vs this file):
-                         python3 analysis/run.py --stage data --skip-raw
+                         .venv/bin/python pipeline/run.py --skip-raw
                        or Mete's A4_merge.do from git history
                        (d54b0c3:code/legacy/mete/A4_merge.do).
   raw/               ← source inputs, external provenance, never regenerated
@@ -19,8 +19,6 @@ data/
     monthly_div.dta         coauthor's monthly dividend data (feeds IA.12)
     chars_annual.dta        1930 firm characteristics & betas (feeds IA.17)
     netincome.dta           net income series (feeds the A4 merge)
-    figures/monthly_macro.csv   retired FRED cache (Figures 1-2 now build
-                            from versioned analysis/figures/source-data/macro_monthly.csv)
     accounting_data.csv     hand-collected accounting panel (restored
                             2026-07-21 from "GKP Analysis Feb 2025/data/" —
                             the vintage Mete's A0 do-file cd's into;
@@ -31,8 +29,8 @@ data/
     A0_accounting_data.dta, A1_bond_data_{bondlevel,firmlevel}.dta,     to
     A2_marcap.dta, A3_dividend_{annual,monthly}.dta      Mete's Oct 2025 set)
                        Regenerable from raw/: the full raw -> A0-A3 -> A4
-                       chain was verified 2026-07-21 (python3 analysis/run.py
-                       --stage data rebuilds the manuscript panel exactly,
+                       chain was verified 2026-07-21 (.venv/bin/python
+                       pipeline/run.py rebuilds the manuscript panel exactly,
                        to float32 storage precision).
 ```
 
@@ -54,7 +52,3 @@ were always identical to Mete's; the old on-disk A4 was a deviant merge
 (now in `tmp/2026-07/21/attic/`). `DISCREPANCIES.md` D-016 has the full story. The
 only remaining ask for Mete is the RFS-era `A9_inv_results.do` (published
 Table 4 columns 4-5 sample definitions).
-
-The untracked `GKP Analysis *` folders at the repo root are Mete's Dropbox
-snapshots (Apr 2024, Feb 2025, Oct 2025) — the source of the adopted A4
-and of the original referee reports and submitted PDFs. Not versioned.

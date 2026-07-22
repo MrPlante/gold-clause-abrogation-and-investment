@@ -15,3 +15,4 @@ logs/
 # Python
 __pycache__/
 .venv/
+tmp/
