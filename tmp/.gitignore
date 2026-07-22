@@ -1,0 +1,4 @@
+# Repository-local scratch space. Everything here is disposable.
+*
+!.gitignore
+!README.md

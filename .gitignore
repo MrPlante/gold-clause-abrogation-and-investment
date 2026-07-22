@@ -14,4 +14,4 @@ logs/
 
 # Python
 __pycache__/
-code/.venv/
+.venv/
