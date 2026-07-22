@@ -1,7 +1,8 @@
 """
 Unified event-study pipeline: builds every return series, figure, and table
-for the stock-market event-study evidence from gold_claude.crsp (research DB)
-and the paper's exposure measure d (A4_merged.dta).
+for the stock-market event-study evidence from data/raw/crsp_daily.dta (a
+local dump of researchdb gold_claude.crsp; see data/README.md) and the
+paper's exposure measure d (A4_merged.dta).
 
 This is the single source for all return numbers in the paper. It replaces
 the retired scripts event_study.py, event_study_overview.py,
@@ -32,14 +33,13 @@ Outputs:
   manuscript/tables/body/0_event_study.tex                       (Table 1)
   manuscript/tables/online-appendix/18_other_events.tex          (IA table)
 
-Requires a valid Kerberos ticket (klist). Reads the DB via psql (the local
-psycopg2 wheel has no GSSAPI support).
+Fully offline: no researchdb access needed. The dump is regenerated from
+the DB (Kerberos + psql) only when the underlying CRSP extract changes;
+pipeline/sql/build_gold_claude_crsp.sql documents that build.
 """
 
-import io
 import os
 import shutil
-import subprocess
 from datetime import datetime
 from pathlib import Path
 
@@ -51,10 +51,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-DB = ("postgresql://splante%40ads.ssc.wisc.edu@researchdb.ssc.wisc.edu/splante"
-      "?sslmode=require&gssencmode=require")
 ROOT = Path(__file__).resolve().parents[2]  # repo root, independent of cwd
 A4_PATH = ROOT / "data" / "processed" / "A4_merged.dta"
+CRSP_DAILY_PATH = ROOT / "data" / "raw" / "crsp_daily.dta"
 OUT_DIR = ROOT / "output" / "figures" / "event-study"
 MS_BODY_FIG = ROOT / "manuscript" / "figures" / "body"
 MS_IA_FIG = ROOT / "manuscript" / "figures" / "online-appendix"
@@ -117,41 +116,39 @@ def load_exposure():
     return gold, zero
 
 
-def build_series(gold, zero):
-    gold_p = ",".join(str(p) for p in gold.index)
-    gold_d = ",".join(f"{v:.10g}" for v in gold.values)
-    zero_p = ",".join(str(p) for p in zero.index)
-    sql = f"""
-    with gold(permno, d) as (
-      select * from unnest(array[{gold_p}]::int[], array[{gold_d}]::float8[])),
-    zer(permno) as (select unnest(array[{zero_p}]::int[])),
-    lagged as (
-      select permno, date, ret,
-             lag(cap) over (partition by permno order by date) as prevcap
-      from gold_claude.crsp),
-    base as (
-      select l.date, l.ret, l.prevcap, g.d as dg,
-             (z.permno is not null) as is0
-      from lagged l
-      left join gold g on g.permno = l.permno
-      left join zer z on z.permno = l.permno
-      where l.ret is not null
-        and l.date between '{SAMPLE_START}' and '{SAMPLE_END}')
-    select date,
-      sum(prevcap*ret) filter (where prevcap > 0)
-        / nullif(sum(prevcap) filter (where prevcap > 0), 0) as mkt,
-      avg(ret) filter (where dg is not null)                 as ew_yes,
-      avg(ret) filter (where is0)                            as ew_no,
-      sum(dg*ret) filter (where dg is not null)
-        / nullif(sum(dg) filter (where dg is not null), 0)   as dwret
-    from base group by date order by date
+def load_crsp():
+    """CRSP daily rows with previous-day cap, restricted to the sample window.
+
+    prevcap is the within-permno lag of cap over the FULL file (which starts
+    1925-12-31), computed before the sample filter — so the first sample day
+    already has a valid previous-day weight, exactly like the SQL window
+    function the retired DB version of this pipeline used.
     """
-    out = subprocess.run(["psql", DB, "-Atc", sql, "-F", ","],
-                         capture_output=True, text=True, check=True)
-    df = pd.read_csv(io.StringIO(out.stdout),
-                     names=["date", "mkt", "ew_yes", "ew_no", "dwret"])
-    df["date"] = pd.to_datetime(df.date)
-    return df.set_index("date").astype(float)
+    df = pd.read_stata(CRSP_DAILY_PATH, columns=["permno", "date", "ret", "cap"])
+    df = df.sort_values(["permno", "date"], kind="stable")
+    df["prevcap"] = df.groupby("permno")["cap"].shift(1)
+    return df[df["ret"].notna()
+              & df["date"].between(SAMPLE_START, SAMPLE_END)]
+
+
+def build_series(gold, zero):
+    base = load_crsp()
+    date = base["date"]
+    ret = base["ret"]
+    dg = base["permno"].map(gold)            # fixed exposure d; NaN if not d>0 firm
+    is0 = base["permno"].isin(zero.index)
+    pc = base["prevcap"].where(base["prevcap"] > 0)
+
+    df = pd.DataFrame({
+        "mkt": (pc * ret).groupby(date).sum(min_count=1)
+               / pc.groupby(date).sum(min_count=1),
+        "ew_yes": ret.where(dg.notna()).groupby(date).mean(),
+        "ew_no": ret.where(is0).groupby(date).mean(),
+        "dwret": (dg * ret).groupby(date).sum(min_count=1)
+                 / dg.groupby(date).sum(min_count=1),
+    })
+    df.index.name = "date"
+    return df.sort_index().astype(float)
 
 
 def estimate_capm(s):

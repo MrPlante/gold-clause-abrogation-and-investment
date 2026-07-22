@@ -10,8 +10,6 @@ is written into manuscript/. Run from the repo root:
     PYTHONPATH=code python3 -m eventstudy.vw
 """
 
-import io
-import subprocess
 import sys
 from pathlib import Path
 
@@ -23,8 +21,8 @@ import numpy as np
 import pandas as pd
 
 from eventstudy.pipeline import (
-    DB, SAMPLE_START, SAMPLE_END, EST_START, EST_END, EVENTS,
-    load_exposure, make_event_zoom, save, window_days, raw_ret,
+    EST_START, EST_END, EVENTS,
+    load_crsp, load_exposure, make_event_zoom, save, window_days, raw_ret,
 )
 
 SERIES_VW = [
@@ -35,39 +33,23 @@ SERIES_VW = [
 
 
 def build_series_vw(gold, zero):
-    gold_p = ",".join(str(p) for p in gold.index)
-    zero_p = ",".join(str(p) for p in zero.index)
-    sql = f"""
-    with gold(permno) as (select unnest(array[{gold_p}]::int[])),
-    zer(permno) as (select unnest(array[{zero_p}]::int[])),
-    lagged as (
-      select permno, date, ret,
-             lag(cap) over (partition by permno order by date) as prevcap
-      from gold_claude.crsp),
-    base as (
-      select l.date, l.ret, l.prevcap,
-             (g.permno is not null) as is1,
-             (z.permno is not null) as is0
-      from lagged l
-      left join gold g on g.permno = l.permno
-      left join zer z on z.permno = l.permno
-      where l.ret is not null
-        and l.date between '{SAMPLE_START}' and '{SAMPLE_END}')
-    select date,
-      sum(prevcap*ret) filter (where prevcap > 0)
-        / nullif(sum(prevcap) filter (where prevcap > 0), 0)          as mkt,
-      sum(prevcap*ret) filter (where is1 and prevcap > 0)
-        / nullif(sum(prevcap) filter (where is1 and prevcap > 0), 0)  as vw_yes,
-      sum(prevcap*ret) filter (where is0 and prevcap > 0)
-        / nullif(sum(prevcap) filter (where is0 and prevcap > 0), 0)  as vw_no
-    from base group by date order by date
-    """
-    out = subprocess.run(["psql", DB, "-Atc", sql, "-F", ","],
-                         capture_output=True, text=True, check=True)
-    df = pd.read_csv(io.StringIO(out.stdout),
-                     names=["date", "mkt", "vw_yes", "vw_no"])
-    df["date"] = pd.to_datetime(df.date)
-    return df.set_index("date").astype(float)
+    base = load_crsp()
+    date = base["date"]
+    ret = base["ret"]
+    pc = base["prevcap"].where(base["prevcap"] > 0)
+
+    def vw(mask):
+        p = pc.where(mask)
+        return ((p * ret).groupby(date).sum(min_count=1)
+                / p.groupby(date).sum(min_count=1))
+
+    df = pd.DataFrame({
+        "mkt": vw(pd.Series(True, index=base.index)),
+        "vw_yes": vw(base["permno"].isin(gold.index)),
+        "vw_no": vw(base["permno"].isin(zero.index)),
+    })
+    df.index.name = "date"
+    return df.sort_index().astype(float)
 
 
 def estimate_capm_vw(s):

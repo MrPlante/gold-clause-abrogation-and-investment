@@ -55,8 +55,7 @@ def main(argv: list[str] | None = None) -> None:
             "all",
         ],
         default="table3",
-        help="Pipeline stage to run (eventstudy needs researchdb Kerberos "
-        "access and is not part of 'all')",
+        help="Pipeline stage to run",
     )
     args = parser.parse_args(argv)
 
@@ -195,10 +194,10 @@ def main(argv: list[str] | None = None) -> None:
 
         run_figures()
 
-    if args.stage == "eventstudy":
-        # Excluded from "all": needs a Kerberos ticket for researchdb
-        # (gold_claude.crsp). Regenerates Table 1, Figures 3-5, IA.2, IA.3,
-        # and Table IA.20 directly into manuscript/.
+    if args.stage in ("eventstudy", "all"):
+        # Reads data/raw/crsp_daily.dta (local dump of gold_claude.crsp; no
+        # researchdb access needed). Regenerates Table 1, Figures 3-5, IA.2,
+        # IA.3, and Table IA.20 directly into manuscript/.
         from eventstudy.pipeline import main as run_event_study
 
         run_event_study()
