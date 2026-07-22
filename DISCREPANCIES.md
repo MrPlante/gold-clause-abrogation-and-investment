@@ -571,3 +571,17 @@ notably Table 5's net-repurchase 1933 cell would turn significant).
 If a referee ever questions inference in this design, the textbook remedy
 for G_clusters < k is the wild-cluster bootstrap; that discussion belongs in
 a response letter, not in a silent SE-convention swap.
+
+**D-019 addendum (2026-07-22) — legacy reghdfe code paths tested.** No older
+Stata exists on the cluster (both /usr/local/stata and /software/stata are
+Stata 19.5). However, reghdfe 6.13.1 ships its old implementations as
+`reghdfe3` and `reghdfe5`. Both were run on the Table 4 column-7 (bank-debt)
+spec: unlike reghdfe 6 (which returns all-missing SEs), BOTH produce SEs —
+and both land in the CGM family (1926: 0.125/0.129 vs pyfixest 0.125), NOT
+at the published values (0.177). With reghdfe3, reghdfe5, reghdfe6-refusal,
+pyfixest-CGM, and a manual Stata combination all mutually consistent and
+none matching the published column-7 SEs, the most parsimonious explanation
+is that those SEs came from the same lost 2023 esttab session that produced
+the columns 4-5 samples (D-017) — not from any reproducible software
+vintage. Chasing older reghdfe releases is a dead end; the shipped CGM SEs
+for column 7 stand as the reproducible choice.
