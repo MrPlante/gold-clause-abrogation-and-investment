@@ -20,6 +20,16 @@ from lib.sample import drop_excluded_industries, drop_unreliable_permnos
 from lib.winsor import winsorize_by
 
 
+def _calendar_lag(df: pd.DataFrame, col: str) -> pd.Series:
+    """Stata ``L.col`` under ``xtset permno year``: value at year-1, not the
+    previous observed row (positional shift would bridge gap years)."""
+    lag = df[["permno", "year", col]].copy()
+    lag["year"] += 1
+    lag = lag.rename(columns={col: "_lagval"})
+    out = df[["permno", "year"]].merge(lag, on=["permno", "year"], how="left")
+    return pd.Series(out["_lagval"].to_numpy(), index=df.index)
+
+
 def _add_year_interactions(
     df: pd.DataFrame, exposure: str, *, include_omitted_year: bool = False
 ) -> pd.DataFrame:
@@ -54,8 +64,9 @@ def _exposure_from_1930(
 
     df[f"{name}_1930"] = base
     df[name] = df.groupby("permno")[f"{name}_1930"].transform("mean")
-    all_ratio = np.where(lag_denom > 0, lag_num / lag_denom, np.nan)
-    df.loc[df["year"] <= 1930, name] = pd.Series(all_ratio, index=df.index)[df["year"] <= 1930]
+    # Stata: gen {name}_all = L{num}/Lll_bs_new (kept in the saved panel)
+    df[f"{name}_all"] = np.where(lag_denom > 0, lag_num / lag_denom, np.nan)
+    df.loc[df["year"] <= 1930, name] = df.loc[df["year"] <= 1930, f"{name}_all"]
     df[name] = df[name].fillna(0)
     # bd and ps keep the omitted-year interaction in A4 (Stata A4_merge.do does
     # not drop bd_year_1932 or ps_year_1932, unlike d_year_1932).
@@ -69,27 +80,47 @@ def build_merged() -> pd.DataFrame:
     div = read_dta(A3_ANNUAL_PATH)
     netinc = read_dta(NETINCOME_PATH)
 
-    df = df.merge(firm, on=["permno", "year"], how="left")
-    df = df.merge(marcap, on=["permno", "year"], how="left", suffixes=("", "_mcap"))
+    # Stata `merge` keeps using-only rows in the dataset (they all fall out at
+    # the inv_rate filter below); outer merges replicate that so the sic2_year
+    # group enumeration sees the same pre-filter panel as Stata.
+    df = df.merge(firm, on=["permno", "year"], how="outer")
+    df = df.merge(marcap, on=["permno", "year"], how="outer", suffixes=("", "_mcap"))
     if "sic" not in df.columns and "sic_mcap" in df.columns:
         df["sic"] = df["sic_mcap"]
-    df = df.merge(div, on=["permno", "year"], how="left")
-    df = df.drop(columns=["ni_is"], errors="ignore")
-    df = df.merge(netinc, on=["permno", "year"], how="left")
 
+    # Stata computes sic2_year right after the marcap merge, before the
+    # dividend/netincome merges and before any row is dropped, so the group
+    # ids enumerate the full pre-filter (sic2, year) combinations.
     df["sic"] = df.get("sic", pd.Series(0, index=df.index)).fillna(0)
     df["sic2"] = (df["sic"] // 100).astype(int)
+    # egen group() skips rows with any missing component (A1 has two rows
+    # with missing year), hence the dropna
+    groups = (
+        df[["sic2", "year"]]
+        .dropna()
+        .drop_duplicates()
+        .sort_values(["sic2", "year"])
+        .reset_index(drop=True)
+    )
+    groups["sic2_year"] = groups.index + 1
+    df = df.merge(groups, on=["sic2", "year"], how="left")
+
+    df = df.merge(div, on=["permno", "year"], how="outer")
+    df = df.drop(columns=["ni_is"], errors="ignore")
+    # Stata keeps _merge from this final merge in the saved panel
+    # (1 = master only, 3 = matched; using-only rows drop with inv_rate).
+    df = df.merge(netinc, on=["permno", "year"], how="outer", indicator=True)
+    df["_merge"] = df["_merge"].map({"left_only": 1, "right_only": 2, "both": 3}).astype(float)
+
     df = drop_excluded_industries(df)
     df = drop_unreliable_permnos(df)
     df = df.dropna(subset=["inv_rate"])
 
     df = df.sort_values(["permno", "year"])
-    df["Lta_bs"] = df.groupby("permno")["ta_bs"].shift(1)
-    df["Lbeq_bs"] = df.groupby("permno")["beq_bs"].shift(1)
-    # Compute component lags before filtering so gaps created by Q.notna() don't
-    # cause positional shift to bridge over missing years (Stata uses pre-stored L. lags).
-    for c in ("cb", "ps", "bd"):
-        df[f"L{c}_bs"] = df.groupby("permno")[f"{c}_bs"].shift(1)
+    # A0 ships pre-computed calendar lags (Lta_bs, Lbeq_bs, Lcb_bs, Lps_bs,
+    # Lbd_bs) built in A0_accounting_data.do before rows were dropped from the
+    # saved panel; recomputing them here loses ~300 firm-years (mostly 1926)
+    # whose prior-year row is absent from the saved A0.
     df["Q"] = (df["marcap"] + df["Lta_bs"] - df["Lbeq_bs"]) / df["Lta_bs"]
 
     lo, hi = SAMPLE_YEARS
@@ -97,8 +128,6 @@ def build_merged() -> pd.DataFrame:
 
     df["ll_bs_new"] = df["cb_bs"] + df["ps_bs"] + df["bd_bs"]
     df["Lll_bs_new"] = df["Lcb_bs"] + df["Lps_bs"] + df["Lbd_bs"]
-    # Stata: egen sic2_year = group(sic2 year) — used as industry×year FE in Table 6
-    df["sic2_year"] = df.groupby(["sic2", "year"]).ngroup()
 
     for col in ("fd_amount", "fd_amount_g0", "fd_amount_g1"):
         if col in df.columns:
@@ -116,7 +145,9 @@ def build_merged() -> pd.DataFrame:
     # Guard: Stata produces missing (.) when denominator is 0; avoid Inf in .dta
     df["dd"] = np.where(df["ll_bs_new"] > 0, df["fd_amount_g1"] / df["ll_bs_new"], np.nan)
     df["d_orig"] = df["d"]
-    df.loc[(df["year"] >= 1932) & (df["year"] <= 1936), "d_orig"] = df.groupby("permno")["dd"].shift(1)
+    _ldd = _calendar_lag(df, "dd")
+    _m_orig = (df["year"] >= 1932) & (df["year"] <= 1936)
+    df.loc[_m_orig, "d_orig"] = _ldd[_m_orig]
     df["d_orig"] = df["d_orig"].fillna(0)
     df = _add_year_interactions(df, "d")
 
@@ -131,7 +162,15 @@ def build_merged() -> pd.DataFrame:
     df.loc[m30 & df["rating_ind2"].isna(), "rating_ind2"] = 0
     df["rating_ind"] = df.groupby("permno")["rating_ind2"].transform("mean").fillna(0)
 
+    df["d_Before_Low"] = df["d"] * (df["year"] <= 1932) * df["rating_ind"]
+    df["d_1933_Low"] = df["d"] * (df["year"] == 1933) * df["rating_ind"]
+    df["d_1934_Low"] = df["d"] * (df["year"] == 1934) * df["rating_ind"]
+    df["d_After_Low"] = df["d"] * (df["year"] >= 1935) * df["rating_ind"]
     df["d_Low"] = df["d"] * df["rating_ind"]
+    df["Before_Low"] = (df["year"] <= 1932) * df["rating_ind"]
+    df["y1933_Low"] = (df["year"] == 1933) * df["rating_ind"]
+    df["y1934_Low"] = (df["year"] == 1934) * df["rating_ind"]
+    df["After_Low"] = (df["year"] >= 1935) * df["rating_ind"]
     for yr in range(lo, hi + 1):
         # Create all years (including omitted 1932) so Stata export do files
         # that create-then-drop the 1932 column work against our A4.
@@ -159,18 +198,21 @@ def build_merged() -> pd.DataFrame:
     df.loc[df["year"] <= 1930, "dalt"] = df.loc[df["year"] <= 1930, "dalt_all"]
     df["ddalt"] = np.where(denom_dalt > 0, df["fd_amount_g1"] / denom_dalt, np.nan)
     df["dalt_orig"] = df["dalt"]
-    df.loc[(df["year"] >= 1932) & (df["year"] <= 1936), "dalt_orig"] = df.groupby("permno")["ddalt"].shift(1)
+    _lddalt = _calendar_lag(df, "ddalt")
+    df.loc[_m_orig, "dalt_orig"] = _lddalt[_m_orig]
     df["dalt_orig"] = df["dalt_orig"].fillna(0)
-    df["daltind_orig"] = (df["dalt"] > 0).astype(int)
+    # Stata `(dalt > 0)` evaluates TRUE for missing dalt (missing = +infinity)
+    df["daltind_orig"] = ((df["dalt"] > 0) | df["dalt"].isna()).astype(int)
     # Stata A4_merge.do keeps dalt_year_1932 (no drop), so include it here.
     df = _add_year_interactions(df, "dalt", include_omitted_year=True)
 
     df["year2"] = df["year"].where(df["year"] >= 1930)
     df["min_year"] = df.groupby("permno")["year2"].transform("min")
-    # Stata: gen denom2 = cs_bs if year <= min_year; bys permno: egen denom3 = mean(denom2)
-    df["_cs_pre"] = df["cs_bs"].where(df["year"] <= df["min_year"])
-    df["denom"] = df.groupby("permno")["_cs_pre"].transform("mean")
-    df = df.drop(columns=["_cs_pre"])
+    # Stata keeps denom2/denom3 in the saved panel; `year <= min_year` is TRUE
+    # when min_year is missing (missing sorts as +infinity in Stata)
+    df["denom2"] = df["cs_bs"].where((df["year"] <= df["min_year"]) | df["min_year"].isna())
+    df["denom3"] = df.groupby("permno")["denom2"].transform("mean")
+    df["denom"] = df["denom3"]
     _denom_safe = df["denom"].replace(0, np.nan)
     df["cashrat"] = (df["cashdiv"] / _denom_safe).fillna(0)
     df["payout"] = ((df["cashdiv"] - df["netissue"]) / _denom_safe).fillna(0)
@@ -194,28 +236,26 @@ def build_merged() -> pd.DataFrame:
     df = winsorize_by(df, var_cols)
 
     for v in var_cols:
-        base = df.loc[df["year"] == df["min_year"], ["permno", v]].drop_duplicates("permno")
-        base = base.rename(columns={v: f"fix_{v}"})
-        df = df.merge(base, on="permno", how="left")
+        # Stata: gen ph = `v' if year == min_year; bys permno: egen fix_`v' = mean(ph)
+        df["ph"] = df[v].where(df["year"] == df["min_year"])
+        df[f"fix_{v}"] = df.groupby("permno")["ph"].transform("mean")
         df[f"{v}_before"] = df[f"fix_{v}"] * (df["year"] < 1933)
         df[f"{v}_1933"] = df[f"fix_{v}"] * (df["year"] == 1933)
         df[f"{v}_1934"] = df[f"fix_{v}"] * (df["year"] == 1934)
         df[f"{v}_after"] = df[f"fix_{v}"] * (df["year"] > 1934)
+    # `ph` survives in the saved panel as the last var's min_year snapshot
 
     # Stata A4_merge.do: decile portfolios for each fix_var_* (Table 6 controls).
-    # astile creates 1..10 decile ranks (same as xtile with 10 bins).
+    # astile assigns row-level decile ranks like xtile (verified identical on
+    # this panel); replicate xtile: category k iff value <= k-th decile cutoff.
     fix_cols = [f"fix_{v}" for v in var_cols]
     for fc in fix_cols:
-        # Assign decile rank (1..10) based on cross-firm distribution.
-        # Use firm-level (first obs per permno) values to avoid within-panel ties.
-        firm_vals = df.groupby("permno")[fc].first()
         port_col = f"{fc}_port"
-        firm_vals_notna = firm_vals.dropna()
-        if len(firm_vals_notna) >= 10:
-            labels = pd.qcut(firm_vals_notna, q=10, labels=False, duplicates="drop") + 1
-            df[port_col] = df["permno"].map(labels.to_dict())
-        else:
-            df[port_col] = np.nan
+        vals = df[fc]
+        nona = vals.dropna().to_numpy()
+        cuts = np.quantile(nona, [i / 10 for i in range(1, 10)], method="averaged_inverted_cdf")
+        ranks = np.searchsorted(cuts, vals.to_numpy(), side="left") + 1.0
+        df[port_col] = np.where(vals.isna(), np.nan, ranks)
         for decile in range(1, 11):
             mask = df[port_col] == decile
             df[f"{fc}_port_{decile}_before"] = (mask & (df["year"] < 1933)).astype(float)

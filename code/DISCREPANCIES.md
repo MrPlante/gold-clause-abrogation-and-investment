@@ -3,9 +3,9 @@
 Tracks differences between **`code/`** (Python), the **published manuscript**
 (`manuscript/tables/`), and **Mete’s Stata pipeline** (formerly `code/mete/`, removed from the tree at d54b0c3; `archive/metes-tables/`, removed at ad2edf7 — retrieve with `git checkout ad2edf7 -- archive`).
 
-**Baseline data:** `data/A4_merged.dta` (Mete-built; refactor data port not yet validated end-to-end).
+**Baseline data:** `data/A4_merged.dta` — the manuscript vintage (7,074 x 845), reproduced exactly by both Mete's `A4_merge.do` (git: `d54b0c3:code/legacy/mete/`) and the Python port `data/a4_merge.py` from the versioned A0-A3 intermediates (see D-016).
 
-**Last checked:** 2026-06-03 (Body Tables 1–7; IA Tables 0a–16).
+**Last checked:** 2026-07-21 (full sweep on the manuscript-vintage panel; see D-016).
 
 ---
 
@@ -386,3 +386,63 @@ reproducible from versioned primary-source data in
 
 `macro_plots.py` reads the versioned CSV (no network dependency) and the
 regenerated figures replace the originals in the manuscript.
+
+---
+
+### D-016 — "Data vintage mismatch" resolved: the deviant file was ours, not Mete's — **RESOLVED (2026-07-21)**
+
+Since 2026-06-06 every table validation carried the caveat that the
+manuscript was generated from an N=7,074 panel while the on-disk
+`data/A4_merged.dta` had N=6,768 ("data version mismatch"). Sebastien
+provided Mete's Dropbox folders (untracked, repo root: `GKP Analysis Oct
+2025 Mete/` and two earlier snapshots), which settled the question:
+
+- `GKP Analysis Oct 2025 Mete/Data/A4_merged.dta` is the manuscript
+  vintage (7,074 x 845).
+- Every upstream input (A0-A3 intermediates, chars_annual, crsp_monthly,
+  monthly_div, netincome) in that folder is **byte-identical** to ours.
+- Running Mete's `A4_merge.do` (identical to the copy in git history at
+  `d54b0c3:code/legacy/mete/A4_merge.do`) on our own intermediates
+  reproduces his 7,074 x 845 file **exactly** (all 843 non-key columns;
+  `astile` replaced by `xtile`, verified identical here).
+
+So there never was a missing data vintage: the old on-disk 6,768 x 831 A4
+was a deviant build (now `data/attic/A4_merged_6768x831_deviant.dta`), and
+the Python port had been tuned to reproduce the deviant file. Root causes
+of the deviation, all fixed in `data/a4_merge.py` (which now reproduces
+the manuscript panel exactly, to float32 storage precision):
+
+1. **Lags recomputed instead of using A0's stored lags.** A0 ships
+   pre-computed calendar lags (`Lta_bs`, `Lbeq_bs`, `Lcb_bs`, `Lps_bs`,
+   `Lbd_bs`) built before rows were dropped from the saved A0; 702 A0 rows
+   have a stored lag whose prior-year row is absent (361 in 1926).
+   Recomputing lags with a groupby-shift lost 306 firm-years (251 in 1926)
+   through the `Q != .` filter.
+2. **`sic2_year` enumerated post-filter** instead of on the pre-filter
+   merged panel (Stata computes it right after the marcap merge, before
+   any drop, and `egen group()` skips missing components).
+3. **Positional instead of calendar lags** for `d_orig`/`dalt_orig`.
+4. **Stata missing-value semantics**: `year <= min_year` is TRUE and
+   `(dalt > 0)` is TRUE when the RHS/LHS is missing (missing = +infinity).
+5. **14 intermediate columns dropped** that Stata keeps in the saved panel
+   (`_merge`, `ph`, `denom2`, `denom3`, `bd_all`, `ps_all`, and the
+   `*_Low` before/after interactions).
+
+Consequences (2026-07-21):
+
+- `data/A4_merged.dta` is now the manuscript vintage; all table builders
+  validate against the manuscript in full (Tables 2-8, IA tables — same
+  pass/fail profile as the pre-existing D-012/D-013/D-014 entries, which
+  are unrelated to the vintage).
+- Artifacts previously generated from the deviant panel were regenerated
+  and their quoted numbers re-synced: Figure 6 (fixes the referee-visible
+  Figure 6 vs Table 4 inconsistency), IA.19 (`A12_controls_indyear.do`
+  rerun; significance pattern changed, Section 5 + R6 comment-2 text
+  updated), and the event-study block (exposure classification moved from
+  175/378 to 177/376 firms; Table 1, IA.20, Figures 3-5, IA.2-IA.3
+  regenerated; ~0.1pp changes to quoted returns synced in Section 3, IA
+  Section IA.1, R2 comment-1, and the shared revision summary).
+- Still open: published Table 4 columns 4-5 ("No redemption", "With LT
+  Lia.") sample definitions are in none of the available do-files (see
+  the note in `tables/body/t03_investment.py`); ask Mete for the RFS-era
+  `A9_inv_results.do`.

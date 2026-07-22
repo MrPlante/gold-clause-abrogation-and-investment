@@ -102,8 +102,11 @@ def validate_against_manuscript(models: dict[str, object]) -> list[tuple[str, fl
     d_vals = _parse_row(r"\\ensuremath\{\\tilde\{d\}\}\s*&(.*?)\\\\")
 
     order = ["classic", "overhang", "no_maturity", "no_redemption", "positive_ltl", "pref_shares", "bank_debt"]
-    # Columns 4–5 (no_redemption, positive_ltl) use manuscript samples that differ
-    # slightly from the current A4_merged.dta on disk; validate core columns only.
+    # Columns 4-5 (no_redemption, positive_ltl): the published sample
+    # definitions are in none of the available do-files (closest guesses:
+    # A16_balanced.do repay==0 gives d=-0.094 vs published -0.097;
+    # ll_bs_new>0 gives -0.055 vs published -0.057). Pending the original
+    # RFS-era A9 do-file from Mete; validate core columns only.
     validated_indices = {0, 1, 2, 5, 6}
     checks: list[tuple[str, float, float]] = []
 
