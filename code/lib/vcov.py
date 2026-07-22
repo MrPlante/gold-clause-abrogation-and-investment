@@ -190,7 +190,16 @@ def attach_cluster_vcov(
         v_st, st_names = fetch_vcov_stata(
             data, dep, rhs, winsor_cols=winsor_cols
         )
-        patch_model_vcov(model, align_vcov(v_st, st_names, names))
+        v = align_vcov(v_st, st_names, names)
+        if np.all(np.diag(v) > 0):
+            patch_model_vcov(model, v)
+        else:
+            # Current reghdfe returns an all-missing e(V) for near-singular
+            # two-way specs (e.g. the Table 4 bank-debt placebo, whose
+            # published SEs came from an older reghdfe's salvage of the
+            # degenerate matrix; see DISCREPANCIES D-017). Fall back to the
+            # CGM fix rather than shipping zero SEs.
+            patch_model_vcov(model, fix_vcov(model._vcov))
     else:
         patch_model_vcov(model, fix_vcov(model._vcov))
     return model

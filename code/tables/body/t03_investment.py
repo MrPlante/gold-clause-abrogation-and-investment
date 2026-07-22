@@ -12,11 +12,10 @@ from pathlib import Path
 
 import pandas as pd
 
-from config import A1_FIRM_PATH, A4_PATH, COEF_TOLERANCE, MANUSCRIPT_BODY_TABLES, REFACTOR_OUTPUT_TABLES_BODY
+from config import A4_PATH, COEF_TOLERANCE, MANUSCRIPT_BODY_TABLES, REFACTOR_OUTPUT_TABLES_BODY
 from lib.io import read_dta
 from lib.regressions import fit_classic, fit_overhang
 from lib.render_investment_reg_tex import render_table3_latex
-from lib.sample import bond_repurchase_firms_1933_1934
 
 
 @dataclass
@@ -26,14 +25,40 @@ class ColumnSpec:
     sample: str = "full"
 
 
+# Tolerance for the adopted cols 4-5 sample reconstructions vs the published
+# table (exact definitions lost with the RFS-era A9 do-file; D-016).
+RECON_TOLERANCE = 0.02
+
+
 def load_panel() -> pd.DataFrame:
     return read_dta(A4_PATH)
 
 
 def _exclude_repurchasers(df: pd.DataFrame) -> pd.Series:
-    firm = read_dta(A1_FIRM_PATH)
-    bad = bond_repurchase_firms_1933_1934(firm)
+    """Column 4 sample: drop firms whose gold exposure d went from positive to
+    zero during the litigation window (1931-1935), i.e. firms that retired
+    their gold-clause debt. This is Mete's A16_balanced.do ``repay`` flag
+    (Stata: gen repay2 = 1 if d == 0 & L.d > 0 & year >= 1931 & year <= 1935),
+    adopted as the closest reconstruction of the published column 4 (published
+    d = -0.097, N = 5,572; this sample gives d = -0.094, N = 5,918; the
+    original RFS-era do-file defining the exact sample is lost)."""
+    lag = df[["permno", "year", "d"]].copy()
+    lag["year"] += 1
+    lag = lag.rename(columns={"d": "_Ld"})
+    m = df[["permno", "year", "d"]].merge(lag, on=["permno", "year"], how="left")
+    repay2 = (m["d"] == 0) & (m["_Ld"] > 0) & m["year"].between(1931, 1935)
+    bad = set(m.loc[repay2.to_numpy(), "permno"])
     return ~df["permno"].isin(bad)
+
+
+def _positive_ltl_sample(df: pd.DataFrame) -> pd.Series:
+    """Column 5 sample: firms with positive (raw balance-sheet) long-term
+    liabilities in 1930, the year exposure is measured. Closest
+    reconstruction of the published column 5 (published d = -0.057,
+    N = 6,048; this sample gives d = -0.052, N = 6,187, with the 1926-1934
+    interaction profile matching published within 0.01-0.03)."""
+    firms = set(df.loc[(df["year"] == 1930) & (df["ll_bs"] > 0), "permno"])
+    return df["permno"].isin(firms)
 
 
 def run_models(df: pd.DataFrame) -> dict[str, object]:
@@ -61,7 +86,7 @@ def run_models(df: pd.DataFrame) -> dict[str, object]:
     )
 
     models["positive_ltl"] = fit_overhang(
-        df, exposure="d", sample=df["ll_bs_new"] > 0
+        df, exposure="d", sample=_positive_ltl_sample(df)
     )
 
     models["pref_shares"] = fit_overhang(df, exposure="ps")
@@ -102,28 +127,28 @@ def validate_against_manuscript(models: dict[str, object]) -> list[tuple[str, fl
     d_vals = _parse_row(r"\\ensuremath\{\\tilde\{d\}\}\s*&(.*?)\\\\")
 
     order = ["classic", "overhang", "no_maturity", "no_redemption", "positive_ltl", "pref_shares", "bank_debt"]
-    # Columns 4-5 (no_redemption, positive_ltl): the published sample
-    # definitions are in none of the available do-files (closest guesses:
-    # A16_balanced.do repay==0 gives d=-0.094 vs published -0.097;
-    # ll_bs_new>0 gives -0.055 vs published -0.057). Pending the original
-    # RFS-era A9 do-file from Mete; validate core columns only.
+    # Columns 4-5 use adopted reconstructions of the lost published samples
+    # (see _exclude_repurchasers / _positive_ltl_sample docstrings and
+    # DISCREPANCIES D-016): validated against the published values at the
+    # looser RECON_TOLERANCE below. The manuscript ships the original
+    # published table; the reconstructions match it within ~0.02.
     validated_indices = {0, 1, 2, 5, 6}
+    recon_indices = {3, 4}
     checks: list[tuple[str, float, float]] = []
+    recon_checks: list[tuple[str, float, float]] = []
 
     for i, key in enumerate(order):
         m = models[key]
-        if i in validated_indices and i < len(q_vals) and q_vals[i] is not None:
-            checks.append((f"{key}.var_Q", q_vals[i], float(m.coef().loc["var_Q"])))
+        bucket = checks if i in validated_indices else recon_checks if i in recon_indices else None
+        if bucket is None:
+            continue
+        if i < len(q_vals) and q_vals[i] is not None:
+            bucket.append((f"{key}.var_Q", q_vals[i], float(m.coef().loc["var_Q"])))
         exp_name = "ps" if key == "pref_shares" else "bd" if key == "bank_debt" else "d"
-        if (
-            key != "classic"
-            and i in validated_indices
-            and i < len(d_vals)
-            and d_vals[i] is not None
-        ):
-            checks.append((f"{key}.{exp_name}", d_vals[i], float(m.coef().loc[exp_name])))
+        if key != "classic" and i < len(d_vals) and d_vals[i] is not None:
+            bucket.append((f"{key}.{exp_name}", d_vals[i], float(m.coef().loc[exp_name])))
 
-    return checks
+    return checks, recon_checks
 
 
 def write_latex_table(models: dict[str, object], path: Path | None = None) -> Path:
@@ -136,23 +161,33 @@ def write_latex_table(models: dict[str, object], path: Path | None = None) -> Pa
 def main() -> dict[str, object]:
     df = load_panel()
     models = run_models(df)
-    checks = validate_against_manuscript(models)
+    checks, recon_checks = validate_against_manuscript(models)
 
     failures = [
         f"{name}: expected {exp:.4f}, got {act:.4f}"
         for name, exp, act in checks
         if abs(exp - act) > COEF_TOLERANCE
     ]
-    if failures:
+    recon_failures = [
+        f"{name}: expected {exp:.4f}, got {act:.4f}"
+        for name, exp, act in recon_checks
+        if abs(exp - act) > RECON_TOLERANCE
+    ]
+    if failures or recon_failures:
         print(
             f"WARNING: Table 3 manuscript check differences "
-            f"({len(failures)} checks — likely data version mismatch):\n"
-            + "\n".join(failures)
+            f"({len(failures)} strict + {len(recon_failures)} reconstruction):\n"
+            + "\n".join(failures + recon_failures)
         )
     else:
-        print(f"Table 3 — all manuscript checks passed (tol={COEF_TOLERANCE})")
+        print(
+            f"Table 3 — strict checks passed (tol={COEF_TOLERANCE}); "
+            f"cols 4-5 reconstructions within {RECON_TOLERANCE} of published"
+        )
     for name, exp, act in checks:
         print(f"  {name}: {act:.4f} (expected {exp:.4f})")
+    for name, exp, act in recon_checks:
+        print(f"  [recon] {name}: {act:.4f} (published {exp:.4f})")
 
     out_path = write_latex_table(models)
     print(f"  Wrote LaTeX table -> {out_path}")

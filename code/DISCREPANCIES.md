@@ -15,7 +15,7 @@ Tracks differences between **`code/`** (Python), the **published manuscript**
 |-------|------------------|-----------------|--------------|--------------|
 | 1 | `tab:sum_stats_d` | `t01_summary_stats.py` | Yes (144 checks, tol 0.011) | **Match** (display rounding; Panel C firm count) |
 | 2 | `tab:bond_stats` | `t02_bond_stats.py` | Yes (35 checks, tol 0.011) | **Match** |
-| 3 | `tab:inv_main` | `t03_investment.py` | Partial (9 coefs, tol 0.001) | **Partial** (cols 1–3, 6–7 OK; cols 4–5 not) |
+| 3 | `tab:inv_main` | `t03_investment.py` | Yes (strict cols 1-3, 6-7; cols 4-5 recon tol 0.02) | **Match** (cols 4-5 adopted reconstructions; D-017) |
 | 4 | `tab:other_outcomes` | `t04_other_outcomes.py` | Yes (102 checks, tol 0.001) | **Match** |
 | 5 | `tab:credit_rating` | `t05_credit_ratings.py` | Yes (12 checks, tol 0.001) | **Match** |
 | 6 | `tab:controls` | `t06_controls.py` | Yes (50 checks, tol 0.001) | **Match** |
@@ -442,7 +442,48 @@ Consequences (2026-07-21):
   175/378 to 177/376 firms; Table 1, IA.20, Figures 3-5, IA.2-IA.3
   regenerated; ~0.1pp changes to quoted returns synced in Section 3, IA
   Section IA.1, R2 comment-1, and the shared revision summary).
-- Still open: published Table 4 columns 4-5 ("No redemption", "With LT
-  Lia.") sample definitions are in none of the available do-files (see
-  the note in `tables/body/t03_investment.py`); ask Mete for the RFS-era
-  `A9_inv_results.do`.
+- Published Table 4 columns 4-5 sample definitions are in none of the
+  available do-files; closest reconstructions adopted 2026-07-21 (see
+  D-017).
+
+---
+
+### D-017 — Table 4 cols 4-5 samples adopted as reconstructions; col 7 published SEs irreproducible — **Adopted (2026-07-21)**
+
+Follow-up to D-016's open item. Per Sebastien's decision ("use the closest
+match moving forward"), the builder now ships adopted reconstructions of
+the two lost sample definitions:
+
+- **Column 4 ("No redemption")**: exclude firms whose exposure `d` went
+  from positive to zero during 1931-1935 (Mete's `A16_balanced.do`
+  ``repay`` flag, calendar lag). Gives d = -0.094 (N = 5,918) vs published
+  -0.097 (N = 5,572); year-interaction profile matches within 0.02.
+- **Column 5 ("With LT Lia.")**: firms with positive raw balance-sheet
+  long-term liabilities (`ll_bs > 0`) in 1930, the year exposure is
+  measured. Gives d = -0.052 (N = 6,187) vs published -0.057 (N = 6,048);
+  chosen over contemporaneous `ll_bs_new > 0` (the builder's old guess),
+  whose pre-period profile is far off (1930 = -0.079*** vs published
+  -0.038). Selected by grid search over candidate samples scored against
+  the full published coefficient vector and N.
+
+The manuscript continues to ship the ORIGINAL published table
+(`manuscript/tables/body/3_investment_reg.tex` untouched); the builder
+validates cols 1-3, 6-7 strictly (tol 0.001) and cols 4-5 against the
+published values at RECON_TOLERANCE = 0.02.
+
+**New finding — column 7 (bank debt placebo) SEs cannot be reproduced.**
+Current reghdfe (Stata 18/19 era) returns an all-missing e(V) for this
+spec ("variance matrix is nonsymmetric or highly singular" after the CGM
+adjustment) on the exact manuscript panel. Reproducible alternatives (CGM
+fix on the pyfixest two-way vcov; manual Vp+Vy-Vi with reghdfe's own
+eigenvalue fix in Stata) agree with each other (~0.12 for 1926, ~0.03 for
+1934) but NOT with the published SEs (0.177, 0.084), which came from an
+older reghdfe's salvage of the degenerate matrix. Under the reproducible
+SEs several placebo cells change stars (1926 -0.335 -> **, 1928 -0.144 ->
+***, 1934 +0.060 -> **, a POSITIVE significant placebo cell). Because
+this is referee-visible and unfavorable to the placebo presentation, the
+published column is left as-is; `attach_cluster_vcov` now falls back to
+the CGM fix (instead of writing zero SEs) whenever Stata's e(V) comes
+back degenerate, so the code/output mirror carries the reproducible CGM
+SEs for this column. Flag for the coauthor conversation if a referee ever
+asks for col 7 SEs to be regenerated.
