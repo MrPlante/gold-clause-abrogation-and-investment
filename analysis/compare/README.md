@@ -13,7 +13,7 @@ Runs the **same regressions** in Mete’s Stata pipeline (formerly `code/mete/`,
    ssc install require ftools reghdfe winsor2, replace
    ftools, compile
    ```
-3. **Data:** `data/A4_merged.dta` (Mete-built panel).
+3. **Data:** `data/processed/A4_merged.dta` (Mete-built panel).
 4. **Python venv:** `.venv` with refactor dependencies.
 
 **Standard errors:** Python export uses `reghdfe` vcov via Stata when `stata-mp` is available (`USE_STATA_VCOV=auto`, default). Set `USE_STATA_VCOV=0` to use pyfixest with a Cameron–Gelbach–Miller PSD fix only (may differ slightly on some year interactions).

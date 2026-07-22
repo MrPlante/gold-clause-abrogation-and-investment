@@ -8,8 +8,8 @@ set more off
 clear all
 version 16
 
-local data_dir "/project7/splante/git/gold-clause-abrogation-and-investment/data"
-use "`data_dir'/processed/A4_merged.dta", clear
+local data_dir "/project7/splante/git/gold-clause-abrogation-and-investment/data/processed"
+use "`data_dir'/A4_merged.dta", clear
 
 local out_dir "/project7/splante/git/gold-clause-abrogation-and-investment/output/tables"
 cap mkdir "`out_dir'"

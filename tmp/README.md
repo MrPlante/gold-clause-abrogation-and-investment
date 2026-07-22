@@ -16,6 +16,14 @@ and the `.gitignore` are the only tracked files.
 
 ## Contents
 
+- `2026-07/21/intermediates/` — the former `data/intermediates/` (A0-A3
+  stage files, byte-identical to Mete's Oct 2025 set), retired 2026-07-21
+  when the pipeline moved to in-memory stages writing only
+  `data/processed/`. The Python rebuild was verified against these to
+  float32 precision before retiring them.
+- `2026-07/21/A4_merged_adopted_backup.dta` — safety copy of the adopted
+  manuscript panel taken before the pipeline-rebuild verification run
+  (identical to `data/processed/A4_merged.dta`).
 - `2026-07/21/attic/` — the former `data/attic/` (retired material from the
   2026-07-21 Dropbox-snapshot cleanup), moved here wholesale. **Caution:
   despite living under tmp/, parts of this are the only copy outside the

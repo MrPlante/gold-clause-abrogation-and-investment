@@ -3,7 +3,7 @@
 Tracks differences between **`pipeline/` + `analysis/`** (Python), the **published manuscript**
 (`manuscript/tables/`), and **Mete’s Stata pipeline** (formerly `code/mete/`, removed from the tree at d54b0c3; `archive/metes-tables/`, removed at ad2edf7 — retrieve with `git checkout ad2edf7 -- archive`).
 
-**Baseline data:** `data/A4_merged.dta` — the manuscript vintage (7,074 x 845), reproduced exactly by both Mete's `A4_merge.do` (git: `d54b0c3:code/legacy/mete/`) and the Python port `dataprep/a4_merge.py` from the versioned A0-A3 intermediates (see D-016).
+**Baseline data:** `data/processed/A4_merged.dta` — the manuscript vintage (7,074 x 845), reproduced exactly by both Mete's `A4_merge.do` (git: `d54b0c3:code/legacy/mete/`) and the Python port `dataprep/a4_merge.py` from raw (A0-A3 stages in memory; Mete's intermediates retired to tmp/2026-07/21/intermediates/ — see D-016).
 
 **Last checked:** 2026-07-21 (full sweep on the manuscript-vintage panel; see D-016).
 
@@ -430,7 +430,7 @@ the manuscript panel exactly, to float32 storage precision):
 
 Consequences (2026-07-21):
 
-- `data/A4_merged.dta` is now the manuscript vintage; all table builders
+- `data/processed/A4_merged.dta` is now the manuscript vintage; all table builders
   validate against the manuscript in full (Tables 2-8, IA tables — same
   pass/fail profile as the pre-existing D-012/D-013/D-014 entries, which
   are unrelated to the vintage).
@@ -533,7 +533,7 @@ Verification: A0 (9,245 x 111), A1 firm-level (1,804 x 9), A2
 column-by-column (float32 storage noise only). A1 bond-level content is
 identical as a multiset; only the meaningless within-firm-year `bondnum`
 ordering differs (Stata's non-stable sort). End-to-end: raw files ->
-A0-A3 -> a4_merge -> 7,074 x 845 panel matches `data/A4_merged.dta`
+A0-A3 -> a4_merge -> 7,074 x 845 panel matches `data/processed/A4_merged.dta`
 exactly (0 mismatching columns). Combined with D-016/D-017, every number
 in the manuscript now regenerates from `data/raw/` + versioned code; the
 only external dependency is CRSP daily via `gold_claude.crsp` (licensed

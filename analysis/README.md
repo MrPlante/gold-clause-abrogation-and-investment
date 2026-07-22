@@ -1,6 +1,6 @@
 # analysis/ — everything that produces the numbers in the paper
 
-Replicates all manuscript tables and figures from `data/A4_merged.dta` (built
+Replicates all manuscript tables and figures from `data/processed/A4_merged.dta` (built
 by `pipeline/`; the original Stata pipeline is in git history at
 `d54b0c3:code/legacy`) with Stata-matched econometrics (two-way clustered SEs,
 same sample windows, winsorization). Generated tables and figures are written
@@ -38,7 +38,7 @@ python3 analysis/run.py --stage eventstudy
 
 Builds the four daily portfolio return series (VW market, equal-weighted
 d>0 / d=0, and d-weighted) from `gold_claude.crsp` on the research DB plus
-`data/A4_merged.dta`, and writes all event figures and tables directly into
+`data/processed/A4_merged.dta`, and writes all event figures and tables directly into
 `manuscript/`. **Not part of `--stage all`**: it needs a valid Kerberos
 ticket for `researchdb.ssc.wisc.edu` (check with `klist`). The DB extract
 itself is built by `sql/build_gold_claude_crsp.sql` (run instructions in the
@@ -72,7 +72,7 @@ Or:
 .venv/bin/python analysis/run.py --stage compare
 ```
 
-**Requirements:** Stata on the machine (`STATA_BIN`, default `/usr/local/stata/stata-mp`), `data/A4_merged.dta`, and user packages `require`, `ftools`, `reghdfe`, `winsor2` (installed automatically on first run).
+**Requirements:** Stata on the machine (`STATA_BIN`, default `/usr/local/stata/stata-mp`), `data/processed/A4_merged.dta`, and user packages `require`, `ftools`, `reghdfe`, `winsor2` (installed automatically on first run).
 
 **Outputs:** `compare/output/stata_regressions.csv`, `python_regressions.csv`, `comparison_report.md`.
 
@@ -119,7 +119,7 @@ python analysis/run.py --stage all
 See `data/README.md` for the full layout and provenance of every file.
 In short: source inputs live in `data/raw/` (including the not-yet-present
 `accounting_data.csv` and `gold_clauses.xlsx`), the A0-A3 intermediates in
-`data/intermediates/`, and the merged panel at `data/A4_merged.dta`.
+`data/intermediates/`, and the merged panel at `data/processed/A4_merged.dta`.
 
 Build merged panel:
 

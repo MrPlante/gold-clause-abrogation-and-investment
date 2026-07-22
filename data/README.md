@@ -5,13 +5,16 @@ safety net here**: treat `raw/` as irreplaceable.
 
 ```
 data/
-  processed/
+  processed/         ← pipeline outputs (rebuild: .venv/bin/python pipeline/run.py;
+                       the A0-A3 stages run in memory and are not persisted)
     A4_merged.dta    ← THE panel (7,074 x 845 — the manuscript vintage,
                        verified against every manuscript table). Everything
-                       downstream reads this one file (all tables, the
+                       downstream reads this file (all tables, the
                        event-study pipeline, the IA.19 Stata do-file).
-                       Rebuild: .venv/bin/python pipeline/run.py
-                       (A0-A3 run in memory; nothing else is persisted).
+    A1_bond_data_bondlevel.dta ← bond-level panel; read directly by the
+                       Table 3 builder (bond-level rows never reach A4).
+                       Matches the retired Mete intermediate to float32
+                       precision (row order within permno-year differs).
   raw/               ← source inputs, external provenance, never regenerated
     crsp_monthly.dta        CRSP monthly extract (feeds A2 marcap, A3 dividends)
     monthly_div.dta         coauthor's monthly dividend data (feeds IA.12)
@@ -32,7 +35,7 @@ coauthors' Dropbox.
 
 The three "GKP Analysis *" Dropbox snapshots were deleted from the repo
 root on 2026-07-21 after everything load-bearing was extracted (raw files
--> data/raw/, panel -> data/A4_merged.dta, do-files verified identical to
+-> data/raw/, panel -> data/processed/A4_merged.dta, do-files verified identical to
 git history, round-1 reports + as-submitted PDFs -> rfs-responses/,
 unique research material -> the attic, now `tmp/2026-07/21/attic/`). The
 originals remain in the coauthors' Dropbox.
