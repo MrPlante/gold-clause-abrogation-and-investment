@@ -187,9 +187,19 @@ def attach_cluster_vcov(
         rhs = rhs or rhs_parsed
 
     if use_stata_vcov():
-        v_st, st_names = fetch_vcov_stata(
-            data, dep, rhs, winsor_cols=winsor_cols
-        )
+        try:
+            v_st, st_names = fetch_vcov_stata(
+                data, dep, rhs, winsor_cols=winsor_cols
+            )
+        except RuntimeError as exc:
+            # The Stata bridge segfaults (rc=-11) on the largest specs
+            # (decile-portfolio / stock-market-control regressions of
+            # Table 7 and IA.17). Fall back to the CGM fix so a full
+            # --stage all run needs no per-stage env vars (D-022).
+            print(f"  [vcov] Stata bridge failed for {dep}; using CGM fix "
+                  f"({str(exc).splitlines()[0]})")
+            patch_model_vcov(model, fix_vcov(model._vcov))
+            return model
         v = align_vcov(v_st, st_names, names)
         if np.all(np.diag(v) > 0):
             patch_model_vcov(model, v)

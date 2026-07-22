@@ -62,10 +62,15 @@ A table's code shares one stem across layers: `ia15_dividend_additional.py`
 .venv/bin/python analysis/run.py --stage all        # everything
 ```
 
-`--stage all` skips any stage in `run.py`'s `FROZEN` set — the guard for
-builders known not to reproduce the shipped tables. The 2026-07-22 full
-audit (DISCREPANCIES.md D-022) is the authoritative scorecard: the set
-lists each frozen stage with its measured gap.
+**The replication statement is unconditional** (since the D-022 final
+addendum): from `data/raw/` + `data/processed/`, `pipeline/run.py` followed
+by `analysis/run.py --stage all` reproduces every table and figure in the
+manuscript exactly — no env vars, no skipped stages. `run.py`'s `FROZEN`
+set (empty) remains as the guard mechanism: if a builder ever stops
+reproducing its table, add its stage there and log it in DISCREPANCIES.md.
+The Table 7 / IA.17 specs segfault the in-process Stata vcov bridge;
+attach_cluster_vcov falls back to the CGM fix automatically for exactly
+those regressions (printed as a [vcov] note during the run).
 
 ### Event study (Table 1, Figures 3–5, IA.2, IA.3, Table IA.20)
 

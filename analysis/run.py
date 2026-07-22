@@ -63,16 +63,11 @@ STAGES = {
 # (full-audit scorecard in DISCREPANCIES.md D-022). "all" skips them so a
 # full run cannot silently overwrite a shipped table; run explicitly with
 # --stage to regenerate anyway.
-FROZEN = {
-    "table5",  # 10/213 cells differ (last digit; D-010 family)
-    "table7",  # crashes under Stata vcov (rc=-11); CGM mode: 20/113 last-digit
-    "table8",  # 2/17 cells (last digit)
-    "ia12",    # 21/147 cells
-    "ia16",    # 2/76 cells (last digit)
-    "ia17",    # crashes under Stata vcov; CGM mode: 27/69, some SEs 20-30% off
-}
-# ia13/ia15 were resolved and ADOPTED (D-022 addendum): builders now match
-# all coefficients and stars; a handful of fossil last-digit cells replaced.
+# Empty since 2026-07-22: every builder's output is the manuscript table
+# (D-022 final addendum — remaining last-digit vcov-vintage fossils were
+# adopted wholesale with revblock marks). If a builder ever stops
+# reproducing its table, add its stage here and log it in DISCREPANCIES.md.
+FROZEN: set[str] = set()
 
 
 def main(argv: list[str] | None = None) -> None:

@@ -52,7 +52,7 @@ def render_stock_controls_table(models: dict[str, object]) -> str:
         r"\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}",
         rf"\begin{{tabular}}{{l*{{{n_cols}}}{{D{{.}}{{.}}{{-1}}}}}}",
         r"\toprule",
-        f"                    &{header.split('&', 1)[1].strip()} \\",
+        f"                    &{header.split('&', 1)[1].strip()} \\\\",
         r"\midrule",
     ]
     for coef_line, se_line in coef_rows:

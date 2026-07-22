@@ -720,3 +720,27 @@ reproducible builder output), both tables are now builder-generated in the
 tree, wrapped in revblock for review. FROZEN shrinks to six stages, all
 with last-digit-SE-class gaps only: table5, table7, table8, ia12, ia16,
 ia17.
+
+**D-022 final addendum (2026-07-22) — remaining fossils adopted; replication
+is unconditional.** Per Sebastien's decision, the six frozen tables were
+regenerated under the hybrid vcov standard and adopted (revblocked for
+review). The Stata bridge segfault on the Table 7 / IA.17 specs is now
+handled inside attach_cluster_vcov (automatic CGM fallback), so
+`analysis/run.py --stage all` runs end-to-end with no env vars. Adopted
+differences vs the shipped fossils (all SE-family; only Table 8 touches
+coefficients, two cells at 0.01pp, text synced with \rev):
+
+- Table 5: 2 star changes on uncited cells (1931 profits * -> **;
+  1940 net-repurchase loses *). All quoted 1933/34 claims unchanged.
+- Table 7: SE last digits; d-tilde col 1 *** -> **, col 5 ** -> *;
+  1933 col 6 ** -> *; 1934 cols 1,3 ** -> ***. The quoted col 1 / col 2
+  sentences hold (col 1 1934 strengthens).
+- Table 8: -4.10/-1.77 -> -4.11/-1.78 (Section 5 sentence updated).
+- IA.12: stars only strengthen (d-tilde and 1935 cells ** -> ***).
+- IA.16: two SE last digits, no star changes.
+- IA.17: d-tilde cols 4-6 upgrade * -> **.
+
+FROZEN is empty. The replication statement is now unconditional: from
+data/raw/ + data/processed/, `pipeline/run.py` then
+`analysis/run.py --stage all` reproduces every table and figure in the
+manuscript exactly.
