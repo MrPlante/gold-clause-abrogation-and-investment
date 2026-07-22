@@ -9,9 +9,9 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
-from config import COEF_TOLERANCE, MANUSCRIPT_APPENDIX_TABLES, REFACTOR_OUTPUT_TABLES_APPENDIX
-from lib.quarterly_dividends import MODEL_ORDER, run_models
-from lib.render_quarterly_div_tex import render_quarterly_div_table
+from config import COEF_TOLERANCE, MANUSCRIPT_APPENDIX_TABLES, OUTPUT_TABLES_APPENDIX
+from tables.models.quarterly_dividends import MODEL_ORDER, run_models
+from tables.render.quarterly_div import render_quarterly_div_table
 
 KEY_TERMS_ANNUAL = ["var_Q", "d"] + [f"d_year_{y}" for y in range(1926, 1941) if y != 1932]
 KEY_TERMS_QUARTER = ["d_year_1933", "d_year_1934"]
@@ -74,7 +74,7 @@ def validate_against_manuscript(models: dict[str, object]) -> list[tuple[str, fl
 
 
 def write_latex_table(models: dict[str, object], path: Path | None = None) -> Path:
-    out = path or (REFACTOR_OUTPUT_TABLES_APPENDIX / "12_quarterly_div.tex")
+    out = path or (OUTPUT_TABLES_APPENDIX / "12_quarterly_div.tex")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(render_quarterly_div_table(models), encoding="utf-8")
     return out

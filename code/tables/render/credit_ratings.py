@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from lib.credit_ratings import TABLE5_MODEL_ORDER
-from lib.render_investment_reg_tex import CoefCell, _cell, _coef_row, _fmt_n
+from tables.models.credit_ratings import TABLE5_MODEL_ORDER
+from tables.render.investment_reg import CoefCell, _cell, _coef_row, _fmt_n
 
 TABLE5_NOTES = (
     r"\scriptsize{\textit{Notes.} This table reports results from panel regressions testing "

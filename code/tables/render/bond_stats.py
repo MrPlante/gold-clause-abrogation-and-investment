@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from lib.bond_stats import BondYearStats
+from tables.models.bond_stats import BondYearStats
 
 TABLE2_NOTES = (
     r"\scriptsize{\textit{Notes.} This table examines whether firms strategically "

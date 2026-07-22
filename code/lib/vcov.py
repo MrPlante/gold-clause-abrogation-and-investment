@@ -11,8 +11,8 @@ import numpy as np
 import pandas as pd
 from scipy.stats import t as student_t
 
-REFACTOR_ROOT = Path(__file__).resolve().parents[1]
-STATA_DO = REFACTOR_ROOT / "stata" / "reghdfe_vcov.do"
+CODE_ROOT = Path(__file__).resolve().parents[1]
+STATA_DO = CODE_ROOT / "stata" / "reghdfe_vcov.do"
 DEFAULT_STATA_BIN = Path("/usr/local/stata/stata-mp")
 
 

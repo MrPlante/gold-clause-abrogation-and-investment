@@ -14,11 +14,11 @@ from config import (
     A4_PATH,
     COEF_TOLERANCE,
     MANUSCRIPT_APPENDIX_TABLES,
-    REFACTOR_OUTPUT_TABLES_APPENDIX,
+    OUTPUT_TABLES_APPENDIX,
 )
 from lib.io import read_dta
-from lib.render_sum_stats_tex import render_tilde_d_summary_latex
-from lib.summary_stats import TILDE_D_PANELS, compute_tilde_d_panels
+from tables.render.sum_stats import render_tilde_d_summary_latex
+from tables.models.summary_stats import TILDE_D_PANELS, compute_tilde_d_panels
 
 TOL = max(COEF_TOLERANCE, 0.011)
 
@@ -154,7 +154,7 @@ def validate_against_manuscript(panels: dict) -> list[tuple[str, float, float]]:
 
 
 def write_latex_table(panels: dict, path: Path | None = None) -> Path:
-    out = path or (REFACTOR_OUTPUT_TABLES_APPENDIX / "0_sum_stats_tilde_d.tex")
+    out = path or (OUTPUT_TABLES_APPENDIX / "0_sum_stats_tilde_d.tex")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(render_tilde_d_summary_latex(panels), encoding="utf-8")
     return out

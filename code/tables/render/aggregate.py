@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from lib.aggregate import AggregatePanel, PeriodValues
+from tables.models.aggregate import AggregatePanel, PeriodValues
 
 TABLE7_NOTES = (
     r"\footnotesize{\textit{Notes.} This table aggregates firm-level estimates to assess "

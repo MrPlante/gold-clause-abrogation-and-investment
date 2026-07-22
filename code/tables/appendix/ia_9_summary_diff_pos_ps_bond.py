@@ -10,12 +10,12 @@ from pathlib import Path
 from config import (
     COEF_TOLERANCE,
     MANUSCRIPT_APPENDIX_TABLES,
-    REFACTOR_OUTPUT_TABLES_APPENDIX,
+    OUTPUT_TABLES_APPENDIX,
 )
-from lib.dalt_panel import load_dalt_panel
-from lib.render_group_means_tex import render_group_means_table
-from lib.summary_stats import PANELS, _compute_panel_impl
-from lib.summary_stats_ia import BASE_VARIABLES
+from tables.models.dalt_panel import load_dalt_panel
+from tables.render.group_means import render_group_means_table
+from tables.models.summary_stats import PANELS, _compute_panel_impl
+from tables.models.summary_stats_ia import BASE_VARIABLES
 
 TOL = max(COEF_TOLERANCE, 0.011)
 
@@ -135,7 +135,7 @@ def validate_against_manuscript(panels: dict) -> list[tuple[str, float, float]]:
 
 
 def write_latex_table(panels: dict, path: Path | None = None) -> Path:
-    out = path or (REFACTOR_OUTPUT_TABLES_APPENDIX / "9_summary_diff_pos_ps_bond.tex")
+    out = path or (OUTPUT_TABLES_APPENDIX / "9_summary_diff_pos_ps_bond.tex")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(
         render_group_means_table(

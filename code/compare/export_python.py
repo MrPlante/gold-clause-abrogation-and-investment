@@ -8,14 +8,14 @@ from pathlib import Path
 
 import pandas as pd
 
-REFACTOR_ROOT = Path(__file__).resolve().parents[1]
-if str(REFACTOR_ROOT) not in sys.path:
-    sys.path.insert(0, str(REFACTOR_ROOT))
+CODE_ROOT = Path(__file__).resolve().parents[1]
+if str(CODE_ROOT) not in sys.path:
+    sys.path.insert(0, str(CODE_ROOT))
 
 from config import A4_PATH  # noqa: E402
-from lib.credit_ratings import TABLE5_MODEL_ORDER, run_models as run_table5  # noqa: E402
+from tables.models.credit_ratings import TABLE5_MODEL_ORDER, run_models as run_table5  # noqa: E402
 from lib.io import read_dta  # noqa: E402
-from lib.other_outcomes import MODEL_ORDER as TABLE4_ORDER, run_models as run_table4  # noqa: E402
+from tables.models.other_outcomes import MODEL_ORDER as TABLE4_ORDER, run_models as run_table4  # noqa: E402
 from lib.latex import model_pvalue, model_se  # noqa: E402
 from lib.regressions import fit_classic, fit_overhang  # noqa: E402
 from tables.body.t03_investment import run_models as run_table3  # noqa: E402

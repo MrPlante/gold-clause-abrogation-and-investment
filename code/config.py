@@ -31,11 +31,11 @@ MANUSCRIPT_APPENDIX_TABLES = REPO_ROOT / "manuscript" / "tables" / "online-appen
 MANUSCRIPT_BODY_FIGURES = REPO_ROOT / "manuscript" / "figures" / "body"
 MANUSCRIPT_APPENDIX_FIGURES = REPO_ROOT / "manuscript" / "figures" / "online-appendix"
 
-REFACTOR_OUTPUT = Path(__file__).resolve().parent / "output"
-REFACTOR_OUTPUT_TABLES = REFACTOR_OUTPUT / "tables"
-REFACTOR_OUTPUT_TABLES_BODY = REFACTOR_OUTPUT_TABLES / "body"
-REFACTOR_OUTPUT_TABLES_APPENDIX = REFACTOR_OUTPUT_TABLES / "online-appendix"
-REFACTOR_OUTPUT_FIGURES = REFACTOR_OUTPUT / "figure"
+OUTPUT_DIR = Path(__file__).resolve().parent / "output"
+OUTPUT_TABLES = OUTPUT_DIR / "tables"
+OUTPUT_TABLES_BODY = OUTPUT_TABLES / "body"
+OUTPUT_TABLES_APPENDIX = OUTPUT_TABLES / "online-appendix"
+OUTPUT_FIGURES = OUTPUT_DIR / "figure"
 
 SAMPLE_YEARS = (1926, 1940)
 OMITTED_YEAR = 1932

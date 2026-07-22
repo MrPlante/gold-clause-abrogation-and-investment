@@ -50,7 +50,7 @@ data but different styling.
 ### Stata alternative (parallel trend)
 
 ```bash
-bash code/scripts/run_stata_do.sh code/stata/export_parallel_trend_figure.do
+bash code/stata/run_stata_do.sh code/stata/export_parallel_trend_figure.do
 ```
 
 Writes `manuscript/figures/body/parallel_trend_plot_stata.pdf` for cross-check.

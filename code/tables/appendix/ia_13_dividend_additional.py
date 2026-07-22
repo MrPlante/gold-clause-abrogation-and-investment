@@ -7,10 +7,10 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
-from config import A4_PATH, COEF_TOLERANCE, MANUSCRIPT_APPENDIX_TABLES, REFACTOR_OUTPUT_TABLES_APPENDIX
-from lib.additional_dividends import BUCKET_TERMS, MODEL_ORDER, run_models
+from config import A4_PATH, COEF_TOLERANCE, MANUSCRIPT_APPENDIX_TABLES, OUTPUT_TABLES_APPENDIX
+from tables.models.additional_dividends import BUCKET_TERMS, MODEL_ORDER, run_models
 from lib.io import read_dta
-from lib.render_dividend_additional_tex import render_dividend_additional_table
+from tables.render.dividend_additional import render_dividend_additional_table
 
 CASHRAT_MODELS = set(MODEL_ORDER[:4])
 WARN_MODELS = CASHRAT_MODELS | {"divgr", "divshare"}
@@ -79,7 +79,7 @@ def validate_against_manuscript(
 
 
 def write_latex_table(models: dict[str, object], path: Path | None = None) -> Path:
-    out = path or (REFACTOR_OUTPUT_TABLES_APPENDIX / "13_dividend_additional.tex")
+    out = path or (OUTPUT_TABLES_APPENDIX / "13_dividend_additional.tex")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(render_dividend_additional_table(models), encoding="utf-8")
     return out

@@ -13,16 +13,16 @@ from config import (
     A4_PATH,
     COEF_TOLERANCE,
     MANUSCRIPT_APPENDIX_TABLES,
-    REFACTOR_OUTPUT_TABLES_APPENDIX,
+    OUTPUT_TABLES_APPENDIX,
 )
-from lib.ia_distribution_validate import (
+from tables.models.ia_distribution_validate import (
     check_failures,
     parse_distribution_table,
     validate_distribution_panels,
 )
 from lib.io import read_dta
-from lib.render_summary_ia_tex import render_distribution_table
-from lib.summary_stats_ia import (
+from tables.render.summary_ia import render_distribution_table
+from tables.models.summary_stats_ia import (
     BASE_VARIABLES,
     _stata_quantile,
     compute_distribution_table,
@@ -84,7 +84,7 @@ def validate_against_manuscript(panels: dict) -> list[tuple[str, float, float]]:
 
 
 def write_latex_table(panels: dict, path: Path | None = None) -> Path:
-    out = path or (REFACTOR_OUTPUT_TABLES_APPENDIX / "5_summary_I_larged.tex")
+    out = path or (OUTPUT_TABLES_APPENDIX / "5_summary_I_larged.tex")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(
         render_distribution_table(

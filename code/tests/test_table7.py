@@ -5,8 +5,8 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-REFACTOR = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(REFACTOR))
+CODE_DIR = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(CODE_DIR))
 
 from config import COEF_TOLERANCE  # noqa: E402
 from tables.body.t07_aggregate import (  # noqa: E402

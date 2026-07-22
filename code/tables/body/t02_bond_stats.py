@@ -10,9 +10,9 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from config import COEF_TOLERANCE, MANUSCRIPT_BODY_TABLES, REFACTOR_OUTPUT_TABLES_BODY
-from lib.bond_stats import BondYearStats, compute_bond_stats
-from lib.render_bond_stats_tex import render_table2_latex
+from config import COEF_TOLERANCE, MANUSCRIPT_BODY_TABLES, OUTPUT_TABLES_BODY
+from tables.models.bond_stats import BondYearStats, compute_bond_stats
+from tables.render.bond_stats import render_table2_latex
 
 STAT_FIELDS = (
     "n_firms",
@@ -68,7 +68,7 @@ def validate_against_manuscript(rows: list[BondYearStats]) -> list[tuple[str, fl
 
 
 def write_latex_table(rows: list[BondYearStats], path: Path | None = None) -> Path:
-    out = path or (REFACTOR_OUTPUT_TABLES_BODY / "2_bond_stats.tex")
+    out = path or (OUTPUT_TABLES_BODY / "2_bond_stats.tex")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(render_table2_latex(rows), encoding="utf-8")
     return out

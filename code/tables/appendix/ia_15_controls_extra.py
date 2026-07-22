@@ -7,11 +7,11 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
-from config import A4_PATH, COEF_TOLERANCE, MANUSCRIPT_APPENDIX_TABLES, REFACTOR_OUTPUT_TABLES_APPENDIX
-from lib.controls import CORE_TERMS
+from config import A4_PATH, COEF_TOLERANCE, MANUSCRIPT_APPENDIX_TABLES, OUTPUT_TABLES_APPENDIX
+from tables.models.controls import CORE_TERMS
 from lib.io import read_dta
-from lib.render_ret_controls_tex import render_ret_controls_table
-from lib.ret_controls import MODEL_ORDER, run_models
+from tables.render.ret_controls import render_ret_controls_table
+from tables.models.ret_controls import MODEL_ORDER, run_models
 
 LINEAR_ANN_TOL = 0.004
 DECILE_TOL = 0.002
@@ -95,7 +95,7 @@ def validate_against_manuscript(
 
 
 def write_latex_table(models: dict[str, object], path: Path | None = None) -> Path:
-    out = path or (REFACTOR_OUTPUT_TABLES_APPENDIX / "15_controls_extra.tex")
+    out = path or (OUTPUT_TABLES_APPENDIX / "15_controls_extra.tex")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(render_ret_controls_table(models), encoding="utf-8")
     return out

@@ -9,10 +9,10 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from config import A4_PATH, COEF_TOLERANCE, MANUSCRIPT_BODY_TABLES, REFACTOR_OUTPUT_TABLES_BODY
-from lib.aggregate import AggregatePanel, PeriodValues, run_aggregate
+from config import A4_PATH, COEF_TOLERANCE, MANUSCRIPT_BODY_TABLES, OUTPUT_TABLES_BODY
+from tables.models.aggregate import AggregatePanel, PeriodValues, run_aggregate
 from lib.io import read_dta
-from lib.render_aggregate_tex import render_table7_latex
+from tables.render.aggregate import render_table7_latex
 
 # Manuscript reports percentages to 2 decimals.
 TOL = max(COEF_TOLERANCE, 0.011)
@@ -101,7 +101,7 @@ def validate_against_manuscript(panels: dict[str, AggregatePanel]) -> list[str]:
 
 
 def write_latex_table(panels: dict[str, AggregatePanel], path: Path | None = None) -> Path:
-    out = path or (REFACTOR_OUTPUT_TABLES_BODY / "7_aggregate.tex")
+    out = path or (OUTPUT_TABLES_BODY / "7_aggregate.tex")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(render_table7_latex(panels), encoding="utf-8")
     return out

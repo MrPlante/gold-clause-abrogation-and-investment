@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
-from lib.render_controls_tex import DISPLAY_TERMS
-from lib.render_investment_reg_tex import _cell, _coef_row, _fmt_n
-from lib.ret_controls import MODEL_ORDER
+from tables.render.controls import DISPLAY_TERMS
+from tables.render.investment_reg import _cell, _coef_row, _fmt_n
+from tables.models.ret_controls import MODEL_ORDER
 
 TABLE15_NOTES = (
     r"\scriptsize{\textit{Notes.} This table tests whether the effect of gold clause exposure "

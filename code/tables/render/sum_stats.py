@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import math
 
-from lib.summary_stats import PANELS, PanelStats, VariableRow
+from tables.models.summary_stats import PANELS, PanelStats, VariableRow
 
 LATEX_ROW_LABELS: dict[str, str] = {
     "d": r"\ensuremath{d}",
@@ -175,7 +175,7 @@ TILDE_D_NOTES = (
 
 
 def render_tilde_d_summary_latex(panels: dict[str, PanelStats]) -> str:
-    from lib.summary_stats import TILDE_D_PANELS
+    from tables.models.summary_stats import TILDE_D_PANELS
 
     lines: list[str] = [
         r"\begin{table}[p]\centering",

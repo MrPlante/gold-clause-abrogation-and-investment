@@ -13,11 +13,11 @@ from config import (
     A4_PATH,
     COEF_TOLERANCE,
     MANUSCRIPT_APPENDIX_TABLES,
-    REFACTOR_OUTPUT_TABLES_APPENDIX,
+    OUTPUT_TABLES_APPENDIX,
 )
-from lib.credit_ratings import MODEL_ORDER, run_models
+from tables.models.credit_ratings import MODEL_ORDER, run_models
 from lib.io import read_dta
-from lib.render_credit_ratings_full_tex import INTERACTION_YEARS, render_credit_ratings_full_table
+from tables.render.credit_ratings_full import INTERACTION_YEARS, render_credit_ratings_full_table
 
 VALIDATED_COLUMNS = {0, 1, 2}
 YEAR_INTERACTION_TERMS = [f"d_year_{y}" for y in INTERACTION_YEARS]
@@ -119,7 +119,7 @@ def validate_against_manuscript(models: dict[str, object]) -> list[tuple[str, fl
 
 
 def write_latex_table(models: dict[str, object], path: Path | None = None) -> Path:
-    out = path or (REFACTOR_OUTPUT_TABLES_APPENDIX / "7_credit_ratings_full_table.tex")
+    out = path or (OUTPUT_TABLES_APPENDIX / "7_credit_ratings_full_table.tex")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(render_credit_ratings_full_table(models), encoding="utf-8")
     return out

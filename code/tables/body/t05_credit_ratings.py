@@ -10,10 +10,10 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
-from config import A4_PATH, COEF_TOLERANCE, MANUSCRIPT_BODY_TABLES, REFACTOR_OUTPUT_TABLES_BODY
-from lib.credit_ratings import TABLE5_MODEL_ORDER, run_models
+from config import A4_PATH, COEF_TOLERANCE, MANUSCRIPT_BODY_TABLES, OUTPUT_TABLES_BODY
+from tables.models.credit_ratings import TABLE5_MODEL_ORDER, run_models
 from lib.io import read_dta
-from lib.render_credit_ratings_tex import DISPLAY_ROWS, render_table5_latex
+from tables.render.credit_ratings import DISPLAY_ROWS, render_table5_latex
 
 # Both columns validated at tol=0.001 (0-indexed).
 VALIDATED_COLUMNS = {0, 1}
@@ -84,7 +84,7 @@ def validate_against_manuscript(models: dict[str, object]) -> list[tuple[str, fl
 
 
 def write_latex_table(models: dict[str, object], path: Path | None = None) -> Path:
-    out = path or (REFACTOR_OUTPUT_TABLES_BODY / "5_credit_ratings.tex")
+    out = path or (OUTPUT_TABLES_BODY / "5_credit_ratings.tex")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(render_table5_latex(models), encoding="utf-8")
     return out

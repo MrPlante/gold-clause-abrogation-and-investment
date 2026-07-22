@@ -11,16 +11,16 @@ from pathlib import Path
 from config import (
     COEF_TOLERANCE,
     MANUSCRIPT_APPENDIX_TABLES,
-    REFACTOR_OUTPUT_TABLES_APPENDIX,
+    OUTPUT_TABLES_APPENDIX,
 )
-from lib.dalt_panel import load_dalt_panel
-from lib.ia_distribution_validate import (
+from tables.models.dalt_panel import load_dalt_panel
+from tables.models.ia_distribution_validate import (
     check_failures,
     parse_distribution_table,
     validate_distribution_panels,
 )
-from lib.render_summary_ia_tex import render_distribution_table
-from lib.summary_stats_ia import BASE_VARIABLES, compute_distribution_table
+from tables.render.summary_ia import render_distribution_table
+from tables.models.summary_stats_ia import BASE_VARIABLES, compute_distribution_table
 
 TOL = max(COEF_TOLERANCE, 0.011)
 # Manuscript built on earlier A4 (452 vs 486 firms in current panel); see DISCREPANCIES.
@@ -67,7 +67,7 @@ def validate_against_manuscript(panels: dict) -> list[tuple[str, float, float]]:
 
 
 def write_latex_table(panels: dict, path: Path | None = None) -> Path:
-    out = path or (REFACTOR_OUTPUT_TABLES_APPENDIX / "8_summary_pos_ps_bond.tex")
+    out = path or (OUTPUT_TABLES_APPENDIX / "8_summary_pos_ps_bond.tex")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(
         render_distribution_table(

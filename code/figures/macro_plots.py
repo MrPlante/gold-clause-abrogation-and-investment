@@ -52,7 +52,7 @@ import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 import pandas as pd
 
-from config import MANUSCRIPT_BODY_FIGURES, REFACTOR_OUTPUT_FIGURES
+from config import MANUSCRIPT_BODY_FIGURES, OUTPUT_FIGURES
 
 MONTHLY_MACRO_CSV = Path(__file__).resolve().parent / "source-data" / "macro_monthly.csv"
 
@@ -163,7 +163,7 @@ def plot_inflation(frame: pd.DataFrame, out_path: Path) -> Path:
 
 def build_macro_figures(*, out_dir: Path | None = None) -> dict[str, Path]:
     frame = _load()
-    dest = Path(out_dir) if out_dir is not None else REFACTOR_OUTPUT_FIGURES
+    dest = Path(out_dir) if out_dir is not None else OUTPUT_FIGURES
     paths = {
         "dollar_to_sterling": plot_dollar_to_sterling(frame, dest / "dollar_to_sterling.pdf"),
         "dollar_to_franc": plot_dollar_to_franc(frame, dest / "dollar_to_franc.pdf"),

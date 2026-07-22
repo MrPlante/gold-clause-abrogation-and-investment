@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 from config import CHARS_ANNUAL_PATH
 from lib.regressions import feols_clustered
-from lib.controls import CORE_TERMS, LINEAR_CONTROLS
+from tables.models.controls import CORE_TERMS, LINEAR_CONTROLS
 from lib.io import read_dta
 
 MODEL_ORDER = [

@@ -12,14 +12,20 @@ code/
 ├── config.py           # paths, constants
 ├── run.py              # CLI entry point
 ├── setup.sh            # create .venv and install dependencies
-├── event_study_pipeline.py  # Table 1, Figs 3–5, IA.2/IA.3, Table IA.20 (research DB)
+├── eventstudy/         # Table 1, Figs 3–5, IA.2/IA.3, Table IA.20 (research DB)
+│   ├── pipeline.py     #   the production event-study pipeline
+│   └── vw.py           #   exploratory value-weighted variant (output/ only)
 ├── sql/                # build script for gold_claude.crsp on researchdb
-├── stata/              # do-files still in the production path (IA.19 exact SEs)
+├── stata/              # production do-files (IA.19 exact SEs) + run_stata_do.sh
 ├── dataprep/           # A0–A4 panel construction (Stata A0_accounting … A4_merge)
-├── lib/                # regressions, winsorization, LaTeX, validation
+├── lib/                # shared infrastructure: io, regressions, vcov, winsor, latex
 ├── tables/
-│   ├── body/           # manuscript Tables 1–7
-│   └── appendix/       # Internet Appendix tables
+│   ├── body/           # manuscript Tables 1–8 builders
+│   ├── appendix/       # Internet Appendix table builders
+│   ├── models/         # shared per-table computations (controls, aggregate, …)
+│   └── render/         # LaTeX renderers for each table
+├── figures/
+│   └── source-data/    # versioned primary-source transcriptions (Figs 1-2, 7)
 ├── output/
 │   ├── tables/
 │   │   ├── body/       # generated body .tex
@@ -75,7 +81,7 @@ code/.venv/bin/python code/run.py --stage compare
 
 **Outputs:** `compare/output/stata_regressions.csv`, `python_regressions.csv`, `comparison_report.md`.
 
-On a full run (Tables 3–5 subset): **221/221** matched coefficient cells agree within `1e-3`; standard errors match when Python uses Stata `reghdfe` vcov (`USE_STATA_VCOV=auto`). See `compare/README.md`. Stata batch logs go to `logs/stata/` (`code/scripts/run_stata_do.sh`).
+On a full run (Tables 3–5 subset): **221/221** matched coefficient cells agree within `1e-3`; standard errors match when Python uses Stata `reghdfe` vcov (`USE_STATA_VCOV=auto`). See `compare/README.md`. Stata batch logs go to `logs/stata/` (`code/stata/run_stata_do.sh`).
 
 ## Figures
 

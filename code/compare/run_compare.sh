@@ -8,11 +8,11 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/../../.." && pwd)"
-REFACTOR="${REPO_ROOT}/code"
-VENV_PY="${REFACTOR}/.venv/bin/python"
+CODE_DIR="${REPO_ROOT}/code"
+VENV_PY="${CODE_DIR}/.venv/bin/python"
 
 echo "==> Stata export (reghdfe + winsor2)"
-bash "${REFACTOR}/scripts/run_stata_do.sh" "${SCRIPT_DIR}/export_regressions.do"
+bash "${CODE_DIR}/stata/run_stata_do.sh" "${SCRIPT_DIR}/export_regressions.do"
 LOG="${REPO_ROOT}/logs/stata/export_regressions.log"
 if [[ -f "${LOG}" ]]; then
   if grep -E "^\s*r\([0-9]+\);\s*$" "${LOG}" | grep -v "end of do-file" >/dev/null 2>&1; then

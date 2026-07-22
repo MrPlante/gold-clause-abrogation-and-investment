@@ -59,7 +59,7 @@ bash code/compare/run_compare.sh --fail-on-mismatch
 
 ```bash
 cd /path/to/gold-clause-abrogation-and-investment
-bash code/scripts/run_stata_do.sh code/compare/export_regressions.do
+bash code/stata/run_stata_do.sh code/compare/export_regressions.do
 code/.venv/bin/python code/compare/export_python.py
 code/.venv/bin/python code/compare/compare_results.py
 ```

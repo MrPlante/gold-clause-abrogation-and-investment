@@ -12,7 +12,7 @@ from config import (
     A4_PATH,
     MANUSCRIPT_BODY_FIGURES,
     OMITTED_YEAR,
-    REFACTOR_OUTPUT_FIGURES,
+    OUTPUT_FIGURES,
     SAMPLE_YEARS,
 )
 from lib.io import read_dta
@@ -81,7 +81,7 @@ def build_parallel_trend_plot(
     model = fit_overhang(panel, exposure="d", dep="var_inv_rate")
     frame = _interaction_frame(model)
 
-    dest = Path(out_dir) if out_dir is not None else REFACTOR_OUTPUT_FIGURES
+    dest = Path(out_dir) if out_dir is not None else OUTPUT_FIGURES
     refactor_path = render_parallel_trend_plot(
         frame, dest / "parallel_trend_plot.pdf"
     )

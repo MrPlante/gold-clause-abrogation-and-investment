@@ -5,15 +5,15 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-REFACTOR = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(REFACTOR))
+CODE_DIR = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(CODE_DIR))
 
 from tables.appendix.ia_0_sum_stats_tilde_d import (  # noqa: E402
     TOL,
     load_panel,
     validate_against_manuscript,
 )
-from lib.summary_stats import compute_tilde_d_panels  # noqa: E402
+from tables.models.summary_stats import compute_tilde_d_panels  # noqa: E402
 
 
 def test_ia_0_sum_stats_tilde_d_matches_manuscript():

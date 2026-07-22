@@ -11,11 +11,11 @@ from config import (
     A4_PATH,
     COEF_TOLERANCE as BASE_TOL,
     MANUSCRIPT_APPENDIX_TABLES,
-    REFACTOR_OUTPUT_TABLES_APPENDIX,
+    OUTPUT_TABLES_APPENDIX,
 )
-from lib.balanced import COLUMN_ORDER, run_models
+from tables.models.balanced import COLUMN_ORDER, run_models
 from lib.io import read_dta
-from lib.render_balanced_tex import render_balanced_table
+from tables.render.balanced import render_balanced_table
 
 KEY_TERMS = ["var_Q", "d", "d_year_1933", "d_year_1934"]
 
@@ -101,7 +101,7 @@ def validate_against_manuscript(models: dict[str, object]) -> list[tuple[str, fl
 
 
 def write_latex_table(models: dict[str, object], path: Path | None = None) -> Path:
-    out = path or (REFACTOR_OUTPUT_TABLES_APPENDIX / "10_repayers_balanced.tex")
+    out = path or (OUTPUT_TABLES_APPENDIX / "10_repayers_balanced.tex")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(render_balanced_table(models), encoding="utf-8")
     return out

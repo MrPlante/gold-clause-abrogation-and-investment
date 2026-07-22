@@ -7,9 +7,9 @@ import argparse
 import sys
 from pathlib import Path
 
-REFACTOR_ROOT = Path(__file__).resolve().parent
-if str(REFACTOR_ROOT) not in sys.path:
-    sys.path.insert(0, str(REFACTOR_ROOT))
+CODE_ROOT = Path(__file__).resolve().parent
+if str(CODE_ROOT) not in sys.path:
+    sys.path.insert(0, str(CODE_ROOT))
 
 
 def main(argv: list[str] | None = None) -> None:
@@ -205,15 +205,15 @@ def main(argv: list[str] | None = None) -> None:
         # Excluded from "all": needs a Kerberos ticket for researchdb
         # (gold_claude.crsp). Regenerates Table 1, Figures 3-5, IA.2, IA.3,
         # and Table IA.20 directly into manuscript/.
-        from event_study_pipeline import main as run_event_study
+        from eventstudy.pipeline import main as run_event_study
 
         run_event_study()
 
     if args.stage == "compare":
         import subprocess
 
-        repo = REFACTOR_ROOT.parent
-        script = REFACTOR_ROOT / "compare" / "run_compare.sh"
+        repo = CODE_ROOT.parent
+        script = CODE_ROOT / "compare" / "run_compare.sh"
         result = subprocess.run(["bash", str(script)], cwd=repo, check=False)
         raise SystemExit(result.returncode)
 

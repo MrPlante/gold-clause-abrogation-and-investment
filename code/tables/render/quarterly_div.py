@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 from config import OMITTED_YEAR, SAMPLE_YEARS
-from lib.quarterly_dividends import MODEL_ORDER
-from lib.render_investment_reg_tex import _cell, _coef_row, _fmt_n
+from tables.models.quarterly_dividends import MODEL_ORDER
+from tables.render.investment_reg import _cell, _coef_row, _fmt_n
 
 TABLE12_NOTES = (
     r"\scriptsize{\textit{Notes.} This table reports results from panel regressions of cash "

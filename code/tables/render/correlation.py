@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import math
 
-from lib.correlation import CORRELATION_VARIABLES, CorrelationRow
+from tables.models.correlation import CORRELATION_VARIABLES, CorrelationRow
 
 CORRELATION_NOTES = (
     r"\footnotesize{\textit{Notes.} This table examines correlations between gold "

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import math
 
-from lib.summary_stats_ia import DistributionPanel, DistributionRow
+from tables.models.summary_stats_ia import DistributionPanel, DistributionRow
 
 LATEX_ROW_LABELS: dict[str, str] = {
     "Corp. bonds/LTL": r"Corp. bonds/LTL",

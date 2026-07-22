@@ -15,7 +15,7 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import pandas as pd
 
-from config import MANUSCRIPT_BODY_FIGURES, REFACTOR_OUTPUT_FIGURES
+from config import MANUSCRIPT_BODY_FIGURES, OUTPUT_FIGURES
 
 HICKMAN_CSV = Path(__file__).resolve().parent / "source-data" / "hickman_industrial_bonds.csv"
 
@@ -28,7 +28,7 @@ def build_hickman_issuance_plot(*, out_dir: Path | None = None) -> Path | None:
     if not {"year", "par_millions"}.issubset(frame.columns):
         raise ValueError(f"{HICKMAN_CSV} must have columns year, par_millions")
 
-    dest = Path(out_dir) if out_dir is not None else REFACTOR_OUTPUT_FIGURES
+    dest = Path(out_dir) if out_dir is not None else OUTPUT_FIGURES
     out_path = dest / "industrial_corp_bond_issuance.pdf"
 
     fig, ax = plt.subplots(figsize=(7.5, 4.5), dpi=150)

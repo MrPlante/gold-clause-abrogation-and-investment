@@ -11,14 +11,14 @@ from config import (
     A4_PATH,
     COEF_TOLERANCE,
     MANUSCRIPT_APPENDIX_TABLES,
-    REFACTOR_OUTPUT_TABLES_APPENDIX,
+    OUTPUT_TABLES_APPENDIX,
 )
-from lib.constraints import DISPLAY_TERMS, MODEL_ORDER, run_models
+from tables.models.constraints import DISPLAY_TERMS, MODEL_ORDER, run_models
 
 # Full coef validation: pyfixest vs reghdfe with triple interactions (see DISCREPANCIES).
 STRICT_TERMS = ["var_Q"]
 from lib.io import read_dta
-from lib.render_constraints_tex import render_constraints_table
+from tables.render.constraints import render_constraints_table
 
 TERM_TO_MANUSCRIPT = {
     "var_Q": "Q",
@@ -111,7 +111,7 @@ def validate_against_manuscript(models: dict[str, object]) -> list[tuple[str, fl
 
 
 def write_latex_table(models: dict[str, object], path: Path | None = None) -> Path:
-    out = path or (REFACTOR_OUTPUT_TABLES_APPENDIX / "11_constraints.tex")
+    out = path or (OUTPUT_TABLES_APPENDIX / "11_constraints.tex")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(render_constraints_table(models), encoding="utf-8")
     return out

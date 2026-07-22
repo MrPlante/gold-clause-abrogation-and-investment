@@ -10,10 +10,10 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
-from config import A4_PATH, COEF_TOLERANCE, MANUSCRIPT_BODY_TABLES, REFACTOR_OUTPUT_TABLES_BODY
+from config import A4_PATH, COEF_TOLERANCE, MANUSCRIPT_BODY_TABLES, OUTPUT_TABLES_BODY
 from lib.io import read_dta
-from lib.other_outcomes import MODEL_ORDER, run_models
-from lib.render_other_outcomes_tex import render_table4_latex
+from tables.models.other_outcomes import MODEL_ORDER, run_models
+from tables.render.other_outcomes import render_table4_latex
 
 # All six columns validated at tol=0.001 (0-indexed).
 VALIDATED_COLUMNS = {0, 1, 2, 3, 4, 5}
@@ -107,7 +107,7 @@ def validate_against_manuscript(models: dict[str, object]) -> list[tuple[str, fl
 
 
 def write_latex_table(models: dict[str, object], path: Path | None = None) -> Path:
-    out = path or (REFACTOR_OUTPUT_TABLES_BODY / "4_other_outcomes.tex")
+    out = path or (OUTPUT_TABLES_BODY / "4_other_outcomes.tex")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(render_table4_latex(models), encoding="utf-8")
     return out

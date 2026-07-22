@@ -13,7 +13,7 @@ from pathlib import Path
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-from config import REFACTOR_OUTPUT_TABLES_APPENDIX
+from config import OUTPUT_TABLES_APPENDIX
 
 CSV_PATH = (
     Path(__file__).resolve().parents[3]
@@ -186,7 +186,7 @@ def main() -> Path:
     data = load_csv()
     tex = render(data)
 
-    for out_dir in [REFACTOR_OUTPUT_TABLES_APPENDIX, MANUSCRIPT_APPENDIX]:
+    for out_dir in [OUTPUT_TABLES_APPENDIX, MANUSCRIPT_APPENDIX]:
         out_dir.mkdir(parents=True, exist_ok=True)
         out = out_dir / "17_controls_indyear.tex"
         out.write_text(tex, encoding="utf-8")

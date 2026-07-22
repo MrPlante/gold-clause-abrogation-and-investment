@@ -53,7 +53,7 @@ import pandas as pd
 
 DB = ("postgresql://splante%40ads.ssc.wisc.edu@researchdb.ssc.wisc.edu/splante"
       "?sslmode=require&gssencmode=require")
-ROOT = Path(__file__).resolve().parents[1]  # repo root, independent of cwd
+ROOT = Path(__file__).resolve().parents[2]  # repo root, independent of cwd
 A4_PATH = ROOT / "data" / "A4_merged.dta"
 OUT_DIR = ROOT / "output" / "figures" / "event-study"
 MS_BODY_FIG = ROOT / "manuscript" / "figures" / "body"

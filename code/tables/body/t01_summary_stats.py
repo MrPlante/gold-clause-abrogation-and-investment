@@ -10,10 +10,10 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
-from config import A4_PATH, COEF_TOLERANCE, MANUSCRIPT_BODY_TABLES, REFACTOR_OUTPUT_TABLES_BODY
+from config import A4_PATH, COEF_TOLERANCE, MANUSCRIPT_BODY_TABLES, OUTPUT_TABLES_BODY
 from lib.io import read_dta
-from lib.render_sum_stats_tex import render_table1_latex
-from lib.summary_stats import PANELS, compute_all_panels
+from tables.render.sum_stats import render_table1_latex
+from tables.models.summary_stats import PANELS, compute_all_panels
 
 
 def load_panel():
@@ -156,7 +156,7 @@ def validate_against_manuscript(panels: dict) -> list[tuple[str, float, float]]:
 
 def write_latex_table(panels: dict, path: Path | None = None) -> Path:
     """Write full table environment to refactor output (and return path)."""
-    out = path or (REFACTOR_OUTPUT_TABLES_BODY / "1_sum_stats_d.tex")
+    out = path or (OUTPUT_TABLES_BODY / "1_sum_stats_d.tex")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(render_table1_latex(panels), encoding="utf-8")
     return out

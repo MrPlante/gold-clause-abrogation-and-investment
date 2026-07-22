@@ -7,10 +7,10 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
-from config import A4_PATH, COEF_TOLERANCE, MANUSCRIPT_APPENDIX_TABLES, REFACTOR_OUTPUT_TABLES_APPENDIX
-from lib.indicator_investment import DISPLAY_TERMS, MODEL_ORDER, TERM_LABELS, run_models
+from config import A4_PATH, COEF_TOLERANCE, MANUSCRIPT_APPENDIX_TABLES, OUTPUT_TABLES_APPENDIX
+from tables.models.indicator_investment import DISPLAY_TERMS, MODEL_ORDER, TERM_LABELS, run_models
 from lib.io import read_dta
-from lib.render_indicators_d_tex import render_indicators_d_table
+from tables.render.indicators_d import render_indicators_d_table
 
 
 def _parse_manuscript(tex_path: Path) -> dict[str, list[float | None]]:
@@ -69,7 +69,7 @@ def validate_against_manuscript(models: dict[str, object]) -> list[tuple[str, fl
 
 
 def write_latex_table(models: dict[str, object], path: Path | None = None) -> Path:
-    out = path or (REFACTOR_OUTPUT_TABLES_APPENDIX / "14_indicators_d.tex")
+    out = path or (OUTPUT_TABLES_APPENDIX / "14_indicators_d.tex")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(render_indicators_d_table(models), encoding="utf-8")
     return out

@@ -12,10 +12,10 @@ from pathlib import Path
 
 import pandas as pd
 
-from config import A4_PATH, COEF_TOLERANCE, MANUSCRIPT_BODY_TABLES, REFACTOR_OUTPUT_TABLES_BODY
+from config import A4_PATH, COEF_TOLERANCE, MANUSCRIPT_BODY_TABLES, OUTPUT_TABLES_BODY
 from lib.io import read_dta
 from lib.regressions import fit_classic, fit_overhang
-from lib.render_investment_reg_tex import render_table3_latex
+from tables.render.investment_reg import render_table3_latex
 
 
 @dataclass
@@ -151,7 +151,7 @@ def validate_against_manuscript(models: dict[str, object]) -> list[tuple[str, fl
 
 
 def write_latex_table(models: dict[str, object], path: Path | None = None) -> Path:
-    out = path or (REFACTOR_OUTPUT_TABLES_BODY / "3_investment_reg.tex")
+    out = path or (OUTPUT_TABLES_BODY / "3_investment_reg.tex")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(render_table3_latex(models), encoding="utf-8")
     return out

@@ -5,10 +5,10 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-REFACTOR = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(REFACTOR))
+CODE_DIR = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(CODE_DIR))
 
-from lib.summary_stats_ia import compute_distribution_table
+from tables.models.summary_stats_ia import compute_distribution_table
 from tables.appendix.ia_0a_summary_d_1 import (  # noqa: E402
     TOL,
     VARIABLES_BY_PANEL,

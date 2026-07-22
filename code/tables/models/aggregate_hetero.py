@@ -8,8 +8,8 @@ import numpy as np
 import pandas as pd
 from config import OMITTED_YEAR, SAMPLE_YEARS
 from lib.regressions import feols_clustered
-from lib.aggregate import PeriodValues, _baseline_year_betas, _period_values, _prepare_flows
-from lib.constraints import _stata_quantile
+from tables.models.aggregate import PeriodValues, _baseline_year_betas, _period_values, _prepare_flows
+from tables.models.constraints import _stata_quantile
 from lib.regressions import year_interaction_cols
 
 

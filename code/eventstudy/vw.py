@@ -6,16 +6,21 @@ event-window figures plus the key numbers, using the same data, estimation
 window, and CAR methodology as event_study_pipeline.py.
 
 Outputs go ONLY to output/figures/event-study/ (files prefixed vw_) — nothing
-is written into manuscript/. Run: python3 code/event_study_vw.py
+is written into manuscript/. Run from the repo root:
+    PYTHONPATH=code python3 -m eventstudy.vw
 """
 
 import io
 import subprocess
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import numpy as np
 import pandas as pd
 
-from event_study_pipeline import (
+from eventstudy.pipeline import (
     DB, SAMPLE_START, SAMPLE_END, EST_START, EST_END, EVENTS,
     load_exposure, make_event_zoom, save, window_days, raw_ret,
 )

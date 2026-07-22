@@ -6,11 +6,11 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from config import A4_PATH, COEF_TOLERANCE, MANUSCRIPT_APPENDIX_TABLES, REFACTOR_OUTPUT_TABLES_APPENDIX
-from lib.aggregate import PeriodValues
-from lib.aggregate_hetero import HeteroGoldEffects, run_aggregate_hetero
+from config import A4_PATH, COEF_TOLERANCE, MANUSCRIPT_APPENDIX_TABLES, OUTPUT_TABLES_APPENDIX
+from tables.models.aggregate import PeriodValues
+from tables.models.aggregate_hetero import HeteroGoldEffects, run_aggregate_hetero
 from lib.io import read_dta
-from lib.render_aggregate_hetero_tex import render_aggregate_hetero_table
+from tables.render.aggregate_hetero import render_aggregate_hetero_table
 
 TOL = max(COEF_TOLERANCE, 0.011)
 
@@ -75,7 +75,7 @@ def validate_against_manuscript(panels: dict[str, HeteroGoldEffects]) -> list[st
 
 
 def write_latex_table(panels: dict[str, HeteroGoldEffects], path: Path | None = None) -> Path:
-    out = path or (REFACTOR_OUTPUT_TABLES_APPENDIX / "16_aggregate_heterogeneous.tex")
+    out = path or (OUTPUT_TABLES_APPENDIX / "16_aggregate_heterogeneous.tex")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(render_aggregate_hetero_table(panels), encoding="utf-8")
     return out

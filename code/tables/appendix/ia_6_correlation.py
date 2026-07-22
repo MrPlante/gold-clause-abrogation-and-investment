@@ -10,11 +10,11 @@ from config import (
     A4_PATH,
     COEF_TOLERANCE,
     MANUSCRIPT_APPENDIX_TABLES,
-    REFACTOR_OUTPUT_TABLES_APPENDIX,
+    OUTPUT_TABLES_APPENDIX,
 )
-from lib.correlation import CORRELATION_VARIABLES, compute_correlations
+from tables.models.correlation import CORRELATION_VARIABLES, compute_correlations
 from lib.io import read_dta
-from lib.render_correlation_tex import render_correlation_table
+from tables.render.correlation import render_correlation_table
 
 RHO_TOL = max(COEF_TOLERANCE, 0.001)
 P_TOL = 0.0001
@@ -87,7 +87,7 @@ def validate_against_manuscript(rows) -> list[tuple[str, float, float]]:
 
 
 def write_latex_table(rows, path: Path | None = None) -> Path:
-    out = path or (REFACTOR_OUTPUT_TABLES_APPENDIX / "6_correlation.tex")
+    out = path or (OUTPUT_TABLES_APPENDIX / "6_correlation.tex")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(render_correlation_table(rows), encoding="utf-8")
     return out
