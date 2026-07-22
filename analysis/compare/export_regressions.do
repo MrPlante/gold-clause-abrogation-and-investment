@@ -11,7 +11,7 @@ if "`repo'" == "" {
 }
 local REPO "`repo'"
 local DATA "`REPO'/data/processed"
-local OUT  "`REPO'/code/compare/output"
+local OUT  "`REPO'/analysis/compare/output"
 cap mkdir "`OUT'"
 
 cap which require

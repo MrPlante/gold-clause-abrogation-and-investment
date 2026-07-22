@@ -538,3 +538,36 @@ exactly (0 mismatching columns). Combined with D-016/D-017, every number
 in the manuscript now regenerates from `data/raw/` + versioned code; the
 only external dependency is CRSP daily via `gold_claude.crsp` (licensed
 data, rebuilt by `pipeline/sql/build_gold_claude_crsp.sql`).
+
+---
+
+### D-019 — Two-way clustered SEs are repair-convention-dependent; the paper standardizes on reghdfe — **Documented (2026-07-22)**
+
+Investigation triggered by the all-Python question. The design has 15 year
+clusters and 16+ regressors, so the year-cluster meat matrix has rank <= 14
+and the CGM two-way combination (V_firm + V_year - V_intersection) is
+non-positive-definite BY CONSTRUCTION, in every package. Each implementation
+repairs it by zeroing negative eigenvalues; because the repair is applied to
+slightly differently-scaled matrices, the repaired SEs diverge non-linearly.
+
+Findings (baseline Table 4 col 2 spec, current reghdfe as ground truth):
+- pyfixest raw components match reghdfe's to ~1e-7 (obs-level component):
+  the estimator is identical, only scaling + repair differ.
+- No pyfixest ssc() configuration reproduces reghdfe (best of 24: 4.5% max
+  relative SE difference); manual reghdfe-style per-component scaling gets
+  8.4%; reghdfe's final e(V) is not even a linear combination of the raw
+  components (least-squares residual 35%) because it is post-repair.
+- Exact matching would require porting reghdfe's Mata repair line-by-line,
+  i.e. hard-coding one package version's discretionary heuristic — a moving
+  target: reghdfe's own repair changed across versions (D-017 col 7).
+
+Decision (Sebastien, 2026-07-22): keep the hybrid as the standard — Python
+plumbing, reghdfe variance estimation — so the paper's SEs are exactly the
+reghdfe numbers referees know. USE_STATA_VCOV=0 remains a fully functional
+pure-Python fallback (identical coefficients; SEs within ~5%; ~46 star flips
+across the regression tables, enumerated in the 2026-07-22 session report;
+notably Table 5's net-repurchase 1933 cell would turn significant).
+
+If a referee ever questions inference in this design, the textbook remedy
+for G_clusters < k is the wild-cluster bootstrap; that discussion belongs in
+a response letter, not in a silent SE-convention swap.

@@ -1,10 +1,21 @@
 # analysis/ — everything that produces the numbers in the paper
 
-Replicates all manuscript tables and figures from `data/processed/A4_merged.dta` (built
-by `pipeline/`; the original Stata pipeline is in git history at
-`d54b0c3:code/legacy`) with Stata-matched econometrics (two-way clustered SEs,
-same sample windows, winsorization). Generated tables and figures are written
-DIRECTLY into `manuscript/tables/` and `manuscript/figures/`.
+Replicates all manuscript tables and figures from `data/processed/A4_merged.dta`
+(built by `pipeline/`; the original Stata pipeline is in git history at
+`d54b0c3:code/legacy`). Generated tables and figures are written DIRECTLY into
+`manuscript/tables/` and `manuscript/figures/`.
+
+**Division of labor:** Python does the plumbing (specification, data handling,
+LaTeX rendering, validation against the manuscript); **Stata's `reghdfe` does
+the variance estimation** — every standard error the paper reports comes from
+an actual `reghdfe` run (`USE_STATA_VCOV=auto`, via `stata/reghdfe_vcov.do`).
+This is deliberate, not an accident of history: with 15 year clusters and 16+
+regressors, the two-way clustered vcov is rank-deficient by construction and
+every package repairs it with its own eigenvalue surgery, so SEs are
+convention-dependent in the 3rd decimal (see DISCREPANCIES.md D-019). The
+paper standardizes on reghdfe's convention — the one referees know. A pure
+Python run (`USE_STATA_VCOV=0`, CGM fix) reproduces every coefficient exactly
+and all SEs within ~5%.
 
 ## Layout
 
@@ -117,9 +128,8 @@ python analysis/run.py --stage all
 ## Data
 
 See `data/README.md` for the full layout and provenance of every file.
-In short: source inputs live in `data/raw/` (including the not-yet-present
-`accounting_data.csv` and `gold_clauses.xlsx`), the A0-A3 intermediates in
-`data/intermediates/`, and the merged panel at `data/processed/A4_merged.dta`.
+In short: source inputs live in `data/raw/` and the merged panel at
+`data/processed/A4_merged.dta` (A0-A3 stages run in memory in `pipeline/`).
 
 Build merged panel:
 
