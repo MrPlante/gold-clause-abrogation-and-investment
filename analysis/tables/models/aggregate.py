@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 import pandas as pd
-from config import A4_PATH, OMITTED_YEAR, SAMPLE_YEARS
+from config import PANEL_PATH, OMITTED_YEAR, SAMPLE_YEARS
 from pipeline.io import read_dta
 from lib.regressions import feols_clustered, year_interaction_cols
 
@@ -86,7 +86,7 @@ def run_aggregate(df: pd.DataFrame | None = None) -> dict[str, AggregatePanel]:
     Panel B: ``d > 0`` subsample with full-sample betas (A13_aggregationd1.do).
     Panel C: ``d == 0`` subsample, total investment only.
     """
-    panel = read_dta(A4_PATH) if df is None else df.copy()
+    panel = read_dta(PANEL_PATH) if df is None else df.copy()
     betas = _baseline_year_betas(panel)
 
     return {

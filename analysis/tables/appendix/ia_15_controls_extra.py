@@ -7,7 +7,7 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
-from config import A4_PATH, COEF_TOLERANCE, MANUSCRIPT_APPENDIX_TABLES, MANUSCRIPT_APPENDIX_TABLES
+from config import PANEL_PATH, COEF_TOLERANCE, MANUSCRIPT_APPENDIX_TABLES, MANUSCRIPT_APPENDIX_TABLES
 from tables.models.controls import CORE_TERMS
 from pipeline.io import read_dta
 from tables.render.ret_controls import render_ret_controls_table
@@ -102,7 +102,7 @@ def write_latex_table(models: dict[str, object], path: Path | None = None) -> Pa
 
 
 def main() -> dict[str, object]:
-    models = run_models(read_dta(A4_PATH))
+    models = run_models(read_dta(PANEL_PATH))
     checks, hard_failures, soft_failures = validate_against_manuscript(models)
 
     if hard_failures:

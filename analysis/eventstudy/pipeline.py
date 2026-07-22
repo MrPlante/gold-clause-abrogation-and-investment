@@ -2,7 +2,7 @@
 Unified event-study pipeline: builds every return series, figure, and table
 for the stock-market event-study evidence from data/raw/crsp_daily.dta (a
 local dump of researchdb gold_claude.crsp; see data/README.md) and the
-paper's exposure measure d (A4_merged.dta).
+paper's exposure measure d (firm_year_panel.dta).
 
 This is the single source for all return numbers in the paper. It replaces
 the retired scripts event_study.py, event_study_overview.py,
@@ -18,7 +18,7 @@ Series (daily, July 1, 1926 - December 31, 1945):
   ew_no  -- equal-weighted, firms without gold-clause exposure (fixed d = 0)
   dwret  -- gold portfolio weighted by exposure d, daily rebalanced
 
-Fixed exposure d is the paper's treatment variable from A4_merged (constant
+Fixed exposure d is the paper's treatment variable from firm_year_panel.dta (constant
 within firm from 1931 on: 1930 gold-clause debt / 1930 LT liabilities).
 
 Outputs:
@@ -52,7 +52,7 @@ import numpy as np
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[2]  # repo root, independent of cwd
-A4_PATH = ROOT / "data" / "processed" / "A4_merged.dta"
+PANEL_PATH = ROOT / "data" / "processed" / "firm_year_panel.dta"
 CRSP_DAILY_PATH = ROOT / "data" / "raw" / "crsp_daily.dta"
 OUT_DIR = ROOT / "output" / "figures" / "event-study"
 MS_BODY_FIG = ROOT / "manuscript" / "figures" / "body"
@@ -108,7 +108,7 @@ OVERVIEW_EVENTS = [
 # ---------------------------------------------------------------- series
 
 def load_exposure():
-    a4 = pd.read_stata(A4_PATH)
+    a4 = pd.read_stata(PANEL_PATH)
     post = a4[a4.year >= 1931]
     d_fix = post.groupby(post.permno.astype(int))["d"].max()
     gold = d_fix[d_fix > 0]

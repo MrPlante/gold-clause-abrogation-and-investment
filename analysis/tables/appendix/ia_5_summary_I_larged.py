@@ -10,7 +10,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from config import (
-    A4_PATH,
+    PANEL_PATH,
     COEF_TOLERANCE,
     MANUSCRIPT_APPENDIX_TABLES,
     MANUSCRIPT_APPENDIX_TABLES,
@@ -69,7 +69,7 @@ def _median_d_pre_abrogation(df):
 
 
 def load_panel():
-    df = read_dta(A4_PATH)
+    df = read_dta(PANEL_PATH)
     p50 = _median_d_pre_abrogation(df)
     return df.loc[(df["d"] > 0) & (df["d"] > p50)].copy()
 

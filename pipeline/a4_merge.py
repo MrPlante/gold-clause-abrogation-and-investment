@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 
 from config import (
-    A4_PATH,
+    PANEL_PATH,
     NETINCOME_PATH,
     OMITTED_YEAR,
     SAMPLE_YEARS,
@@ -75,7 +75,7 @@ def build_merged(
     marcap: pd.DataFrame,
     div: pd.DataFrame,
 ) -> pd.DataFrame:
-    """Merge the in-memory A0-A3 stage outputs into A4_merged.dta.
+    """Merge the in-memory A0-A3 stage outputs into firm_year_panel.dta.
 
     Inputs must have gone through ``roundtrip_dta`` so their dtypes match the
     historical on-disk .dta intermediates.
@@ -265,5 +265,5 @@ def build_merged(
             df[f"{fc}_port_{decile}_1934"] = (mask & (df["year"] == 1934)).astype(float)
             df[f"{fc}_port_{decile}_after"] = (mask & (df["year"] > 1934)).astype(float)
 
-    write_dta(df, A4_PATH)
+    write_dta(df, PANEL_PATH)
     return df

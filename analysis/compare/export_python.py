@@ -13,7 +13,7 @@ for _p in (str(CODE_ROOT), str(CODE_ROOT.parent)):
     if _p not in sys.path:
         sys.path.insert(0, _p)
 
-from config import A4_PATH  # noqa: E402
+from config import PANEL_PATH  # noqa: E402
 from tables.models.credit_ratings import TABLE5_MODEL_ORDER, run_models as run_table5  # noqa: E402
 from pipeline.io import read_dta  # noqa: E402
 from tables.models.other_outcomes import MODEL_ORDER as TABLE4_ORDER, run_models as run_table4  # noqa: E402
@@ -49,7 +49,7 @@ def _fit_to_rows(table: str, model: str, fit) -> list[dict]:
 
 
 def collect_all() -> pd.DataFrame:
-    df = read_dta(A4_PATH)
+    df = read_dta(PANEL_PATH)
     rows: list[dict] = []
 
     for key, fit in run_table3(df).items():

@@ -10,7 +10,7 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
-from config import A4_PATH, COEF_TOLERANCE, MANUSCRIPT_BODY_TABLES, MANUSCRIPT_BODY_TABLES
+from config import PANEL_PATH, COEF_TOLERANCE, MANUSCRIPT_BODY_TABLES, MANUSCRIPT_BODY_TABLES
 from pipeline.io import read_dta
 from tables.models.other_outcomes import MODEL_ORDER, run_models
 from tables.render.other_outcomes import render_table4_latex
@@ -20,7 +20,7 @@ VALIDATED_COLUMNS = {0, 1, 2, 3, 4, 5}
 
 
 def load_panel():
-    return read_dta(A4_PATH)
+    return read_dta(PANEL_PATH)
 
 
 def _normalize_label(raw: str) -> str | None:

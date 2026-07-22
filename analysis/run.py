@@ -2,7 +2,7 @@
 """Run analysis stages (tables, figures, event study).
 
 Data wrangling lives in pipeline/ (see pipeline/run.py); this runner only
-produces the numbers in the paper from data/processed/A4_merged.dta.
+produces the numbers in the paper from data/processed/firm_year_panel.dta.
 """
 
 from __future__ import annotations

@@ -10,7 +10,7 @@ import re
 from pathlib import Path
 
 from config import (
-    A4_PATH,
+    PANEL_PATH,
     COEF_TOLERANCE,
     MANUSCRIPT_APPENDIX_TABLES,
     MANUSCRIPT_APPENDIX_TABLES,
@@ -24,7 +24,7 @@ YEAR_INTERACTION_TERMS = [f"d_year_{y}" for y in INTERACTION_YEARS]
 
 
 def load_panel():
-    return read_dta(A4_PATH)
+    return read_dta(PANEL_PATH)
 
 
 def _parse_manuscript_table(tex_path: Path) -> dict[str, list[float | None]]:

@@ -4,10 +4,10 @@ Builds the firm-year panel the whole paper runs on:
 
 ```
 data/raw/accounting_data.csv ─ a0_accounting ─> (in memory)
-data/raw/gold_clauses.xlsx  ─ a1_bonds      ─> (in memory) + data/processed/A1_bond_data_bondlevel.dta
+data/raw/gold_clauses.xlsx  ─ a1_bonds      ─> (in memory) + data/processed/bond_panel.dta
 data/raw/crsp_monthly.dta   ─ a2_marcap     ─> (in memory)
 data/raw/crsp_monthly.dta   ─ a3_dividend   ─> (in memory)
-A0-A3 + data/raw/netincome.dta ─ a4_merge   ─> data/processed/A4_merged.dta  (7,074 x 845)
+A0-A3 + data/raw/netincome.dta ─ a4_merge   ─> data/processed/firm_year_panel.dta  (7,074 x 845)
 ```
 
 ```bash

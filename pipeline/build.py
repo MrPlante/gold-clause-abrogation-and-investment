@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from config import A1_BOND_PATH, A4_PATH, ACCOUNTING_CSV, GOLD_CLAUSES_XLSX
+from config import BOND_PANEL_PATH, PANEL_PATH, ACCOUNTING_CSV, GOLD_CLAUSES_XLSX
 from pipeline.a0_accounting import build_accounting
 from pipeline.a1_bonds import build_bond_data
 from pipeline.a2_marcap import build_marcap
@@ -16,7 +16,7 @@ from pipeline.io import read_dta, roundtrip_dta, write_dta
 def build_all() -> Path:
     """
     Run A0–A4 from data/raw/ and write the two pipeline outputs to
-    data/processed/: A4_merged.dta and A1_bond_data_bondlevel.dta (the
+    data/processed/: firm_year_panel.dta and bond_panel.dta (the
     bond-level panel Table 3 reads directly).
 
     The remaining A0–A3 stages are held in memory; each is round-tripped
@@ -31,21 +31,21 @@ def build_all() -> Path:
         )
     accounting = roundtrip_dta(build_accounting())
     bond, firm = build_bond_data()
-    write_dta(bond, A1_BOND_PATH)
+    write_dta(bond, BOND_PANEL_PATH)
     firm = roundtrip_dta(firm)
     marcap = roundtrip_dta(build_marcap())
     _monthly, annual = build_dividend()
     annual = roundtrip_dta(annual)
 
     build_merged(accounting, firm, marcap, annual)
-    return A4_PATH
+    return PANEL_PATH
 
 
 def validate_against_reference(reference_path: Path, rtol: float = 1e-4) -> dict:
     """Compare rebuilt A4 to a reference .dta on key columns."""
     import numpy as np
 
-    rebuilt = read_dta(A4_PATH)
+    rebuilt = read_dta(PANEL_PATH)
     reference = read_dta(reference_path)
     keys = ["var_inv_rate", "var_Q", "d", "permno", "year"]
     merged = rebuilt[keys].merge(reference[keys], on=["permno", "year"], suffixes=("_new", "_ref"))

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run the data pipeline: data/raw/ sources -> data/processed/A4_merged.dta.
+"""Run the data pipeline: data/raw/ sources -> data/processed/firm_year_panel.dta.
 
 Usage (from the repo root):
     .venv/bin/python pipeline/run.py

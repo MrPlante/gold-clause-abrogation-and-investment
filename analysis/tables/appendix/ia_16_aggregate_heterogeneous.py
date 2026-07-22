@@ -6,7 +6,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from config import A4_PATH, COEF_TOLERANCE, MANUSCRIPT_APPENDIX_TABLES, MANUSCRIPT_APPENDIX_TABLES
+from config import PANEL_PATH, COEF_TOLERANCE, MANUSCRIPT_APPENDIX_TABLES, MANUSCRIPT_APPENDIX_TABLES
 from tables.models.aggregate import PeriodValues
 from tables.models.aggregate_hetero import HeteroGoldEffects, run_aggregate_hetero
 from pipeline.io import read_dta
@@ -82,7 +82,7 @@ def write_latex_table(panels: dict[str, HeteroGoldEffects], path: Path | None = 
 
 
 def main() -> dict[str, HeteroGoldEffects]:
-    panels = run_aggregate_hetero(read_dta(A4_PATH))
+    panels = run_aggregate_hetero(read_dta(PANEL_PATH))
     failures = validate_against_manuscript(panels)
     if failures:
         print(

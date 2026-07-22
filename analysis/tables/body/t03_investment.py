@@ -12,7 +12,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from config import A4_PATH, COEF_TOLERANCE, MANUSCRIPT_BODY_TABLES, MANUSCRIPT_BODY_TABLES
+from config import PANEL_PATH, COEF_TOLERANCE, MANUSCRIPT_BODY_TABLES, MANUSCRIPT_BODY_TABLES
 from pipeline.io import read_dta
 from lib.regressions import fit_classic, fit_overhang
 from tables.render.investment_reg import render_table3_latex
@@ -31,7 +31,7 @@ RECON_TOLERANCE = 0.02
 
 
 def load_panel() -> pd.DataFrame:
-    return read_dta(A4_PATH)
+    return read_dta(PANEL_PATH)
 
 
 def _exclude_repurchasers(df: pd.DataFrame) -> pd.Series:

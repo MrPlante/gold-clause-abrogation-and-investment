@@ -8,7 +8,7 @@ if "`repo'" == "" {
     exit 198
 }
 global REPO "`repo'"
-use "${REPO}/data/processed/A4_merged.dta", clear
+use "${REPO}/data/processed/firm_year_panel.dta", clear
 winsor2 payout cashrat netrep, replace by(year) cuts(0.5 99.5)
 
 reghdfe cashrat var_Q d d_year_1926-d_year_1940, ///

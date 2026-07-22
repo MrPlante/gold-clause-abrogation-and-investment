@@ -7,14 +7,15 @@ safety net here**: treat `raw/` as irreplaceable.
 data/
   processed/         ← pipeline outputs (rebuild: .venv/bin/python pipeline/run.py;
                        the A0-A3 stages run in memory and are not persisted)
-    A4_merged.dta    ← THE panel (7,074 x 845 — the manuscript vintage,
+    firm_year_panel.dta ← THE panel (7,074 x 845 — the manuscript vintage,
                        verified against every manuscript table). Everything
                        downstream reads this file (all tables, the
                        event-study pipeline, the IA.19 Stata do-file).
-    A1_bond_data_bondlevel.dta ← bond-level panel; read directly by the
-                       Table 3 builder (bond-level rows never reach A4).
-                       Matches the retired Mete intermediate to float32
-                       precision (row order within permno-year differs).
+    bond_panel.dta   ← bond-level panel; read directly by the Table 3
+                       builder (bond-level rows never reach the firm-year
+                       panel). Matches the retired Mete intermediate to
+                       float32 precision (row order within permno-year
+                       differs).
   raw/               ← source inputs, external provenance, never regenerated
     crsp_monthly.dta        CRSP monthly extract (feeds A2 marcap, A3 dividends)
     monthly_div.dta         coauthor's monthly dividend data (feeds IA.12)
@@ -46,6 +47,11 @@ status as `crsp_monthly.dta`. CRSP is licensed: share only with coauthors
 whose institutions hold a CRSP/WRDS subscription, and do not include these
 files in any public replication package.
 
+**Renamed 2026-07-22** (Stata stage prefixes dropped from on-disk artifacts):
+`A4_merged.dta` → `firm_year_panel.dta`, `A1_bond_data_bondlevel.dta` →
+`bond_panel.dta`. Older notes, `DISCREPANCIES.md`, and git history use the
+old names; they refer to the same files.
+
 The former `attic/` (retired material from the 2026-07-21 cleanup) was moved
 on 2026-07-21 to `tmp/2026-07/21/attic/` — see `tmp/README.md` for the item
 inventory and the caution about which parts are the only copy outside the
@@ -53,7 +59,7 @@ coauthors' Dropbox.
 
 The three "GKP Analysis *" Dropbox snapshots were deleted from the repo
 root on 2026-07-21 after everything load-bearing was extracted (raw files
--> data/raw/, panel -> data/processed/A4_merged.dta, do-files verified identical to
+-> data/raw/, panel -> data/processed/firm_year_panel.dta, do-files verified identical to
 git history, round-1 reports + as-submitted PDFs -> rfs-responses/,
 unique research material -> the attic, now `tmp/2026-07/21/attic/`). The
 originals remain in the coauthors' Dropbox.

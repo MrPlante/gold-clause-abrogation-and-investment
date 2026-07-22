@@ -7,7 +7,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from config import (
-    A4_PATH,
+    PANEL_PATH,
     COEF_TOLERANCE,
     MANUSCRIPT_APPENDIX_TABLES,
     MANUSCRIPT_APPENDIX_TABLES,
@@ -21,7 +21,7 @@ P_TOL = 0.0001
 
 
 def load_panel():
-    return read_dta(A4_PATH)
+    return read_dta(PANEL_PATH)
 
 
 def _parse_manuscript(tex_path: Path) -> list[dict]:

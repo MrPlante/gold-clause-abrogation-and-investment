@@ -7,7 +7,7 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
-from config import A4_PATH, COEF_TOLERANCE, MANUSCRIPT_APPENDIX_TABLES, MANUSCRIPT_APPENDIX_TABLES
+from config import PANEL_PATH, COEF_TOLERANCE, MANUSCRIPT_APPENDIX_TABLES, MANUSCRIPT_APPENDIX_TABLES
 from tables.models.indicator_investment import DISPLAY_TERMS, MODEL_ORDER, TERM_LABELS, run_models
 from pipeline.io import read_dta
 from tables.render.indicators_d import render_indicators_d_table
@@ -76,7 +76,7 @@ def write_latex_table(models: dict[str, object], path: Path | None = None) -> Pa
 
 
 def main() -> dict[str, object]:
-    models = run_models(read_dta(A4_PATH))
+    models = run_models(read_dta(PANEL_PATH))
     checks = validate_against_manuscript(models)
     failures = [
         f"{name}: expected {exp:.4f}, got {act:.4f}"

@@ -10,8 +10,8 @@ PROCESSED_DIR = DATA_DIR / "processed"
 # Pipeline outputs (data/processed/): the merged panel plus the bond-level
 # panel that Table 3 reads directly (bond-level rows never reach A4). The
 # other A0-A3 stages are held in memory by pipeline/build.py, not persisted.
-A4_PATH = PROCESSED_DIR / "A4_merged.dta"
-A1_BOND_PATH = PROCESSED_DIR / "A1_bond_data_bondlevel.dta"
+PANEL_PATH = PROCESSED_DIR / "firm_year_panel.dta"
+BOND_PANEL_PATH = PROCESSED_DIR / "bond_panel.dta"
 
 # Source inputs with external provenance (never regenerated; data/raw/)
 MONTHLY_DIV_PATH = RAW_DIR / "monthly_div.dta"

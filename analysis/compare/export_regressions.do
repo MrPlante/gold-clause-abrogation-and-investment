@@ -69,7 +69,7 @@ end
 *---------------------------------------------------------------------------
 * Table 3 — A9_inv_results.do (models present in Stata export)
 *---------------------------------------------------------------------------
-use "`DATA'/A4_merged.dta", clear
+use "`DATA'/firm_year_panel.dta", clear
 
 reghdfe var_inv_rate var_Q, absorb(permno year) vce(cluster permno year)
 _post_reghdfe `posth' table3 classic
@@ -115,7 +115,7 @@ _post_reghdfe `posth' table3 bank_debt
 *---------------------------------------------------------------------------
 * Table 4 — A10_otheroutcomes.do
 *---------------------------------------------------------------------------
-use "`DATA'/A4_merged.dta", clear
+use "`DATA'/firm_year_panel.dta", clear
 winsor2 payout cashrat netrep, replace by(year) cuts(0.5 99.5)
 
 reghdfe payout var_Q d d_year_1926-d_year_1940, ///
@@ -153,7 +153,7 @@ _post_reghdfe `posth' table4 leverage
 *---------------------------------------------------------------------------
 * Table 5 — A21_ratings_yearbyyear.do
 *---------------------------------------------------------------------------
-use "`DATA'/A4_merged.dta", clear
+use "`DATA'/firm_year_panel.dta", clear
 winsor2 payout cashrat netrep, replace by(year) cuts(0.5 99.5)
 
 quietly summarize d if d > 0, meanonly

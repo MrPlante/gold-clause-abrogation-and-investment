@@ -8,7 +8,7 @@ if "`repo'" == "" {
     exit 198
 }
 
-use "`repo'/data/processed/A4_merged.dta", clear
+use "`repo'/data/processed/firm_year_panel.dta", clear
 reghdfe var_inv_rate var_Q d d_year_1926-d_year_1940, ///
     absorb(permno year) vce(cluster permno year)
 

@@ -11,7 +11,7 @@ import re
 from pathlib import Path
 
 from config import (
-    A4_PATH,
+    PANEL_PATH,
     COEF_TOLERANCE,
     MANUSCRIPT_APPENDIX_TABLES,
     MANUSCRIPT_APPENDIX_TABLES,
@@ -24,7 +24,7 @@ TOL = max(COEF_TOLERANCE, 0.011)
 
 
 def load_panel():
-    return read_dta(A4_PATH)
+    return read_dta(PANEL_PATH)
 
 
 def _parse_manuscript_table(tex_path: Path) -> dict[str, list[dict]]:

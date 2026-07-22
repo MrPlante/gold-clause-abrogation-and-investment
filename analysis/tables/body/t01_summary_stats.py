@@ -10,14 +10,14 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
-from config import A4_PATH, COEF_TOLERANCE, MANUSCRIPT_BODY_TABLES, MANUSCRIPT_BODY_TABLES
+from config import PANEL_PATH, COEF_TOLERANCE, MANUSCRIPT_BODY_TABLES, MANUSCRIPT_BODY_TABLES
 from pipeline.io import read_dta
 from tables.render.sum_stats import render_table1_latex
 from tables.models.summary_stats import PANELS, compute_all_panels
 
 
 def load_panel():
-    return read_dta(A4_PATH)
+    return read_dta(PANEL_PATH)
 
 
 def _parse_manuscript_table(tex_path: Path) -> dict[str, list[dict]]:

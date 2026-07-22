@@ -10,7 +10,7 @@ import re
 from pathlib import Path
 
 from config import (
-    A4_PATH,
+    PANEL_PATH,
     COEF_TOLERANCE,
     MANUSCRIPT_APPENDIX_TABLES,
     MANUSCRIPT_APPENDIX_TABLES,
@@ -45,7 +45,7 @@ TABLE_NOTES = (
 
 
 def load_panel():
-    df = read_dta(A4_PATH)
+    df = read_dta(PANEL_PATH)
     return df.loc[df["d"] == 0].copy()
 
 

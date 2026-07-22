@@ -9,7 +9,7 @@ import numpy as np
 import pandas as pd
 
 from config import (
-    A4_PATH,
+    PANEL_PATH,
     MANUSCRIPT_BODY_FIGURES,
     OMITTED_YEAR,
     SAMPLE_YEARS,
@@ -76,7 +76,7 @@ def build_parallel_trend_plot(
     out_dir: Path | None = None,
 ) -> tuple[Path, pd.DataFrame]:
     """Fit Table 3 col. 2 spec and write ``parallel_trend_plot.pdf``."""
-    panel = read_dta(A4_PATH) if df is None else df
+    panel = read_dta(PANEL_PATH) if df is None else df
     model = fit_overhang(panel, exposure="d", dep="var_inv_rate")
     frame = _interaction_frame(model)
 

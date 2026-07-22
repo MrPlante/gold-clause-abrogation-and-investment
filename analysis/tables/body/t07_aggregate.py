@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from config import A4_PATH, COEF_TOLERANCE, MANUSCRIPT_BODY_TABLES, MANUSCRIPT_BODY_TABLES
+from config import PANEL_PATH, COEF_TOLERANCE, MANUSCRIPT_BODY_TABLES, MANUSCRIPT_BODY_TABLES
 from tables.models.aggregate import AggregatePanel, PeriodValues, run_aggregate
 from pipeline.io import read_dta
 from tables.render.aggregate import render_table7_latex
@@ -19,7 +19,7 @@ TOL = max(COEF_TOLERANCE, 0.011)
 
 
 def load_panel():
-    return read_dta(A4_PATH)
+    return read_dta(PANEL_PATH)
 
 
 def _parse_manuscript_table(tex_path: Path) -> dict[str, dict[str, PeriodValues]]:
