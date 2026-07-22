@@ -60,7 +60,7 @@ def render_dividend_additional_table(models: dict[str, object]) -> str:
         r"\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}",
         r"\begin{tabular}{l*{8}{D{.}{.}{-1}}}",
         r"\toprule",
-        f"                    {header} \\",
+        f"                    {header} \\\\",
         r"\midrule",
     ]
     for coef_line, se_line in coef_rows:

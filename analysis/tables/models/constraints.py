@@ -55,19 +55,29 @@ def _stata_quantile(values: pd.Series, q: float) -> float:
 
 
 def prepare_firm_indicators(df: pd.DataFrame) -> pd.DataFrame:
+    """Replicate A17_sizecashlev.do exactly.
+
+    The cutoff is the Stata summarize,detail median of the variable over
+    min-year observations of d>0 firms. The constraint measure is then the
+    FIRM-LEVEL MEAN of a time-varying indicator evaluated on every
+    firm-year (``bys permno: egen small = mean(small2)``) — a fraction in
+    [0,1], defined for all firms, not a min-year 0/1 snapshot. Stata
+    missing semantics: missing < p50 is FALSE, missing > p50 is TRUE.
+    """
     out = df.copy()
     for var, col, high in [
         ("var_logasset", "small", False),
         ("var_cash", "lowcash", False),
         ("var_booklev", "highlev", True),
     ]:
-        base = out.loc[(out["year"] == out["min_year"]) & (out["d"] > 0), ["permno", var]]
-        p50 = _stata_quantile(base[var], 0.50)
-        firm_flag = base.copy()
-        firm_flag[col] = ((firm_flag[var] > p50) if high else (firm_flag[var] < p50)).astype(int)
+        base = out.loc[(out["year"] == out["min_year"]) & (out["d"] > 0), var]
+        p50 = _stata_quantile(base, 0.50)
+        if high:
+            flag = (out[var] > p50) | out[var].isna()
+        else:
+            flag = out[var] < p50
         out = out.drop(columns=[col], errors="ignore")
-        out = out.merge(firm_flag[["permno", col]], on="permno", how="left")
-        out[col] = out[col].fillna(0)
+        out[col] = flag.astype(float).groupby(out["permno"]).transform("mean")
     return out
 
 

@@ -68,11 +68,11 @@ FROZEN = {
     "table7",  # crashes under Stata vcov (rc=-11); CGM mode: 20/113 last-digit
     "table8",  # 2/17 cells (last digit)
     "ia12",    # 21/147 cells
-    "ia13",    # 72/82 cells incl. sign flips (D-013)
-    "ia15",    # 22/59 cells, some large (D-014 family)
     "ia16",    # 2/76 cells (last digit)
     "ia17",    # crashes under Stata vcov; CGM mode: 27/69, some SEs 20-30% off
 }
+# ia13/ia15 were resolved and ADOPTED (D-022 addendum): builders now match
+# all coefficients and stars; a handful of fossil last-digit cells replaced.
 
 
 def main(argv: list[str] | None = None) -> None:

@@ -695,3 +695,28 @@ Stata-vcov/CGM vintage); ia13 and ia15 look like genuine sample/spec
 mismatches in the same class D-021's addendum resolved for IA.7/10/11 —
 candidates for the same reverse-engineering treatment. The FROZEN set in
 analysis/run.py mirrors this table; `--stage all` skips those stages.
+
+**D-022 addendum (2026-07-22) — IA.13 and IA.15 resolved and adopted.**
+Both gaps were spec/semantics bugs in the builders, recovered from the
+legacy do-files (d54b0c3:code/legacy/mete/):
+
+- IA.13 (constraints, A17_sizecashlev.do): the constraint measures are the
+  FIRM-LEVEL MEAN of a time-varying indicator (``bys permno: egen small =
+  mean(small2)`` — a fraction in [0,1], defined for all firms), not a
+  min-year 0/1 snapshot of d>0 firms; plus Stata missing semantics
+  (missing > p50 is TRUE for highlev). With the fix: all coefficients and
+  stars match the shipped table; 6 last-digit cells (3 coefficient, 3 SE)
+  remained as fossils of a lost intermediate state.
+- IA.15 (additional dividends, A18_additionaldividend.do): three bugs —
+  divind must be TRUE when 1932 cashrat is missing (Stata missing > 0) and
+  MISSING for firms with no 1932 row (excluded from both cols 3 and 4, not
+  dumped into col 4); L.cashrat/L.cashdiv are calendar lags, not
+  positional shifts; ``if L.cashrat > 0`` includes missing-lag rows.
+  With the fixes: every coefficient and star matches; 1 SE digit (divgr
+  column) remained (Stata-vcov family confirmed; CGM is worse at 8 cells).
+
+Per the D-020 precedent (irreproducible fossil digits -> adopt the
+reproducible builder output), both tables are now builder-generated in the
+tree, wrapped in revblock for review. FROZEN shrinks to six stages, all
+with last-digit-SE-class gaps only: table5, table7, table8, ia12, ia16,
+ia17.
