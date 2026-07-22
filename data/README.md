@@ -26,7 +26,25 @@ data/
                             NOT the corrections/ copy)
     gold_clauses.xlsx       hand-collected bond/gold-clause data (same
                             provenance; sheet "REAL ENTRY")
+    crsp_daily.dta          local dump of researchdb gold_claude.crsp
+                            (2026-07-22): CRSP daily returns 1925-12-31 to
+                            1945-12-31, 4,396,736 rows, 1,146 permnos, dates
+                            stored %td. For coauthors without researchdb
+                            access and for the replication package. The
+                            event-study pipeline still reads the DB table;
+                            this file is the offline copy of the same data.
+    crsp_daily_names.dta    companion dump of gold_claude.crsp_names
+                            (1,624 spells, 1,146 permnos -> 1,123 permcos):
+                            names/share class/ticker/SIC/delisting history.
 ```
+
+The two `crsp_daily*` files live in `raw/` (not `processed/`) because
+`processed/` is reserved for what `pipeline/run.py` can rebuild from `raw/`
+alone; the CRSP dump is licensed external data, rebuildable only with
+researchdb/WRDS access (`pipeline/sql/build_gold_claude_crsp.sql`) — same
+status as `crsp_monthly.dta`. CRSP is licensed: share only with coauthors
+whose institutions hold a CRSP/WRDS subscription, and do not include these
+files in any public replication package.
 
 The former `attic/` (retired material from the 2026-07-21 cleanup) was moved
 on 2026-07-21 to `tmp/2026-07/21/attic/` — see `tmp/README.md` for the item
