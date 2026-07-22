@@ -67,6 +67,7 @@ originals remain in the coauthors' Dropbox.
 **Vintage note (resolved 2026-07-21):** the long-standing "N=7,074 vs
 N=6,768 data vintage mismatch" was not a data problem. The upstream inputs
 were always identical to Mete's; the old on-disk A4 was a deviant merge
-(now in `tmp/2026-07/21/attic/`). `DISCREPANCIES.md` D-016 has the full story. The
-only remaining ask for Mete is the RFS-era `A9_inv_results.do` (published
-Table 4 columns 4-5 sample definitions).
+(now in `tmp/2026-07/21/attic/`). `DISCREPANCIES.md` D-016 has the full story.
+The published Table 4 columns 4-5 samples were later shown unrecoverable and
+replaced by documented reconstructions (D-017); nothing about the data is
+outstanding.
