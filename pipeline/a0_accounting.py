@@ -2,8 +2,8 @@
 
 import pandas as pd
 
-from config import A0_PATH, ACCOUNTING_CSV
-from pipeline.io import require_file, write_dta
+from config import ACCOUNTING_CSV
+from pipeline.io import require_file
 from pipeline.sample import drop_unreliable_permnos
 
 
@@ -58,5 +58,4 @@ def build_accounting() -> pd.DataFrame:
     df["max_manual"] = df.groupby(["permno", "year"])["manual_year"].transform("max")
     df = df.loc[df["manual_year"] == df["max_manual"]].copy()
 
-    write_dta(df, A0_PATH)
     return df

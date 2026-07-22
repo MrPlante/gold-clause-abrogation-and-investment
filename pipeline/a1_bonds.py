@@ -3,8 +3,8 @@
 import numpy as np
 import pandas as pd
 
-from config import A1_BOND_PATH, A1_FIRM_PATH, GOLD_CLAUSES_XLSX
-from pipeline.io import require_file, write_dta
+from config import GOLD_CLAUSES_XLSX
+from pipeline.io import require_file
 
 
 RATING_MAP = {
@@ -80,7 +80,6 @@ def build_bond_data() -> tuple[pd.DataFrame, pd.DataFrame]:
     bond["bondnum"] = bond.groupby(["permno", "year"], dropna=False).cumcount() + 1
     bond["AO_g0"] = bond["AmountOutstanding"] * (1 - bond["gold_ind"])
     bond["AO_g1"] = bond["AmountOutstanding"] * bond["gold_ind"]
-    write_dta(bond, A1_BOND_PATH)
 
     firm = bond.copy()
     # Stata: replace ind_3134 = 0 if missing, then
@@ -97,5 +96,4 @@ def build_bond_data() -> tuple[pd.DataFrame, pd.DataFrame]:
         ind_3134_max=("ind_3134_max", "max"),
         rating_med=("rating_med", "median"),
     )
-    write_dta(agg, A1_FIRM_PATH)
     return bond, agg

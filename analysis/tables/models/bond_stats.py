@@ -7,8 +7,9 @@ from dataclasses import dataclass
 import numpy as np
 import pandas as pd
 
-from config import A1_BOND_PATH, A4_PATH
-from pipeline.io import read_dta, require_file
+from config import A4_PATH
+from pipeline.a1_bonds import build_bond_data
+from pipeline.io import read_dta, require_file, roundtrip_dta
 
 BOND_SAMPLE_YEAR_LO = 1930
 BOND_SAMPLE_YEAR_HI = 1935
@@ -72,8 +73,9 @@ def build_bond_panel(
         require_file(A4_PATH, "A4 merged panel")
         a4 = read_dta(A4_PATH)
     if bondlevel is None:
-        require_file(A1_BOND_PATH, "A1 bond-level data")
-        bondlevel = read_dta(A1_BOND_PATH)
+        # A0-A3 are never persisted; rebuild the bond-level frame in memory
+        # (round-tripped through .dta for dtype parity with the historical file)
+        bondlevel = roundtrip_dta(build_bond_data()[0])
 
     filled = _tsfill(_prepare_a4(a4))
     panel = filled[

@@ -6,10 +6,6 @@ import numpy as np
 import pandas as pd
 
 from config import (
-    A0_PATH,
-    A1_FIRM_PATH,
-    A2_PATH,
-    A3_ANNUAL_PATH,
     A4_PATH,
     NETINCOME_PATH,
     OMITTED_YEAR,
@@ -73,11 +69,17 @@ def _exposure_from_1930(
     return _add_year_interactions(df, name, include_omitted_year=True)
 
 
-def build_merged() -> pd.DataFrame:
-    df = read_dta(A0_PATH)
-    firm = read_dta(A1_FIRM_PATH)
-    marcap = read_dta(A2_PATH)
-    div = read_dta(A3_ANNUAL_PATH)
+def build_merged(
+    df: pd.DataFrame,
+    firm: pd.DataFrame,
+    marcap: pd.DataFrame,
+    div: pd.DataFrame,
+) -> pd.DataFrame:
+    """Merge the in-memory A0-A3 stage outputs into A4_merged.dta.
+
+    Inputs must have gone through ``roundtrip_dta`` so their dtypes match the
+    historical on-disk .dta intermediates.
+    """
     netinc = read_dta(NETINCOME_PATH)
 
     # Stata `merge` keeps using-only rows in the dataset (they all fall out at

@@ -2,8 +2,8 @@
 
 import pandas as pd
 
-from config import A2_PATH, CRSP_MONTHLY_PATH
-from pipeline.io import read_dta, require_file, write_dta
+from config import CRSP_MONTHLY_PATH
+from pipeline.io import read_dta, require_file
 
 
 def build_marcap() -> pd.DataFrame:
@@ -33,5 +33,4 @@ def build_marcap() -> pd.DataFrame:
     # Stata keeps the column under the name min_month
     out = df.loc[df["month"] == min_month].rename(columns={"month": "min_month"})
     out = out[["permno", "year", "min_month", "prc", "shrout", "marcap", "sic"]]
-    write_dta(out, A2_PATH)
     return out

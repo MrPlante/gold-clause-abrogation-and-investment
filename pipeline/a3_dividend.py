@@ -2,8 +2,8 @@
 
 import pandas as pd
 
-from config import A3_ANNUAL_PATH, A3_MONTHLY_PATH, CRSP_MONTHLY_PATH
-from pipeline.io import read_dta, require_file, write_dta
+from config import CRSP_MONTHLY_PATH
+from pipeline.io import read_dta, require_file
 
 
 def build_dividend() -> tuple[pd.DataFrame, pd.DataFrame]:
@@ -45,8 +45,5 @@ def build_dividend() -> tuple[pd.DataFrame, pd.DataFrame]:
     ) / 2
 
     monthly = df[["permno", "year", "month", "cashdiv", "netissue"]].copy()
-    write_dta(monthly, A3_MONTHLY_PATH)
-
     annual = monthly.groupby(["permno", "year"], as_index=False)[["cashdiv", "netissue"]].sum()
-    write_dta(annual, A3_ANNUAL_PATH)
     return monthly, annual

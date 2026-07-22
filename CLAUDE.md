@@ -29,10 +29,10 @@ Memory files live in:
 | `manuscript/tables/` | Body and online-appendix tables |
 | `manuscript/figures/` | Body and online-appendix figures |
 | `rfs-responses/round-2/` | Round-2 referee responses (R2, R6, editor) |
-| `pipeline/` | Data wrangling: raw sources -> A0-A3 intermediates -> `A4_merged.dta` (+ researchdb SQL build) |
+| `pipeline/` | Data wrangling: `data/raw/` -> `data/processed/A4_merged.dta` (A0-A3 stages run in memory; + researchdb SQL build) |
 | `analysis/` | Everything that produces paper numbers: table/figure builders (pyfixest), event study, Stata do-files, compare harness, tests |
 | *(no `code/legacy/`)* | The original Stata pipeline (`mete/`) and retired scripts (`seb/`) were removed from the tree; retrieve with `git checkout d54b0c3 -- code/legacy` |
-| `data/` | Panel data (not versioned; see `data/README.md`): `A4_merged.dta` at the root, sources in `raw/`, A0–A3 in `intermediates/` (retired attic material now in `tmp/2026-07/21/attic/`) |
+| `data/` | Panel data (not versioned; see `data/README.md`): sources in `raw/`, the panel at `processed/A4_merged.dta` (retired attic material now in `tmp/2026-07/21/attic/`) |
 | `output/` | Generated tables and figures (versioned) |
 
 ---

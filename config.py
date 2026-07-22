@@ -5,18 +5,13 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent
 DATA_DIR = REPO_ROOT / "data"
 RAW_DIR = DATA_DIR / "raw"
-INTERMEDIATES_DIR = DATA_DIR / "intermediates"
+PROCESSED_DIR = DATA_DIR / "processed"
 
-# Pipeline intermediates, A0-A3 (regenerable from raw; see data/README.md)
-A0_PATH = INTERMEDIATES_DIR / "A0_accounting_data.dta"
-A1_BOND_PATH = INTERMEDIATES_DIR / "A1_bond_data_bondlevel.dta"
-A1_FIRM_PATH = INTERMEDIATES_DIR / "A1_bond_data_firmlevel.dta"
-A2_PATH = INTERMEDIATES_DIR / "A2_marcap.dta"
-A3_MONTHLY_PATH = INTERMEDIATES_DIR / "A3_dividend_monthly.dta"
-A3_ANNUAL_PATH = INTERMEDIATES_DIR / "A3_dividend_annual.dta"
-
-# The merged panel (the one file everything downstream reads)
-A4_PATH = DATA_DIR / "A4_merged.dta"
+# Pipeline outputs (data/processed/): the merged panel plus the bond-level
+# panel that Table 3 reads directly (bond-level rows never reach A4). The
+# other A0-A3 stages are held in memory by pipeline/build.py, not persisted.
+A4_PATH = PROCESSED_DIR / "A4_merged.dta"
+A1_BOND_PATH = PROCESSED_DIR / "A1_bond_data_bondlevel.dta"
 
 # Source inputs with external provenance (never regenerated; data/raw/)
 MONTHLY_DIV_PATH = RAW_DIR / "monthly_div.dta"
