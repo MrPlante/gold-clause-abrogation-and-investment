@@ -11,7 +11,7 @@ import re
 from pathlib import Path
 
 from config import PANEL_PATH, COEF_TOLERANCE, MANUSCRIPT_BODY_TABLES, MANUSCRIPT_BODY_TABLES
-from pipeline.io import read_dta
+from pipeline.lib.io import read_dta
 from tables.render.summary_stats import render_table1_latex
 from tables.models.summary_stats import PANELS, compute_all_panels
 

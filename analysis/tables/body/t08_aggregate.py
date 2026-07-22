@@ -11,7 +11,7 @@ from pathlib import Path
 
 from config import PANEL_PATH, COEF_TOLERANCE, MANUSCRIPT_BODY_TABLES, MANUSCRIPT_BODY_TABLES
 from tables.models.aggregate import AggregatePanel, PeriodValues, run_aggregate
-from pipeline.io import read_dta
+from pipeline.lib.io import read_dta
 from tables.render.aggregate import render_table7_latex
 
 # Manuscript reports percentages to 2 decimals.

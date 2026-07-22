@@ -9,7 +9,7 @@ from pathlib import Path
 
 from config import PANEL_PATH, COEF_TOLERANCE, MANUSCRIPT_APPENDIX_TABLES, MANUSCRIPT_APPENDIX_TABLES
 from tables.models.dividend_additional import BUCKET_TERMS, MODEL_ORDER, run_models
-from pipeline.io import read_dta
+from pipeline.lib.io import read_dta
 from tables.render.dividend_additional import render_dividend_additional_table
 
 CASHRAT_MODELS = set(MODEL_ORDER[:4])

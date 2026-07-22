@@ -5,7 +5,7 @@ from __future__ import annotations
 import pandas as pd
 from config import OMITTED_YEAR, SAMPLE_YEARS
 from lib.regressions import feols_clustered
-from pipeline.winsor import winsorize_by
+from pipeline.lib.winsor import winsorize_by
 
 MODEL_ORDER = ["var_inv_rate", "payout", "cashrat"]
 

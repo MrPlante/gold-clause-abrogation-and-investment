@@ -13,7 +13,7 @@ from pathlib import Path
 import pandas as pd
 
 from config import PANEL_PATH, COEF_TOLERANCE, MANUSCRIPT_BODY_TABLES, MANUSCRIPT_BODY_TABLES
-from pipeline.io import read_dta
+from pipeline.lib.io import read_dta
 from lib.regressions import fit_classic, fit_overhang
 from tables.render.regression_table import render_table3_latex
 

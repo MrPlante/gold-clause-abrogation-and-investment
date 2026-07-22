@@ -11,7 +11,7 @@ import re
 from pathlib import Path
 
 from config import PANEL_PATH, COEF_TOLERANCE, MANUSCRIPT_BODY_TABLES, MANUSCRIPT_BODY_TABLES
-from pipeline.io import read_dta
+from pipeline.lib.io import read_dta
 from tables.models.other_outcomes import MODEL_ORDER, run_models
 from tables.render.other_outcomes import render_table4_latex
 

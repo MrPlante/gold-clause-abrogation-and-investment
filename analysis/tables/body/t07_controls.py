@@ -12,7 +12,7 @@ from pathlib import Path
 
 from config import PANEL_PATH, COEF_TOLERANCE, MANUSCRIPT_BODY_TABLES, MANUSCRIPT_BODY_TABLES
 from tables.models.controls import CORE_TERMS, MODEL_ORDER, run_models
-from pipeline.io import read_dta
+from pipeline.lib.io import read_dta
 from tables.render.controls import DISPLAY_TERMS, render_table6_latex
 
 

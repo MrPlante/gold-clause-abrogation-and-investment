@@ -8,8 +8,8 @@ import numpy as np
 import pandas as pd
 
 from config import PANEL_PATH
-from pipeline.a1_bonds import build_bond_data
-from pipeline.io import read_dta, require_file, roundtrip_dta
+from pipeline.sources.bonds import build_bond_data
+from pipeline.lib.io import read_dta, require_file, roundtrip_dta
 
 BOND_SAMPLE_YEAR_LO = 1930
 BOND_SAMPLE_YEAR_HI = 1935

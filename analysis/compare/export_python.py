@@ -15,7 +15,7 @@ for _p in (str(CODE_ROOT), str(CODE_ROOT.parent)):
 
 from config import PANEL_PATH  # noqa: E402
 from tables.models.credit_ratings import TABLE5_MODEL_ORDER, run_models as run_table5  # noqa: E402
-from pipeline.io import read_dta  # noqa: E402
+from pipeline.lib.io import read_dta  # noqa: E402
 from tables.models.other_outcomes import MODEL_ORDER as TABLE4_ORDER, run_models as run_table4  # noqa: E402
 from lib.latex import model_pvalue, model_se  # noqa: E402
 from lib.regressions import fit_classic, fit_overhang  # noqa: E402

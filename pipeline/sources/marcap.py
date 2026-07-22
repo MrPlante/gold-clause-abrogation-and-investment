@@ -3,7 +3,7 @@
 import pandas as pd
 
 from config import CRSP_MONTHLY_PATH
-from pipeline.io import read_dta, require_file
+from pipeline.lib.io import read_dta, require_file
 
 
 def build_marcap() -> pd.DataFrame:

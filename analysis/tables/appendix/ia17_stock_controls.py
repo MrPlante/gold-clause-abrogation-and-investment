@@ -9,7 +9,7 @@ from pathlib import Path
 
 from config import PANEL_PATH, COEF_TOLERANCE, MANUSCRIPT_APPENDIX_TABLES, MANUSCRIPT_APPENDIX_TABLES
 from tables.models.controls import CORE_TERMS
-from pipeline.io import read_dta
+from pipeline.lib.io import read_dta
 from tables.render.stock_controls import render_stock_controls_table
 from tables.models.stock_controls import MODEL_ORDER, run_models
 

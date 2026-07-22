@@ -7,7 +7,7 @@ import pandas as pd
 from config import CHARS_ANNUAL_PATH
 from lib.regressions import feols_clustered
 from tables.models.controls import CORE_TERMS, LINEAR_CONTROLS
-from pipeline.io import read_dta
+from pipeline.lib.io import read_dta
 
 MODEL_ORDER = [
     "linear_ann",

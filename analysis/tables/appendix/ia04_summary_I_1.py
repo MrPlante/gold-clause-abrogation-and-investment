@@ -15,7 +15,7 @@ from config import (
     MANUSCRIPT_APPENDIX_TABLES,
     MANUSCRIPT_APPENDIX_TABLES,
 )
-from pipeline.io import read_dta
+from pipeline.lib.io import read_dta
 from tables.render.summary_stats_ia import render_distribution_table
 from tables.models.summary_stats_ia import BASE_VARIABLES, compute_distribution_table
 

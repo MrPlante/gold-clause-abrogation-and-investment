@@ -14,7 +14,7 @@ from config import (
     MANUSCRIPT_APPENDIX_TABLES,
 )
 from tables.models.repayers_balanced import COLUMN_ORDER, run_models
-from pipeline.io import read_dta
+from pipeline.lib.io import read_dta
 from tables.render.repayers_balanced import render_balanced_table
 
 KEY_TERMS = ["var_Q", "d", "d_year_1933", "d_year_1934"]

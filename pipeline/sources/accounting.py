@@ -3,8 +3,8 @@
 import pandas as pd
 
 from config import ACCOUNTING_CSV
-from pipeline.io import require_file
-from pipeline.sample import drop_unreliable_permnos
+from pipeline.lib.io import require_file
+from pipeline.lib.sample import drop_unreliable_permnos
 
 
 def _calendar_lag(df: pd.DataFrame, group: str, col: str) -> pd.Series:

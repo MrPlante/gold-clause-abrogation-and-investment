@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 
 from config import GOLD_CLAUSES_XLSX
-from pipeline.io import require_file
+from pipeline.lib.io import require_file
 
 
 RATING_MAP = {

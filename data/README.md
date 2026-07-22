@@ -6,7 +6,7 @@ safety net here**: treat `raw/` as irreplaceable.
 ```
 data/
   processed/         ← pipeline outputs (rebuild: .venv/bin/python pipeline/run.py;
-                       the A0-A3 stages run in memory and are not persisted)
+                       the source stages run in memory and are not persisted)
     firm_year_panel.dta ← THE panel (7,074 x 845 — the manuscript vintage,
                        verified against every manuscript table). Everything
                        downstream reads this file (all tables, the
@@ -17,10 +17,10 @@ data/
                        float32 precision (row order within permno-year
                        differs).
   raw/               ← source inputs, external provenance, never regenerated
-    crsp_monthly.dta        CRSP monthly extract (feeds A2 marcap, A3 dividends)
+    crsp_monthly.dta        CRSP monthly extract (feeds sources/marcap + dividends)
     monthly_div.dta         coauthor's monthly dividend data (feeds IA.12)
     chars_annual.dta        1930 firm characteristics & betas (feeds IA.17)
-    netincome.dta           net income series (feeds the A4 merge)
+    netincome.dta           net income series (feeds pipeline/merge.py)
     accounting_data.csv     hand-collected accounting panel (restored
                             2026-07-21 from "GKP Analysis Feb 2025/data/" —
                             the vintage Mete's A0 do-file cd's into;

@@ -17,7 +17,7 @@ from tables.models.constraints import DISPLAY_TERMS, MODEL_ORDER, run_models
 
 # Full coef validation: pyfixest vs reghdfe with triple interactions (see DISCREPANCIES).
 STRICT_TERMS = ["var_Q"]
-from pipeline.io import read_dta
+from pipeline.lib.io import read_dta
 from tables.render.constraints import render_constraints_table
 
 TERM_TO_MANUSCRIPT = {

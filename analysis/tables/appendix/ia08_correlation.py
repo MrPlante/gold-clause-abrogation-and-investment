@@ -13,7 +13,7 @@ from config import (
     MANUSCRIPT_APPENDIX_TABLES,
 )
 from tables.models.correlation import CORRELATION_VARIABLES, compute_correlations
-from pipeline.io import read_dta
+from pipeline.lib.io import read_dta
 from tables.render.correlation import render_correlation_table
 
 RHO_TOL = max(COEF_TOLERANCE, 0.001)

@@ -46,7 +46,7 @@ TERM_LABELS = {
 
 def _stata_quantile(values: pd.Series, q: float) -> float:
     import numpy as np
-    from pipeline.winsor import STATA_QUANTILE_METHOD
+    from pipeline.lib.winsor import STATA_QUANTILE_METHOD
 
     x = values.dropna().to_numpy()
     if len(x) == 0:

@@ -5,7 +5,7 @@ from __future__ import annotations
 import pandas as pd
 
 from lib.regressions import fit_overhang
-from pipeline.winsor import winsorize_by
+from pipeline.lib.winsor import winsorize_by
 
 # Column keys match manuscript order.
 MODEL_ORDER = [

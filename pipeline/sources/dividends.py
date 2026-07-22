@@ -3,10 +3,10 @@
 import pandas as pd
 
 from config import CRSP_MONTHLY_PATH
-from pipeline.io import read_dta, require_file
+from pipeline.lib.io import read_dta, require_file
 
 
-def build_dividend() -> tuple[pd.DataFrame, pd.DataFrame]:
+def build_dividends() -> tuple[pd.DataFrame, pd.DataFrame]:
     require_file(CRSP_MONTHLY_PATH, "crsp_monthly.dta")
     df = read_dta(CRSP_MONTHLY_PATH)
 

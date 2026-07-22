@@ -4,7 +4,7 @@
 Usage (from the repo root):
     .venv/bin/python pipeline/run.py
 
-The A0-A3 stages run in memory (nothing is persisted besides the final
+The source stages run in memory (nothing is persisted besides the final
 panel). The rebuilt panel matches the manuscript panel exactly (7,074 x 845,
 to float32 storage precision); see DISCREPANCIES.md D-016/D-018.
 """

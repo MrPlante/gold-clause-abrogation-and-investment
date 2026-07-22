@@ -16,7 +16,7 @@ from config import (
     MANUSCRIPT_APPENDIX_TABLES,
 )
 from tables.models.credit_ratings import MODEL_ORDER, run_models
-from pipeline.io import read_dta
+from pipeline.lib.io import read_dta
 from tables.render.credit_ratings_full import INTERACTION_YEARS, render_credit_ratings_full_table
 
 VALIDATED_COLUMNS = {0, 1, 2}

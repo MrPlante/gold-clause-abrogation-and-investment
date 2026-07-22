@@ -9,7 +9,7 @@ from pathlib import Path
 from config import PANEL_PATH, COEF_TOLERANCE, MANUSCRIPT_APPENDIX_TABLES, MANUSCRIPT_APPENDIX_TABLES
 from tables.models.aggregate import PeriodValues
 from tables.models.aggregate_heterogeneous import HeteroGoldEffects, run_aggregate_hetero
-from pipeline.io import read_dta
+from pipeline.lib.io import read_dta
 from tables.render.aggregate_heterogeneous import render_aggregate_hetero_table
 
 TOL = max(COEF_TOLERANCE, 0.011)

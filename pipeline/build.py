@@ -5,12 +5,12 @@ from __future__ import annotations
 from pathlib import Path
 
 from config import BOND_PANEL_PATH, PANEL_PATH, ACCOUNTING_CSV, GOLD_CLAUSES_XLSX
-from pipeline.a0_accounting import build_accounting
-from pipeline.a1_bonds import build_bond_data
-from pipeline.a2_marcap import build_marcap
-from pipeline.a3_dividend import build_dividend
-from pipeline.a4_merge import build_merged
-from pipeline.io import read_dta, roundtrip_dta, write_dta
+from pipeline.sources.accounting import build_accounting
+from pipeline.sources.bonds import build_bond_data
+from pipeline.sources.marcap import build_marcap
+from pipeline.sources.dividends import build_dividends
+from pipeline.merge import build_merged
+from pipeline.lib.io import read_dta, roundtrip_dta, write_dta
 
 
 def build_all() -> Path:
@@ -19,7 +19,7 @@ def build_all() -> Path:
     data/processed/: firm_year_panel.dta and bond_panel.dta (the
     bond-level panel Table 3 reads directly).
 
-    The remaining A0–A3 stages are held in memory; each is round-tripped
+    The remaining source stages are held in memory; each is round-tripped
     through the .dta format (in an in-memory buffer) before the merge so
     dtypes match the historical on-disk intermediates and the A4 build stays
     verified-exact.
@@ -34,7 +34,7 @@ def build_all() -> Path:
     write_dta(bond, BOND_PANEL_PATH)
     firm = roundtrip_dta(firm)
     marcap = roundtrip_dta(build_marcap())
-    _monthly, annual = build_dividend()
+    _monthly, annual = build_dividends()
     annual = roundtrip_dta(annual)
 
     build_merged(accounting, firm, marcap, annual)

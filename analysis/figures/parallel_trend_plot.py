@@ -14,7 +14,7 @@ from config import (
     OMITTED_YEAR,
     SAMPLE_YEARS,
 )
-from pipeline.io import read_dta
+from pipeline.lib.io import read_dta
 from lib.latex import model_se
 from lib.regressions import fit_overhang
 

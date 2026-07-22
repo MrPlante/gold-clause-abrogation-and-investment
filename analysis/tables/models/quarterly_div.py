@@ -6,9 +6,9 @@ import pandas as pd
 import pyfixest as pf
 
 from config import MONTHLY_DIV_PATH, OMITTED_YEAR
-from pipeline.io import read_dta
+from pipeline.lib.io import read_dta
 from lib.regressions import year_interaction_cols
-from pipeline.winsor import PANDAS_QUANTILE_METHOD, winsorize_by
+from pipeline.lib.winsor import PANDAS_QUANTILE_METHOD, winsorize_by
 
 CLUSTER_PERMNO = {"CRV1": "permno"}
 

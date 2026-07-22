@@ -6,7 +6,7 @@ from dataclasses import dataclass
 
 import pandas as pd
 from config import PANEL_PATH, OMITTED_YEAR, SAMPLE_YEARS
-from pipeline.io import read_dta
+from pipeline.lib.io import read_dta
 from lib.regressions import feols_clustered, year_interaction_cols
 
 

@@ -12,7 +12,7 @@ from pathlib import Path
 
 from config import PANEL_PATH, COEF_TOLERANCE, MANUSCRIPT_BODY_TABLES, MANUSCRIPT_BODY_TABLES
 from tables.models.credit_ratings import TABLE5_MODEL_ORDER, run_models
-from pipeline.io import read_dta
+from pipeline.lib.io import read_dta
 from tables.render.credit_ratings import DISPLAY_ROWS, render_table5_latex
 
 # Both columns validated at tol=0.001 (0-indexed).

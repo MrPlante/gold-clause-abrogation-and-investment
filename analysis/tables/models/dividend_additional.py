@@ -5,7 +5,7 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 from lib.regressions import feols_clustered
-from pipeline.winsor import winsorize_by
+from pipeline.lib.winsor import winsorize_by
 
 MODEL_ORDER = [
     "cashrat_lag_pos",

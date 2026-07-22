@@ -11,9 +11,9 @@ from config import (
     OMITTED_YEAR,
     SAMPLE_YEARS,
 )
-from pipeline.io import read_dta, write_dta
-from pipeline.sample import drop_excluded_industries, drop_unreliable_permnos
-from pipeline.winsor import winsorize_by
+from pipeline.lib.io import read_dta, write_dta
+from pipeline.lib.sample import drop_excluded_industries, drop_unreliable_permnos
+from pipeline.lib.winsor import winsorize_by
 
 
 def _calendar_lag(df: pd.DataFrame, col: str) -> pd.Series:
@@ -75,7 +75,7 @@ def build_merged(
     marcap: pd.DataFrame,
     div: pd.DataFrame,
 ) -> pd.DataFrame:
-    """Merge the in-memory A0-A3 stage outputs into firm_year_panel.dta.
+    """Merge the in-memory source-stage outputs into firm_year_panel.dta.
 
     Inputs must have gone through ``roundtrip_dta`` so their dtypes match the
     historical on-disk .dta intermediates.
