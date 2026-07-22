@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 from tables.render.controls import DISPLAY_TERMS
-from tables.render.investment_reg import _cell, _coef_row, _fmt_n
-from tables.models.ret_controls import MODEL_ORDER
+from tables.render.regression_table import _cell, _coef_row, _fmt_n
+from tables.models.stock_controls import MODEL_ORDER
 
 TABLE15_NOTES = (
     r"\scriptsize{\textit{Notes.} This table tests whether the effect of gold clause exposure "
@@ -23,7 +23,7 @@ TABLE15_NOTES = (
 )
 
 
-def render_ret_controls_table(models: dict[str, object]) -> str:
+def render_stock_controls_table(models: dict[str, object]) -> str:
     ordered = [models[k] for k in MODEL_ORDER]
     n_cols = len(MODEL_ORDER)
 

@@ -9,7 +9,7 @@ import pandas as pd
 from config import OMITTED_YEAR, SAMPLE_YEARS
 from lib.latex import fmt_coef, fmt_se, model_pvalue, model_se
 
-TABLE3_NOTES = (
+TABLE4_NOTES = (
     r"\scriptsize{\textit{Notes.} This table reports results from panel regressions of "
     r"net investment on $Q$, gold clause exposure $\tilde{d}$ (as defined in equation "
     r"(\ref{eq:tilde_d})), and year $\times$ $\tilde{d}$ interactions, where 1932 is the "
@@ -175,7 +175,7 @@ def render_table3_latex(models: dict[str, object]) -> str:
             r"}\\",
             r"",
             r"\vspace*{3mm} \justifying \noindent",
-            TABLE3_NOTES,
+            TABLE4_NOTES,
             r"\end{table}",
         ]
     )

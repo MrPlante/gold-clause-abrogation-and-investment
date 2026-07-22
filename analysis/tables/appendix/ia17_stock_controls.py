@@ -10,8 +10,8 @@ from pathlib import Path
 from config import PANEL_PATH, COEF_TOLERANCE, MANUSCRIPT_APPENDIX_TABLES, MANUSCRIPT_APPENDIX_TABLES
 from tables.models.controls import CORE_TERMS
 from pipeline.io import read_dta
-from tables.render.ret_controls import render_ret_controls_table
-from tables.models.ret_controls import MODEL_ORDER, run_models
+from tables.render.stock_controls import render_stock_controls_table
+from tables.models.stock_controls import MODEL_ORDER, run_models
 
 LINEAR_ANN_TOL = 0.004
 DECILE_TOL = 0.002
@@ -97,7 +97,7 @@ def validate_against_manuscript(
 def write_latex_table(models: dict[str, object], path: Path | None = None) -> Path:
     out = path or (MANUSCRIPT_APPENDIX_TABLES / "ia17_stock_controls.tex")
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(render_ret_controls_table(models), encoding="utf-8")
+    out.write_text(render_stock_controls_table(models), encoding="utf-8")
     return out
 
 

@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from tables.models.aggregate import PeriodValues
-from tables.models.aggregate_hetero import HeteroGoldEffects
+from tables.models.aggregate_heterogeneous import HeteroGoldEffects
 
 TABLE16_NOTES = (
     r"\footnotesize{\textit{Notes.} This table extends the aggregation in Table \ref{tab:agg} "

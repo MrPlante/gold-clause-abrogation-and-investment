@@ -10,7 +10,7 @@ import re
 from pathlib import Path
 
 from config import COEF_TOLERANCE, MANUSCRIPT_APPENDIX_TABLES, MANUSCRIPT_APPENDIX_TABLES
-from tables.models.quarterly_dividends import MODEL_ORDER, run_models
+from tables.models.quarterly_div import MODEL_ORDER, run_models
 from tables.render.quarterly_div import render_quarterly_div_table
 
 KEY_TERMS_ANNUAL = ["var_Q", "d"] + [f"d_year_{y}" for y in range(1926, 1941) if y != 1932]

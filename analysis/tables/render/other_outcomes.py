@@ -5,7 +5,7 @@ from __future__ import annotations
 from config import OMITTED_YEAR, SAMPLE_YEARS
 from lib.latex import fmt_coef, fmt_se, model_pvalue, model_se
 from tables.models.other_outcomes import MODEL_ORDER
-from tables.render.investment_reg import CoefCell, _cell, _coef_row, _fmt_n
+from tables.render.regression_table import CoefCell, _cell, _coef_row, _fmt_n
 
 TABLE4_NOTES = (
     r"\scriptsize{\textit{Notes.} This table reports results from panel regressions of "

@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from tables.models.indicator_investment import DISPLAY_TERMS, MODEL_ORDER, TERM_LABELS
-from tables.render.investment_reg import _cell, _coef_row, _fmt_n
+from tables.models.indicators_d import DISPLAY_TERMS, MODEL_ORDER, TERM_LABELS
+from tables.render.regression_table import _cell, _coef_row, _fmt_n
 
 TABLE14_NOTES = (
     r"\scriptsize{\textit{Notes.} This table tests whether debt overhang effects operate at the "

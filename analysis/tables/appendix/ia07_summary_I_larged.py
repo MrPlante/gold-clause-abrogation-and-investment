@@ -15,13 +15,13 @@ from config import (
     MANUSCRIPT_APPENDIX_TABLES,
     MANUSCRIPT_APPENDIX_TABLES,
 )
-from tables.models.ia_distribution_validate import (
+from tables.models.distribution_validate import (
     check_failures,
     parse_distribution_table,
     validate_distribution_panels,
 )
 from pipeline.io import read_dta
-from tables.render.summary_ia import render_distribution_table
+from tables.render.summary_stats_ia import render_distribution_table
 from tables.models.summary_stats_ia import (
     BASE_VARIABLES,
     _stata_quantile,

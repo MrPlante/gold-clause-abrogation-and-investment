@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 from config import OMITTED_YEAR, SAMPLE_YEARS
-from tables.models.balanced import COLUMN_LABELS, COLUMN_ORDER
-from tables.render.investment_reg import CoefCell, _cell, _coef_row, _fmt_n
+from tables.models.repayers_balanced import COLUMN_LABELS, COLUMN_ORDER
+from tables.render.regression_table import CoefCell, _cell, _coef_row, _fmt_n
 
 BALANCED_NOTES = (
     r"\scriptsize{\textit{Notes.} This table reports results from panel regressions of "

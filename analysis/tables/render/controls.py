@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from tables.models.controls import CORE_TERMS, MODEL_ORDER
-from tables.render.investment_reg import _cell, _coef_row, _fmt_n
+from tables.render.regression_table import _cell, _coef_row, _fmt_n
 
 TABLE6_NOTES = (
     r"\scriptsize{\textit{Notes.} This table examines whether the effect of gold clause "

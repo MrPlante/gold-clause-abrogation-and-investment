@@ -17,7 +17,7 @@ from config import (
     MANUSCRIPT_APPENDIX_TABLES,
 )
 from pipeline.io import read_dta
-from tables.render.sum_stats import render_tilde_d_summary_latex
+from tables.render.summary_stats import render_tilde_d_summary_latex
 from tables.models.summary_stats import TILDE_D_PANELS, compute_tilde_d_panels
 
 TOL = max(COEF_TOLERANCE, 0.011)

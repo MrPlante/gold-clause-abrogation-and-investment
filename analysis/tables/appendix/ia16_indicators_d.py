@@ -8,7 +8,7 @@ import re
 from pathlib import Path
 
 from config import PANEL_PATH, COEF_TOLERANCE, MANUSCRIPT_APPENDIX_TABLES, MANUSCRIPT_APPENDIX_TABLES
-from tables.models.indicator_investment import DISPLAY_TERMS, MODEL_ORDER, TERM_LABELS, run_models
+from tables.models.indicators_d import DISPLAY_TERMS, MODEL_ORDER, TERM_LABELS, run_models
 from pipeline.io import read_dta
 from tables.render.indicators_d import render_indicators_d_table
 
