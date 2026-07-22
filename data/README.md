@@ -46,7 +46,26 @@ data/
     ff_factors_daily.csv    orphan Fama-French download (superseded)
     denom_div.dta           legacy Stata input, nothing reads it
     VAR_IN~4, "var_inv_rate ..." files   Stata/Windows filename mishaps
+    bond_returns/           hand-made bond-CRSP link files (1926-1942) and
+                            bond-return work from the Feb 2025 snapshot —
+                            unused by the paper but irreplaceable hand work
+    coauthor-notes/         Mete's notes, data-issue workbooks, CODE.pdf,
+                            column documentation (Feb/Oct 2025 snapshots)
+    corrections-vintage/    the corrections-era accounting_data.csv /
+                            gold_clauses.xlsx (a DIFFERENT vintage from
+                            data/raw/ — kept for provenance)
+    apr2024-snapshot/       the Apr 2024 folder wholesale (ancient pipeline
+                            data + a 2024 balance-sheet recollection)
+    portfolio_returns_feb2025.xls   another coauthor return export
+                            (differs from pf_returns.xls)
 ```
+
+The three "GKP Analysis *" Dropbox snapshots were deleted from the repo
+root on 2026-07-21 after everything load-bearing was extracted (raw files
+-> data/raw/, panel -> data/A4_merged.dta, do-files verified identical to
+git history, round-1 reports + as-submitted PDFs -> rfs-responses/,
+unique research material -> attic/ as listed above). The originals remain
+in the coauthors' Dropbox.
 
 **Vintage note (resolved 2026-07-21):** the long-standing "N=7,074 vs
 N=6,768 data vintage mismatch" was not a data problem. The upstream inputs
