@@ -30,8 +30,8 @@ Outputs:
   output/figures/event-study/midterm_1934.{pdf,png}              (4 series, IA)
   manuscript/figures/body/event{1,2,3}_*.pdf                     (copies)
   manuscript/figures/online-appendix/{event_overview,midterm_1934}.pdf
-  manuscript/tables/body/0_event_study.tex                       (Table 1)
-  manuscript/tables/online-appendix/18_other_events.tex          (IA table)
+  manuscript/tables/body/table1_event_study.tex                       (Table 1)
+  manuscript/tables/online-appendix/ia20_other_events.tex          (IA table)
 
 Fully offline: no researchdb access needed. The dump is regenerated from
 the DB (Kerberos + psql) only when the underlying CRSP extract changes;
@@ -361,7 +361,7 @@ Firms (gold-clause / no gold clause) & \multicolumn{{4}}{{c}}{{{len(gold)} / {le
 \begin{{minipage}}{{0.95\textwidth}}\footnotesize \textit{{Notes.}} All series are constructed from CRSP daily returns. The market return is value-weighted using previous-day market capitalization and reproduces the CRSP value-weighted index. Firms are classified by the gold-clause exposure measure $d_j$ defined in equation~(\ref{{eq:d}}): the two equal-weighted portfolios contain firms with $d_j>0$ and $d_j=0$, respectively, and the exposure-weighted portfolio weights firms with $d_j>0$ by $w_j = d_j/\sum_k d_k$. Portfolios are rebalanced daily over firms with a return on each day. Raw returns are the compound product of daily returns over each event window. The cumulative abnormal return (CAR) in Panel~B is the sum of daily abnormal returns $\hat{{\varepsilon}}_t = r_t - \hat{{\alpha}} - \hat{{\beta}}\, r_{{m,t}}$, where $\hat{{\alpha}}$ and $\hat{{\beta}}$ are estimated by OLS on the full pre-abrogation period (July~1, 1926--April~25, 1933; {capm['n_days']:,} trading days); the estimated betas are reported in Panel~C. The same estimation window is used for all three events. For the Supreme Court decision (February~18), the benchmark is the close of February~16---the last trading day before the ruling, as the exchange was open on Saturdays. The modest decline during the oral arguments (January~8--10) understates the market anxiety triggered by the government's weak showing: press coverage in the following days drove sustained selling, with Liberty Bond prices reaching their highest level since 1917 by January~13 \citep{{NYT1935}}. Internet Appendix Section~\ref{{sec:ia_other_events}} examines the remaining legal and political events of the litigation period. Panel~C statistics cover the full sample.\end{{minipage}}
 \end{{table}}
 """
-    path = os.path.join(MS_BODY_TAB, "0_event_study.tex")
+    path = os.path.join(MS_BODY_TAB, "table1_event_study.tex")
     with open(path, "w") as f:
         f.write(tex)
     print(f"Saved: {path}")
@@ -401,7 +401,7 @@ Event & Dates & Days & Market & Gold & No gold & Diff. & $t$ \\
 \begin{{minipage}}{{0.95\textwidth}}\footnotesize \textit{{Notes.}} This table reports stock market responses to the intermediate legal and political events of the gold clause litigation, using the same portfolios, estimation window, and CAR methodology as Table~\ref{{tab:event_study}} in the main text. ``Diff.''\ is the difference between the cumulative abnormal returns of the gold-exposed and non-exposed equal-weighted portfolios. The $t$-statistic scales this difference by $\hat\sigma\sqrt{{h}}$, where $h$ is the number of trading days in the window and $\hat\sigma = {sd_daily*100:.2f}$ percentage points is the standard deviation of the daily abnormal-return differential over calm trading days in 1934 (excluding the event windows in this table). The Irving Trust hearing (May~22--24, 1933) was the first court hearing on the enforceability of gold clauses. \textit{{In re Missouri Pacific}} (E.D.~Mo., June~20, 1934) was the first federal ruling upholding the constitutionality of the Joint Resolution; the New York Court of Appeals affirmed \textit{{Norman v.\ Baltimore \& Ohio R.~Co.}} on July~3, 1934. Certiorari was granted in \textit{{Norman}} on October~8, 1934 and in \textit{{United States v.\ Bankers Trust Co.}} on November~5, 1934; the New York Stock Exchange was closed on November~6, 1934 for the midterm election, so the November window mixes the certiorari grant with the election result. The Joint Resolution window from Table~\ref{{tab:event_study}} is repeated for reference.\end{{minipage}}
 \end{{table}}
 """
-    path = os.path.join(MS_IA_TAB, "18_other_events.tex")
+    path = os.path.join(MS_IA_TAB, "ia20_other_events.tex")
     with open(path, "w") as f:
         f.write(tex)
     print(f"Saved: {path}")

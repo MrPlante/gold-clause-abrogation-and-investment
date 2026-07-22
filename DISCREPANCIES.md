@@ -585,3 +585,32 @@ is that those SEs came from the same lost 2023 esttab session that produced
 the columns 4-5 samples (D-017) — not from any reproducible software
 vintage. Chasing older reghdfe releases is a dead end; the shipped CGM SEs
 for column 7 stand as the reproducible choice.
+
+## D-020 (2026-07-22): Table 2 Panel C — shipped firm count and decimals are fossils; builder output adopted
+
+Discovered during the analysis-folder rename, when recompiling the
+manuscript exposed that the committed PDF had been stale since the repo
+restructure (bc6a4c6): that commit regenerated `1_sum_stats_d.tex` (now
+`table2_summary_stats.tex`) from the builder, changing Panel C, and the PDF
+was never rebuilt.
+
+The shipped (Mete-original) Panel C does not reproduce from any accessible
+panel:
+
+- Firm count "594": distinct firms 1935–1940 in the verified vintage panel
+  = 503 (the builder's number). The full-sample count is 558 — 594 matches
+  nothing; it is presumably a fossil of a pre-vintage data state.
+- Eight cells differ by ±0.01 (netinc mean 0.05→0.06, booklev mean
+  0.36→0.35, and six SDs). Recomputing on the verified panel confirms the
+  builder's rounding in every cell (e.g. booklev mean 0.3540, Q SD 0.8558,
+  cash SD 0.1329). Observation counts (2,867 / 2,861) are identical, so
+  the shipped values come from slightly different variable values in an
+  older panel, not a different sample.
+
+Panels A and B — the referee-facing d=0 vs d>0 comparisons — are identical
+in every cell (the "144/144" validation covered these). The builder also
+adds a previously missing N/Mean/SD header row to Panels A/B.
+
+Decision: adopt the builder's Table 2 (consistent with the non-negotiable
+"code reproduces the manuscript" and with D-017's treatment of Table 4);
+the table is wrapped in revblock for review in the round-2 diff.

@@ -1,4 +1,4 @@
-"""Coefficient validation tests for Table 3."""
+"""Validation tests for Table 2."""
 
 from __future__ import annotations
 
@@ -10,16 +10,17 @@ sys.path.insert(0, str(CODE_DIR))
 sys.path.insert(0, str(CODE_DIR.parent))
 
 from config import COEF_TOLERANCE  # noqa: E402
-from tables.body.t03_investment import load_panel, run_models, validate_against_manuscript  # noqa: E402
+from tables.models.bond_stats import compute_bond_stats  # noqa: E402
+from tables.body.t03_bond_stats import validate_against_manuscript  # noqa: E402
 
 
-def test_table3_matches_manuscript():
-    df = load_panel()
-    models = run_models(df)
-    checks = validate_against_manuscript(models)
+def test_table2_matches_manuscript():
+    rows = compute_bond_stats()
+    checks = validate_against_manuscript(rows)
+    tol = max(COEF_TOLERANCE, 0.011)
     failures = [
         (name, expected, actual)
         for name, expected, actual in checks
-        if abs(expected - actual) > COEF_TOLERANCE
+        if abs(expected - actual) > tol
     ]
     assert not failures, failures

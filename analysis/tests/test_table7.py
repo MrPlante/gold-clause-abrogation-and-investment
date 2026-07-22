@@ -1,4 +1,4 @@
-"""Validation tests for Table 7."""
+"""Validation tests for Table 6."""
 
 from __future__ import annotations
 
@@ -10,16 +10,19 @@ sys.path.insert(0, str(CODE_DIR))
 sys.path.insert(0, str(CODE_DIR.parent))
 
 from config import COEF_TOLERANCE  # noqa: E402
-from tables.body.t07_aggregate import (  # noqa: E402
-    TOL,
+from tables.body.t07_controls import (  # noqa: E402
     load_panel,
-    run_aggregate,
+    run_models,
     validate_against_manuscript,
 )
 
 
-def test_table7_matches_manuscript():
-    panels = run_aggregate(load_panel())
-    failures = validate_against_manuscript(panels)
+def test_table6_matches_manuscript():
+    models = run_models(load_panel())
+    checks = validate_against_manuscript(models)
+    failures = [
+        (name, expected, actual)
+        for name, expected, actual in checks
+        if abs(expected - actual) > COEF_TOLERANCE
+    ]
     assert not failures, failures
-    assert TOL >= max(COEF_TOLERANCE, 0.011)

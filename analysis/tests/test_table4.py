@@ -1,4 +1,4 @@
-"""Validation tests for Table 4."""
+"""Coefficient validation tests for Table 3."""
 
 from __future__ import annotations
 
@@ -10,15 +10,12 @@ sys.path.insert(0, str(CODE_DIR))
 sys.path.insert(0, str(CODE_DIR.parent))
 
 from config import COEF_TOLERANCE  # noqa: E402
-from tables.body.t04_other_outcomes import (  # noqa: E402
-    load_panel,
-    run_models,
-    validate_against_manuscript,
-)
+from tables.body.t04_investment import load_panel, run_models, validate_against_manuscript  # noqa: E402
 
 
-def test_table4_matches_manuscript():
-    models = run_models(load_panel())
+def test_table3_matches_manuscript():
+    df = load_panel()
+    models = run_models(df)
     checks = validate_against_manuscript(models)
     failures = [
         (name, expected, actual)

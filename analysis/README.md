@@ -59,8 +59,8 @@ file header). Uses only numpy/pandas/matplotlib + `psql`, so the system
 ## IA.19 (industry-year robustness): known Stata dependency
 
 Table IA.19's coefficients and standard errors come from
-`stata/A12_controls_indyear.do` (run with
-`stata-mp -b do analysis/stata/A12_controls_indyear.do` from the repo
+`stata/ia19_controls_indyear.do` (run with
+`stata-mp -b do analysis/stata/ia19_controls_indyear.do` from the repo
 root), which writes `output/tables/t6_indyear_robustness.csv`;
 `--stage ia17` then renders that CSV to LaTeX. This is deliberate: the
 portfolio-decile + industry×year specifications crash the in-process
@@ -155,7 +155,7 @@ Generate LaTeX table:
 .venv/bin/python analysis/run.py --stage table1
 ```
 
-Writes `(removed mirror) output/tables/body/1_sum_stats_d.tex` (full `\begin{table}...\end{table}` environment).
+Writes `(removed mirror) output/tables/body/table2_summary_stats.tex` (full `\begin{table}...\end{table}` environment).
 
 See **`DISCREPANCIES.md`** for a running log of differences vs the published manuscript and Mete’s Stata output.
 
@@ -177,7 +177,7 @@ Merges firm-year panel with bond-level counts from `bond_panel.dta`.
 | Mean / Median $d$ | Over all firms in year (Stata `summarize d_year`; matches manuscript at 2 decimals) |
 | $\rho$ | Corr(`d_year`, `d_1930`) across firms |
 
-Writes `(removed mirror) output/tables/body/2_bond_stats.tex`.
+Writes `(removed mirror) output/tables/body/table3_bond_stats.tex`.
 
 ## Table 3 (implemented)
 
@@ -186,7 +186,7 @@ Writes `(removed mirror) output/tables/body/2_bond_stats.tex`.
 .venv/bin/python analysis/tests/test_table3.py
 ```
 
-Writes `(removed mirror) output/tables/body/3_investment_reg.tex` (full `\begin{table}...\end{table}` environment).
+Writes `(removed mirror) output/tables/body/table4_investment.tex` (full `\begin{table}...\end{table}` environment).
 
 Regression spec (all columns with exposure):
 
@@ -219,7 +219,7 @@ Cash (`cashppe`), Leverage (`var_booklev`).
 **Validated:** cols 1 (Payout) and 6 (Leverage) — all 32 coefficient checks pass at tol 0.001.
 Cols 2–5 have winsorization / sample gaps (see `DISCREPANCIES.md` D-010).
 
-Writes `(removed mirror) output/tables/body/4_other_outcomes.tex`.
+Writes `(removed mirror) output/tables/body/table5_other_outcomes.tex`.
 
 ## Table 5 (implemented — partial)
 
@@ -235,7 +235,7 @@ interactions with low rating (Ba or below in 1930).
 **Validated:** col 1 (Net investment) — all 6 displayed coefficient checks pass at tol 0.001.
 Col 2 (Dividend) has `cashrat` winsor gaps (see `DISCREPANCIES.md` D-011).
 
-Writes `(removed mirror) output/tables/body/5_credit_ratings.tex`.
+Writes `(removed mirror) output/tables/body/table6_credit_ratings.tex`.
 
 ## Table 6 (implemented)
 
@@ -249,7 +249,7 @@ Robustness regressions with industry-year FE (col 1), linear 1930 firm controls
 
 **Validated:** all 50 coefficient checks (5 terms × 10 columns) pass at tol 0.001.
 
-Writes `(removed mirror) output/tables/body/6_controls.tex`.
+Writes `(removed mirror) output/tables/body/table7_controls.tex`.
 
 ## Table 7 (implemented)
 
@@ -263,7 +263,7 @@ Capital-weighted gold-clause effects use baseline Table 3 year × `d` coefficien
 
 **Validated:** all 15 percentage checks pass at tol 0.011 (2-decimal display).
 
-Writes `(removed mirror) output/tables/body/7_aggregate.tex`.
+Writes `(removed mirror) output/tables/body/table8_aggregate.tex`.
 
 ## Internet Appendix (in progress)
 
@@ -274,7 +274,7 @@ Appendix tables mirror `manuscript/tables/online-appendix/` and write to
 
 ```bash
 .venv/bin/python analysis/run.py --stage ia0a
-.venv/bin/python analysis/tests/test_ia_0a_summary_d_1.py
+.venv/bin/python analysis/tests/test_ia01_summary_d_1.py
 ```
 
 Stata reference: `A14_summary_stats_IA.do` (first block). Uses **`d_orig > 0`**
@@ -283,31 +283,31 @@ Stata reference: `A14_summary_stats_IA.do` (first block). Uses **`d_orig > 0`**
 
 **Validated:** 216 checks (Panels A & B), tol 0.011.
 
-Writes `(removed mirror) output/tables/online-appendix/0a_summary_d_1.tex`.
+Writes `(removed mirror) output/tables/online-appendix/ia01_summary_d_1.tex`.
 
 ### Table 0b — Summary stats for $d=0$ firms (implemented)
 
 ```bash
 .venv/bin/python analysis/run.py --stage ia0b
-.venv/bin/python analysis/tests/test_ia_0b_summary_d_0.py
+.venv/bin/python analysis/tests/test_ia02_summary_d_0.py
 ```
 
 Uses **`d_orig == 0`**, Panels A–C (Panel C omits $d$ rows).
 
 **Validated:** 324 checks, tol 0.011.
 
-Writes `(removed mirror) output/tables/online-appendix/0b_summary_d_0.tex`.
+Writes `(removed mirror) output/tables/online-appendix/ia02_summary_d_0.tex`.
 
 ## Table map (remaining — stubs)
 
 | Manuscript | Stata | Module |
 |------------|-------|--------|
-| `1_sum_stats_d.tex` | A7 (manuscript format) | `tables/body/t01_summary_stats.py` ✅ |
-| `2_bond_stats.tex` | A6 | `tables/body/t02_bond_stats.py` ✅ |
-| `4_other_outcomes.tex` | A10 | `tables/body/t04_other_outcomes.py` ✅ (partial) |
-| `5_credit_ratings.tex` | A21 | `tables/body/t05_credit_ratings.py` ✅ (partial) |
-| `6_controls.tex` | A12 | `tables/body/t06_controls.py` ✅ |
-| `7_aggregate.tex` | A13 | `tables/body/t07_aggregate.py` ✅ |
+| `table2_summary_stats.tex` | A7 (manuscript format) | `tables/body/t02_summary_stats.py` ✅ |
+| `table3_bond_stats.tex` | A6 | `tables/body/t03_bond_stats.py` ✅ |
+| `table5_other_outcomes.tex` | A10 | `tables/body/t05_other_outcomes.py` ✅ (partial) |
+| `table6_credit_ratings.tex` | A21 | `tables/body/t06_credit_ratings.py` ✅ (partial) |
+| `table7_controls.tex` | A12 | `tables/body/t07_controls.py` ✅ |
+| `table8_aggregate.tex` | A13 | `tables/body/t08_aggregate.py` ✅ |
 | IA tables | A14–A21 | `tables/appendix/ia*.py` |
 
 ## Validation
