@@ -20,7 +20,7 @@ data/
     chars_annual.dta        1930 firm characteristics & betas (feeds IA.17)
     netincome.dta           net income series (feeds the A4 merge)
     figures/monthly_macro.csv   retired FRED cache (Figures 1-2 now build
-                            from versioned code/figures/data/macro_monthly.csv)
+                            from versioned code/figures/source-data/macro_monthly.csv)
     accounting_data.csv     hand-collected accounting panel (restored
                             2026-07-21 from "GKP Analysis Feb 2025/data/" —
                             the vintage Mete's A0 do-file cd's into;

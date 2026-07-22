@@ -3,7 +3,7 @@
 Tracks differences between **`code/`** (Python), the **published manuscript**
 (`manuscript/tables/`), and **Mete’s Stata pipeline** (formerly `code/mete/`, removed from the tree at d54b0c3; `archive/metes-tables/`, removed at ad2edf7 — retrieve with `git checkout ad2edf7 -- archive`).
 
-**Baseline data:** `data/A4_merged.dta` — the manuscript vintage (7,074 x 845), reproduced exactly by both Mete's `A4_merge.do` (git: `d54b0c3:code/legacy/mete/`) and the Python port `data/a4_merge.py` from the versioned A0-A3 intermediates (see D-016).
+**Baseline data:** `data/A4_merged.dta` — the manuscript vintage (7,074 x 845), reproduced exactly by both Mete's `A4_merge.do` (git: `d54b0c3:code/legacy/mete/`) and the Python port `dataprep/a4_merge.py` from the versioned A0-A3 intermediates (see D-016).
 
 **Last checked:** 2026-07-21 (full sweep on the manuscript-vintage panel; see D-016).
 
@@ -361,7 +361,7 @@ original figure's content before re-enabling the manuscript copy step.
 
 **RESOLVED 2026-07-18 (primary sources):** the figures are now fully
 reproducible from versioned primary-source data in
-`figures/data/macro_monthly.csv`:
+`figures/source-data/macro_monthly.csv`:
 
 - FX: monthly noon buying rates in New York (cents per pound / per franc)
   from Board of Governors, *Banking and Monetary Statistics, 1914-1941*,
@@ -409,7 +409,7 @@ provided Mete's Dropbox folders (untracked, repo root: `GKP Analysis Oct
 So there never was a missing data vintage: the old on-disk 6,768 x 831 A4
 was a deviant build (now `data/attic/A4_merged_6768x831_deviant.dta`), and
 the Python port had been tuned to reproduce the deviant file. Root causes
-of the deviation, all fixed in `data/a4_merge.py` (which now reproduces
+of the deviation, all fixed in `dataprep/a4_merge.py` (which now reproduces
 the manuscript panel exactly, to float32 storage precision):
 
 1. **Lags recomputed instead of using A0's stored lags.** A0 ships

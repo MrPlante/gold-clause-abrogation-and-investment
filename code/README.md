@@ -15,7 +15,7 @@ code/
 ├── event_study_pipeline.py  # Table 1, Figs 3–5, IA.2/IA.3, Table IA.20 (research DB)
 ├── sql/                # build script for gold_claude.crsp on researchdb
 ├── stata/              # do-files still in the production path (IA.19 exact SEs)
-├── data/               # A0–A4 data build (Stata A0_accounting … A4_merge)
+├── dataprep/           # A0–A4 panel construction (Stata A0_accounting … A4_merge)
 ├── lib/                # regressions, winsorization, LaTeX, validation
 ├── tables/
 │   ├── body/           # manuscript Tables 1–7

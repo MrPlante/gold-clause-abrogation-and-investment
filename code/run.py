@@ -61,7 +61,7 @@ def main(argv: list[str] | None = None) -> None:
     args = parser.parse_args(argv)
 
     if args.stage in ("data", "all"):
-        from data.build import build_all
+        from dataprep.build import build_all
 
         path = build_all(skip_raw=args.skip_raw)
         print(f"Built merged panel: {path}")

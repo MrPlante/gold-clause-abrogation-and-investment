@@ -5,11 +5,11 @@ from __future__ import annotations
 from pathlib import Path
 
 from config import A4_PATH, ACCOUNTING_CSV, GOLD_CLAUSES_XLSX
-from data.a0_accounting import build_accounting
-from data.a1_bonds import build_bond_data
-from data.a2_marcap import build_marcap
-from data.a3_dividend import build_dividend
-from data.a4_merge import build_merged
+from dataprep.a0_accounting import build_accounting
+from dataprep.a1_bonds import build_bond_data
+from dataprep.a2_marcap import build_marcap
+from dataprep.a3_dividend import build_dividend
+from dataprep.a4_merge import build_merged
 from lib.io import read_dta
 
 

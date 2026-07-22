@@ -17,7 +17,7 @@ import pandas as pd
 
 from config import MANUSCRIPT_BODY_FIGURES, REFACTOR_OUTPUT_FIGURES
 
-HICKMAN_CSV = Path(__file__).resolve().parent / "data" / "hickman_industrial_bonds.csv"
+HICKMAN_CSV = Path(__file__).resolve().parent / "source-data" / "hickman_industrial_bonds.csv"
 
 
 def build_hickman_issuance_plot(*, out_dir: Path | None = None) -> Path | None:

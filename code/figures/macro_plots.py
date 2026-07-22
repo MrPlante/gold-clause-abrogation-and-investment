@@ -1,6 +1,6 @@
 """Manuscript Figures 1-2: gold price vs exchange rates and inflation.
 
-Data: ``figures/data/macro_monthly.csv`` (versioned), monthly 12/1930-12/1936,
+Data: ``figures/source-data/macro_monthly.csv`` (versioned), monthly 12/1930-12/1936,
 in primary-source units. Indices (12/1932 = 1) are computed here.
 
 Provenance (assembled 2026-07-18, see DISCREPANCIES.md D-015):
@@ -54,7 +54,7 @@ import pandas as pd
 
 from config import MANUSCRIPT_BODY_FIGURES, REFACTOR_OUTPUT_FIGURES
 
-MONTHLY_MACRO_CSV = Path(__file__).resolve().parent / "data" / "macro_monthly.csv"
+MONTHLY_MACRO_CSV = Path(__file__).resolve().parent / "source-data" / "macro_monthly.csv"
 
 MATLAB_BLUE = (0.00, 0.45, 0.74)
 # The original MATLAB figures used the default orange (#D95319) while the
