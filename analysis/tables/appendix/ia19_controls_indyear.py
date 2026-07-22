@@ -1,7 +1,7 @@
 """
 IA Table 17 — Table 6 columns 2-10 re-estimated with industry-year FEs.
 
-Reads Stata output from output/tables/t6_indyear_robustness.csv (produced by
+Reads Stata output from output/tables/ia19_controls_indyear.csv (produced by
 code/stata/ia19_controls_indyear.do) and renders a landscape LaTeX table.
 """
 
@@ -17,7 +17,7 @@ from config import MANUSCRIPT_APPENDIX_TABLES
 
 CSV_PATH = (
     Path(__file__).resolve().parents[3]
-    / "output" / "tables" / "t6_indyear_robustness.csv"
+    / "output" / "tables" / "ia19_controls_indyear.csv"
 )
 
 MANUSCRIPT_APPENDIX = (

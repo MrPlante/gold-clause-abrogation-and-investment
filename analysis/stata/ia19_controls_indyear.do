@@ -13,7 +13,7 @@ use "`data_dir'/firm_year_panel.dta", clear
 
 local out_dir "/project7/splante/git/gold-clause-abrogation-and-investment/output/tables"
 cap mkdir "`out_dir'"
-local outcsv "`out_dir'/t6_indyear_robustness.csv"
+local outcsv "`out_dir'/ia19_controls_indyear.csv"
 
 * Write CSV header
 file open fh using "`outcsv'", write replace
