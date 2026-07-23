@@ -1,3 +1,9 @@
+# Exact replication environment (Python 3.13.5): pip freeze of the venv the
+# manuscript's tables and figures were verified byte-identical under.
+# Install: bash setup.sh
+#
+# Direct dependencies (everything else is transitive):
+#   pandas, numpy, pyfixest, matplotlib, openpyxl, pyreadstat
 asttokens==3.0.1
 babel==2.18.0
 commonmark==0.9.2
