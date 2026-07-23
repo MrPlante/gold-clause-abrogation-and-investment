@@ -1,4 +1,4 @@
-"""Validation tests for Table 2."""
+"""Validation tests for Table 3 (bond statistics)."""
 
 from __future__ import annotations
 
@@ -14,7 +14,7 @@ from tables.models.bond_stats import compute_bond_stats  # noqa: E402
 from tables.body.t03_bond_stats import validate_against_manuscript  # noqa: E402
 
 
-def test_table2_matches_manuscript():
+def test_table3_matches_manuscript():
     rows = compute_bond_stats()
     checks = validate_against_manuscript(rows)
     tol = max(COEF_TOLERANCE, 0.011)
@@ -24,3 +24,8 @@ def test_table2_matches_manuscript():
         if abs(expected - actual) > tol
     ]
     assert not failures, failures
+
+
+if __name__ == "__main__":
+    test_table3_matches_manuscript()
+    print("OK test_table3.py")

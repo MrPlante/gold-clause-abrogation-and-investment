@@ -1,4 +1,4 @@
-"""Validation tests for Internet Appendix Table 4 (below-median tilde-d summary stats)."""
+"""Validation tests for Table IA.6 (below-median tilde-d summary stats)."""
 
 from __future__ import annotations
 
@@ -19,7 +19,7 @@ from tables.appendix.ia06_summary_I_smalld import (  # noqa: E402
 )
 
 
-def test_ia06_summary_I_smalld_matches_manuscript():
+def test_ia06_matches_manuscript():
     panels = compute_distribution_table(load_panel(), VARIABLES_BY_PANEL)
     checks = validate_against_manuscript(panels)
     failures = [
@@ -32,3 +32,8 @@ def test_ia06_summary_I_smalld_matches_manuscript():
         )
     ]
     assert not failures, failures
+
+
+if __name__ == "__main__":
+    test_ia06_matches_manuscript()
+    print("OK test_ia06_summary_I_smalld.py")

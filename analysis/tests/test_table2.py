@@ -1,4 +1,4 @@
-"""Coefficient validation tests for Table 1."""
+"""Coefficient validation tests for Table 2 (summary statistics)."""
 
 from __future__ import annotations
 
@@ -17,7 +17,7 @@ from tables.body.t02_summary_stats import (  # noqa: E402
 )
 
 
-def test_table1_matches_manuscript():
+def test_table2_matches_manuscript():
     df = load_panel()
     panels = compute_all_panels(df)
     checks = validate_against_manuscript(panels)
@@ -28,3 +28,8 @@ def test_table1_matches_manuscript():
         if abs(expected - actual) > tol
     ]
     assert not failures, failures[:10]
+
+
+if __name__ == "__main__":
+    test_table2_matches_manuscript()
+    print("OK test_table2.py")

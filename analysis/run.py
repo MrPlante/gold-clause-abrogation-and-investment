@@ -13,8 +13,19 @@ from __future__ import annotations
 
 import argparse
 import importlib
+import os
 import sys
 from pathlib import Path
+
+# Byte-determinism pins (required by tests/check_byte_identity.py):
+# SOURCE_DATE_EPOCH fixes the PDF CreationDate matplotlib embeds;
+# single-threaded BLAS fixes the floating-point summation order, whose
+# load-dependent last-ulp jitter is visible in PDF coordinate strings
+# (tables round to 3-4 decimals and never see it). Must be set before
+# numpy is first imported.
+os.environ.setdefault("SOURCE_DATE_EPOCH", "0")
+os.environ.setdefault("OPENBLAS_NUM_THREADS", "1")
+os.environ.setdefault("MKL_NUM_THREADS", "1")
 
 ANALYSIS_ROOT = Path(__file__).resolve().parent
 REPO_ROOT = ANALYSIS_ROOT.parent

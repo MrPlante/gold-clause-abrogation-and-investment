@@ -1,4 +1,4 @@
-"""Validation tests for Internet Appendix Table 0b."""
+"""Validation tests for Table IA.2 (summary stats, d = 0)."""
 
 from __future__ import annotations
 
@@ -27,3 +27,8 @@ def test_ia02_matches_manuscript():
         if abs(expected - actual) > TOL
     ]
     assert not failures, failures
+
+
+if __name__ == "__main__":
+    test_ia02_matches_manuscript()
+    print("OK test_ia02_summary_d_0.py")

@@ -47,10 +47,5 @@ extraction of the original manuscript figure: all 21 years agree within
 original TikZ-styled figure; the builder's matplotlib version has the same
 data but different styling.
 
-### Stata alternative (parallel trend)
-
-```bash
-bash analysis/stata/run_stata_do.sh analysis/stata/export_parallel_trend_figure.do
-```
-
-Writes `manuscript/figures/body/parallel_trend_plot_stata.pdf` for cross-check.
+The retired Stata cross-check for the parallel-trend figure
+(`export_parallel_trend_figure.do`) lives in git history.

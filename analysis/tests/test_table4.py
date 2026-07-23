@@ -1,4 +1,4 @@
-"""Coefficient validation tests for Table 3."""
+"""Coefficient validation tests for Table 4 (main investment panel)."""
 
 from __future__ import annotations
 
@@ -13,7 +13,7 @@ from config import COEF_TOLERANCE  # noqa: E402
 from tables.body.t04_investment import load_panel, run_models, validate_against_manuscript  # noqa: E402
 
 
-def test_table3_matches_manuscript():
+def test_table4_matches_manuscript():
     df = load_panel()
     models = run_models(df)
     checks = validate_against_manuscript(models)
@@ -23,3 +23,8 @@ def test_table3_matches_manuscript():
         if abs(expected - actual) > COEF_TOLERANCE
     ]
     assert not failures, failures
+
+
+if __name__ == "__main__":
+    test_table4_matches_manuscript()
+    print("OK test_table4.py")

@@ -1,4 +1,4 @@
-"""Validation tests for Internet Appendix Table 0 (tilde-d summary stats)."""
+"""Validation tests for Table IA.3 (tilde-d summary stats)."""
 
 from __future__ import annotations
 
@@ -17,7 +17,7 @@ from tables.appendix.ia03_sum_stats_tilde_d import (  # noqa: E402
 from tables.models.summary_stats import compute_tilde_d_panels  # noqa: E402
 
 
-def test_ia03_sum_stats_tilde_d_matches_manuscript():
+def test_ia03_matches_manuscript():
     panels = compute_tilde_d_panels(load_panel())
     checks = validate_against_manuscript(panels)
     failures = [
@@ -26,3 +26,8 @@ def test_ia03_sum_stats_tilde_d_matches_manuscript():
         if abs(expected - actual) > TOL
     ]
     assert not failures, failures
+
+
+if __name__ == "__main__":
+    test_ia03_matches_manuscript()
+    print("OK test_ia03_sum_stats_tilde_d.py")

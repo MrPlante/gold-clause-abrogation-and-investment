@@ -1,4 +1,4 @@
-"""Validation tests for Table 4."""
+"""Validation tests for Table 5 (other outcomes)."""
 
 from __future__ import annotations
 
@@ -17,7 +17,7 @@ from tables.body.t05_other_outcomes import (  # noqa: E402
 )
 
 
-def test_table4_matches_manuscript():
+def test_table5_matches_manuscript():
     models = run_models(load_panel())
     checks = validate_against_manuscript(models)
     failures = [
@@ -26,3 +26,8 @@ def test_table4_matches_manuscript():
         if abs(expected - actual) > COEF_TOLERANCE
     ]
     assert not failures, failures
+
+
+if __name__ == "__main__":
+    test_table5_matches_manuscript()
+    print("OK test_table5.py")
