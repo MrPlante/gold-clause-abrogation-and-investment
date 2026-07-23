@@ -71,9 +71,8 @@ COLUMN_HEADERS_ROW2 = [
 
 TABLE_NOTES = (
     r"\scriptsize{\textit{Notes.} This table replicates columns 2--10 of Table~\ref{tab:controls} "
-    r"replacing firm and year fixed effects (\texttt{absorb(permno year)}) with firm and "
-    r"industry-year fixed effects (\texttt{absorb(permno sic2\_year)}), so that all specifications "
-    r"share the same fixed-effect structure as column 1 of Table~\ref{tab:controls}. The "
+    r"replacing the year fixed effects with SIC2 industry-year fixed effects, so that all "
+    r"specifications share the same fixed-effect structure as column 1 of Table~\ref{tab:controls}. The "
     r"characteristic-interacted controls are identical to those in Table~\ref{tab:controls}: "
     r"column (1) includes all 1930 firm characteristics interacted with year indicators as linear "
     r"controls; columns (2)--(9) each include decile dummies for a single 1930 characteristic "
