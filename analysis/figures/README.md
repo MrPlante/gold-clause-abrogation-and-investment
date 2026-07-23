@@ -10,7 +10,6 @@ From the repository root:
 
 Outputs are written to:
 
-- `(removed mirror) output/figure/`
 - `manuscript/figures/body/`
 - `manuscript/figures/online-appendix/` (existing static files only)
 

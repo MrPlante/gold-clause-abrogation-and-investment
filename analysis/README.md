@@ -84,7 +84,7 @@ offline — no researchdb access, no Kerberos. Part of `--stage all`.
 Table IA.19's coefficients and SEs come from
 `stata/ia19_controls_indyear.do` (run:
 `stata-mp -b do analysis/stata/ia19_controls_indyear.do` from the repo
-root), which writes `output/tables/ia19_controls_indyear.csv`;
+root), which writes `analysis/stata/ia19_controls_indyear.csv`;
 `--stage ia19` renders that CSV to LaTeX. Deliberate: the portfolio-decile +
 industry×year specs crash the in-process Stata vcov bridge, and pure-Python
 CGM SEs are close but not identical to reghdfe. The CSV is versioned, so

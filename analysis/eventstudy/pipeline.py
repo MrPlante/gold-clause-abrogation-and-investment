@@ -21,17 +21,12 @@ Series (daily, July 1, 1926 - December 31, 1945):
 Fixed exposure d is the paper's treatment variable from firm_year_panel.dta (constant
 within firm from 1931 on: 1930 gold-clause debt / 1930 LT liabilities).
 
-Outputs:
-  output/figures/event-study/event1_joint_resolution.{pdf,png}   (4 series)
-  output/figures/event-study/event2_weak_showing.{pdf,png}       (4 series)
-  output/figures/event-study/event3_sc_decision.{pdf,png}        (4 series)
-  output/figures/event-study/event_overview.{pdf,png}            (2 series, IA)
-  output/figures/event-study/event_overview_4series.{pdf,png}    (internal)
-  output/figures/event-study/midterm_1934.{pdf,png}              (4 series, IA)
-  manuscript/figures/body/event{1,2,3}_*.pdf                     (copies)
-  manuscript/figures/online-appendix/{event_overview,midterm_1934}.pdf
-  manuscript/tables/body/table1_event_study.tex                       (Table 1)
-  manuscript/tables/online-appendix/ia20_other_events.tex          (IA table)
+Outputs (written directly into manuscript/):
+  manuscript/figures/body/event{1,2,3}_*.pdf                  (Figures 3-5)
+  manuscript/figures/online-appendix/event_overview.pdf       (Figure IA.2)
+  manuscript/figures/online-appendix/midterm_1934.pdf         (Figure IA.3)
+  manuscript/tables/body/table1_event_study.tex               (Table 1)
+  manuscript/tables/online-appendix/ia20_other_events.tex     (Table IA.20)
 
 Fully offline: no researchdb access needed. The dump is regenerated from
 the DB (Kerberos + psql) only when the underlying CRSP extract changes;
@@ -39,7 +34,6 @@ pipeline/sql/build_gold_claude_crsp.sql documents that build.
 """
 
 import os
-import shutil
 from datetime import datetime
 from pathlib import Path
 
@@ -54,7 +48,6 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[2]  # repo root, independent of cwd
 PANEL_PATH = ROOT / "data" / "processed" / "firm_year_panel.dta"
 CRSP_DAILY_PATH = ROOT / "data" / "raw" / "crsp_daily.dta"
-OUT_DIR = ROOT / "output" / "figures" / "event-study"
 MS_BODY_FIG = ROOT / "manuscript" / "figures" / "body"
 MS_IA_FIG = ROOT / "manuscript" / "figures" / "online-appendix"
 MS_BODY_TAB = ROOT / "manuscript" / "tables" / "body"
@@ -262,14 +255,10 @@ def make_overview(s, series):
     return fig
 
 
-def save(fig, stem, copy_to=None):
-    for ext in ("pdf", "png"):
-        path = os.path.join(OUT_DIR, f"{stem}.{ext}")
-        fig.savefig(path, bbox_inches="tight", dpi=150)
-        print(f"Saved: {path}")
-    if copy_to:
-        shutil.copy(os.path.join(OUT_DIR, f"{stem}.pdf"), copy_to)
-        print(f"Copied: {stem}.pdf -> {copy_to}")
+def save(fig, stem, target_dir):
+    path = os.path.join(target_dir, f"{stem}.pdf")
+    fig.savefig(path, bbox_inches="tight", dpi=150)
+    print(f"Saved: {path}")
     plt.close(fig)
 
 
@@ -410,7 +399,6 @@ Event & Dates & Days & Market & Gold & No gold & Diff. & $t$ \\
 # ---------------------------------------------------------------- main
 
 def main():
-    os.makedirs(OUT_DIR, exist_ok=True)
     gold, zero = load_exposure()
     print(f"Exposure: {len(gold)} firms d>0, {len(zero)} firms d=0")
 
@@ -429,7 +417,6 @@ def main():
     save(make_event_zoom(s, SERIES4, MIDTERM[1], MIDTERM[2], MIDTERM[3]),
          MIDTERM[0], MS_IA_FIG)
     save(make_overview(s, SERIES2), "event_overview", MS_IA_FIG)
-    save(make_overview(s, SERIES4), "event_overview_4series")
 
     # tables
     write_event_table(s, capm, gold, zero)

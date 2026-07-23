@@ -33,7 +33,6 @@ Memory files live in:
 | `analysis/` | Everything that produces paper numbers: table/figure builders (pyfixest), event study, Stata do-files |
 | *(no `code/legacy/`)* | The original Stata pipeline (`mete/`) and retired scripts (`seb/`) were removed from the tree; retrieve with `git checkout d54b0c3 -- code/legacy` |
 | `data/` | Panel data (not versioned; see `data/README.md`): sources in `raw/`, the panel at `processed/firm_year_panel.dta` (retired attic material now in `tmp/2026-07/21/attic/`) |
-| `output/` | Generated tables and figures (versioned) |
 
 ---
 
@@ -239,9 +238,10 @@ response).
    builders + stages) to match. Always check the full appendix sequence
    after adding a table.
 
-6. **`output/` is versioned; `data/` is not.** Never commit anything under
-   `data/`. Generated artefacts (CSVs, PDFs, LaTeX tables) go in `output/` or
-   `manuscript/tables/` and are committed.
+6. **Nothing under `data/` is ever committed.** Generated paper objects go
+   directly into `manuscript/tables/` and `manuscript/figures/` and are
+   committed (the former `output/` mirror tree was removed 2026-07-22; the
+   IA.19 Stata CSV now lives at `analysis/stata/ia19_controls_indyear.csv`).
 
 7. **Collinearity in all_controls_linear + sic2_year.** The after-period
    interactions of all 8 characteristics are dropped for perfect collinearity
