@@ -27,8 +27,6 @@ MANUSCRIPT_APPENDIX_TABLES = REPO_ROOT / "manuscript" / "tables" / "online-appen
 MANUSCRIPT_BODY_FIGURES = REPO_ROOT / "manuscript" / "figures" / "body"
 MANUSCRIPT_APPENDIX_FIGURES = REPO_ROOT / "manuscript" / "figures" / "online-appendix"
 
-# Non-manuscript artifacts (event-study PNGs, exploratory variants, IA.19 CSV)
-
 SAMPLE_YEARS = (1926, 1940)
 OMITTED_YEAR = 1932
 WINSOR_BY = "year"

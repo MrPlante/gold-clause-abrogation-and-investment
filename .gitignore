@@ -9,7 +9,7 @@ texput.log
 manuscript/build/
 rfs-responses/**/build/
 
-# Stata batch logs (run_stata_do.sh creates logs/stata/ on demand)
+# Stata batch logs
 logs/
 
 # Python

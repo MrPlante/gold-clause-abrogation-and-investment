@@ -44,7 +44,7 @@ analysis/
 │   └── pipeline.py     #   production event-study pipeline (fully offline:
 │                       #   reads data/raw/crsp_daily.dta)
 ├── figures/            # Figures 1-2, 6, 7 (+ source-data/ transcriptions)
-├── stata/              # reghdfe vcov bridge + IA.19 do-file + runner
+├── stata/              # reghdfe vcov bridge + IA.19 do-file/CSV
 └── lib/                # regressions, vcov, latex
 ```
 
