@@ -17,7 +17,8 @@ import os
 import sys
 from pathlib import Path
 
-# Byte-determinism pins (required by tests/check_byte_identity.py):
+# Byte-determinism pins (rerunning a stage must regenerate its shipped
+# output byte-identically):
 # SOURCE_DATE_EPOCH fixes the PDF CreationDate matplotlib embeds;
 # single-threaded BLAS fixes the floating-point summation order, whose
 # load-dependent last-ulp jitter is visible in PDF coordinate strings
@@ -85,18 +86,11 @@ def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description="Gold clause analysis stages")
     parser.add_argument(
         "--stage",
-        choices=[*STAGES, "compare", "all"],
+        choices=[*STAGES, "all"],
         default="table4",
         help="Stage to run (names match manuscript labels; default: table4)",
     )
     args = parser.parse_args(argv)
-
-    if args.stage == "compare":
-        import subprocess
-
-        script = ANALYSIS_ROOT / "compare" / "run_compare.sh"
-        result = subprocess.run(["bash", str(script)], cwd=REPO_ROOT, check=False)
-        raise SystemExit(result.returncode)
 
     for stage, module in STAGES.items():
         if args.stage == "all" and stage in FROZEN:
