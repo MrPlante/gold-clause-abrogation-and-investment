@@ -23,8 +23,7 @@ within firm from 1931 on: 1930 gold-clause debt / 1930 LT liabilities).
 
 Outputs (written directly into manuscript/):
   manuscript/figures/body/event{1,2,3}_*.pdf                  (Figures 3-5)
-  manuscript/figures/online-appendix/event_overview.pdf       (Figure IA.2)
-  manuscript/figures/online-appendix/midterm_1934.pdf         (Figure IA.3)
+  manuscript/figures/online-appendix/midterm_1934.pdf         (Figure IA.2)
   manuscript/tables/body/table1_event_study.tex               (Table 1)
   manuscript/tables/online-appendix/ia20_other_events.tex     (Table IA.20)
 
@@ -62,8 +61,6 @@ SERIES4 = [
     ("ew_yes", "Gold exposure (equal-wt.)",       "#2ca02c", "-.", 2.0),
     ("dwret",  "Gold exposure (exposure-wt.)",    "#1f77b4", "--", 2.2),
 ]
-SERIES2 = [SERIES4[0], SERIES4[3]]
-
 # (stem, title, window start, window end) -- Table 1 / manuscript figures
 EVENTS = [
     ("event1_joint_resolution", "Joint Resolution (May 26–June 6, 1933)",
@@ -87,15 +84,6 @@ JR_ROW = ("Joint Resolution (reference)", "May 26--June 6, 1933", "1933-05-26", 
 
 MIDTERM = ("midterm_1934", "Cert. Grant & Midterm Election (Nov. 5–7, 1934)",
            datetime(1934, 11, 5), datetime(1934, 11, 7))
-
-OVERVIEW_ANCHOR = datetime(1933, 3, 31)
-OVERVIEW_END = datetime(1935, 4, 30)
-OVERVIEW_EVENTS = [
-    (datetime(1933, 4, 19), "Gold standard suspended", 0.55),
-    (datetime(1933, 6, 5),  "Joint Resolution (abrogation)", 0.98),
-    (datetime(1935, 1, 8),  "Supreme Court oral arguments", 0.55),
-    (datetime(1935, 2, 18), "Supreme Court decision", 0.98),
-]
 
 
 # ---------------------------------------------------------------- series
@@ -220,41 +208,6 @@ def make_event_zoom(s, series, title, start, end):
     return fig
 
 
-def make_overview(s, series):
-    win = s.loc[OVERVIEW_ANCHOR:OVERVIEW_END]
-    cum = (1 + win.fillna(0)).cumprod()
-    cum = cum / cum.iloc[0] * 100
-
-    fig, ax = plt.subplots(figsize=(9.5, 4.8))
-    for col, label, color, ls, lw in series:
-        ax.plot(cum.index, cum[col], color=color, linestyle=ls,
-                linewidth=lw, label=label, zorder=3)
-
-    ax.set_yscale("log")
-    yticks = [80, 100, 150, 200, 300, 400, 600]
-    ax.set_yticks(yticks)
-    ax.set_yticklabels([f"{v - 100:+d}%" for v in yticks])
-    ax.yaxis.set_minor_formatter(plt.NullFormatter())
-    ax.axhline(100, color="black", linewidth=0.6, zorder=1)
-
-    ymin, ymax = ax.get_ylim()
-    for date, label, hfrac in OVERVIEW_EVENTS:
-        ax.axvline(date, color="#999999", linewidth=0.9, linestyle="--", zorder=2)
-        ax.text(date, ymin * (ymax / ymin) ** hfrac, "  " + label, rotation=90,
-                va="top", ha="left", fontsize=7.5, color="#555555", zorder=4)
-
-    ax.set_ylabel("Cumulative return (log scale)", fontsize=10)
-    ax.xaxis.set_major_locator(mdates.MonthLocator(interval=2))
-    ax.xaxis.set_major_formatter(mdates.DateFormatter("%b %Y"))
-    plt.xticks(rotation=30, ha="right", fontsize=8)
-    ax.tick_params(axis="y", labelsize=8)
-    ax.spines["top"].set_visible(False)
-    ax.spines["right"].set_visible(False)
-    ax.legend(fontsize=8.5, frameon=False, loc="upper left")
-    fig.tight_layout()
-    return fig
-
-
 def save(fig, stem, target_dir):
     path = os.path.join(target_dir, f"{stem}.pdf")
     fig.savefig(path, bbox_inches="tight", dpi=150)
@@ -371,7 +324,6 @@ def main():
         save(make_event_zoom(s, SERIES4, title, start, end), stem, MS_BODY_FIG)
     save(make_event_zoom(s, SERIES4, MIDTERM[1], MIDTERM[2], MIDTERM[3]),
          MIDTERM[0], MS_IA_FIG)
-    save(make_overview(s, SERIES2), "event_overview", MS_IA_FIG)
 
     # tables
     write_event_table(s, gold, zero)
