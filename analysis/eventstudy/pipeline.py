@@ -53,7 +53,6 @@ MS_BODY_TAB = ROOT / "manuscript" / "tables" / "body"
 MS_IA_TAB = ROOT / "manuscript" / "tables" / "online-appendix"
 
 SAMPLE_START, SAMPLE_END = "1926-07-01", "1945-12-31"
-EST_START, EST_END = "1926-07-01", "1933-04-25"   # pre-abrogation window
 
 SERIES4 = [
     ("mkt",    "Market (CRSP value-weighted)",    "#333333", "-",  1.8),
@@ -132,17 +131,6 @@ def build_series(gold, zero):
     return df.sort_index().astype(float)
 
 
-def estimate_capm(s):
-    """alpha/beta of each portfolio vs mkt over the pre-abrogation window."""
-    est = s.loc[EST_START:EST_END].dropna()
-    out = {}
-    for col in ("ew_yes", "ew_no", "dwret"):
-        b, a = np.polyfit(est.mkt, est[col], 1)
-        out[col] = (a, b)
-    out["n_days"] = len(est)
-    return out
-
-
 def window_days(s, start, n):
     return s.loc[start:].head(n)
 
@@ -151,22 +139,13 @@ def raw_ret(s, start, n, col):
     return (1 + window_days(s, start, n)[col]).prod() - 1
 
 
-def car(s, capm, start, n, col):
-    a, b = capm[col]
-    w = window_days(s, start, n)
-    return (w[col] - a - b * w.mkt).sum()
-
-
-def diff_car_se(s, capm):
-    """Daily SD of the abnormal ew_yes-ew_no differential in calm 1934."""
+def diff_se(s):
+    """Daily SD of the raw ew_yes-ew_no differential in calm 1934."""
     cal = s.loc["1934-01-01":"1934-12-31"]
     cal = cal[~(("1934-06-18" <= cal.index.strftime("%Y-%m-%d"))
                 & (cal.index.strftime("%Y-%m-%d") <= "1934-07-10"))]
     cal = cal[cal.index.month != 11]
-    ay, by = capm["ew_yes"]
-    an, bn = capm["ew_no"]
-    d = (cal.ew_yes - ay - by * cal.mkt) - (cal.ew_no - an - bn * cal.mkt)
-    return d.std(ddof=1)
+    return (cal.ew_yes - cal.ew_no).std(ddof=1)
 
 
 # ---------------------------------------------------------------- figures
@@ -255,7 +234,7 @@ Event & Dates & Days & Market & No gold & Gold & Gold \\
 \end{{tabular}}
 \end{{adjustbox}}
 \medskip
-\begin{{minipage}}{{0.95\textwidth}}\footnotesize \textit{{Notes.}} This table reports cumulative raw returns, the compound product of daily returns over each event window. All series are constructed from CRSP daily returns. The market return is value-weighted using previous-day market capitalization and reproduces the CRSP value-weighted index. Firms are classified by the gold-clause exposure measure $d_j$ defined in equation~(\ref{{eq:d}}): the two equal-weighted portfolios contain firms with $d_j>0$ ({len(gold)} firms) and $d_j=0$ ({len(zero)} firms), respectively, and the exposure-weighted portfolio weights firms with $d_j>0$ by $w_j = d_j/\sum_k d_k$. Portfolios are rebalanced daily over firms with a return on each day. For the Supreme Court decision (February~18), the benchmark is the close of February~16---the last trading day before the ruling, as the exchange was open on Saturdays. The modest decline during the oral arguments (January~8--10) understates the market anxiety triggered by the government's weak showing: press coverage in the following days drove sustained selling, with Liberty Bond prices reaching their highest level since 1917 by January~13 \citep{{NYT1935}}. Internet Appendix Section~\ref{{sec:ia_other_events}} examines the remaining legal and political events of the litigation period in a CAPM cumulative-abnormal-return framework.\end{{minipage}}
+\begin{{minipage}}{{0.95\textwidth}}\footnotesize \textit{{Notes.}} This table reports cumulative raw returns, the compound product of daily returns over each event window. All series are constructed from CRSP daily returns. The market return is value-weighted using previous-day market capitalization and reproduces the CRSP value-weighted index. Firms are classified by the gold-clause exposure measure $d_j$ defined in equation~(\ref{{eq:d}}): the two equal-weighted portfolios contain firms with $d_j>0$ ({len(gold)} firms) and $d_j=0$ ({len(zero)} firms), respectively, and the exposure-weighted portfolio weights firms with $d_j>0$ by $w_j = d_j/\sum_k d_k$. Portfolios are rebalanced daily over firms with a return on each day. For the Supreme Court decision (February~18), the benchmark is the close of February~16---the last trading day before the ruling, as the exchange was open on Saturdays. The modest decline during the oral arguments (January~8--10) understates the market anxiety triggered by the government's weak showing: press coverage in the following days drove sustained selling, with Liberty Bond prices reaching their highest level since 1917 by January~13 \citep{{NYT1935}}. Internet Appendix Section~\ref{{sec:ia_other_events}} examines the remaining legal and political events of the litigation period and reports the corresponding return differentials.\end{{minipage}}
 \end{{table}}
 """
     path = os.path.join(MS_BODY_TAB, "table1_event_study.tex")
@@ -264,16 +243,16 @@ Event & Dates & Days & Market & No gold & Gold & Gold \\
     print(f"Saved: {path}")
 
 
-def write_other_events_table(s, capm, sd_daily):
+def write_other_events_table(s, sd_daily):
     rows = []
     for label, dates, start, nd in OTHER_EVENTS + [JR_ROW]:
         m = raw_ret(s, start, nd, "mkt")
-        cy = car(s, capm, start, nd, "ew_yes")
-        cn = car(s, capm, start, nd, "ew_no")
-        diff = cy - cn
+        ry = raw_ret(s, start, nd, "ew_yes")
+        rn = raw_ret(s, start, nd, "ew_no")
+        diff = ry - rn
         t = diff / (sd_daily * np.sqrt(nd))
-        rows.append(f"{label} & {dates} & {nd} & {fmt_pct(m)} & {fmt_pct(cy)} & "
-                    f"{fmt_pct(cn)} & {fmt_pct(diff)} & {t:.1f} \\\\")
+        rows.append(f"{label} & {dates} & {nd} & {fmt_pct(m)} & {fmt_pct(ry)} & "
+                    f"{fmt_pct(rn)} & {fmt_pct(diff)} & {t:.1f} \\\\")
     body = chr(10).join(rows[:-1]) + chr(10) + r"\midrule" + chr(10) + rows[-1]
 
     tex = rf"""\begin{{table}}[htbp]
@@ -286,7 +265,7 @@ def write_other_events_table(s, capm, sd_daily):
 \begin{{adjustbox}}{{max width=\textwidth}}
 \begin{{tabular}}{{lccccccc}}
 \toprule
- & & & & \multicolumn{{2}}{{c}}{{CAR (equal-wt.)}} & & \\
+ & & & & \multicolumn{{2}}{{c}}{{Cumulative return (equal-wt.)}} & & \\
 \cmidrule(lr){{5-6}}
 Event & Dates & Days & Market & Gold & No gold & Diff. & $t$ \\
 \midrule
@@ -295,7 +274,7 @@ Event & Dates & Days & Market & Gold & No gold & Diff. & $t$ \\
 \end{{tabular}}
 \end{{adjustbox}}
 \medskip
-\begin{{minipage}}{{0.95\textwidth}}\footnotesize \textit{{Notes.}} This table reports stock market responses to the intermediate legal and political events of the gold clause litigation, using the same portfolio construction as Table~\ref{{tab:event_study}} in the main text. The cumulative abnormal return (CAR) is the sum of daily abnormal returns $\hat{{\varepsilon}}_t = r_t - \hat{{\alpha}} - \hat{{\beta}}\, r_{{m,t}}$, where $\hat{{\alpha}}$ and $\hat{{\beta}}$ are estimated by OLS on the pre-abrogation period (July~1, 1926--April~25, 1933; {capm['n_days']:,} trading days); the estimated betas are {capm['ew_yes'][1]:.2f} for the gold-exposed and {capm['ew_no'][1]:.2f} for the non-exposed equal-weighted portfolio, with the same estimation window used for all events. ``Diff.''\ is the difference between the cumulative abnormal returns of the gold-exposed and non-exposed equal-weighted portfolios. The $t$-statistic scales this difference by $\hat\sigma\sqrt{{h}}$, where $h$ is the number of trading days in the window and $\hat\sigma = {sd_daily*100:.2f}$ percentage points is the standard deviation of the daily abnormal-return differential over calm trading days in 1934 (excluding the event windows in this table). The Irving Trust hearing (May~22--24, 1933) was the first court hearing on the enforceability of gold clauses. \textit{{In re Missouri Pacific}} (E.D.~Mo., June~20, 1934) was the first federal ruling upholding the constitutionality of the Joint Resolution; the New York Court of Appeals affirmed \textit{{Norman v.\ Baltimore \& Ohio R.~Co.}} on July~3, 1934. Certiorari was granted in \textit{{Norman}} on October~8, 1934 and in \textit{{United States v.\ Bankers Trust Co.}} on November~5, 1934; the New York Stock Exchange was closed on November~6, 1934 for the midterm election, so the November window mixes the certiorari grant with the election result. The Joint Resolution window from Table~\ref{{tab:event_study}} is repeated for reference.\end{{minipage}}
+\begin{{minipage}}{{0.95\textwidth}}\footnotesize \textit{{Notes.}} This table reports stock market responses to the intermediate legal and political events of the gold clause litigation, using the same portfolio construction as Table~\ref{{tab:event_study}} in the main text. Returns are cumulative raw returns, the compound product of daily returns over each event window. ``Diff.''\ is the difference between the cumulative returns of the gold-exposed and non-exposed equal-weighted portfolios. The $t$-statistic scales this difference by $\hat\sigma\sqrt{{h}}$, where $h$ is the number of trading days in the window and $\hat\sigma = {sd_daily*100:.2f}$ percentage points is the standard deviation of the daily return differential between the two portfolios over calm trading days in 1934 (excluding the event windows in this table). The Irving Trust hearing (May~22--24, 1933) was the first court hearing on the enforceability of gold clauses. \textit{{In re Missouri Pacific}} (E.D.~Mo., June~20, 1934) was the first federal ruling upholding the constitutionality of the Joint Resolution; the New York Court of Appeals affirmed \textit{{Norman v.\ Baltimore \& Ohio R.~Co.}} on July~3, 1934. Certiorari was granted in \textit{{Norman}} on October~8, 1934 and in \textit{{United States v.\ Bankers Trust Co.}} on November~5, 1934; the New York Stock Exchange was closed on November~6, 1934 for the midterm election, so the November window mixes the certiorari grant with the election result. The Joint Resolution window from Table~\ref{{tab:event_study}} is repeated for reference.\end{{minipage}}
 \end{{table}}
 """
     path = os.path.join(MS_IA_TAB, "ia20_other_events.tex")
@@ -313,11 +292,8 @@ def main():
     s = build_series(gold, zero)
     print(f"Series: {len(s)} trading days ({s.index[0].date()} to {s.index[-1].date()})")
 
-    capm = estimate_capm(s)
-    sd_daily = diff_car_se(s, capm)
-    print(f"Estimation window: {capm['n_days']} days; betas: "
-          f"ew_yes {capm['ew_yes'][1]:.3f}, ew_no {capm['ew_no'][1]:.3f}, "
-          f"dwret {capm['dwret'][1]:.3f}; calm-1934 daily diff SD {sd_daily*100:.2f}pp")
+    sd_daily = diff_se(s)
+    print(f"calm-1934 daily raw diff SD {sd_daily*100:.2f}pp")
 
     # figures
     for stem, title, start, end in EVENTS:
@@ -327,7 +303,7 @@ def main():
 
     # tables
     write_event_table(s, gold, zero)
-    write_other_events_table(s, capm, sd_daily)
+    write_other_events_table(s, sd_daily)
 
     # ---------------- numbers for the text -----------------
     print("\n=== NUMBERS FOR TEXT ===")
@@ -335,13 +311,11 @@ def main():
         st = start.strftime("%Y-%m-%d")
         nd = len(s.loc[start:end])
         raw = {c: raw_ret(s, st, nd, c) for c in ("mkt", "ew_no", "ew_yes", "dwret")}
-        cars = {c: car(s, capm, st, nd, c) for c in ("ew_no", "ew_yes", "dwret")}
-        diff = cars["ew_yes"] - cars["ew_no"]
+        diff = raw["ew_yes"] - raw["ew_no"]
         t = diff / (sd_daily * np.sqrt(nd))
         print(f"{title} [{nd}d]: raw mkt {raw['mkt']*100:+.2f} no {raw['ew_no']*100:+.2f} "
               f"yes {raw['ew_yes']*100:+.2f} dw {raw['dwret']*100:+.2f} | "
-              f"CAR no {cars['ew_no']*100:+.2f} yes {cars['ew_yes']*100:+.2f} "
-              f"dw {cars['dwret']*100:+.2f} | diff {diff*100:+.2f} (t {t:+.1f})")
+              f"diff {diff*100:+.2f} (t {t:+.1f})")
     # oral-arguments aftermath (for section 3 / response letter)
     for lbl, st, nd in [("Jan 11-17, 1935 aftermath", "1935-01-11", 6),
                         ("Jan 8-17, 1935 cumulative", "1935-01-08", 9)]:
@@ -351,10 +325,10 @@ def main():
               f"no {raw_ret(s, st, nd, 'ew_no')*100:+.2f}")
     for label, dates, start, nd in OTHER_EVENTS:
         m = raw_ret(s, start, nd, "mkt")
-        cy, cn = car(s, capm, start, nd, "ew_yes"), car(s, capm, start, nd, "ew_no")
-        t = (cy - cn) / (sd_daily * np.sqrt(nd))
-        print(f"{label}: mkt {m*100:+.2f} CARyes {cy*100:+.2f} CARno {cn*100:+.2f} "
-              f"diff {(cy-cn)*100:+.2f} (t {t:+.1f})")
+        ry, rn = raw_ret(s, start, nd, "ew_yes"), raw_ret(s, start, nd, "ew_no")
+        t = (ry - rn) / (sd_daily * np.sqrt(nd))
+        print(f"{label}: mkt {m*100:+.2f} yes {ry*100:+.2f} no {rn*100:+.2f} "
+              f"diff {(ry-rn)*100:+.2f} (t {t:+.1f})")
 
 
 if __name__ == "__main__":
