@@ -268,31 +268,21 @@ def fmt_pct(x, dec=1):
     return f"{x*100:+.{dec}f}\\%"
 
 
-def write_event_table(s, capm, gold, zero):
+def write_event_table(s, gold, zero):
     ev = []
     for stem, _, start, end in EVENTS:
         w = s.loc[start:end]
         ev.append((start, end, len(w)))
 
-    est = s.loc[EST_START:EST_END].dropna()
-    full = s.dropna()
-    n_days = len(full)
-
-    rows_a, rows_b = [], []
+    rows_a = []
     meta = [("Joint Resolution", "May 26--June 6, 1933"),
             ("Supreme Court oral arguments", "Jan.~8--10, 1935"),
             ("Supreme Court decision", "Feb.~18, 1935")]
     for (label, dates), (start, end, nd) in zip(meta, ev):
         st = start.strftime("%Y-%m-%d")
         raw = [raw_ret(s, st, nd, c) for c in ("mkt", "ew_no", "ew_yes", "dwret")]
-        cars = [car(s, capm, st, nd, c) for c in ("ew_no", "ew_yes", "dwret")]
         rows_a.append(f"{label} & {dates} & {nd} & " +
                       " & ".join(fmt_pct(r) for r in raw) + r" \\")
-        rows_b.append(f"{label} & {dates} & {nd} & " +
-                      " & ".join(fmt_pct(c) for c in cars) + r" \\")
-
-    stats = {c: (full[c].mean() * 100, full[c].std(ddof=1) * 100)
-             for c in ("mkt", "ew_no", "ew_yes", "dwret")}
 
     tex = rf"""\begin{{table}}[htbp]
 \centering
@@ -300,8 +290,6 @@ def write_event_table(s, capm, gold, zero):
 \label{{tab:event_study}}
 \small
 \setlength{{\tabcolsep}}{{4pt}}
-\medskip
-\textit{{Panel A: Cumulative raw returns over event windows}}
 \medskip
 \begin{{adjustbox}}{{max width=\textwidth}}
 \begin{{tabular}}{{lcccccc}}
@@ -314,40 +302,7 @@ Event & Dates & Days & Market & No gold & Gold & Gold \\
 \end{{tabular}}
 \end{{adjustbox}}
 \medskip
-
-\textit{{Panel B: CAPM cumulative abnormal returns}}
-\medskip
-\begin{{adjustbox}}{{max width=\textwidth}}
-\begin{{tabular}}{{lccccc}}
-\toprule
-Event & Dates & Days & No gold & Gold & Gold \\
- & & & (equal-wt.) & (equal-wt.) & (exposure-wt.) \\
-\midrule
-{chr(10).join(rows_b)}
-\bottomrule
-\end{{tabular}}
-\end{{adjustbox}}
-\medskip
-
-\textit{{Panel C: Daily return summary statistics}}
-\medskip
-\begin{{adjustbox}}{{max width=\textwidth}}
-\begin{{tabular}}{{lcccc}}
-\toprule
- & Market & No gold & Gold & Gold \\
- & & (equal-wt.) & (equal-wt.) & (exposure-wt.) \\
-\midrule
-Mean daily return (\%) & {stats['mkt'][0]:.3f} & {stats['ew_no'][0]:.3f} & {stats['ew_yes'][0]:.3f} & {stats['dwret'][0]:.3f} \\
-Std.~deviation (\%)    & {stats['mkt'][1]:.3f} & {stats['ew_no'][1]:.3f} & {stats['ew_yes'][1]:.3f} & {stats['dwret'][1]:.3f} \\
-Pre-abrogation $\hat\beta$ & --- & {capm['ew_no'][1]:.2f} & {capm['ew_yes'][1]:.2f} & {capm['dwret'][1]:.2f} \\
-Trading days            & \multicolumn{{4}}{{c}}{{{n_days:,}}} \\
-Sample period           & \multicolumn{{4}}{{c}}{{July 1926--December 1945}} \\
-Firms (gold-clause / no gold clause) & \multicolumn{{4}}{{c}}{{{len(gold)} / {len(zero)}}} \\
-\bottomrule
-\end{{tabular}}
-\end{{adjustbox}}
-\medskip
-\begin{{minipage}}{{0.95\textwidth}}\footnotesize \textit{{Notes.}} All series are constructed from CRSP daily returns. The market return is value-weighted using previous-day market capitalization and reproduces the CRSP value-weighted index. Firms are classified by the gold-clause exposure measure $d_j$ defined in equation~(\ref{{eq:d}}): the two equal-weighted portfolios contain firms with $d_j>0$ and $d_j=0$, respectively, and the exposure-weighted portfolio weights firms with $d_j>0$ by $w_j = d_j/\sum_k d_k$. Portfolios are rebalanced daily over firms with a return on each day. Raw returns are the compound product of daily returns over each event window. The cumulative abnormal return (CAR) in Panel~B is the sum of daily abnormal returns $\hat{{\varepsilon}}_t = r_t - \hat{{\alpha}} - \hat{{\beta}}\, r_{{m,t}}$, where $\hat{{\alpha}}$ and $\hat{{\beta}}$ are estimated by OLS on the full pre-abrogation period (July~1, 1926--April~25, 1933; {capm['n_days']:,} trading days); the estimated betas are reported in Panel~C. The same estimation window is used for all three events. For the Supreme Court decision (February~18), the benchmark is the close of February~16---the last trading day before the ruling, as the exchange was open on Saturdays. The modest decline during the oral arguments (January~8--10) understates the market anxiety triggered by the government's weak showing: press coverage in the following days drove sustained selling, with Liberty Bond prices reaching their highest level since 1917 by January~13 \citep{{NYT1935}}. Internet Appendix Section~\ref{{sec:ia_other_events}} examines the remaining legal and political events of the litigation period. Panel~C statistics cover the full sample.\end{{minipage}}
+\begin{{minipage}}{{0.95\textwidth}}\footnotesize \textit{{Notes.}} This table reports cumulative raw returns, the compound product of daily returns over each event window. All series are constructed from CRSP daily returns. The market return is value-weighted using previous-day market capitalization and reproduces the CRSP value-weighted index. Firms are classified by the gold-clause exposure measure $d_j$ defined in equation~(\ref{{eq:d}}): the two equal-weighted portfolios contain firms with $d_j>0$ ({len(gold)} firms) and $d_j=0$ ({len(zero)} firms), respectively, and the exposure-weighted portfolio weights firms with $d_j>0$ by $w_j = d_j/\sum_k d_k$. Portfolios are rebalanced daily over firms with a return on each day. For the Supreme Court decision (February~18), the benchmark is the close of February~16---the last trading day before the ruling, as the exchange was open on Saturdays. The modest decline during the oral arguments (January~8--10) understates the market anxiety triggered by the government's weak showing: press coverage in the following days drove sustained selling, with Liberty Bond prices reaching their highest level since 1917 by January~13 \citep{{NYT1935}}. Internet Appendix Section~\ref{{sec:ia_other_events}} examines the remaining legal and political events of the litigation period in a CAPM cumulative-abnormal-return framework.\end{{minipage}}
 \end{{table}}
 """
     path = os.path.join(MS_BODY_TAB, "table1_event_study.tex")
@@ -387,7 +342,7 @@ Event & Dates & Days & Market & Gold & No gold & Diff. & $t$ \\
 \end{{tabular}}
 \end{{adjustbox}}
 \medskip
-\begin{{minipage}}{{0.95\textwidth}}\footnotesize \textit{{Notes.}} This table reports stock market responses to the intermediate legal and political events of the gold clause litigation, using the same portfolios, estimation window, and CAR methodology as Table~\ref{{tab:event_study}} in the main text. ``Diff.''\ is the difference between the cumulative abnormal returns of the gold-exposed and non-exposed equal-weighted portfolios. The $t$-statistic scales this difference by $\hat\sigma\sqrt{{h}}$, where $h$ is the number of trading days in the window and $\hat\sigma = {sd_daily*100:.2f}$ percentage points is the standard deviation of the daily abnormal-return differential over calm trading days in 1934 (excluding the event windows in this table). The Irving Trust hearing (May~22--24, 1933) was the first court hearing on the enforceability of gold clauses. \textit{{In re Missouri Pacific}} (E.D.~Mo., June~20, 1934) was the first federal ruling upholding the constitutionality of the Joint Resolution; the New York Court of Appeals affirmed \textit{{Norman v.\ Baltimore \& Ohio R.~Co.}} on July~3, 1934. Certiorari was granted in \textit{{Norman}} on October~8, 1934 and in \textit{{United States v.\ Bankers Trust Co.}} on November~5, 1934; the New York Stock Exchange was closed on November~6, 1934 for the midterm election, so the November window mixes the certiorari grant with the election result. The Joint Resolution window from Table~\ref{{tab:event_study}} is repeated for reference.\end{{minipage}}
+\begin{{minipage}}{{0.95\textwidth}}\footnotesize \textit{{Notes.}} This table reports stock market responses to the intermediate legal and political events of the gold clause litigation, using the same portfolio construction as Table~\ref{{tab:event_study}} in the main text. The cumulative abnormal return (CAR) is the sum of daily abnormal returns $\hat{{\varepsilon}}_t = r_t - \hat{{\alpha}} - \hat{{\beta}}\, r_{{m,t}}$, where $\hat{{\alpha}}$ and $\hat{{\beta}}$ are estimated by OLS on the pre-abrogation period (July~1, 1926--April~25, 1933; {capm['n_days']:,} trading days); the estimated betas are {capm['ew_yes'][1]:.2f} for the gold-exposed and {capm['ew_no'][1]:.2f} for the non-exposed equal-weighted portfolio, with the same estimation window used for all events. ``Diff.''\ is the difference between the cumulative abnormal returns of the gold-exposed and non-exposed equal-weighted portfolios. The $t$-statistic scales this difference by $\hat\sigma\sqrt{{h}}$, where $h$ is the number of trading days in the window and $\hat\sigma = {sd_daily*100:.2f}$ percentage points is the standard deviation of the daily abnormal-return differential over calm trading days in 1934 (excluding the event windows in this table). The Irving Trust hearing (May~22--24, 1933) was the first court hearing on the enforceability of gold clauses. \textit{{In re Missouri Pacific}} (E.D.~Mo., June~20, 1934) was the first federal ruling upholding the constitutionality of the Joint Resolution; the New York Court of Appeals affirmed \textit{{Norman v.\ Baltimore \& Ohio R.~Co.}} on July~3, 1934. Certiorari was granted in \textit{{Norman}} on October~8, 1934 and in \textit{{United States v.\ Bankers Trust Co.}} on November~5, 1934; the New York Stock Exchange was closed on November~6, 1934 for the midterm election, so the November window mixes the certiorari grant with the election result. The Joint Resolution window from Table~\ref{{tab:event_study}} is repeated for reference.\end{{minipage}}
 \end{{table}}
 """
     path = os.path.join(MS_IA_TAB, "ia20_other_events.tex")
@@ -419,7 +374,7 @@ def main():
     save(make_overview(s, SERIES2), "event_overview", MS_IA_FIG)
 
     # tables
-    write_event_table(s, capm, gold, zero)
+    write_event_table(s, gold, zero)
     write_other_events_table(s, capm, sd_daily)
 
     # ---------------- numbers for the text -----------------
