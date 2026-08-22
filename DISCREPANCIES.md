@@ -805,3 +805,12 @@ states documented before: T4 cols 4-5 samples and col 7 published SEs
 that spec; no star changes), IA.12 col 1 sample (18 cells), IA.13
 (5 cells), IA.17 col 1 sample and a few decile-column last digits
 (15 cells), T2 Panel C, T8's two 0.01pp cells.
+
+**D-023 addendum (2026-08-22) — Table 4 col 7 published SEs declared an
+error, matching closed.** Per Sebastien: the round-1 column-7 standard
+errors (e.g. 1926: 0.177, 1934: 0.084), which match no reproducible
+reghdfe engine (D-017/D-019), are an error in the original version of the
+paper, not a target. The version(5) SEs shipped since commit 6fcb909 are
+the paper's numbers (1926: 0.129**, 1928: 0.038***, 1933: 0.061 n.s.,
+1934: 0.038 n.s.; placebo conclusions unchanged). No further attempts to
+recover the published column-7 SEs.
