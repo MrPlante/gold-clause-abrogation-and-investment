@@ -868,3 +868,22 @@ sample restriction with the paper's d-tilde, the note and the Section 5
 passage were rewritten to describe the actual specification (header
 "With LT Lia." -> "Fixed claims"). Still open: col 4 (N = 5,572, also
 IA.12 col 1) - ask Mete for the corresponding block of the same script.
+
+**D-023 addendum 5 (2026-08-22) — the col-5 code was in the repo all
+along; col 4 confirmed absent.** Mete's Slack snippet is verbatim
+A4_merge.do lines 197-213 (git d54b0c3), including the "this is mainly
+the problem" comment - an old inline annotation, not a fresh remark. The
+panel's stored `dalt` column (pipeline/merge.py, the A4_merge port) is
+bit-identical to the snippet's construction, so t04 now uses the panel
+column directly (the temporary reimplementation was removed; outputs
+byte-unchanged). In hindsight the legacy A9_inv_results.do's numbered
+blocks are SIX of the SEVEN published Table 4 columns - (1) classic,
+(2) d, (3) dalt = the mislabeled "With LT Lia." col 5, (4) bd, (5) ps,
+(6) no-maturity - which July's audit dismissed as "a 6-column later
+variant" because the dalt block wasn't recognized as col 5. Column 4
+("no redemption", N = 5,572, = IA.12 col 1) is in NO legacy do-file:
+A16's repay flag is exactly the shipped reconstruction (N = 5,918), and
+a fresh grid scan of alternative-exposure repay flags (d/dalt/dd/ddalt/
+d_orig/dalt_orig/fd_amount x to-zero/any-decline x five windows) finds
+nothing at N = 5,572 (closest 5,422). The col-4 code must come from
+Mete's RFS-submission-era script.

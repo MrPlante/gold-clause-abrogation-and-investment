@@ -25,8 +25,9 @@ class ColumnSpec:
     sample: str = "full"
 
 
-# Tolerance for the adopted cols 4-5 sample reconstructions vs the published
-# table (exact definitions lost with the RFS-era A9 do-file; D-016).
+# Tolerance for the adopted col-4 sample reconstruction vs the published
+# table (the exact definition is lost with the RFS-era script; D-016/D-017.
+# Col 5 was recovered exactly - D-023 addendum 2/4).
 RECON_TOLERANCE = 0.02
 
 
@@ -51,48 +52,17 @@ def _exclude_repurchasers(df: pd.DataFrame) -> pd.Series:
     return ~df["permno"].isin(bad)
 
 
-def _fixed_claims_exposure(df: pd.DataFrame) -> pd.Series:
-    """Column 5 exposure level: Mete's original code (recovered 2026-08-22,
-    D-023 addendum 2), which reproduces the published column exactly
-    (d = -0.057, N = 6,048). Gold-clause debt over total fixed claims
-    (bank debt + bonds + preferred stock) measured in 1930, capped at one,
-    zero for firms whose average fixed claims are positive but whose 1930
-    ratio is undefined; for pre-1930 years the LEVEL is the lagged share of
-    bonds in fixed claims (mirroring the pre-1930 construction of the
-    baseline d in pipeline/merge.py - a firm-constant level would be
-    absorbed by the firm fixed effects). The year interactions use the
-    panel's firm-constant dalt_year_* columns."""
-    import numpy as np
-
-    out = df.sort_values(["permno", "year"])
-
-    def _stata_div(num: pd.Series, den: pd.Series) -> pd.Series:
-        r = num / den
-        return r.replace([np.inf, -np.inf], np.nan)  # Stata: x/0 is missing
-
-    ratio30 = _stata_div(
-        out["fd_amount_g1"], out["bd_bs"] + out["cb_bs"] + out["ps_bs"]
-    ).where(out["year"] == 1930)
-    ratio30 = ratio30.clip(upper=1.0)
-
-    def _pos_or_missing(col: str) -> pd.Series:
-        m = out.groupby("permno")[col].transform("mean")
-        return m.gt(0) | m.isna()  # Stata: missing > 0 is TRUE
-
-    m_any = _pos_or_missing("bd_bs") | _pos_or_missing("cb_bs") | _pos_or_missing("ps_bs")
-    ratio30 = ratio30.where(~(ratio30.isna() & m_any & (out["year"] == 1930)), 0.0)
-    level = ratio30.groupby(out["permno"]).transform("mean")
-    pre = _stata_div(out["Lcb_bs"], out["Lbd_bs"] + out["Lcb_bs"] + out["Lps_bs"])
-    pre = pre.where(~(pre.isna() & m_any), 0.0)
-    level = level.where(out["year"] > 1930, pre)
-    return level.reindex(df.index)
-
-
 def run_models(df: pd.DataFrame) -> dict[str, object]:
+    # Column 5 uses the panel's dalt exposure and dalt_year_* interactions
+    # exactly as stored by pipeline/merge.py (the port of A4_merge.do lines
+    # 197-213): gold-clause debt over bank debt + bonds + preferred stock in
+    # 1930, capped at one, with the pre-1930 level set to the lagged bond
+    # share of fixed claims (a firm-constant level would be absorbed by the
+    # firm FE). This is Mete's original column-5 specification, recovered
+    # 2026-08-22 (D-023 addendum 2/4); it reproduces the published column.
     prepared = df.copy()
     prepared["no_maturity"] = (prepared["ind_3134_max"] != 1).astype(int)
     prepared["no_redemption"] = _exclude_repurchasers(df).astype(int).to_numpy()
-    prepared["dalt"] = _fixed_claims_exposure(df).to_numpy()
 
     years = [y for y in range(SAMPLE_YEARS[0], SAMPLE_YEARS[1] + 1) if y != OMITTED_YEAR]
     cols = (["permno", "year", "var_inv_rate", "var_Q", "d", "ps", "bd", "dalt",
@@ -188,7 +158,7 @@ def main() -> dict[str, object]:
     else:
         print(
             f"Table 3 — strict checks passed (tol={COEF_TOLERANCE}); "
-            f"cols 4-5 reconstructions within {RECON_TOLERANCE} of published"
+            f"col 4 reconstruction within {RECON_TOLERANCE} of published"
         )
     for name, exp, act in checks:
         print(f"  {name}: {act:.4f} (expected {exp:.4f})")
