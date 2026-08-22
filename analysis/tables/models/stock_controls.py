@@ -5,7 +5,7 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 from config import CHARS_ANNUAL_PATH
-from lib.regressions import feols_clustered
+from lib.stata_reg import stata_models
 from tables.models.controls import CORE_TERMS, LINEAR_CONTROLS
 from pipeline.lib.io import read_dta
 
@@ -86,16 +86,7 @@ def run_models(df: pd.DataFrame) -> dict[str, object]:
     for var in ANN_VARS:
         ann_linear.extend([f"{var}_before", f"{var}_1933", f"{var}_1934", f"{var}_after"])
 
-    models: dict[str, object] = {}
-    models["linear_ann"] = feols_clustered(
-        _formula(LINEAR_CONTROLS + ann_linear + CORE_TERMS),
-        panel,
-    )
-
-    for key, prefix in DECILE_PREFIX_BY_MODEL.items():
-        models[key] = feols_clustered(
-            _formula(ann_portfolio_cols(prefix) + CORE_TERMS),
-            panel,
-        )
-
-    return models
+    cols = (["permno", "year", "var_inv_rate"]
+            + CORE_TERMS + LINEAR_CONTROLS + ann_linear
+            + [c for prefix in DECILE_PREFIX_BY_MODEL.values() for c in ann_portfolio_cols(prefix)])
+    return stata_models("ia17_stock_controls", panel[cols])

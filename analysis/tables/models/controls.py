@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from lib.regressions import feols_clustered
+from lib.stata_reg import stata_models
 
 MODEL_ORDER = [
     "industry_year_fe",
@@ -77,22 +77,7 @@ def _formula(dep: str, rhs: list[str], fe: str) -> str:
 
 
 def run_models(df) -> dict[str, object]:
-    models: dict[str, object] = {}
-
-    models["industry_year_fe"] = feols_clustered(
-        _formula("var_inv_rate", CORE_TERMS, "permno + sic2_year"),
-        df,
-    )
-
-    models["all_controls_linear"] = feols_clustered(
-        _formula("var_inv_rate", LINEAR_CONTROLS + CORE_TERMS, "permno + year"),
-        df,
-    )
-
-    for key, prefix in PORTFOLIO_PREFIX_BY_MODEL.items():
-        models[key] = feols_clustered(
-            _formula("var_inv_rate", portfolio_cols(prefix) + CORE_TERMS, "permno + year"),
-            df,
-        )
-
-    return models
+    cols = (["permno", "year", "sic2_year", "var_inv_rate"]
+            + CORE_TERMS + LINEAR_CONTROLS
+            + [c for prefix in PORTFOLIO_PREFIX_BY_MODEL.values() for c in portfolio_cols(prefix)])
+    return stata_models("table7_controls", df[cols])

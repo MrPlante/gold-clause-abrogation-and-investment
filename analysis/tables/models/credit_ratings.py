@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pandas as pd
 from config import OMITTED_YEAR, SAMPLE_YEARS
-from lib.regressions import feols_clustered
+from lib.stata_reg import stata_models
 from pipeline.lib.winsor import winsorize_by
 
 MODEL_ORDER = ["var_inv_rate", "payout", "cashrat"]
@@ -54,7 +54,10 @@ def ratings_formula(dep: str) -> str:
 
 def run_models(df: pd.DataFrame) -> dict[str, object]:
     panel = prepare_panel(df)
-    return {
-        key: feols_clustered(ratings_formula(DEP_BY_MODEL[key]), panel)
-        for key in MODEL_ORDER
-    }
+    lo, hi = SAMPLE_YEARS
+    years = [y for y in range(lo, hi + 1) if y != OMITTED_YEAR]
+    cols = (["permno", "year", "var_inv_rate", "payout", "cashrat", "var_Q", "d", "d_Low"]
+            + [f"d_year_{y}" for y in years]
+            + [f"year_{y}_Low" for y in years]
+            + [f"d_year_{y}_Low" for y in years])
+    return stata_models("table6_credit_ratings", panel[cols])

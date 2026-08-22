@@ -3,14 +3,12 @@
 from __future__ import annotations
 
 import pandas as pd
-import pyfixest as pf
 
 from config import MONTHLY_DIV_PATH, OMITTED_YEAR
 from pipeline.lib.io import read_dta
 from lib.regressions import year_interaction_cols
+from lib.stata_reg import stata_models
 from pipeline.lib.winsor import PANDAS_QUANTILE_METHOD, winsorize_by
-
-CLUSTER_PERMNO = {"CRV1": "permno"}
 
 MODEL_ORDER = ["annual", "Q1", "Q2", "Q3", "Q4"]
 
@@ -58,22 +56,20 @@ def _overhang_formula(dep: str) -> str:
 
 def run_models(qreg: pd.DataFrame | None = None) -> dict[str, object]:
     panel = build_quarterly_panel() if qreg is None else qreg
-    annual = panel.drop_duplicates(subset=["permno", "year_int"]).copy()
     dy = year_interaction_cols("d")
+    keep = ["permno", "year_int", "depv", "var_Q", "d", "mkey"] + dy
 
-    models: dict[str, object] = {}
-    with __import__("warnings").catch_warnings():
-        __import__("warnings").simplefilter("ignore")
-        models["annual"] = pf.feols(
-            _overhang_formula("cashrat"),
-            data=annual,
-            vcov=CLUSTER_PERMNO,
-        )
-        fml_q = f"cashrat_q ~ var_Q + d + {' + '.join(dy)} | permno + year_int"
-        for q in (1, 2, 3, 4):
-            qdf = panel.loc[panel["quarter"] == q].drop_duplicates(
-                subset=["permno", "year_int"]
-            )
-            models[f"Q{q}"] = pf.feols(fml_q, data=qdf, vcov=CLUSTER_PERMNO)
+    frames = []
+    annual = panel.drop_duplicates(subset=["permno", "year_int"]).copy()
+    annual["depv"] = annual["cashrat"]
+    annual["mkey"] = "annual"
+    frames.append(annual[keep])
+    for q in (1, 2, 3, 4):
+        qdf = panel.loc[panel["quarter"] == q].drop_duplicates(
+            subset=["permno", "year_int"]
+        ).copy()
+        qdf["depv"] = qdf["cashrat_q"]
+        qdf["mkey"] = f"Q{q}"
+        frames.append(qdf[keep])
 
-    return models
+    return stata_models("ia14_quarterly_div", pd.concat(frames))

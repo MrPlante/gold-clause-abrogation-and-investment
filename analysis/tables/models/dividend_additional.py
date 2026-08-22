@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import numpy as np
 import pandas as pd
-from lib.regressions import feols_clustered
+from lib.stata_reg import stata_models
 from pipeline.lib.winsor import winsorize_by
 
 MODEL_ORDER = [
@@ -63,7 +63,6 @@ def _bucket_formula(dep: str, q_control: str = "var_Q") -> str:
 
 def run_models(df: pd.DataFrame) -> dict[str, object]:
     panel = prepare_panel(df)
-    models: dict[str, object] = {}
 
     specs = [
         # Stata `if L.cashrat > 0`: missing lag counts as TRUE (missing = +inf)
@@ -78,9 +77,12 @@ def run_models(df: pd.DataFrame) -> dict[str, object]:
         ("divshare", "divshare", slice(None)),
     ]
 
+    keep = ["permno", "year", "var_Q", "Q", "d", "d_1933", "d_1934", "d_After", "depv", "mkey"]
+    frames = []
     for key, dep, sample in specs:
-        sub = panel if sample is slice(None) else panel.loc[sample]
-        q = "Q" if key == "divshare" else "var_Q"
-        models[key] = feols_clustered(_bucket_formula(dep, q_control=q), sub)
+        sub = (panel if sample is slice(None) else panel.loc[sample]).copy()
+        sub["depv"] = sub[dep]
+        sub["mkey"] = key
+        frames.append(sub[keep])
 
-    return models
+    return stata_models("ia15_dividend_additional", pd.concat(frames))

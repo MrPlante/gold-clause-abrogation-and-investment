@@ -4,7 +4,8 @@ from __future__ import annotations
 
 import pandas as pd
 
-from lib.regressions import fit_overhang
+from config import OMITTED_YEAR, SAMPLE_YEARS
+from lib.stata_reg import stata_models
 from pipeline.lib.winsor import winsorize_by
 
 # Column keys match manuscript order.
@@ -60,7 +61,8 @@ def prepare_panel(df: pd.DataFrame) -> pd.DataFrame:
 
 def run_models(df: pd.DataFrame) -> dict[str, object]:
     panel = prepare_panel(df)
-    return {
-        key: fit_overhang(panel, exposure="d", dep=DEP_BY_MODEL[key])
-        for key in MODEL_ORDER
-    }
+    years = [y for y in range(SAMPLE_YEARS[0], SAMPLE_YEARS[1] + 1) if y != OMITTED_YEAR]
+    cols = (["permno", "year", "var_Q", "d"]
+            + sorted(set(DEP_BY_MODEL.values()))
+            + [f"d_year_{y}" for y in years])
+    return stata_models("table5_other_outcomes", panel[cols])

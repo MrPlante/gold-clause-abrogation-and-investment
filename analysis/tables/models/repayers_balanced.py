@@ -3,10 +3,9 @@
 from __future__ import annotations
 
 import pandas as pd
-import pyfixest as pf
 
-from config import CLUSTER
-from lib.regressions import fit_overhang
+from config import OMITTED_YEAR, SAMPLE_YEARS
+from lib.stata_reg import stata_models
 
 COLUMN_ORDER = ["omit_repayer", "balanced_1930_36", "balanced_1929_40", "balanced_1926_40"]
 
@@ -53,4 +52,10 @@ def sample_masks(df: pd.DataFrame) -> dict[str, pd.Series]:
 
 def run_models(df: pd.DataFrame) -> dict[str, object]:
     masks = sample_masks(df)
-    return {key: fit_overhang(df, sample=masks[key]) for key in COLUMN_ORDER}
+    prepared = df.copy()
+    for key in COLUMN_ORDER:
+        prepared[key] = masks[key].astype(int).to_numpy()
+    years = [y for y in range(SAMPLE_YEARS[0], SAMPLE_YEARS[1] + 1) if y != OMITTED_YEAR]
+    cols = (["permno", "year", "var_inv_rate", "var_Q", "d"]
+            + [f"d_year_{y}" for y in years] + COLUMN_ORDER)
+    return stata_models("ia12_repayers_balanced", prepared[cols])

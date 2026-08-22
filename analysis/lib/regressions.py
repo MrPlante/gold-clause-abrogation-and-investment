@@ -5,7 +5,7 @@ from __future__ import annotations
 import pyfixest as pf
 
 from config import CLUSTER, OMITTED_YEAR, SAMPLE_YEARS
-from lib.vcov import _parse_formula, attach_cluster_vcov
+from lib.vcov import attach_cluster_vcov
 
 
 def year_interaction_cols(prefix: str = "d") -> list[str]:
@@ -29,12 +29,14 @@ def feols_clustered(
     winsor_cols: list[str] | None = None,
     **kwargs,
 ):
-    """``feols`` with two-way cluster vcov aligned to Stata ``reghdfe`` when possible."""
+    """``feols`` with two-way cluster vcov and the CGM PSD fix.
+
+    Coefficient-only consumers (Table 8 / IA.18 aggregations, Figure 6's
+    predecessor). Printed standard errors come from the reghdfe do-files in
+    ``analysis/stata/`` instead (lib.stata_reg; DISCREPANCIES.md D-023).
+    """
     model = pf.feols(fml, data=data, vcov=CLUSTER, **kwargs)
-    dep, rhs = _parse_formula(fml)
-    return attach_cluster_vcov(
-        model, data, dep=dep, rhs=rhs, winsor_cols=winsor_cols
-    )
+    return attach_cluster_vcov(model)
 
 
 def fit_overhang(

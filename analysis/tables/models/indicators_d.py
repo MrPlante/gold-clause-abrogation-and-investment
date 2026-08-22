@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import numpy as np
 import pandas as pd
-from lib.regressions import feols_clustered
+from lib.stata_reg import stata_models
 
 MODEL_ORDER = ["dind", "dind2", "dind3"]
 
@@ -100,8 +100,6 @@ def _formula(col: int) -> str:
 
 def run_models(df: pd.DataFrame) -> dict[str, object]:
     panel = prepare_indicators(df)
-    return {
-        "dind": feols_clustered(_formula(1), panel),
-        "dind2": feols_clustered(_formula(2), panel),
-        "dind3": feols_clustered(_formula(3), panel),
-    }
+    cols = (["permno", "year", "var_inv_rate", "var_Q", "dind", "dind2", "dind3"]
+            + [f"{p}_{s}" for p in ("d", "d2", "d3") for s in ("1933", "1934", "After")])
+    return stata_models("ia16_indicators_d", panel[cols])

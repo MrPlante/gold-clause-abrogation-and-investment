@@ -36,7 +36,9 @@ UNRELIABLE_PERMNO = {11631, 15093, 15528, 24475, 13063, 14250}
 
 CLUSTER = {"CRV1": "permno + year"}
 
-# Two-way cluster SEs: set USE_STATA_VCOV=1 to match reghdfe exactly (requires stata-mp).
-# Default "auto" uses Stata when /usr/local/stata/stata-mp exists; else CGM fix on pyfixest vcov.
+# Printed standard errors come from the per-table reghdfe do-files in
+# analysis/stata/ (batch stata-mp, engine version pinned per table; see
+# DISCREPANCIES.md D-023). The former USE_STATA_VCOV in-process bridge is gone;
+# pyfixest (CGM fix) remains only for coefficient-only consumers (T8/IA.18).
 
 COEF_TOLERANCE = 0.001

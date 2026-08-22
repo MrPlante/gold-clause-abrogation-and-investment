@@ -12,9 +12,9 @@ from pathlib import Path
 
 import pandas as pd
 
-from config import PANEL_PATH, COEF_TOLERANCE, MANUSCRIPT_BODY_TABLES, MANUSCRIPT_BODY_TABLES
+from config import PANEL_PATH, COEF_TOLERANCE, MANUSCRIPT_BODY_TABLES, OMITTED_YEAR, SAMPLE_YEARS
 from pipeline.lib.io import read_dta
-from lib.regressions import fit_classic, fit_overhang
+from lib.stata_reg import stata_models
 from tables.render.regression_table import render_table3_latex
 
 
@@ -62,37 +62,16 @@ def _positive_ltl_sample(df: pd.DataFrame) -> pd.Series:
 
 
 def run_models(df: pd.DataFrame) -> dict[str, object]:
-    specs = [
-        ("classic", None),
-        ("overhang", "full"),
-        ("no_maturity", "no_maturity"),
-        ("no_redemption", "no_redemption"),
-        ("positive_ltl", "positive_ltl"),
-        ("pref_shares", "pref"),
-        ("bank_debt", "bank"),
-    ]
-    models = {}
+    prepared = df.copy()
+    prepared["no_maturity"] = (prepared["ind_3134_max"] != 1).astype(int)
+    prepared["no_redemption"] = _exclude_repurchasers(df).astype(int).to_numpy()
+    prepared["positive_ltl"] = _positive_ltl_sample(df).astype(int).to_numpy()
 
-    models["classic"] = fit_classic(df)
-
-    models["overhang"] = fit_overhang(df, exposure="d")
-
-    models["no_maturity"] = fit_overhang(
-        df, exposure="d", sample=df["ind_3134_max"] != 1
-    )
-
-    models["no_redemption"] = fit_overhang(
-        df, exposure="d", sample=_exclude_repurchasers(df)
-    )
-
-    models["positive_ltl"] = fit_overhang(
-        df, exposure="d", sample=_positive_ltl_sample(df)
-    )
-
-    models["pref_shares"] = fit_overhang(df, exposure="ps")
-    models["bank_debt"] = fit_overhang(df, exposure="bd")
-
-    return models
+    years = [y for y in range(SAMPLE_YEARS[0], SAMPLE_YEARS[1] + 1) if y != OMITTED_YEAR]
+    cols = (["permno", "year", "var_inv_rate", "var_Q", "d", "ps", "bd",
+             "no_maturity", "no_redemption", "positive_ltl"]
+            + [f"{stem}_year_{y}" for stem in ("d", "ps", "bd") for y in years])
+    return stata_models("table4_investment", prepared[cols])
 
 
 def validate_against_manuscript(models: dict[str, object]) -> list[tuple[str, float, float]]:

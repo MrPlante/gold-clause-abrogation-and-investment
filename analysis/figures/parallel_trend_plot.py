@@ -9,14 +9,12 @@ import numpy as np
 import pandas as pd
 
 from config import (
-    PANEL_PATH,
     MANUSCRIPT_BODY_FIGURES,
     OMITTED_YEAR,
     SAMPLE_YEARS,
 )
-from pipeline.lib.io import read_dta
 from lib.latex import model_se
-from lib.regressions import fit_overhang
+from lib.stata_reg import read_results
 
 
 def _interaction_frame(model) -> pd.DataFrame:
@@ -75,9 +73,13 @@ def build_parallel_trend_plot(
     *,
     out_dir: Path | None = None,
 ) -> tuple[Path, pd.DataFrame]:
-    """Fit Table 3 col. 2 spec and write ``parallel_trend_plot.pdf``."""
-    panel = read_dta(PANEL_PATH) if df is None else df
-    model = fit_overhang(panel, exposure="d", dep="var_inv_rate")
+    """Plot the Table 4 col. 2 estimates and write ``parallel_trend_plot.pdf``.
+
+    Reads the committed Stata results CSV for Table 4 (overhang column), so
+    the figure's points and confidence bands are the table's numbers by
+    construction. Run --stage table4 first if the estimates changed.
+    """
+    model = read_results("table4_investment")["overhang"]
     frame = _interaction_frame(model)
 
     dest = Path(out_dir) if out_dir is not None else MANUSCRIPT_BODY_FIGURES

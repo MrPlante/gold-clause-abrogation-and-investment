@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import pandas as pd
-from lib.regressions import feols_clustered
+from lib.stata_reg import stata_models
 
 MODEL_ORDER = ["small", "lowcash", "highlev"]
 
@@ -117,8 +117,12 @@ def constraints_formula(ind: str) -> str:
 
 def run_models(df: pd.DataFrame) -> dict[str, object]:
     panel = prepare_firm_indicators(df)
-    models: dict[str, object] = {}
+    keep = ["permno", "year", "var_inv_rate", "var_Q", "d", "d_x", "y1933_x",
+            "y1934_x", "After_x", "d_1933", "d_1934", "d_After",
+            "d_1933_x", "d_1934_x", "d_After_x"]
+    frames = []
     for key, ind in INDICATOR_BY_MODEL.items():
-        sub = _add_interactions(panel, ind)
-        models[key] = feols_clustered(constraints_formula(ind), sub)
-    return models
+        sub = _add_interactions(panel, ind)[keep].copy()
+        sub["mkey"] = key
+        frames.append(sub)
+    return stata_models("ia13_constraints", pd.concat(frames))
