@@ -56,10 +56,9 @@ Run any builder after changing it.
 ### Stata regression layer (all printed SEs)
 
 Every table that prints reghdfe standard errors (T4-T7, IA.9,
-IA.12-IA.17) is estimated by a per-table batch do-file in
-`analysis/stata/`, with the reghdfe engine pinned per table (`version(5)`
-for the tables whose submitted vintage is the legacy engine; see
-DISCREPANCIES.md D-023). The Python builder prepares the input panel
+IA.12-IA.17, IA.19) is estimated by a per-table batch do-file in
+`analysis/stata/`, all under reghdfe's legacy `version(5)` engine — one
+engine everywhere (DISCREPANCIES.md D-023, addendum 3). The Python builder prepares the input panel
 (`data/processed/stata_inputs/`, gitignored), invokes `stata-mp -b`, reads
 back `analysis/stata/results/<stage>_results.csv` (committed), and renders
 LaTeX via `analysis/lib/stata_reg.py` adapters. There is NO fallback: if
@@ -222,11 +221,11 @@ response).
 
 1. **reghdfe engine version matters for two-way-cluster SEs.** reghdfe 6
    revised the computation vs its version-5 engine; SEs move ~0.5%, enough
-   to flip 3-decimal rounding-boundary cells. Each do-file in
-   `analysis/stata/` pins the engine matching the paper's vintage
-   (D-023) — do not "clean up" the `version(5)` options. Two specs are
-   degenerate under reghdfe 6 (all-missing e(V)): Table 4 col 7 and
-   IA.17's ret-sd decile column; both run under `version(5)`.
+   to flip 3-decimal rounding-boundary cells. ALL do-files in
+   `analysis/stata/` use `version(5)` — one engine everywhere (D-023
+   addendum 3) — do not "clean up" the options. Two specs are degenerate
+   under reghdfe 6 (all-missing e(V)): Table 4 col 7 and IA.17's ret-sd
+   decile column; version(5) is the only engine producing their SEs.
 
 2. **The old rc=-11 "segfault" on decile + sic2_year specs was a defect of
    the removed in-process bridge.** The same regressions run fine as batch

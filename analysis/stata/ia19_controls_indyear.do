@@ -2,7 +2,7 @@
 Robustness: Table 6 columns 2-10 with industry-year FEs.
 R6 Comment 2: re-run columns 2-10 with absorb(permno sic2_year) instead of
 absorb(permno year), so all specifications share the same FE structure as col 1.
-No user-written packages required.
+Engine: reghdfe legacy version(5) - one engine everywhere (D-023 addendum 3).
 */
 set more off
 clear all
@@ -35,7 +35,7 @@ reghdfe var_inv_rate ///
     var_booklev_before var_booklev_1933 var_booklev_1934 var_booklev_after ///
     var_marketlev_before var_marketlev_1933 var_marketlev_1934 var_marketlev_after ///
     var_logltl_before var_logltl_1933 var_logltl_1934 var_logltl_after ///
-    var_Q d d_1933 d_1934 d_After, absorb(permno sic2_year) vce(cluster permno year)
+    var_Q d d_1933 d_1934 d_After, absorb(permno sic2_year) vce(cluster permno year) version(5)
 
 local colname : word 1 of `colnames'
 local n = e(N)
@@ -56,7 +56,7 @@ foreach pfx of local prefixes {
     local colname : word `colidx' of `colnames'
     display _newline "Running col `colidx': `colname' with sic2_year..."
     reghdfe var_inv_rate fix_var_`pfx'_port_1_before-fix_var_`pfx'_port_10_after ///
-        var_Q d d_1933 d_1934 d_After, absorb(permno sic2_year) vce(cluster permno year)
+        var_Q d d_1933 d_1934 d_After, absorb(permno sic2_year) vce(cluster permno year) version(5)
     local n = e(N)
     foreach term of local terms {
         local b  = _b[`term']

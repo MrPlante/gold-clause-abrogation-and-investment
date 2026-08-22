@@ -1,12 +1,11 @@
 * Table 4 (main investment): reghdfe estimates for all seven columns.
 *
-* Engine: current reghdfe (6.13.1) for columns 1-6, matching the vintage of
-* the submitted table. Column 7 (bank-debt placebo) is the one spec where
-* reghdfe 6 returns an all-missing e(V) ("variance matrix is nonsymmetric or
-* highly singular"); it runs under the legacy version(5) engine, the only
-* reghdfe code path that produces standard errors for it. The published
-* round-1 column-7 SEs match no reproducible vintage (DISCREPANCIES.md
-* D-017/D-023).
+* Engine: reghdfe legacy version(5) for every column - the project uses one
+* engine everywhere (D-023 addendum 3). The submitted table was a reghdfe-6
+* run for columns 1-6 (four SE last digits differ, no stars); column 7 is
+* degenerate under reghdfe 6 (all-missing e(V)) and version(5) is the only
+* engine producing its standard errors. The published round-1 column-7 SEs
+* match no reproducible vintage (D-017/D-023).
 * Input:  data/processed/stata_inputs/table4_investment.dta
 *         (written by analysis/tables/body/t04_investment.py; sample flags
 *         no_redemption / positive_ltl are the D-017 reconstructions)
@@ -38,30 +37,30 @@ foreach stem in d ps bd {
 }
 
 * Column 1: classic investment regression
-reghdfe var_inv_rate var_Q, absorb(permno year) vce(cluster permno year)
+reghdfe var_inv_rate var_Q, absorb(permno year) vce(cluster permno year) version(5)
 dumpcol classic "var_Q"
 
 * Column 2: baseline overhang
-reghdfe var_inv_rate var_Q d `d_yrs', absorb(permno year) vce(cluster permno year)
+reghdfe var_inv_rate var_Q d `d_yrs', absorb(permno year) vce(cluster permno year) version(5)
 dumpcol overhang "var_Q d `d_yrs'"
 
 * Column 3: exclude firms with bonds maturing 1931-1934
-reghdfe var_inv_rate var_Q d `d_yrs' if no_maturity == 1, absorb(permno year) vce(cluster permno year)
+reghdfe var_inv_rate var_Q d `d_yrs' if no_maturity == 1, absorb(permno year) vce(cluster permno year) version(5)
 dumpcol no_maturity "var_Q d `d_yrs'"
 
 * Column 4: exclude firms that retired gold-clause debt 1931-1935
-reghdfe var_inv_rate var_Q d `d_yrs' if no_redemption == 1, absorb(permno year) vce(cluster permno year)
+reghdfe var_inv_rate var_Q d `d_yrs' if no_redemption == 1, absorb(permno year) vce(cluster permno year) version(5)
 dumpcol no_redemption "var_Q d `d_yrs'"
 
 * Column 5: firms with positive long-term liabilities in 1930
-reghdfe var_inv_rate var_Q d `d_yrs' if positive_ltl == 1, absorb(permno year) vce(cluster permno year)
+reghdfe var_inv_rate var_Q d `d_yrs' if positive_ltl == 1, absorb(permno year) vce(cluster permno year) version(5)
 dumpcol positive_ltl "var_Q d `d_yrs'"
 
 * Column 6: preferred-share placebo
-reghdfe var_inv_rate var_Q ps `ps_yrs', absorb(permno year) vce(cluster permno year)
+reghdfe var_inv_rate var_Q ps `ps_yrs', absorb(permno year) vce(cluster permno year) version(5)
 dumpcol pref_shares "var_Q ps `ps_yrs'"
 
-* Column 7: bank-debt placebo - legacy engine (see header)
+* Column 7: bank-debt placebo
 reghdfe var_inv_rate var_Q bd `bd_yrs', absorb(permno year) vce(cluster permno year) version(5)
 dumpcol bank_debt "var_Q bd `bd_yrs'"
 

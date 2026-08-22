@@ -1,9 +1,8 @@
 * IA.14 (quarter-specific dividends): reghdfe estimates, five columns.
 *
-* Engine: current reghdfe (6.13.1). Standard errors here are one-way
-* clustered by firm, which the reghdfe 5 -> 6 revision leaves unchanged at
-* printed precision (both engines reproduce the submitted table;
-* DISCREPANCIES.md D-023).
+* Engine: reghdfe legacy version(5) - one engine everywhere (D-023
+* addendum 3). SEs here are one-way clustered by firm; both engines
+* reproduce the submitted table at printed precision.
 * Input:  data/processed/stata_inputs/ia14_quarterly_div.dta
 *         (written by analysis/tables/appendix/ia14_quarterly_div.py: the
 *         annual and per-quarter firm-year samples stacked with mkey,
@@ -34,7 +33,7 @@ local yrs d_year_1926 d_year_1927 d_year_1928 d_year_1929 d_year_1930 ///
 local rhs var_Q d `yrs'
 
 foreach m in annual Q1 Q2 Q3 Q4 {
-    reghdfe depv `rhs' if mkey == "`m'", absorb(permno year_int) vce(cluster permno)
+    reghdfe depv `rhs' if mkey == "`m'", absorb(permno year_int) vce(cluster permno) version(5)
     dumpcol `m' "`rhs'"
 }
 

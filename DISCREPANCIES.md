@@ -834,3 +834,18 @@ tree pending the Sebastien/Mete decision: adopt-and-relabel, keep the
 reconstruction, or ship a corrected dalt spec. The published col 4
 (N = 5,572, also IA.12 col 1) may live in another block of the same
 script - ask Mete. Test script: scratch mete_col5.do (this session).
+
+**D-023 addendum 3 (2026-08-22) — one engine everywhere.** Per Sebastien,
+all regression do-files (including Table 4 cols 1-6, Table 6/IA.9, IA.14,
+and IA.19) now run under reghdfe's legacy `version(5)` engine, trading
+~26 last-digit SE cells of round-1 fidelity in the former reghdfe-6
+tables for a uniform engine. Verified effects: Table 4, Table 6, IA.14
+zero star changes (T4: 4 SE digits; T6 body: 1 digit; IA.14
+print-identical); IA.9: ~20 SE digits + three star strengthenings, all in
+the uncited payout column (1933 *->**, 1934 **->***, 1939 gains *);
+IA.19: one SE digit + payout-deciles 1934 ** -> * (p 0.0499 -> 0.0508
+boundary). All quoted claims verified intact: IA.19 d-tilde 9/9 at 5%,
+1933 7/9 at 5% and 9/9 at 10%, 1934 loses significance in seven of nine
+(same two 10% survivors); Table 6's cited theta/kappa stars unchanged.
+The replication statement is now one line: all printed standard errors
+are reghdfe legacy-engine (version(5)) estimates.

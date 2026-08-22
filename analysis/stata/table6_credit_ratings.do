@@ -2,8 +2,9 @@
 * Body Table 6 shows the net-investment and dividend columns; IA.9 shows all
 * three in full.
 *
-* Engine: current reghdfe (6.13.1) - the vintage of the submitted tables
-* (DISCREPANCIES.md D-023).
+* Engine: reghdfe legacy version(5) - one engine everywhere (D-023
+* addendum 3). Vs the submitted (reghdfe-6) tables this moves ~21 SE last
+* digits and strengthens three uncited stars in IA.9's payout column.
 * Input:  data/processed/stata_inputs/table6_credit_ratings.dta
 *         (written by analysis/tables/body/t06_credit_ratings.py per
 *         A21_ratings_yearbyyear.do: payout/cashrat winsorized, d demeaned
@@ -39,7 +40,7 @@ foreach y in 1926 1927 1928 1929 1930 1931 1933 1934 1935 1936 1937 1938 1939 19
 local rhs var_Q d d_Low `dy' `yl' `dyl'
 
 foreach dep in var_inv_rate payout cashrat {
-    reghdfe `dep' `rhs', absorb(permno year) vce(cluster permno year)
+    reghdfe `dep' `rhs', absorb(permno year) vce(cluster permno year) version(5)
     dumpcol `dep' "`rhs'"
 }
 
