@@ -814,3 +814,23 @@ paper, not a target. The version(5) SEs shipped since commit 6fcb909 are
 the paper's numbers (1926: 0.129**, 1928: 0.038***, 1933: 0.061 n.s.,
 1934: 0.038 n.s.; placebo conclusions unchanged). No further attempts to
 recover the published column-7 SEs.
+
+**D-023 addendum 2 (2026-08-22) — published Table 4 col 5 RECOVERED from
+Mete's original code; it was never a sample restriction.** Mete supplied
+the round-1 column-5 code via Slack: it redefines the exposure as `dalt`
+= fd_amount_g1/(bd_bs+cb_bs+ps_bs) capped at 1 (measured 1930, zero-filled
+for firms with any fixed claims), with pre-1930 values of the LEVEL
+variable overwritten by a time-varying Lcb_bs/(Lbd_bs+Lcb_bs+Lps_bs)
+ratio (Mete's own comment: "this is mainly the problem"), interactions
+from A4's firm-constant dalt_year_*, no explicit sample restriction. Run
+verbatim on firm_year_panel.dta under reghdfe 6 it reproduces the
+published column EXACTLY: N = 6,048, d = -0.057 (0.030), 1933 = -0.058
+(0.013), 1934 = -0.043 (0.009), every cell to the printed digit. So the
+published column was mislabeled ("restricts the sample to firms with
+positive long-term liabilities" with the paper's d-tilde) - it is a
+different exposure, and D-017's sample-search could never find it. The
+shipped reconstruction (d-tilde on ll_bs>0-in-1930 firms) remains in the
+tree pending the Sebastien/Mete decision: adopt-and-relabel, keep the
+reconstruction, or ship a corrected dalt spec. The published col 4
+(N = 5,572, also IA.12 col 1) may live in another block of the same
+script - ask Mete. Test script: scratch mete_col5.do (this session).
