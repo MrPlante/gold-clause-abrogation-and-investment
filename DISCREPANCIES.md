@@ -849,3 +849,22 @@ boundary). All quoted claims verified intact: IA.19 d-tilde 9/9 at 5%,
 (same two 10% survivors); Table 6's cited theta/kappa stars unchanged.
 The replication statement is now one line: all printed standard errors
 are reghdfe legacy-engine (version(5)) estimates.
+
+**D-023 addendum 4 (2026-08-22) — Table 4 col 5 adopted; published column
+restored.** Per Sebastien ("our goal should be to match the numbers that
+were there before"), Mete's recovered fixed-claims exposure is now the
+col-5 builder (t04_investment.py `_fixed_claims_exposure` + do-file
+`fixed_claims` block): gold-clause debt over bank debt + bonds +
+preferred stock in 1930, capped at one, pre-1930 level = lagged bond
+share of fixed claims (mirroring merge.py's baseline-d construction; a
+firm-constant level would be absorbed by the firm FE), interactions =
+the panel's firm-constant dalt_year_*. Pandas translation required two
+Stata semantics (missing > 0 is TRUE; x/0 is missing). The column now
+matches the round-1 submission in every cell except the 1933 SE printed
+digit (0.014 vs 0.013 - the accepted version(5) engine difference);
+d-tilde regains its published -0.057* (the D-017 reconstruction had
+-0.052 n.s.). Because the round-1 note misdescribed the column as a
+sample restriction with the paper's d-tilde, the note and the Section 5
+passage were rewritten to describe the actual specification (header
+"With LT Lia." -> "Fixed claims"). Still open: col 4 (N = 5,572, also
+IA.12 col 1) - ask Mete for the corresponding block of the same script.

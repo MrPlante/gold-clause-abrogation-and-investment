@@ -7,8 +7,9 @@
 * engine producing its standard errors. The published round-1 column-7 SEs
 * match no reproducible vintage (D-017/D-023).
 * Input:  data/processed/stata_inputs/table4_investment.dta
-*         (written by analysis/tables/body/t04_investment.py; sample flags
-*         no_redemption / positive_ltl are the D-017 reconstructions)
+*         (written by analysis/tables/body/t04_investment.py; the
+*         no_redemption flag is the D-017 col-4 reconstruction, dalt is
+*         Mete's recovered col-5 fixed-claims exposure)
 * Output: analysis/stata/results/table4_investment_results.csv
 * Run:    stata-mp -b do analysis/stata/table4_investment.do [project_root]
 version 16
@@ -29,7 +30,7 @@ end
 file open fh using "`root'/analysis/stata/results/table4_investment_results.csv", write replace
 file write fh "col,term,b,se,df,r2,N" _n
 
-foreach stem in d ps bd {
+foreach stem in d ps bd dalt {
     local `stem'_yrs
     foreach y in 1926 1927 1928 1929 1930 1931 1933 1934 1935 1936 1937 1938 1939 1940 {
         local `stem'_yrs ``stem'_yrs' `stem'_year_`y'
@@ -52,9 +53,14 @@ dumpcol no_maturity "var_Q d `d_yrs'"
 reghdfe var_inv_rate var_Q d `d_yrs' if no_redemption == 1, absorb(permno year) vce(cluster permno year) version(5)
 dumpcol no_redemption "var_Q d `d_yrs'"
 
-* Column 5: firms with positive long-term liabilities in 1930
-reghdfe var_inv_rate var_Q d `d_yrs' if positive_ltl == 1, absorb(permno year) vce(cluster permno year) version(5)
-dumpcol positive_ltl "var_Q d `d_yrs'"
+* Column 5: fixed-claims exposure (Mete's original code, recovered
+* 2026-08-22; D-023 addendum 2 - reproduces the published column, N=6,048).
+* Level = gold-clause debt over bank debt + bonds + preferred stock in 1930
+* (built by the Python builder, incl. the pre-1930 lagged-bond-share level
+* that keeps the level out of the firm FE); interactions = the panel's
+* firm-constant dalt_year_* columns.
+reghdfe var_inv_rate var_Q dalt `dalt_yrs', absorb(permno year) vce(cluster permno year) version(5)
+dumpcol fixed_claims "var_Q dalt `dalt_yrs'"
 
 * Column 6: preferred-share placebo
 reghdfe var_inv_rate var_Q ps `ps_yrs', absorb(permno year) vce(cluster permno year) version(5)
