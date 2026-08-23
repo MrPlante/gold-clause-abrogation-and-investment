@@ -25,7 +25,8 @@ Outputs (written directly into manuscript/):
   manuscript/figures/body/event{1,2,3}_*.pdf                  (Figures 3-5)
   manuscript/figures/online-appendix/midterm_1934.pdf         (Figure IA.2)
   manuscript/tables/body/table1_event_study.tex               (Table 1)
-  manuscript/tables/online-appendix/ia20_other_events.tex     (Table IA.20)
+  manuscript/tables/online-appendix/ia20_size_split_events.tex + 
+  ia21_size_split_intermediate.tex                            (IA.20, IA.21)
 
 Fully offline: no researchdb access needed. The dump is regenerated from
 the DB (Kerberos + psql) only when the underlying CRSP extract changes;
@@ -139,13 +140,15 @@ def raw_ret(s, start, n, col):
     return (1 + window_days(s, start, n)[col]).prod() - 1
 
 
+PRE_START, PRE_END = "1926-07-01", "1932-12-31"  # pre-abrogation period
+
+
 def diff_se(s):
-    """Daily SD of the raw ew_yes-ew_no differential in calm 1934."""
-    cal = s.loc["1934-01-01":"1934-12-31"]
-    cal = cal[~(("1934-06-18" <= cal.index.strftime("%Y-%m-%d"))
-                & (cal.index.strftime("%Y-%m-%d") <= "1934-07-10"))]
-    cal = cal[cal.index.month != 11]
-    return (cal.ew_yes - cal.ew_no).std(ddof=1)
+    """Daily SD of the raw ew_yes-ew_no differential over the pre-abrogation
+    period (July 1926 - December 1932): every trading day before the
+    treatment, with no selection."""
+    pre = s.loc[PRE_START:PRE_END]
+    return (pre.ew_yes - pre.ew_no).std(ddof=1)
 
 
 # ---------------------------------------------------------------- figures
@@ -243,46 +246,6 @@ Event & Dates & Days & Market & No gold & Gold & Gold \\
     print(f"Saved: {path}")
 
 
-def write_other_events_table(s, sd_daily):
-    rows = []
-    for label, dates, start, nd in OTHER_EVENTS + [JR_ROW]:
-        m = raw_ret(s, start, nd, "mkt")
-        ry = raw_ret(s, start, nd, "ew_yes")
-        rn = raw_ret(s, start, nd, "ew_no")
-        diff = ry - rn
-        t = diff / (sd_daily * np.sqrt(nd))
-        rows.append(f"{label} & {dates} & {nd} & {fmt_pct(m)} & {fmt_pct(ry)} & "
-                    f"{fmt_pct(rn)} & {fmt_pct(diff)} & {t:.1f} \\\\")
-    body = chr(10).join(rows[:-1]) + chr(10) + r"\midrule" + chr(10) + rows[-1]
-
-    tex = rf"""\begin{{table}}[htbp]
-\centering
-\caption{{\\ Stock market responses to other legal and political events}}
-\label{{tab:other_events}}
-\footnotesize
-\setlength{{\tabcolsep}}{{4pt}}
-\medskip
-\begin{{adjustbox}}{{max width=\textwidth}}
-\begin{{tabular}}{{lccccccc}}
-\toprule
- & & & & \multicolumn{{2}}{{c}}{{Cumulative return (equal-wt.)}} & & \\
-\cmidrule(lr){{5-6}}
-Event & Dates & Days & Market & Gold & No gold & Diff. & $t$ \\
-\midrule
-{body}
-\bottomrule
-\end{{tabular}}
-\end{{adjustbox}}
-\medskip
-\begin{{minipage}}{{0.95\textwidth}}\footnotesize \textit{{Notes.}} This table reports stock market responses to the intermediate legal and political events of the gold clause litigation, using the same portfolio construction as Table~\ref{{tab:event_study}} in the main text. Returns are cumulative raw returns, the compound product of daily returns over each event window. ``Diff.''\ is the difference between the cumulative returns of the gold-exposed and non-exposed equal-weighted portfolios. The $t$-statistic scales this difference by $\hat\sigma\sqrt{{h}}$, where $h$ is the number of trading days in the window and $\hat\sigma = {sd_daily*100:.2f}$ percentage points is the standard deviation of the daily return differential between the two portfolios over calm trading days in 1934 (excluding the event windows in this table). The Irving Trust hearing (May~22--24, 1933) was the first court hearing on the enforceability of gold clauses. \textit{{In re Missouri Pacific}} (E.D.~Mo., June~20, 1934) was the first federal ruling upholding the constitutionality of the Joint Resolution; the New York Court of Appeals affirmed \textit{{Norman v.\ Baltimore \& Ohio R.~Co.}} on July~3, 1934. Certiorari was granted in \textit{{Norman}} on October~8, 1934 and in \textit{{United States v.\ Bankers Trust Co.}} on November~5, 1934; the New York Stock Exchange was closed on November~6, 1934 for the midterm election, so the November window mixes the certiorari grant with the election result. The Joint Resolution window from Table~\ref{{tab:event_study}} is repeated for reference.\end{{minipage}}
-\end{{table}}
-"""
-    path = os.path.join(MS_IA_TAB, "ia20_other_events.tex")
-    with open(path, "w") as f:
-        f.write(tex)
-    print(f"Saved: {path}")
-
-
 # ------------------------------------------------- size splits (IA.21 / IA.22)
 
 SIZE_CAP_DATE = "1932-12-31"    # tercile formation: pre-litigation market caps
@@ -309,11 +272,8 @@ SIZE_INTERMEDIATE_EVENTS = [
 
 
 def _calm_sd(x):
-    """SD of a daily series over calm 1934 days (same exclusions as diff_se)."""
-    cal = x.loc["1934-01-01":"1934-12-31"]
-    idx = cal.index.strftime("%Y-%m-%d")
-    cal = cal[~((idx >= "1934-06-18") & (idx <= "1934-07-10"))]
-    return cal[cal.index.month != 11].std(ddof=1)
+    """SD of a daily series over the pre-abrogation period (as diff_se)."""
+    return x.loc[PRE_START:PRE_END].std(ddof=1)
 
 
 def size_split_inputs(gold, zero):
@@ -350,9 +310,12 @@ def size_split_inputs(gold, zero):
     betas = pd.Series(betas)
 
     out = {}
-    for gname in ("Small", "Medium", "Large"):
-        mem = set(grp[grp == gname].index)
-        gy, gn = mem & set(gold.index), mem & set(zero.index)
+    for gname in ("Pooled", "Small", "Medium", "Large"):
+        if gname == "Pooled":
+            gy, gn = set(gold.index), set(zero.index)
+        else:
+            mem = set(grp[grp == gname].index)
+            gy, gn = mem & set(gold.index), mem & set(zero.index)
         y = base[base["permno"].isin(gy)].groupby("date")["ret"].mean()
         n = base[base["permno"].isin(gn)].groupby("date")["ret"].mean()
         idx = y.index.intersection(n.index)
@@ -367,7 +330,7 @@ def _size_panel_body(inputs, events):
     lines = []
     for title, start, nd in events:
         lines.append(rf"\multicolumn{{7}}{{l}}{{\textit{{{title}}}}} \\")
-        for gname in ("Small", "Medium", "Large"):
+        for gname in ("Pooled", "Small", "Medium", "Large"):
             d = inputs[gname]
             wy = d["y"].loc[start:].head(nd)
             wn = d["n"].loc[start:].head(nd)
@@ -416,10 +379,12 @@ def _size_table_tex(body, caption, label, notes):
 def write_size_split_tables(gold, zero):
     inputs = size_split_inputs(gold, zero)
     gs = inputs
-    counts = (f"small {gs['Small']['ny']}/{gs['Small']['nn']}, "
+    counts = (f"pooled {gs['Pooled']['ny']}/{gs['Pooled']['nn']}, "
+              f"small {gs['Small']['ny']}/{gs['Small']['nn']}, "
               f"medium {gs['Medium']['ny']}/{gs['Medium']['nn']}, "
               f"large {gs['Large']['ny']}/{gs['Large']['nn']}")
-    beta_note = (rf"small: $\beta_G={gs['Small']['by']:.2f}$, $\beta_N={gs['Small']['bn']:.2f}$; "
+    beta_note = (rf"pooled: $\beta_G={gs['Pooled']['by']:.2f}$, $\beta_N={gs['Pooled']['bn']:.2f}$; "
+                 rf"small: $\beta_G={gs['Small']['by']:.2f}$, $\beta_N={gs['Small']['bn']:.2f}$; "
                  rf"medium: $\beta_G={gs['Medium']['by']:.2f}$, $\beta_N={gs['Medium']['bn']:.2f}$; "
                  rf"large: $\beta_G={gs['Large']['by']:.2f}$, $\beta_N={gs['Large']['bn']:.2f}$")
 
@@ -434,16 +399,24 @@ def write_size_split_tables(gold, zero):
         rf"estimated from daily returns over the full 1926--1940 sample ({beta_note}). "
         r"$t$-statistics scale each differential by $\hat\sigma\sqrt{h}$, where $h$ is the "
         r"number of trading days in the window and $\hat\sigma$ is the standard deviation of "
-        r"the corresponding daily differential over calm trading days in 1934, as in "
-        r"Table~\ref{tab:other_events}.")
+        r"the corresponding daily differential over the pre-abrogation period "
+        r"(July 1926--December 1932).")
     notes_int = (
-        r"Same construction as Table~\ref{tabapp:size_split_events}: each window is three "
-        r"trading days from the event date, following Table~\ref{tab:other_events}.")
+        r"Same construction as Table~\ref{tabapp:size_split_events}; each window is three "
+        r"trading days from the event date. The Irving Trust hearing (May~22--24, 1933) was "
+        r"the first court hearing on the enforceability of gold clauses. \textit{In re "
+        r"Missouri Pacific} (E.D.~Mo., June~20, 1934) was the first federal ruling upholding "
+        r"the constitutionality of the Joint Resolution; the New York Court of Appeals "
+        r"affirmed \textit{Norman v.\ Baltimore \& Ohio R.~Co.} on July~3, 1934. Certiorari "
+        r"was granted in \textit{Norman} on October~8, 1934 and in \textit{United States v.\ "
+        r"Bankers Trust Co.} on November~5, 1934; the New York Stock Exchange was closed on "
+        r"November~6, 1934 for the midterm election, so the November window mixes the "
+        r"certiorari grant with the election result.")
 
     for fname, events, caption, label, notes in [
-        ("ia21_size_split_events.tex", SIZE_MAIN_EVENTS,
+        ("ia20_size_split_events.tex", SIZE_MAIN_EVENTS,
          "Event-window returns by firm size", "tabapp:size_split_events", notes_main),
-        ("ia22_size_split_intermediate.tex", SIZE_INTERMEDIATE_EVENTS,
+        ("ia21_size_split_intermediate.tex", SIZE_INTERMEDIATE_EVENTS,
          "Intermediate legal and political events, by firm size",
          "tabapp:size_split_intermediate", notes_int),
     ]:
@@ -464,7 +437,7 @@ def main():
     print(f"Series: {len(s)} trading days ({s.index[0].date()} to {s.index[-1].date()})")
 
     sd_daily = diff_se(s)
-    print(f"calm-1934 daily raw diff SD {sd_daily*100:.2f}pp")
+    print(f"pre-abrogation daily raw diff SD {sd_daily*100:.2f}pp")
 
     # figures
     for stem, title, start, end in EVENTS:
@@ -474,7 +447,6 @@ def main():
 
     # tables
     write_event_table(s, gold, zero)
-    write_other_events_table(s, sd_daily)
     write_size_split_tables(gold, zero)
 
     # ---------------- numbers for the text -----------------
