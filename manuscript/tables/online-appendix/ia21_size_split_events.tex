@@ -1,0 +1,39 @@
+\begin{table}[htbp]
+\centering
+\caption{\\ Event-window returns by firm size}
+\label{tabapp:size_split_events}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\medskip
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lcccccc}
+\toprule
+ & Gold & No gold & \multicolumn{2}{c}{Raw} & \multicolumn{2}{c}{Beta-adjusted} \\
+\cmidrule(lr){4-5}\cmidrule(lr){6-7}
+ & exposure & exposure & Diff. & $t$ & Diff. & $t$ \\
+\midrule
+\multicolumn{7}{l}{\textit{Panel A: Joint Resolution (May 26--June 6, 1933)}} \\
+\quad Small & 49.0\% & 44.4\% & +4.6 & (1.3) & +4.2 & (1.2) \\
+\quad Medium & 24.8\% & 20.0\% & +4.9 & (2.2) & +2.5 & (1.2) \\
+\quad Large & 18.3\% & 15.9\% & +2.4 & (1.5) & +0.9 & (0.7) \\
+\addlinespace
+\multicolumn{7}{l}{\textit{Panel B: Supreme Court Arguments (January 8--10, 1935)}} \\
+\quad Small & -1.1\% & -0.7\% & -0.3 & (-0.2) & -0.3 & (-0.1) \\
+\quad Medium & -1.2\% & -2.1\% & +0.9 & (0.7) & +1.3 & (1.1) \\
+\quad Large & -1.7\% & -1.3\% & -0.4 & (-0.4) & -0.1 & (-0.2) \\
+\addlinespace
+\multicolumn{7}{l}{\textit{Panel C: Post-Argument Days (January 11--17, 1935)}} \\
+\quad Small & -4.8\% & -3.1\% & -1.7 & (-0.6) & -1.7 & (-0.6) \\
+\quad Medium & -5.3\% & -3.5\% & -1.8 & (-1.0) & -1.2 & (-0.7) \\
+\quad Large & -3.4\% & -3.2\% & -0.2 & (-0.2) & +0.1 & (0.1) \\
+\addlinespace
+\multicolumn{7}{l}{\textit{Panel D: Supreme Court Decision (February 18, 1935)}} \\
+\quad Small & 3.3\% & 2.8\% & +0.6 & (0.5) & +0.5 & (0.4) \\
+\quad Medium & 4.6\% & 3.7\% & +0.9 & (1.2) & +0.3 & (0.4) \\
+\quad Large & 3.2\% & 3.0\% & +0.2 & (0.4) & -0.1 & (-0.3) \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\medskip
+\begin{minipage}{0.95\textwidth}\footnotesize \textit{Notes.} This table reports cumulative raw returns of the equal-weighted gold-exposed ($d_j>0$) and non-exposed ($d_j=0$) portfolios of Table~\ref{tab:event_study} over each event window, within size terciles formed on market capitalization at the end of 1932 (gold/non-gold firm counts: small 69/116, medium 51/133, large 57/127). ``Diff.''\ is the gold-minus-non-gold differential in percentage points. The beta-adjusted differential subtracts $(\beta_G-\beta_N)\times R_m$, where $R_m$ is the value-weighted market return over the window and portfolio betas are equal-weighted averages of firm-level market betas estimated from daily returns over the full 1926--1940 sample (small: $\beta_G=0.93$, $\beta_N=0.90$; medium: $\beta_G=1.11$, $\beta_N=0.91$; large: $\beta_G=1.02$, $\beta_N=0.90$). $t$-statistics scale each differential by $\hat\sigma\sqrt{h}$, where $h$ is the number of trading days in the window and $\hat\sigma$ is the standard deviation of the corresponding daily differential over calm trading days in 1934, as in Table~\ref{tab:other_events}.\end{minipage}
+\end{table}

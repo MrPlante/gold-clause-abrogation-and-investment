@@ -283,6 +283,177 @@ Event & Dates & Days & Market & Gold & No gold & Diff. & $t$ \\
     print(f"Saved: {path}")
 
 
+# ------------------------------------------------- size splits (IA.21 / IA.22)
+
+SIZE_CAP_DATE = "1932-12-31"    # tercile formation: pre-litigation market caps
+BETA_SAMPLE_END = "1940-12-31"  # full-sample firm-level market betas
+
+SIZE_MAIN_EVENTS = [
+    ("Panel A: Joint Resolution (May 26--June 6, 1933)", "1933-05-26", 9),
+    ("Panel B: Supreme Court Arguments (January 8--10, 1935)", "1935-01-08", 3),
+    ("Panel C: Post-Argument Days (January 11--17, 1935)", "1935-01-11", 6),
+    ("Panel D: Supreme Court Decision (February 18, 1935)", "1935-02-18", 1),
+]
+SIZE_INTERMEDIATE_EVENTS = [
+    ("Panel A: First gold-clause hearing, \\textit{Irving Trust} (May 22--24, 1933)",
+     "1933-05-22", 3),
+    ("Panel B: \\textit{In re Missouri Pacific} ruling (June 20--22, 1934)",
+     "1934-06-20", 3),
+    ("Panel C: \\textit{Norman} affirmed, N.Y.\\ Ct.\\ App.\\ (July 3--6, 1934)",
+     "1934-07-03", 3),
+    ("Panel D: Certiorari granted, \\textit{Norman} (Oct.\\ 8--10, 1934)",
+     "1934-10-08", 3),
+    ("Panel E: Certiorari granted \\& midterm election (Nov.\\ 5--8, 1934)",
+     "1934-11-05", 3),
+]
+
+
+def _calm_sd(x):
+    """SD of a daily series over calm 1934 days (same exclusions as diff_se)."""
+    cal = x.loc["1934-01-01":"1934-12-31"]
+    idx = cal.index.strftime("%Y-%m-%d")
+    cal = cal[~((idx >= "1934-06-18") & (idx <= "1934-07-10"))]
+    return cal[cal.index.month != 11].std(ddof=1)
+
+
+def size_split_inputs(gold, zero):
+    """Per-tercile EW gold / no-gold daily series, the market, and portfolio betas.
+
+    Terciles are formed on the last observed market cap on or before
+    SIZE_CAP_DATE (pre-litigation, so the classification cannot reflect the
+    events). Portfolio betas are equal-weighted means of firm-level market
+    betas (daily returns on the VW market through BETA_SAMPLE_END, >= 250
+    obs); one vintage everywhere, reported in the table note.
+    """
+    base = load_crsp()
+    members = set(gold.index) | set(zero.index)
+    base = base[base["permno"].isin(members)]
+    pc = base["prevcap"].where(base["prevcap"] > 0)
+    mkt = ((pc * base["ret"]).groupby(base["date"]).sum(min_count=1)
+           / pc.groupby(base["date"]).sum(min_count=1))
+
+    caps = (base[base["date"] <= SIZE_CAP_DATE].sort_values("date")
+            .groupby("permno")["cap"].last())
+    caps = caps[caps > 0]
+    cuts = caps.quantile([1 / 3, 2 / 3])
+    grp = caps.map(lambda c: "Small" if c <= cuts.iloc[0]
+                   else ("Medium" if c <= cuts.iloc[1] else "Large"))
+
+    est = base[base["date"] <= BETA_SAMPLE_END].copy()
+    est["m"] = est["date"].map(mkt)
+    est = est.dropna(subset=["ret", "m"])
+    betas = {}
+    for p, g in est.groupby("permno"):
+        if len(g) >= 250:
+            c = np.cov(g["ret"], g["m"])
+            betas[p] = c[0, 1] / c[1, 1]
+    betas = pd.Series(betas)
+
+    out = {}
+    for gname in ("Small", "Medium", "Large"):
+        mem = set(grp[grp == gname].index)
+        gy, gn = mem & set(gold.index), mem & set(zero.index)
+        y = base[base["permno"].isin(gy)].groupby("date")["ret"].mean()
+        n = base[base["permno"].isin(gn)].groupby("date")["ret"].mean()
+        idx = y.index.intersection(n.index)
+        out[gname] = dict(y=y.loc[idx], n=n.loc[idx], m=mkt.loc[idx],
+                          by=betas.reindex(list(gy)).mean(),
+                          bn=betas.reindex(list(gn)).mean(),
+                          ny=len(gy), nn=len(gn))
+    return out
+
+
+def _size_panel_body(inputs, events):
+    lines = []
+    for title, start, nd in events:
+        lines.append(rf"\multicolumn{{7}}{{l}}{{\textit{{{title}}}}} \\")
+        for gname in ("Small", "Medium", "Large"):
+            d = inputs[gname]
+            wy = d["y"].loc[start:].head(nd)
+            wn = d["n"].loc[start:].head(nd)
+            wm = d["m"].loc[start:].head(nd)
+            h = len(wy)
+            ry = (1 + wy).prod() - 1
+            rn = (1 + wn).prod() - 1
+            rm = (1 + wm).prod() - 1
+            raw = ry - rn
+            adj = raw - (d["by"] - d["bn"]) * rm
+            t_r = raw / (_calm_sd(d["y"] - d["n"]) * np.sqrt(h))
+            t_a = adj / (_calm_sd((d["y"] - d["by"] * d["m"])
+                                  - (d["n"] - d["bn"] * d["m"])) * np.sqrt(h))
+            lines.append(rf"\quad {gname} & {ry*100:.1f}\% & {rn*100:.1f}\% & "
+                         rf"{raw*100:+.1f} & ({t_r:.1f}) & {adj*100:+.1f} & ({t_a:.1f}) \\")
+        if (title, start, nd) != events[-1]:
+            lines.append(r"\addlinespace")
+    return chr(10).join(lines)
+
+
+def _size_table_tex(body, caption, label, notes):
+    return rf"""\begin{{table}}[htbp]
+\centering
+\caption{{\\ {caption}}}
+\label{{{label}}}
+\footnotesize
+\setlength{{\tabcolsep}}{{4pt}}
+\medskip
+\begin{{adjustbox}}{{max width=\textwidth}}
+\begin{{tabular}}{{lcccccc}}
+\toprule
+ & Gold & No gold & \multicolumn{{2}}{{c}}{{Raw}} & \multicolumn{{2}}{{c}}{{Beta-adjusted}} \\
+\cmidrule(lr){{4-5}}\cmidrule(lr){{6-7}}
+ & exposure & exposure & Diff. & $t$ & Diff. & $t$ \\
+\midrule
+{body}
+\bottomrule
+\end{{tabular}}
+\end{{adjustbox}}
+\medskip
+\begin{{minipage}}{{0.95\textwidth}}\footnotesize \textit{{Notes.}} {notes}\end{{minipage}}
+\end{{table}}
+"""
+
+
+def write_size_split_tables(gold, zero):
+    inputs = size_split_inputs(gold, zero)
+    gs = inputs
+    counts = (f"small {gs['Small']['ny']}/{gs['Small']['nn']}, "
+              f"medium {gs['Medium']['ny']}/{gs['Medium']['nn']}, "
+              f"large {gs['Large']['ny']}/{gs['Large']['nn']}")
+    beta_note = (rf"small: $\beta_G={gs['Small']['by']:.2f}$, $\beta_N={gs['Small']['bn']:.2f}$; "
+                 rf"medium: $\beta_G={gs['Medium']['by']:.2f}$, $\beta_N={gs['Medium']['bn']:.2f}$; "
+                 rf"large: $\beta_G={gs['Large']['by']:.2f}$, $\beta_N={gs['Large']['bn']:.2f}$")
+
+    notes_main = (
+        r"This table reports cumulative raw returns of the equal-weighted gold-exposed "
+        r"($d_j>0$) and non-exposed ($d_j=0$) portfolios of Table~\ref{tab:event_study} over "
+        r"each event window, within size terciles formed on market capitalization at the end "
+        rf"of 1932 (gold/non-gold firm counts: {counts}). ``Diff.''\ is the gold-minus-non-gold "
+        r"differential in percentage points. The beta-adjusted differential subtracts "
+        r"$(\beta_G-\beta_N)\times R_m$, where $R_m$ is the value-weighted market return over "
+        r"the window and portfolio betas are equal-weighted averages of firm-level market betas "
+        rf"estimated from daily returns over the full 1926--1940 sample ({beta_note}). "
+        r"$t$-statistics scale each differential by $\hat\sigma\sqrt{h}$, where $h$ is the "
+        r"number of trading days in the window and $\hat\sigma$ is the standard deviation of "
+        r"the corresponding daily differential over calm trading days in 1934, as in "
+        r"Table~\ref{tab:other_events}.")
+    notes_int = (
+        r"Same construction as Table~\ref{tabapp:size_split_events}: each window is three "
+        r"trading days from the event date, following Table~\ref{tab:other_events}.")
+
+    for fname, events, caption, label, notes in [
+        ("ia21_size_split_events.tex", SIZE_MAIN_EVENTS,
+         "Event-window returns by firm size", "tabapp:size_split_events", notes_main),
+        ("ia22_size_split_intermediate.tex", SIZE_INTERMEDIATE_EVENTS,
+         "Intermediate legal and political events, by firm size",
+         "tabapp:size_split_intermediate", notes_int),
+    ]:
+        body = _size_panel_body(inputs, events)
+        path = os.path.join(MS_IA_TAB, fname)
+        with open(path, "w") as f:
+            f.write(_size_table_tex(body, caption, label, notes))
+        print(f"Saved: {path}")
+
+
 # ---------------------------------------------------------------- main
 
 def main():
@@ -304,6 +475,7 @@ def main():
     # tables
     write_event_table(s, gold, zero)
     write_other_events_table(s, sd_daily)
+    write_size_split_tables(gold, zero)
 
     # ---------------- numbers for the text -----------------
     print("\n=== NUMBERS FOR TEXT ===")
