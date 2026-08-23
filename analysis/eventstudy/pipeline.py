@@ -22,10 +22,9 @@ Fixed exposure d is the paper's treatment variable from firm_year_panel.dta (con
 within firm from 1931 on: 1930 gold-clause debt / 1930 LT liabilities).
 
 Outputs (written directly into manuscript/):
-  manuscript/figures/body/event{1,2,3}_*.pdf                  (Figures 3-5)
+  manuscript/figures/online-appendix/event*_*.pdf             (Figures IA.2-IA.5)
   manuscript/tables/body/table1_event_study.tex               (Table 1)
-  manuscript/tables/online-appendix/ia20_size_split_events.tex + 
-  ia21_size_split_intermediate.tex                            (IA.20, IA.21)
+  manuscript/tables/online-appendix/ia20_size_split_intermediate.tex  (IA.20)
 
 Fully offline: no researchdb access needed. The dump is regenerated from
 the DB (Kerberos + psql) only when the underlying CRSP extract changes;
@@ -200,51 +199,14 @@ def fmt_pct(x, dec=1):
     return f"{x*100:+.{dec}f}\\%"
 
 
-def write_event_table(s, gold, zero):
-    ev = []
-    for stem, _, start, end in EVENTS:
-        w = s.loc[start:end]
-        ev.append((start, end, len(w)))
-
-    rows_a = []
-    meta = [("Joint Resolution", "May 26--June 6, 1933"),
-            ("Cert.\\ grant \\& midterm election", "Nov.~5--8, 1934"),
-            ("Supreme Court oral arguments", "Jan.~8--10, 1935"),
-            ("Supreme Court decision", "Feb.~18, 1935")]
-    for (label, dates), (start, end, nd) in zip(meta, ev):
-        st = start.strftime("%Y-%m-%d")
-        raw = [raw_ret(s, st, nd, c) for c in ("mkt", "ew_no", "ew_yes", "dwret")]
-        rows_a.append(f"{label} & {dates} & {nd} & " +
-                      " & ".join(fmt_pct(r) for r in raw) + r" \\")
-
-    tex = rf"""\begin{{table}}[htbp]
-\centering
-\caption{{\\ Stock market responses to key legal events}}
-\label{{tab:event_study}}
-\small
-\setlength{{\tabcolsep}}{{4pt}}
-\medskip
-\begin{{adjustbox}}{{max width=\textwidth}}
-\begin{{tabular}}{{lcccccc}}
-\toprule
-Event & Dates & Days & Market & No gold & Gold & Gold \\
- & & & & (equal-wt.) & (equal-wt.) & (exposure-wt.) \\
-\midrule
-{chr(10).join(rows_a)}
-\bottomrule
-\end{{tabular}}
-\end{{adjustbox}}
-\medskip
-\begin{{minipage}}{{0.95\textwidth}}\footnotesize \textit{{Notes.}} This table reports cumulative raw returns, the compound product of daily returns over each event window. All series are constructed from CRSP daily returns. The market return is value-weighted using previous-day market capitalization and reproduces the CRSP value-weighted index. Firms are classified by the frozen gold-clause exposure measure $\tilde{{d}}_j$ defined in equation~(\ref{{eq:tilde_d}}): the two equal-weighted portfolios contain firms with $\tilde{{d}}_j>0$ ({len(gold)} firms) and $\tilde{{d}}_j=0$ ({len(zero)} firms), respectively, and the exposure-weighted portfolio weights firms with $\tilde{{d}}_j>0$ by $w_j = \tilde{{d}}_j/\sum_k \tilde{{d}}_k$. Portfolios are rebalanced daily over firms with a return on each day. For the Supreme Court decision (February~18), the benchmark is the close of February~16---the last trading day before the ruling, as the exchange was open on Saturdays. The November window combines the certiorari grant in \textit{{United States v.\ Bankers Trust Co.}} (Monday, November~5) with the midterm election (Tuesday, November~6, for which the exchange was closed). Internet Appendix Section~\ref{{sec:ia_other_events}} examines the remaining legal and political events of the litigation period and reports the corresponding return differentials.\end{{minipage}}
-\end{{table}}
-"""
-    path = os.path.join(MS_BODY_TAB, "table1_event_study.tex")
-    with open(path, "w") as f:
-        f.write(tex)
-    print(f"Saved: {path}")
+# Table 1 is written by write_size_split_tables() below: the paper's single
+# return table reports gold-minus-non-gold differentials (raw and
+# beta-adjusted, pooled and within size terciles) for every main event
+# window. The four-series levels representation the referee sketched lives
+# in the R2 response letter and in the appendix figures, not in the body.
 
 
-# ------------------------------------------------- size splits (IA.21 / IA.22)
+# ------------------------------------- size-split tables (Table 1 / IA.20)
 
 SIZE_CAP_DATE = "1932-12-31"    # tercile formation: pre-litigation market caps
 BETA_SAMPLE_END = "1940-12-31"  # full-sample firm-level market betas
@@ -386,20 +348,33 @@ def write_size_split_tables(gold, zero):
                  rf"large: $\beta_G={gs['Large']['by']:.2f}$, $\beta_N={gs['Large']['bn']:.2f}$")
 
     notes_main = (
-        r"This table reports cumulative raw returns of the equal-weighted gold-exposed "
-        r"($\tilde{d}_j>0$) and non-exposed ($\tilde{d}_j=0$) portfolios of Table~\ref{tab:event_study} over "
-        r"each event window, within size terciles formed on market capitalization at the end "
-        rf"of 1932 (gold/non-gold firm counts: {counts}). ``Diff.''\ is the gold-minus-non-gold "
-        r"differential in percentage points. The beta-adjusted differential subtracts "
-        r"$(\beta_G-\beta_N)\times R_m$, where $R_m$ is the value-weighted market return over "
-        r"the window and portfolio betas are equal-weighted averages of firm-level market betas "
-        rf"estimated from daily returns over the full 1926--1940 sample ({beta_note}). "
-        r"$t$-statistics scale each differential by $\hat\sigma\sqrt{h}$, where $h$ is the "
-        r"number of trading days in the window and $\hat\sigma$ is the standard deviation of "
-        r"the corresponding daily differential over the pre-abrogation period "
-        r"(July 1926--December 1932).")
+        r"This table reports cumulative raw returns---the compound product of daily CRSP "
+        r"returns over each event window---of two equal-weighted portfolios: firms with "
+        r"gold-clause exposure ($\tilde{d}_j>0$) and firms without ($\tilde{d}_j=0$), where "
+        r"$\tilde{d}_j$ is the frozen exposure measure defined in "
+        r"equation~(\ref{eq:tilde_d}). Portfolios are rebalanced daily over firms with a "
+        r"return on each day. Within each panel, rows report the full sample (``Pooled'') "
+        r"and size terciles formed on market capitalization at the end of 1932, before the "
+        rf"litigation events (gold/non-gold firm counts: {counts}). ``Diff.''\ is the "
+        r"gold-minus-non-gold differential in percentage points. The beta-adjusted "
+        r"differential subtracts $(\beta_G-\beta_N)\times R_m$, where $R_m$ is the "
+        r"value-weighted market return over the window and portfolio betas are "
+        r"equal-weighted averages of firm-level market betas estimated from daily returns "
+        rf"over the full 1926--1940 sample ({beta_note}). "
+        r"$t$-statistics (in parentheses) scale each differential by $\hat\sigma\sqrt{h}$, "
+        r"where $h$ is the number of trading days in the window and $\hat\sigma$ is the "
+        r"standard deviation of the corresponding daily differential over the "
+        r"pre-abrogation period (July 1926--December 1932). For the Supreme Court decision "
+        r"(February~18, 1935), the benchmark is the close of February~16---the last trading "
+        r"day before the ruling, as the exchange was open on Saturdays. The November window "
+        r"combines the certiorari grant in \textit{United States v.\ Bankers Trust Co.} "
+        r"(Monday, November~5) with the midterm election (Tuesday, November~6, for which "
+        r"the exchange was closed). Internet Appendix "
+        r"Section~\ref{sec:ia_other_events} examines the intermediate legal events of the "
+        r"litigation period in the same format.")
     notes_int = (
-        r"Same construction as Table~\ref{tabapp:size_split_events}; each window is three "
+        r"Same portfolio construction, size terciles, and $t$-statistic convention as "
+        r"Table~\ref{tab:event_study} in the main text; each window is three "
         r"trading days from the event date. The Irving Trust hearing (May~22--24, 1933) was "
         r"the first court hearing on the enforceability of gold clauses. \textit{In re "
         r"Missouri Pacific} (E.D.~Mo., June~20, 1934) was the first federal ruling upholding "
@@ -407,15 +382,16 @@ def write_size_split_tables(gold, zero):
         r"affirmed \textit{Norman v.\ Baltimore \& Ohio R.~Co.} on July~3, 1934. Certiorari "
         r"was granted in \textit{Norman} on October~8, 1934.")
 
-    for fname, events, caption, label, notes in [
-        ("ia20_size_split_events.tex", SIZE_MAIN_EVENTS,
-         "Event-window returns by firm size", "tabapp:size_split_events", notes_main),
-        ("ia21_size_split_intermediate.tex", SIZE_INTERMEDIATE_EVENTS,
+    for out_dir, fname, events, caption, label, notes in [
+        (MS_BODY_TAB, "table1_event_study.tex", SIZE_MAIN_EVENTS,
+         "Stock market responses to key legal events",
+         "tab:event_study", notes_main),
+        (MS_IA_TAB, "ia20_size_split_intermediate.tex", SIZE_INTERMEDIATE_EVENTS,
          "Intermediate legal and political events, by firm size",
          "tabapp:size_split_intermediate", notes_int),
     ]:
         body = _size_panel_body(inputs, events)
-        path = os.path.join(MS_IA_TAB, fname)
+        path = os.path.join(out_dir, fname)
         with open(path, "w") as f:
             f.write(_size_table_tex(body, caption, label, notes))
         print(f"Saved: {path}")
@@ -435,10 +411,9 @@ def main():
 
     # figures
     for stem, title, start, end in EVENTS:
-        save(make_event_zoom(s, SERIES4, title, start, end), stem, MS_BODY_FIG)
+        save(make_event_zoom(s, SERIES4, title, start, end), stem, MS_IA_FIG)
 
     # tables
-    write_event_table(s, gold, zero)
     write_size_split_tables(gold, zero)
 
     # ---------------- numbers for the text -----------------

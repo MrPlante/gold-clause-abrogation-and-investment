@@ -2,22 +2,48 @@
 \centering
 \caption{\\ Stock market responses to key legal events}
 \label{tab:event_study}
-\small
+\footnotesize
 \setlength{\tabcolsep}{4pt}
 \medskip
 \begin{adjustbox}{max width=\textwidth}
 \begin{tabular}{lcccccc}
 \toprule
-Event & Dates & Days & Market & No gold & Gold & Gold \\
- & & & & (equal-wt.) & (equal-wt.) & (exposure-wt.) \\
+ & Gold & No gold & \multicolumn{2}{c}{Raw} & \multicolumn{2}{c}{Beta-adjusted} \\
+\cmidrule(lr){4-5}\cmidrule(lr){6-7}
+ & exposure & exposure & Diff. & $t$ & Diff. & $t$ \\
 \midrule
-Joint Resolution & May 26--June 6, 1933 & 9 & +12.1\% & +25.4\% & +30.9\% & +31.4\% \\
-Cert.\ grant \& midterm election & Nov.~5--8, 1934 & 3 & +2.1\% & +4.0\% & +7.5\% & +6.8\% \\
-Supreme Court oral arguments & Jan.~8--10, 1935 & 3 & -1.3\% & -1.4\% & -1.3\% & -1.4\% \\
-Supreme Court decision & Feb.~18, 1935 & 1 & +2.9\% & +3.2\% & +3.7\% & +3.5\% \\
+\multicolumn{7}{l}{\textit{Panel A: Joint Resolution (May 26--June 6, 1933)}} \\
+\quad Pooled & 30.9\% & 25.4\% & +5.5 & (3.0) & +4.2 & (2.3) \\
+\quad Small & 49.0\% & 44.4\% & +4.6 & (1.2) & +4.2 & (1.1) \\
+\quad Medium & 24.8\% & 20.0\% & +4.9 & (1.5) & +2.5 & (0.8) \\
+\quad Large & 18.3\% & 15.9\% & +2.4 & (1.4) & +0.9 & (0.5) \\
+\addlinespace
+\multicolumn{7}{l}{\textit{Panel B: Certiorari Grant \& Midterm Election (November 5--8, 1934)}} \\
+\quad Pooled & 7.5\% & 4.0\% & +3.5 & (3.3) & +3.2 & (3.1) \\
+\quad Small & 14.6\% & 6.2\% & +8.4 & (3.7) & +8.4 & (3.7) \\
+\quad Medium & 4.7\% & 3.8\% & +0.9 & (0.5) & +0.5 & (0.3) \\
+\quad Large & 2.5\% & 2.4\% & +0.1 & (0.1) & -0.2 & (-0.2) \\
+\addlinespace
+\multicolumn{7}{l}{\textit{Panel C: Supreme Court Arguments (January 8--10, 1935)}} \\
+\quad Pooled & -1.3\% & -1.4\% & +0.1 & (0.1) & +0.3 & (0.3) \\
+\quad Small & -1.1\% & -0.7\% & -0.3 & (-0.2) & -0.3 & (-0.1) \\
+\quad Medium & -1.2\% & -2.1\% & +0.9 & (0.5) & +1.3 & (0.7) \\
+\quad Large & -1.7\% & -1.3\% & -0.4 & (-0.4) & -0.1 & (-0.1) \\
+\addlinespace
+\multicolumn{7}{l}{\textit{Panel D: Post-Argument Days (January 11--17, 1935)}} \\
+\quad Pooled & -4.5\% & -3.3\% & -1.2 & (-0.8) & -0.9 & (-0.6) \\
+\quad Small & -4.8\% & -3.1\% & -1.7 & (-0.5) & -1.7 & (-0.5) \\
+\quad Medium & -5.3\% & -3.5\% & -1.8 & (-0.7) & -1.2 & (-0.5) \\
+\quad Large & -3.4\% & -3.2\% & -0.2 & (-0.2) & +0.1 & (0.1) \\
+\addlinespace
+\multicolumn{7}{l}{\textit{Panel E: Supreme Court Decision (February 18, 1935)}} \\
+\quad Pooled & 3.7\% & 3.2\% & +0.5 & (0.8) & +0.2 & (0.3) \\
+\quad Small & 3.3\% & 2.8\% & +0.6 & (0.4) & +0.5 & (0.4) \\
+\quad Medium & 4.6\% & 3.7\% & +0.9 & (0.8) & +0.3 & (0.3) \\
+\quad Large & 3.2\% & 3.0\% & +0.2 & (0.4) & -0.1 & (-0.2) \\
 \bottomrule
 \end{tabular}
 \end{adjustbox}
 \medskip
-\begin{minipage}{0.95\textwidth}\footnotesize \textit{Notes.} This table reports cumulative raw returns, the compound product of daily returns over each event window. All series are constructed from CRSP daily returns. The market return is value-weighted using previous-day market capitalization and reproduces the CRSP value-weighted index. Firms are classified by the frozen gold-clause exposure measure $\tilde{d}_j$ defined in equation~(\ref{eq:tilde_d}): the two equal-weighted portfolios contain firms with $\tilde{d}_j>0$ (177 firms) and $\tilde{d}_j=0$ (376 firms), respectively, and the exposure-weighted portfolio weights firms with $\tilde{d}_j>0$ by $w_j = \tilde{d}_j/\sum_k \tilde{d}_k$. Portfolios are rebalanced daily over firms with a return on each day. For the Supreme Court decision (February~18), the benchmark is the close of February~16---the last trading day before the ruling, as the exchange was open on Saturdays. The November window combines the certiorari grant in \textit{United States v.\ Bankers Trust Co.} (Monday, November~5) with the midterm election (Tuesday, November~6, for which the exchange was closed). Internet Appendix Section~\ref{sec:ia_other_events} examines the remaining legal and political events of the litigation period and reports the corresponding return differentials.\end{minipage}
+\begin{minipage}{0.95\textwidth}\footnotesize \textit{Notes.} This table reports cumulative raw returns---the compound product of daily CRSP returns over each event window---of two equal-weighted portfolios: firms with gold-clause exposure ($\tilde{d}_j>0$) and firms without ($\tilde{d}_j=0$), where $\tilde{d}_j$ is the frozen exposure measure defined in equation~(\ref{eq:tilde_d}). Portfolios are rebalanced daily over firms with a return on each day. Within each panel, rows report the full sample (``Pooled'') and size terciles formed on market capitalization at the end of 1932, before the litigation events (gold/non-gold firm counts: pooled 177/376, small 69/116, medium 51/133, large 57/127). ``Diff.''\ is the gold-minus-non-gold differential in percentage points. The beta-adjusted differential subtracts $(\beta_G-\beta_N)\times R_m$, where $R_m$ is the value-weighted market return over the window and portfolio betas are equal-weighted averages of firm-level market betas estimated from daily returns over the full 1926--1940 sample (pooled: $\beta_G=1.01$, $\beta_N=0.90$; small: $\beta_G=0.93$, $\beta_N=0.90$; medium: $\beta_G=1.11$, $\beta_N=0.91$; large: $\beta_G=1.02$, $\beta_N=0.90$). $t$-statistics (in parentheses) scale each differential by $\hat\sigma\sqrt{h}$, where $h$ is the number of trading days in the window and $\hat\sigma$ is the standard deviation of the corresponding daily differential over the pre-abrogation period (July 1926--December 1932). For the Supreme Court decision (February~18, 1935), the benchmark is the close of February~16---the last trading day before the ruling, as the exchange was open on Saturdays. The November window combines the certiorari grant in \textit{United States v.\ Bankers Trust Co.} (Monday, November~5) with the midterm election (Tuesday, November~6, for which the exchange was closed). Internet Appendix Section~\ref{sec:ia_other_events} examines the intermediate legal events of the litigation period in the same format.\end{minipage}
 \end{table}
