@@ -27,17 +27,17 @@ DISPLAY_TERMS = [
 TERM_LABELS = {
     "var_Q": "Q",
     "dind": r"\ensuremath{(\tilde{d} > 0)}",
-    "dind2": r"\ensuremath{(\tilde{d} > \tilde{d}_{0.5})}",
-    "dind3": r"\ensuremath{(\tilde{d} > \tilde{d}_{0.75})}",
+    "dind2": r"\ensuremath{(\tilde{d} \geq \tilde{d}_{0.5})}",
+    "dind3": r"\ensuremath{(\tilde{d} \geq \tilde{d}_{0.75})}",
     "d_1933": r"1933 \ensuremath{\times (\tilde{d} > 0)}",
     "d_1934": r"1934 \ensuremath{\times (\tilde{d} > 0)}",
     "d_After": r"After \ensuremath{\times (\tilde{d} > 0)}",
-    "d2_1933": r"1933 \ensuremath{\times (\tilde{d} > \tilde{d}_{0.5})}",
-    "d2_1934": r"1934 \ensuremath{\times (\tilde{d} > \tilde{d}_{0.5})}",
-    "d2_After": r"After \ensuremath{\times (\tilde{d} > \tilde{d}_{0.5})}",
-    "d3_1933": r"1933 \ensuremath{\times (\tilde{d} > \tilde{d}_{0.75})}",
-    "d3_1934": r"1934 \ensuremath{\times (\tilde{d} > \tilde{d}_{0.75})}",
-    "d3_After": r"After \ensuremath{\times (\tilde{d} > \tilde{d}_{0.75})}",
+    "d2_1933": r"1933 \ensuremath{\times (\tilde{d} \geq \tilde{d}_{0.5})}",
+    "d2_1934": r"1934 \ensuremath{\times (\tilde{d} \geq \tilde{d}_{0.5})}",
+    "d2_After": r"After \ensuremath{\times (\tilde{d} \geq \tilde{d}_{0.5})}",
+    "d3_1933": r"1933 \ensuremath{\times (\tilde{d} \geq \tilde{d}_{0.75})}",
+    "d3_1934": r"1934 \ensuremath{\times (\tilde{d} \geq \tilde{d}_{0.75})}",
+    "d3_After": r"After \ensuremath{\times (\tilde{d} \geq \tilde{d}_{0.75})}",
 }
 
 

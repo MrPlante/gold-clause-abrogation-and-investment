@@ -7,12 +7,14 @@ from tables.models.bond_stats import BondYearStats
 TABLE2_NOTES = (
     r"\scriptsize{\textit{Notes.} This table examines whether firms strategically "
     r"adjusted their gold clause exposure prior to the abrogation. The sample is a "
-    r"balanced panel of 157 firms with corporate bonds outstanding at the end of "
-    r"1930---the year before Britain's departure from the gold standard. For each year, "
+    r"cohort of 157 firms with corporate bonds outstanding at the end of 1930---the year "
+    r"before Britain's departure from the gold standard---that remain in the accounting "
+    r"sample in 1935. For each year, "
     r"the table reports the number of the initial 157 firms that still have at least one "
     r"bond outstanding, the number of firms with gold clause bonds, total bond count "
     r"among the 157 firms, gold clause bond count, mean and median gold clause exposure "
-    r"($d$, as defined in equation (\ref{eq:d})) among firms with positive exposure, and "
+    r"($d$, as defined in equation (\ref{eq:d})) among cohort members with bonds "
+    r"outstanding (including those with zero gold-clause exposure), and "
     r"the correlation between contemporaneous $d$ and its 1930 value.}"
 )
 
@@ -52,7 +54,7 @@ def render_table2_latex(rows: list[BondYearStats]) -> str:
         r"        \begin{tabular}{lccccccc}",
         r"            \toprule",
         r"                 & N firms & N firms & N bonds & N bonds & Mean $d$ & Median $d$ & $\rho(d_{1930}, d_t)$ \\",
-        r"            Year & (with bonds) & (with gold bonds) & (all) & (gold) & ($d>0$) & ($d>0$) & \\",
+        r"            Year & (with bonds) & (with gold bonds) & (all) & (gold) & & & \\",
         r"            \midrule",
         body,
         r"            \bottomrule",

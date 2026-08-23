@@ -7,11 +7,11 @@ from tables.models.credit_ratings import MODEL_ORDER
 from tables.render.regression_table import _cell, _coef_row, _fmt_n
 
 FULL_TABLE_NOTES = (
-    r"\scriptsize{\textit{Notes.} This table reports results from panel regressions of net "
-    r"investment, equity payout rate, and cash dividends on interactions of individual year "
-    r"indicators with $\tilde{d}$, where 1932 is the omitted year. The net investment "
-    r"regression controls for $Q$. Low rating is a firm-level dummy variable that is 1 if a "
-    r"firm's bond ratings are Ba or below in 1930. All regressions include firm and year fixed "
+    r"\scriptsize{\textit{Notes.} This table reports panel regressions of net investment, equity "
+    r"payout, and cash dividends. Each includes $Q$, centered $\tilde{d}$, and interactions of "
+    r"year indicators with $\tilde{d}$, low rating, and their product; 1932 is omitted. "
+    r"$\tilde{d}$ is centered at its sample mean among positive-exposure firm-years. Low rating "
+    r"equals one for bond ratings of Ba or below in 1930. All regressions include firm and year fixed "
     r"effects. All variables are winsorized at the 0.5\% and 99.5\% levels within each year. "
     r"Standard errors in parentheses are two-way clustered by firm and year. $^{*}p<0.10$, "
     r"$^{**}p<0.05$, $^{***}p<0.01$.}"
@@ -30,7 +30,7 @@ def _display_rows() -> list[tuple[str, str]]:
     rows: list[tuple[str, str]] = [
         ("Q", "var_Q"),
         (r"\ensuremath{\tilde{d}}", "d"),
-        ("Low rating", "d_Low"),
+        (r"\ensuremath{\tilde{d} \times} Low rating", "d_Low"),
     ]
     for year in INTERACTION_YEARS:
         rows.append((rf"\ensuremath{{\text{{{year}}} \times \tilde{{d}}}}", f"d_year_{year}"))

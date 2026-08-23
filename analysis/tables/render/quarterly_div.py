@@ -13,7 +13,8 @@ TABLE12_NOTES = (
     r"dividend specification (Table \ref{tab:other_outcomes}, column 2). Columns 2--5 use "
     r"the same specification but restrict the sample to firm-years with data from Q1, Q2, Q3, "
     r"or Q4 only; the dependent variable is quarterly cash dividend (sum of monthly dividends "
-    r"in that quarter) normalized by book common stock. All regressions include firm and year "
+    r"in that quarter) divided by the same fixed base-period average book-common-stock "
+    r"denominator used in Table \ref{tab:other_outcomes}. All regressions include firm and year "
     r"fixed effects. Standard errors in parentheses are clustered by firm. "
     r"$^{*}p<0.10$, $^{**}p<0.05$, $^{***}p<0.01$.}"
 )

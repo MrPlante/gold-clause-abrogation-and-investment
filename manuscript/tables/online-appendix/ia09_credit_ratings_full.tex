@@ -28,14 +28,14 @@
     Observations        &\multicolumn{1}{r}{7,074$\phantom{000}$}&\multicolumn{1}{r}{7,074$\phantom{000}$}&\multicolumn{1}{r}{7,074$\phantom{000}$} \\
     \bottomrule
     
-    \multicolumn{4}{p{0.85\textwidth}}{\vspace*{3mm} \justifying \scriptsize{\textit{Notes.} This table reports results from panel regressions of net investment, equity payout rate, and cash dividends on interactions of individual year indicators with $\tilde{d}$, where 1932 is the omitted year. The net investment regression controls for $Q$. Low rating is a firm-level dummy variable that is 1 if a firm's bond ratings are Ba or below in 1930. All regressions include firm and year fixed effects. All variables are winsorized at the 0.5\% and 99.5\% levels within each year. Standard errors in parentheses are two-way clustered by firm and year. $^{*}p<0.10$, $^{**}p<0.05$, $^{***}p<0.01$.}} \\
+    \multicolumn{4}{p{0.85\textwidth}}{\vspace*{3mm} \justifying \scriptsize{\textit{Notes.} This table reports panel regressions of net investment, equity payout, and cash dividends. Each includes $Q$, centered $\tilde{d}$, and interactions of year indicators with $\tilde{d}$, low rating, and their product; 1932 is omitted. $\tilde{d}$ is centered at its sample mean among positive-exposure firm-years. Low rating equals one for bond ratings of Ba or below in 1930. All regressions include firm and year fixed effects. All variables are winsorized at the 0.5\% and 99.5\% levels within each year. Standard errors in parentheses are two-way clustered by firm and year. $^{*}p<0.10$, $^{**}p<0.05$, $^{***}p<0.01$.}} \\
     \endlastfoot
     
     Q & 0.096\sym{***} & 0.059\sym{*} & 0.111\sym{***} \\
      & (0.017) & (0.031) & (0.019) \\
     \ensuremath{\tilde{d}} & -0.043\sym{*} & 0.048 & 0.024 \\
      & (0.021) & (0.047) & (0.025) \\
-    Low rating & 0.086 & -0.333 & 0.042 \\
+    \ensuremath{\tilde{d} \times} Low rating & 0.086 & -0.333 & 0.042 \\
      & (0.129) & (0.264) & (0.077) \\
     \ensuremath{\text{1926} \times \tilde{d}} & 0.051\sym{**} & 0.010 & -0.025 \\
      & (0.022) & (0.042) & (0.019) \\

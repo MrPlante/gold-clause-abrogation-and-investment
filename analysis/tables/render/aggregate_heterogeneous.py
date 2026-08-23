@@ -11,7 +11,9 @@ TABLE16_NOTES = (
     r"subgroups. Rows labeled ``with rating'' allow the marginal effect to differ between "
     r"high-rated and low-rated firms (Ba or below in 1930), using coefficients from Table "
     r"\ref{tab:credit_rating}. Rows labeled ``with size'' allow the marginal effect to differ "
-    r"between large and small firms (above and below median assets). The baseline row reproduces "
+    r"between large and small firms. The size cutoff is median 1926 assets among positive-exposure "
+    r"firms; a firm is classified as small if its assets fall below that cutoff in at least half "
+    r"of its observed firm-years. The baseline row reproduces "
     r"the uniform-effect estimates from Table \ref{tab:agg} for comparison. ``After'' denotes "
     r"the post-resolution period (1935--1940). See Section \ref{sec:agg} for details.}"
 )
