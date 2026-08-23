@@ -87,7 +87,13 @@ latexmk main.tex
 That is the whole recipe: `manuscript/.latexmkrc` runs the full
 pdflatex/bibtex cycle, routes build artifacts (`.aux`, `.bbl`, `.log`, …)
 to the gitignored `manuscript/build/`, and writes `gold-clause.pdf` at the
-manuscript root (versioned; the jobname is set in the rc file).
+manuscript root (versioned; the jobname is set in the rc file). A
+post-compile hook (`$success_cmd` in the rc) then runs
+`tools/pdf2html.py`, which renders the PDF into a self-contained
+`gold-clause.html` next to it (versioned, for browser review) — so the
+HTML always matches the PDF and both go into the same commit. The same
+hook exists in every round-2 response `.latexmkrc`
+(`response-{r2,r6,editor}.html`).
 `latexmk -C` cleans all generated files.
 
 ### Compiling a referee response PDF
