@@ -47,8 +47,8 @@ VARIABLES_BY_PANEL = {
 
 TABLE_NOTES = (
     r"\scriptsize{\textit{Notes.} This table reports summary statistics for publicly "
-    r"traded industrial firms that issued preferred equity and/or corporate bonds, among "
-    r"firms with positive gold clause exposure ($\tilde{d} > 0$). Panel A covers the "
+    r"traded industrial firms that issued preferred equity and/or corporate bonds. "
+    r"Panel A covers the "
     r"pre-abrogation period (1926--1932), Panel B the legal uncertainty period (1933--1934), "
     r"and Panel C the post-resolution period (1935--1940). Long-term liabilities (LTL) are "
     r"the sum of corporate bonds, preferred shares, and bank debt. All variables are "

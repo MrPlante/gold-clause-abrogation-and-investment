@@ -907,3 +907,15 @@ for fidelity. Coefficients essentially unchanged (-0.097 -> -0.094; all
 stars survive). With this, every published-vs-current difference in the
 paper's regression tables is either exactly reproduced or explained and
 deliberately corrected: NO open reproduction questions remain.
+
+**D-023 addendum 7 (2026-08-23) — Table 4 col 7 round-1 SEs ROOT-CAUSED:
+one-way clustering.** Per Mete's recollection ("we had forgotten to put
+the year in the clustering"), verified exactly: `vce(cluster permno)`
+(firm only) on the col-7 spec reproduces the published round-1 SEs to
+the digit (1926: 0.177, 1928: 0.078, 1934: 0.084). This supersedes the
+"lost 2023 esttab session" attribution in D-017/D-019: the round-1
+column was a clustering typo, not an irreproducible vintage. The
+current column (two-way clustered, version(5) engine) is correct; the
+correction is now disclosed in the letters' corrections block. With
+this, EVERY round-1 number in the paper is accounted for: reproduced
+exactly, or corrected with a known, verified root cause.

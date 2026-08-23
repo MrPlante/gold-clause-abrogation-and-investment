@@ -234,7 +234,7 @@ Event & Dates & Days & Market & No gold & Gold & Gold \\
 \end{{tabular}}
 \end{{adjustbox}}
 \medskip
-\begin{{minipage}}{{0.95\textwidth}}\footnotesize \textit{{Notes.}} This table reports cumulative raw returns, the compound product of daily returns over each event window. All series are constructed from CRSP daily returns. The market return is value-weighted using previous-day market capitalization and reproduces the CRSP value-weighted index. Firms are classified by the gold-clause exposure measure $d_j$ defined in equation~(\ref{{eq:d}}): the two equal-weighted portfolios contain firms with $d_j>0$ ({len(gold)} firms) and $d_j=0$ ({len(zero)} firms), respectively, and the exposure-weighted portfolio weights firms with $d_j>0$ by $w_j = d_j/\sum_k d_k$. Portfolios are rebalanced daily over firms with a return on each day. For the Supreme Court decision (February~18), the benchmark is the close of February~16---the last trading day before the ruling, as the exchange was open on Saturdays. The modest decline during the oral arguments (January~8--10) understates the market anxiety triggered by the government's weak showing: press coverage in the following days drove sustained selling, with Liberty Bond prices reaching their highest level since 1917 by January~13 \citep{{NYT1935}}. Internet Appendix Section~\ref{{sec:ia_other_events}} examines the remaining legal and political events of the litigation period and reports the corresponding return differentials.\end{{minipage}}
+\begin{{minipage}}{{0.95\textwidth}}\footnotesize \textit{{Notes.}} This table reports cumulative raw returns, the compound product of daily returns over each event window. All series are constructed from CRSP daily returns. The market return is value-weighted using previous-day market capitalization and reproduces the CRSP value-weighted index. Firms are classified by the frozen gold-clause exposure measure $\tilde{{d}}_j$ defined in equation~(\ref{{eq:tilde_d}}): the two equal-weighted portfolios contain firms with $\tilde{{d}}_j>0$ ({len(gold)} firms) and $\tilde{{d}}_j=0$ ({len(zero)} firms), respectively, and the exposure-weighted portfolio weights firms with $\tilde{{d}}_j>0$ by $w_j = \tilde{{d}}_j/\sum_k \tilde{{d}}_k$. Portfolios are rebalanced daily over firms with a return on each day. For the Supreme Court decision (February~18), the benchmark is the close of February~16---the last trading day before the ruling, as the exchange was open on Saturdays. Internet Appendix Section~\ref{{sec:ia_other_events}} examines the remaining legal and political events of the litigation period and reports the corresponding return differentials.\end{{minipage}}
 \end{{table}}
 """
     path = os.path.join(MS_BODY_TAB, "table1_event_study.tex")
@@ -425,7 +425,7 @@ def write_size_split_tables(gold, zero):
 
     notes_main = (
         r"This table reports cumulative raw returns of the equal-weighted gold-exposed "
-        r"($d_j>0$) and non-exposed ($d_j=0$) portfolios of Table~\ref{tab:event_study} over "
+        r"($\tilde{d}_j>0$) and non-exposed ($\tilde{d}_j=0$) portfolios of Table~\ref{tab:event_study} over "
         r"each event window, within size terciles formed on market capitalization at the end "
         rf"of 1932 (gold/non-gold firm counts: {counts}). ``Diff.''\ is the gold-minus-non-gold "
         r"differential in percentage points. The beta-adjusted differential subtracts "
