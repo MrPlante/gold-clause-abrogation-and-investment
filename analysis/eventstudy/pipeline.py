@@ -387,7 +387,7 @@ def write_size_split_tables(gold, zero):
          "Stock market responses to key legal events",
          "tab:event_study", notes_main),
         (MS_IA_TAB, "ia20_size_split_intermediate.tex", SIZE_INTERMEDIATE_EVENTS,
-         "Intermediate legal and political events, by firm size",
+         "Intermediate legal events, by firm size",
          "tabapp:size_split_intermediate", notes_int),
     ]:
         body = _size_panel_body(inputs, events)
