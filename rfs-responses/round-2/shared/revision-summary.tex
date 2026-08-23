@@ -6,6 +6,57 @@
 \item \textbf{Limitations of the exposure measure.} Section~5.5 now contains an explicit limitations paragraph acknowledging that, because virtually all corporate bonds of the era carried gold clauses while preferred shares carried none, our exposure measure is necessarily entangled with the composition of a firm's fixed claims, and that our placebo and control strategies mitigate but cannot fully eliminate this concern.
 \item \textbf{Pre-trends and event-time patterns.} Section~5.2 now acknowledges directly that, given the width of the confidence intervals around individual year estimates, the litigation-year coefficients cannot be statistically distinguished from individual pre-treatment estimates such as the 1930 coefficient, and clarifies that the support for the parallel-trends assumption rests on the full pre-treatment pattern.
 \item \textbf{Liberty bond discussion.} We have revised the historical background section to clarify why Liberty Bond prices rose during the Supreme Court arguments in January 1935. Since Liberty Bonds were gold-denominated government obligations, a government loss would have obligated the Treasury to honor gold payments at the then-prevailing price of \$35 per ounce---69\% above the pre-abrogation level---increasing the real value of the bonds to holders. We have also added the missing \textit{New York Times} citation.
-\item \textbf{Correction to Table 4, column 5.} While rebuilding the replication code we discovered that the note to column 5 of Table~4 misdescribed the specification: the column uses an alternative exposure measure that scales gold-clause debt by the firm's total fixed claims (bank debt, bonds, and preferred stock), rather than the baseline $\tilde{d}$ on a restricted sample. We have corrected the column header and table note accordingly, and adjusted the corresponding text in Section~5; the estimates themselves are unchanged from the previous draft.
-\item \textbf{Correction to Table 4, column 4 (and Internet Appendix Table~IA.12).} While rebuilding the replication code we found that the previous draft's ``no redemption'' sample inadvertently excluded 37 unexposed firms that lacked a prior-year observation during 1931--1935---an artifact of missing-value handling in the original code. The revised sample excludes only firms that retired their gold-clause debt during the litigation window. The estimates are essentially unchanged (the exposure coefficient moves from $-0.097$ to $-0.094$); the only significance change is that a marginally significant pre-period interaction ($1928\times\tilde{d}$) loses its 10\% star.
 \end{itemize}
+
+\bigskip
+\noindent\textbf{Corrections identified while rebuilding the replication code.}
+As part of this revision we rebuilt the paper's replication code end to end, so that every table and figure regenerates from the raw data. This exercise surfaced two issues in Table~4 of the previous draft, which we have corrected; neither affects any result the paper relies on, and we report both columns before and after the corrections below for completeness. First, the note to column~5 misdescribed the specification: the column uses an alternative exposure measure that scales gold-clause debt by the firm's total fixed claims (bank debt, bonds, and preferred shares), rather than the baseline $\tilde{d}$ on a restricted sample. The column header, the table note, and the corresponding text in Section~5 now describe the specification correctly; the estimates are unchanged except for one standard error in the third decimal. Second, the ``no redemption'' sample of column~4 (and of Internet Appendix Table~IA.12, column~1) inadvertently excluded 37 unexposed firms that lacked a prior-year observation during 1931--1935, an artifact of missing-value handling in the original code; the revised sample excludes only the 90 firms that retired their gold-clause debt during the litigation window. The only significance change is that the marginally significant $1928\times\tilde{d}$ interaction in column~4 loses its 10\% star.
+
+\begin{center}
+{\singlespacing\small
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{lcccc}
+\toprule
+ & \multicolumn{2}{c}{Column 4 (No redemption)} & \multicolumn{2}{c}{Column 5 (Fixed claims)} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+ & Round 1 & Revised & Round 1 & Revised \\
+\midrule
+Q & 0.085\sym{***} & 0.086\sym{***} & 0.123\sym{***} & 0.123\sym{***} \\
+ & (0.015) & (0.014) & (0.022) & (0.022) \\
+\ensuremath{\tilde{d}} & -0.097\sym{**} & -0.094\sym{**} & -0.057\sym{*} & -0.057\sym{*} \\
+ & (0.033) & (0.034) & (0.030) & (0.030) \\
+\ensuremath{\text{1926} \times \tilde{d}} & 0.057\sym{**} & 0.061\sym{**} & 0.033 & 0.033 \\
+ & (0.021) & (0.022) & (0.026) & (0.026) \\
+\ensuremath{\text{1927} \times \tilde{d}} & 0.026 & 0.010 & 0.043 & 0.043 \\
+ & (0.028) & (0.030) & (0.031) & (0.031) \\
+\ensuremath{\text{1928} \times \tilde{d}} & 0.061\sym{*} & 0.039 & 0.020 & 0.020 \\
+ & (0.030) & (0.031) & (0.028) & (0.028) \\
+\ensuremath{\text{1929} \times \tilde{d}} & 0.046 & 0.040 & 0.005 & 0.005 \\
+ & (0.029) & (0.029) & (0.025) & (0.025) \\
+\ensuremath{\text{1930} \times \tilde{d}} & -0.018 & -0.024 & -0.038 & -0.038 \\
+ & (0.022) & (0.022) & (0.024) & (0.024) \\
+\ensuremath{\text{1931} \times \tilde{d}} & 0.004 & 0.004 & -0.015 & -0.015 \\
+ & (0.014) & (0.014) & (0.014) & (0.014) \\
+\ensuremath{\text{1933} \times \tilde{d}} & -0.068\sym{***} & -0.064\sym{***} & -0.058\sym{***} & -0.058\sym{***} \\
+ & (0.013) & (0.013) & (0.013) & (0.014) \\
+\ensuremath{\text{1934} \times \tilde{d}} & -0.032\sym{***} & -0.036\sym{***} & -0.043\sym{***} & -0.043\sym{***} \\
+ & (0.011) & (0.010) & (0.009) & (0.009) \\
+\ensuremath{\text{1935} \times \tilde{d}} & 0.025\sym{**} & 0.027\sym{**} & 0.018\sym{**} & 0.018\sym{**} \\
+ & (0.010) & (0.010) & (0.008) & (0.008) \\
+\ensuremath{\text{1936} \times \tilde{d}} & 0.001 & 0.006 & -0.011 & -0.011 \\
+ & (0.012) & (0.011) & (0.012) & (0.012) \\
+\ensuremath{\text{1937} \times \tilde{d}} & 0.015 & 0.005 & -0.007 & -0.007 \\
+ & (0.016) & (0.016) & (0.017) & (0.017) \\
+\ensuremath{\text{1938} \times \tilde{d}} & 0.000 & 0.009 & -0.006 & -0.006 \\
+ & (0.019) & (0.019) & (0.019) & (0.019) \\
+\ensuremath{\text{1939} \times \tilde{d}} & -0.021 & -0.025 & -0.034\sym{*} & -0.034\sym{*} \\
+ & (0.015) & (0.016) & (0.017) & (0.017) \\
+\ensuremath{\text{1940} \times \tilde{d}} & -0.005 & -0.013 & -0.013 & -0.013 \\
+ & (0.016) & (0.016) & (0.016) & (0.016) \\
+\midrule
+\ensuremath{R^2} & 0.221 & 0.224 & 0.252 & 0.252 \\
+Observations & 5,572 & 5,918 & 6,048 & 6,048 \\
+\bottomrule
+\end{tabular}
+}
+\end{center}
