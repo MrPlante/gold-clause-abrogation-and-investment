@@ -887,3 +887,23 @@ a fresh grid scan of alternative-exposure repay flags (d/dalt/dd/ddalt/
 d_orig/dalt_orig/fd_amount x to-zero/any-decline x five windows) finds
 nothing at N = 5,572 (closest 5,422). The col-4 code must come from
 Mete's RFS-submission-era script.
+
+**D-023 addendum 6 (2026-08-23) — published Table 4 col 4 RECOVERED and
+deliberately NOT adopted; D-017 fully closed.** Mete supplied his col-4
+code: it is A16_balanced.do's repay flag verbatim (= the shipped
+reconstruction's definition). Run in STATA it reproduces the published
+column exactly (N = 5,572, d = -0.097, 1933 = -0.068, 1934 = -0.032) —
+the missing piece was Stata's missing-value semantics: `L.d > 0` is TRUE
+when the calendar lag is missing, so the flag catches 90 genuine
+gold-debt retirers (d > 0 -> 0 in 1931-1935; the shipped definition)
+PLUS 37 unexposed (d = 0) firms merely lacking a prior-year row in the
+window. Same flag underlies IA.12 col 1 (same N). D-017's month of
+sample archaeology failed because every candidate was evaluated in
+pandas semantics. Decision (Sebastien, 2026-08-23, Mete concurring that
+the original "does not do what we are supposed to do"): KEEP the clean
+shipped definition (N = 5,918, genuine retirers only) and disclose the
+round-1 artifact in the revision summary; do not reintroduce the bug
+for fidelity. Coefficients essentially unchanged (-0.097 -> -0.094; all
+stars survive). With this, every published-vs-current difference in the
+paper's regression tables is either exactly reproduced or explained and
+deliberately corrected: NO open reproduction questions remain.
