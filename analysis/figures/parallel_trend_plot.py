@@ -1,4 +1,4 @@
-"""Figure 6 — year × d̃ interaction coefficients (Stata A9_inv_results.do gold_coeffs block)."""
+"""Figure 7 — year × d̃ interaction coefficients (Stata A9_inv_results.do gold_coeffs block)."""
 
 from __future__ import annotations
 

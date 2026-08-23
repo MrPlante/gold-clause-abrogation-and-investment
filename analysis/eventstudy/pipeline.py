@@ -23,7 +23,6 @@ within firm from 1931 on: 1930 gold-clause debt / 1930 LT liabilities).
 
 Outputs (written directly into manuscript/):
   manuscript/figures/body/event{1,2,3}_*.pdf                  (Figures 3-5)
-  manuscript/figures/online-appendix/midterm_1934.pdf         (Figure IA.2)
   manuscript/tables/body/table1_event_study.tex               (Table 1)
   manuscript/tables/online-appendix/ia20_size_split_events.tex + 
   ia21_size_split_intermediate.tex                            (IA.20, IA.21)
@@ -65,6 +64,8 @@ SERIES4 = [
 EVENTS = [
     ("event1_joint_resolution", "Joint Resolution (May 26–June 6, 1933)",
      datetime(1933, 5, 26), datetime(1933, 6, 6)),
+    ("event4_midterm", "Cert. Grant & Midterm Election (Nov. 5–8, 1934)",
+     datetime(1934, 11, 5), datetime(1934, 11, 8)),
     ("event2_weak_showing", "Supreme Court Arguments (Jan. 8–10, 1935)",
      datetime(1935, 1, 8), datetime(1935, 1, 10)),
     ("event3_sc_decision", "Supreme Court Decision (Feb. 18, 1935)",
@@ -81,10 +82,6 @@ OTHER_EVENTS = [
     ("Cert.\\ granted \\& midterm election",     "Nov.\\ 5--8, 1934", "1934-11-05", 3),
 ]
 JR_ROW = ("Joint Resolution (reference)", "May 26--June 6, 1933", "1933-05-26", 9)
-
-MIDTERM = ("midterm_1934", "Cert. Grant & Midterm Election (Nov. 5–7, 1934)",
-           datetime(1934, 11, 5), datetime(1934, 11, 7))
-
 
 # ---------------------------------------------------------------- series
 
@@ -211,6 +208,7 @@ def write_event_table(s, gold, zero):
 
     rows_a = []
     meta = [("Joint Resolution", "May 26--June 6, 1933"),
+            ("Cert.\\ grant \\& midterm election", "Nov.~5--8, 1934"),
             ("Supreme Court oral arguments", "Jan.~8--10, 1935"),
             ("Supreme Court decision", "Feb.~18, 1935")]
     for (label, dates), (start, end, nd) in zip(meta, ev):
@@ -237,7 +235,7 @@ Event & Dates & Days & Market & No gold & Gold & Gold \\
 \end{{tabular}}
 \end{{adjustbox}}
 \medskip
-\begin{{minipage}}{{0.95\textwidth}}\footnotesize \textit{{Notes.}} This table reports cumulative raw returns, the compound product of daily returns over each event window. All series are constructed from CRSP daily returns. The market return is value-weighted using previous-day market capitalization and reproduces the CRSP value-weighted index. Firms are classified by the frozen gold-clause exposure measure $\tilde{{d}}_j$ defined in equation~(\ref{{eq:tilde_d}}): the two equal-weighted portfolios contain firms with $\tilde{{d}}_j>0$ ({len(gold)} firms) and $\tilde{{d}}_j=0$ ({len(zero)} firms), respectively, and the exposure-weighted portfolio weights firms with $\tilde{{d}}_j>0$ by $w_j = \tilde{{d}}_j/\sum_k \tilde{{d}}_k$. Portfolios are rebalanced daily over firms with a return on each day. For the Supreme Court decision (February~18), the benchmark is the close of February~16---the last trading day before the ruling, as the exchange was open on Saturdays. Internet Appendix Section~\ref{{sec:ia_other_events}} examines the remaining legal and political events of the litigation period and reports the corresponding return differentials.\end{{minipage}}
+\begin{{minipage}}{{0.95\textwidth}}\footnotesize \textit{{Notes.}} This table reports cumulative raw returns, the compound product of daily returns over each event window. All series are constructed from CRSP daily returns. The market return is value-weighted using previous-day market capitalization and reproduces the CRSP value-weighted index. Firms are classified by the frozen gold-clause exposure measure $\tilde{{d}}_j$ defined in equation~(\ref{{eq:tilde_d}}): the two equal-weighted portfolios contain firms with $\tilde{{d}}_j>0$ ({len(gold)} firms) and $\tilde{{d}}_j=0$ ({len(zero)} firms), respectively, and the exposure-weighted portfolio weights firms with $\tilde{{d}}_j>0$ by $w_j = \tilde{{d}}_j/\sum_k \tilde{{d}}_k$. Portfolios are rebalanced daily over firms with a return on each day. For the Supreme Court decision (February~18), the benchmark is the close of February~16---the last trading day before the ruling, as the exchange was open on Saturdays. The November window combines the certiorari grant in \textit{{United States v.\ Bankers Trust Co.}} (Monday, November~5) with the midterm election (Tuesday, November~6, for which the exchange was closed). Internet Appendix Section~\ref{{sec:ia_other_events}} examines the remaining legal and political events of the litigation period and reports the corresponding return differentials.\end{{minipage}}
 \end{{table}}
 """
     path = os.path.join(MS_BODY_TAB, "table1_event_study.tex")
@@ -253,9 +251,10 @@ BETA_SAMPLE_END = "1940-12-31"  # full-sample firm-level market betas
 
 SIZE_MAIN_EVENTS = [
     ("Panel A: Joint Resolution (May 26--June 6, 1933)", "1933-05-26", 9),
-    ("Panel B: Supreme Court Arguments (January 8--10, 1935)", "1935-01-08", 3),
-    ("Panel C: Post-Argument Days (January 11--17, 1935)", "1935-01-11", 6),
-    ("Panel D: Supreme Court Decision (February 18, 1935)", "1935-02-18", 1),
+    ("Panel B: Certiorari Grant \\& Midterm Election (November 5--8, 1934)", "1934-11-05", 3),
+    ("Panel C: Supreme Court Arguments (January 8--10, 1935)", "1935-01-08", 3),
+    ("Panel D: Post-Argument Days (January 11--17, 1935)", "1935-01-11", 6),
+    ("Panel E: Supreme Court Decision (February 18, 1935)", "1935-02-18", 1),
 ]
 SIZE_INTERMEDIATE_EVENTS = [
     ("Panel A: First gold-clause hearing, \\textit{Irving Trust} (May 22--24, 1933)",
@@ -266,8 +265,6 @@ SIZE_INTERMEDIATE_EVENTS = [
      "1934-07-03", 3),
     ("Panel D: Certiorari granted, \\textit{Norman} (Oct.\\ 8--10, 1934)",
      "1934-10-08", 3),
-    ("Panel E: Certiorari granted \\& midterm election (Nov.\\ 5--8, 1934)",
-     "1934-11-05", 3),
 ]
 
 
@@ -408,10 +405,7 @@ def write_size_split_tables(gold, zero):
         r"Missouri Pacific} (E.D.~Mo., June~20, 1934) was the first federal ruling upholding "
         r"the constitutionality of the Joint Resolution; the New York Court of Appeals "
         r"affirmed \textit{Norman v.\ Baltimore \& Ohio R.~Co.} on July~3, 1934. Certiorari "
-        r"was granted in \textit{Norman} on October~8, 1934 and in \textit{United States v.\ "
-        r"Bankers Trust Co.} on November~5, 1934; the New York Stock Exchange was closed on "
-        r"November~6, 1934 for the midterm election, so the November window mixes the "
-        r"certiorari grant with the election result.")
+        r"was granted in \textit{Norman} on October~8, 1934.")
 
     for fname, events, caption, label, notes in [
         ("ia20_size_split_events.tex", SIZE_MAIN_EVENTS,
@@ -442,8 +436,6 @@ def main():
     # figures
     for stem, title, start, end in EVENTS:
         save(make_event_zoom(s, SERIES4, title, start, end), stem, MS_BODY_FIG)
-    save(make_event_zoom(s, SERIES4, MIDTERM[1], MIDTERM[2], MIDTERM[3]),
-         MIDTERM[0], MS_IA_FIG)
 
     # tables
     write_event_table(s, gold, zero)
@@ -451,7 +443,7 @@ def main():
 
     # ---------------- numbers for the text -----------------
     print("\n=== NUMBERS FOR TEXT ===")
-    for stem, title, start, end in EVENTS + [MIDTERM]:
+    for stem, title, start, end in EVENTS:
         st = start.strftime("%Y-%m-%d")
         nd = len(s.loc[start:end])
         raw = {c: raw_ret(s, st, nd, c) for c in ("mkt", "ew_no", "ew_yes", "dwret")}
