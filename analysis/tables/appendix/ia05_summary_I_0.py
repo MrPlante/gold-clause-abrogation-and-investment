@@ -1,5 +1,5 @@
 """
-Internet Appendix Table 3 — Summary statistics for tilde-d = 0 firms (tabapp:summary_I_1).
+Internet Appendix Table 3 — Summary statistics for tilde-d = 0 firms (tabapp:summary_I_0).
 
 Uses ``d == 0`` (manuscript / Stata A14 second block). All panels include tilde-d rows.
 """
@@ -160,7 +160,7 @@ def write_latex_table(panels: dict, path: Path | None = None) -> Path:
         render_distribution_table(
             panels,
             caption=r"Summary statistics for $\tilde{d} = 0$ firms",
-            label="tabapp:summary_I_1",
+            label="tabapp:summary_I_0",
             notes=TABLE_NOTES,
             panel_order=["A", "B", "C"],
         ),
