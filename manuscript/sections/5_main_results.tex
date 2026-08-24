@@ -58,7 +58,7 @@ According to the dynamic debt overhang theory of \cite{Hennessy2004}, the shareh
 
 To test this prediction, we first calculate the total equity payout of a firm $j$ at time $t$ as\footnote{\rev{We use a fixed, firm-specific denominator equal to average book common stock over all available observations through 1930. If 1930 is unavailable, the averaging window extends through the firm's first subsequent observation; for firms observed only before 1930, it includes all available observations.} This prevents post-treatment changes in equity structure from distorting the payout measure. Since the gold clause shock may itself affect equity issuance and repurchase decisions, using a time-varying denominator could conflate changes in actual payouts with changes in the capital structure.}
 \begin{align*}
-    \rev{\text{Payout}_{j,t} = \frac{\text{Dividend}_{j,t} + \text{Net repurchase}_{j,t}}{\text{Base-period average book common stock}_{j}}.}
+    \text{Payout}_{j,t} = \frac{\text{Dividend}_{j,t} + \text{Net repurchase}_{j,t}}{\text{Book value of common stock}_{j,1930}}.
 \end{align*}
 We then re-estimate equation (\ref{eq:overhang_inv_reg}) using payouts as the dependent variable. Column 1 of Table \ref{tab:other_outcomes} shows that the interaction coefficients for 1933 and 1934 are 0.038 and 0.054, both statistically significant at the 5\% and 1\% levels, respectively. Outside the litigation period, the coefficients are close to zero and statistically insignificant. Thus, consistent with debt overhang, the degree of gold exposure is associated with greater payouts during the gold clause litigation period, and during this period only.
 
