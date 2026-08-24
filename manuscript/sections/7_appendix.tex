@@ -30,7 +30,7 @@ We use firm-year observations of the following variables constructed from the ha
 
         \item Cash/assets is the ratio of cash (cash, bank deposit, and Treasuries) to total assets. 
 
-		\item Payout/common stock is the ratio of equity payouts to \rev{a fixed, firm-specific denominator equal to average book common stock over all available observations through 1930. If 1930 is unavailable, the averaging window extends through the firm's first subsequent observation; for firms observed only before 1930, it includes all available observations}. Equity payout is computed using cash dividends and share repurchases following \cite{Boudoukh2007}.
+		\item Payout/common stock is the ratio of equity payouts to \rev{the book value of common stock, with the denominator fixed at each firm's pre-treatment level}. Equity payout is computed using cash dividends and share repurchases following \cite{Boudoukh2007}.
         
 		\item Book leverage is the ratio of total assets minus book equity to total assets.
 
@@ -50,7 +50,7 @@ We use firm-year observations of the following variables constructed from the ha
         
         \item $\mathbb{I}_{\tilde{d}>0}$ is an indicator function that is one if $\tilde{d} > 0$. 
        
-        \item Profits and cash, which are used as the dependent variable in Table \ref{tab:other_outcomes}, are net income from the income statement and cash from balance sheet from each year normalized by \rev{a fixed, firm-specific denominator equal to average fixed capital over the same base-period window used for payout/common stock}.
+        \item Profits and cash, which are used as the dependent variable in Table \ref{tab:other_outcomes}, are net income from the income statement and cash from balance sheet from each year normalized by \rev{fixed capital, with the denominator fixed at each firm's pre-treatment level}.
 	\end{itemize}
 
     Firm-level control variables are constructed using data from \rev{1930 (or the first available year thereafter)}. These control variables are used to construct \rev{characteristic-period interaction terms and period-interacted decile indicators}. All variables are winsorized at the bottom and top 0.5\% every year.
