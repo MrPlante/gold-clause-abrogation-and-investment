@@ -15,7 +15,7 @@ LATEX_ROW_LABELS: dict[str, str] = {
 
 TABLE1_NOTES = (
     r"\scriptsize{\textit{Notes.} This table reports summary statistics separately "
-    r"for firms with no gold clause exposure ($d = 0$) and firms with positive gold "
+    r"for firms without gold clause exposure ($d = 0$) and firms with positive gold "
     r"clause exposure ($d > 0$). The number of unique firms in each group is reported "
     r"in parentheses. $\Delta$ Mean is the difference in means ($d > 0$ minus $d = 0$), "
     r"and p-val is the $p$-value of the difference. Panel A covers 1926--1932, Panel B "
@@ -159,7 +159,7 @@ def render_table1_latex(panels: dict[str, PanelStats]) -> str:
 
 TILDE_D_NOTES = (
     r"\scriptsize{\textit{Notes.} This table reports summary statistics separately "
-    r"for firms with no gold clause exposure ($\tilde{d} = 0$) and firms with positive "
+    r"for firms without gold clause exposure ($\tilde{d} = 0$) and firms with positive "
     r"gold clause exposure ($\tilde{d} > 0$). The number of unique firms in each group "
     r"is reported in parentheses. $\Delta$ Mean is the difference in means "
     r"($\tilde{d} > 0$ minus $\tilde{d} = 0$), and p-val is the $p$-value of the "
