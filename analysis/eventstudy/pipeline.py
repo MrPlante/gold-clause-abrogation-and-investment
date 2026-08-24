@@ -320,7 +320,8 @@ def _size_table_tex(body, caption, label, notes):
 \caption{{\\ {caption}}}
 \label{{{label}}}
 \footnotesize
-\setlength{{\tabcolsep}}{{4pt}}
+\setlength{{\tabcolsep}}{{10pt}}
+\renewcommand{{\arraystretch}}{{1.2}}
 \medskip
 \begin{{adjustbox}}{{max width=\textwidth}}
 \begin{{tabular}}{{lcccccc}}
@@ -334,7 +335,7 @@ def _size_table_tex(body, caption, label, notes):
 \end{{tabular}}
 \end{{adjustbox}}
 \medskip
-\begin{{minipage}}{{0.95\textwidth}}\footnotesize \textit{{Notes.}} {notes}\end{{minipage}}
+\begin{{minipage}}{{0.95\textwidth}}\scriptsize \textit{{Notes.}} {notes}\end{{minipage}}
 \end{{table}}
 """
 
