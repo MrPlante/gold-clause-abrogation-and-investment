@@ -2,10 +2,10 @@
 \centering
 \caption{\\ Stock market responses to key legal events}
 \label{tab:event_study}
-\footnotesize
+\scriptsize
 \setlength{\tabcolsep}{10pt}
 \renewcommand{\arraystretch}{1.2}
-\medskip
+\smallskip
 \begin{adjustbox}{max width=\textwidth}
 \begin{tabular}{lcccccc}
 \toprule
@@ -47,9 +47,16 @@ Pooled & 3.7\% & 3.2\% & +0.5 & (0.8) & +0.2 & (0.3) \\
 Small & 3.3\% & 2.8\% & +0.6 & (0.4) & +0.5 & (0.4) \\
 Medium & 4.6\% & 3.7\% & +0.9 & (0.8) & +0.3 & (0.3) \\
 Large & 3.2\% & 3.0\% & +0.2 & (0.4) & -0.1 & (-0.2) \\
+\midrule
+\multicolumn{7}{c}{\makebox[0pt][c]{\textit{Panel F: Full Episode (May 26, 1933--February 18, 1935)}}} \\
+\midrule
+Pooled & 125.3\% & 116.9\% & +8.4 & (0.6) & +5.0 & (0.4) \\
+Small & 269.5\% & 281.0\% & -11.5 & (-0.4) & -12.4 & (-0.4) \\
+Medium & 70.6\% & 84.1\% & -13.5 & (-0.6) & -19.8 & (-0.9) \\
+Large & 60.6\% & 54.8\% & +5.7 & (0.4) & +1.9 & (0.1) \\
 \bottomrule
 \end{tabular}
 \end{adjustbox}
-\medskip
-\begin{minipage}{0.95\textwidth}\scriptsize \textit{Notes.} Cumulative raw returns, from daily CRSP returns, of equal-weighted portfolios of firms with ($\tilde{d}_j>0$) and without ($\tilde{d}_j=0$) gold-clause exposure (equation~(\ref{eq:tilde_d})) over each event window, pooled and within size terciles formed on market capitalization at the end of 1932 (gold/non-gold firm counts: 177/376 pooled; 69/116, 51/133, 57/127 across terciles). Differentials are gold minus non-gold, in percentage points; the beta-adjusted differential subtracts $(\beta_G-\beta_N)\times R_m$, where $R_m$ is the market return over the window and portfolio betas are estimated from daily returns over 1926--1940 (pooled: $\beta_G=1.01$, $\beta_N=0.90$). $t$-statistics (in parentheses) scale each differential by $\hat\sigma\sqrt{h}$, where $h$ is the number of trading days in the window and $\hat\sigma$ is the standard deviation of the daily differential over the pre-abrogation period (July 1926--December 1932). The decision-day benchmark is the close of Saturday, February~16, 1935. The November window combines the certiorari grant in \textit{United States v.\ Bankers Trust Co.}\ with the midterm election, for which the exchange was closed. Internet Appendix Section~\ref{sec:ia_other_events} examines the intermediate legal events in the same format.\end{minipage}
+\smallskip
+\begin{minipage}{\textwidth}\scriptsize \textit{Notes.} Cumulative raw returns, from daily CRSP returns, of equal-weighted portfolios of firms with ($\tilde{d}_j>0$) and without ($\tilde{d}_j=0$) gold-clause exposure (equation~(\ref{eq:tilde_d})) over each event window, pooled and within size terciles formed on market capitalization at the end of 1932 (gold/non-gold firm counts: 177/376 pooled; 69/116, 51/133, 57/127 across terciles). Differentials are gold minus non-gold, in percentage points; the beta-adjusted differential subtracts $(\beta_G-\beta_N)\times R_m$, where $R_m$ is the market return over the window and portfolio betas are estimated from daily returns over 1926--1940 (pooled: $\beta_G=1.01$, $\beta_N=0.90$). $t$-statistics (in parentheses) scale each differential by $\hat\sigma\sqrt{h}$, where $h$ is the number of trading days in the window and $\hat\sigma$ is the standard deviation of the daily differential over the pre-abrogation period (July 1926--December 1932). The decision-day benchmark is the close of Saturday, February~16, 1935. The November window combines the certiorari grant in \textit{United States v.\ Bankers Trust Co.}\ with the midterm election, for which the exchange was closed. Internet Appendix Section~\ref{sec:ia_other_events} examines the intermediate legal events in the same format.\end{minipage}
 \end{table}

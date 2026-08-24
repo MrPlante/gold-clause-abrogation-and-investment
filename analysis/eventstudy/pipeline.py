@@ -319,10 +319,10 @@ def _size_table_tex(body, caption, label, notes):
 \centering
 \caption{{\\ {caption}}}
 \label{{{label}}}
-\footnotesize
+\scriptsize
 \setlength{{\tabcolsep}}{{10pt}}
 \renewcommand{{\arraystretch}}{{1.2}}
-\medskip
+\smallskip
 \begin{{adjustbox}}{{max width=\textwidth}}
 \begin{{tabular}}{{lcccccc}}
 \toprule
@@ -334,8 +334,8 @@ def _size_table_tex(body, caption, label, notes):
 \bottomrule
 \end{{tabular}}
 \end{{adjustbox}}
-\medskip
-\begin{{minipage}}{{0.95\textwidth}}\scriptsize \textit{{Notes.}} {notes}\end{{minipage}}
+\smallskip
+\begin{{minipage}}{{\textwidth}}\scriptsize \textit{{Notes.}} {notes}\end{{minipage}}
 \end{{table}}
 """
 
@@ -375,8 +375,16 @@ def write_size_split_tables(gold, zero):
         r"affirmed \textit{Norman v.\ Baltimore \& Ohio R.~Co.} on July~3, 1934. Certiorari "
         r"was granted in \textit{Norman} on October~8, 1934.")
 
+    # Panel F: the full litigation episode, eve of the Joint Resolution
+    # window through the Supreme Court decision, in the same format.
+    nd_full = len(inputs["Pooled"]["y"].loc["1933-05-26":"1935-02-18"])
+    main_events = SIZE_MAIN_EVENTS + [
+        ("Panel F: Full Episode (May 26, 1933--February 18, 1935)",
+         "1933-05-26", nd_full),
+    ]
+
     for out_dir, fname, events, caption, label, notes in [
-        (MS_BODY_TAB, "table1_event_study.tex", SIZE_MAIN_EVENTS,
+        (MS_BODY_TAB, "table1_event_study.tex", main_events,
          "Stock market responses to key legal events",
          "tab:event_study", notes_main),
         (MS_IA_TAB, "ia20_size_split_intermediate.tex", SIZE_INTERMEDIATE_EVENTS,
