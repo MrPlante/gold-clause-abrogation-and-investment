@@ -49,39 +49,39 @@ Supreme Court decision & Feb.~18, 1935 & 1 & 2.9\% & 3.2\% & 3.7\% & 3.5\% \\
 \textbf{Stock market responses to key legal events (Table~1 of the paper)}\\[4pt]
 \begin{tabular}{lcccccc}
 \toprule
- & Gold & No gold & \multicolumn{2}{c}{Raw} & \multicolumn{2}{c}{Beta-adjusted} \\
-\cmidrule(lr){4-5}\cmidrule(lr){6-7}
- & exposure & exposure & Diff. & $t$ & Diff. & $t$ \\
+ & \multicolumn{2}{c}{Portfolio return} & \multicolumn{4}{c}{Differential (gold $-$ no gold)} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-7}
+ & Gold & No gold & Raw & $t$ & $\beta$-adj. & $t$ \\
 \midrule
-\multicolumn{7}{c}{\textit{Panel A: Joint Resolution (May 26--June 6, 1933)}} \\
+\multicolumn{7}{c}{\makebox[0pt][c]{\textit{Panel A: Joint Resolution (May 26--June 6, 1933)}}} \\
 \midrule
 Pooled & 30.9\% & 25.4\% & +5.5 & (3.0) & +4.2 & (2.3) \\
 Small & 49.0\% & 44.4\% & +4.6 & (1.2) & +4.2 & (1.1) \\
 Medium & 24.8\% & 20.0\% & +4.9 & (1.5) & +2.5 & (0.8) \\
 Large & 18.3\% & 15.9\% & +2.4 & (1.4) & +0.9 & (0.5) \\
 \midrule
-\multicolumn{7}{c}{\textit{Panel B: Certiorari Grant \& Midterm Election (November 5--8, 1934)}} \\
+\multicolumn{7}{c}{\makebox[0pt][c]{\textit{Panel B: Certiorari Grant \& Midterm Election (November 5--8, 1934)}}} \\
 \midrule
 Pooled & 7.5\% & 4.0\% & +3.5 & (3.3) & +3.2 & (3.1) \\
 Small & 14.6\% & 6.2\% & +8.4 & (3.7) & +8.4 & (3.7) \\
 Medium & 4.7\% & 3.8\% & +0.9 & (0.5) & +0.5 & (0.3) \\
 Large & 2.5\% & 2.4\% & +0.1 & (0.1) & -0.2 & (-0.2) \\
 \midrule
-\multicolumn{7}{c}{\textit{Panel C: Supreme Court Arguments (January 8--10, 1935)}} \\
+\multicolumn{7}{c}{\makebox[0pt][c]{\textit{Panel C: Supreme Court Arguments (January 8--10, 1935)}}} \\
 \midrule
 Pooled & -1.3\% & -1.4\% & +0.1 & (0.1) & +0.3 & (0.3) \\
 Small & -1.1\% & -0.7\% & -0.3 & (-0.2) & -0.3 & (-0.1) \\
 Medium & -1.2\% & -2.1\% & +0.9 & (0.5) & +1.3 & (0.7) \\
 Large & -1.7\% & -1.3\% & -0.4 & (-0.4) & -0.1 & (-0.1) \\
 \midrule
-\multicolumn{7}{c}{\textit{Panel D: Post-Argument Days (January 11--17, 1935)}} \\
+\multicolumn{7}{c}{\makebox[0pt][c]{\textit{Panel D: Post-Argument Days (January 11--17, 1935)}}} \\
 \midrule
 Pooled & -4.5\% & -3.3\% & -1.2 & (-0.8) & -0.9 & (-0.6) \\
 Small & -4.8\% & -3.1\% & -1.7 & (-0.5) & -1.7 & (-0.5) \\
 Medium & -5.3\% & -3.5\% & -1.8 & (-0.7) & -1.2 & (-0.5) \\
 Large & -3.4\% & -3.2\% & -0.2 & (-0.2) & +0.1 & (0.1) \\
 \midrule
-\multicolumn{7}{c}{\textit{Panel E: Supreme Court Decision (February 18, 1935)}} \\
+\multicolumn{7}{c}{\makebox[0pt][c]{\textit{Panel E: Supreme Court Decision (February 18, 1935)}}} \\
 \midrule
 Pooled & 3.7\% & 3.2\% & +0.5 & (0.8) & +0.2 & (0.3) \\
 Small & 3.3\% & 2.8\% & +0.6 & (0.4) & +0.5 & (0.4) \\
@@ -90,7 +90,7 @@ Large & 3.2\% & 3.0\% & +0.2 & (0.4) & -0.1 & (-0.2) \\
 \bottomrule
 \end{tabular}
 \\[4pt]
-\begin{minipage}{0.92\textwidth}\footnotesize \textit{Note.} Cumulative raw returns of the equal-weighted gold-exposed and non-exposed portfolios within size terciles formed on market capitalization at the end of 1932 (gold/non-gold firm counts: pooled 177/376, small 69/116, medium 51/133, large 57/127). ``Diff.'' is the gold-minus-non-gold differential in percentage points. The beta-adjusted differential subtracts $(\beta_G-\beta_N)\times R_m$, where $R_m$ is the value-weighted market return over the window and portfolio betas are equal-weighted averages of firm-level market betas estimated from daily returns over the full 1926--1940 sample (pooled: $\beta_G=1.01$, $\beta_N=0.90$; small: $\beta_G=0.93$, $\beta_N=0.90$; medium: $\beta_G=1.11$, $\beta_N=0.91$; large: $\beta_G=1.02$, $\beta_N=0.90$). $t$-statistics scale each differential by $\hat\sigma\sqrt{h}$, where $h$ is the number of trading days in the window and $\hat\sigma$ is the standard deviation of the corresponding daily differential over the pre-abrogation period (July 1926--December 1932).\end{minipage}
+\begin{minipage}{0.92\textwidth}\footnotesize \textit{Note.} Cumulative raw returns, from daily CRSP returns, of equal-weighted portfolios of firms with ($\tilde{d}_j>0$) and without ($\tilde{d}_j=0$) gold-clause exposure over each event window, pooled and within size terciles formed on market capitalization at the end of 1932 (gold/non-gold firm counts: 177/376 pooled; 69/116, 51/133, 57/127 across terciles). Differentials are gold minus non-gold, in percentage points; the beta-adjusted differential subtracts $(\beta_G-\beta_N)\times R_m$, where $R_m$ is the market return over the window and portfolio betas are estimated from daily returns over 1926--1940 (pooled: $\beta_G=1.01$, $\beta_N=0.90$). $t$-statistics scale each differential by $\hat\sigma\sqrt{h}$, where $h$ is the number of trading days in the window and $\hat\sigma$ is the standard deviation of the daily differential over the pre-abrogation period (July 1926--December 1932). The decision-day benchmark is the close of Saturday, February~16, 1935. The November window combines the certiorari grant in \textit{United States v.\ Bankers Trust Co.}\ with the midterm election, for which the exchange was closed.\end{minipage}
 }
 \end{center}
 
@@ -112,32 +112,32 @@ Large & 3.2\% & 3.0\% & +0.2 & (0.4) & -0.1 & (-0.2) \\
 \textbf{Intermediate legal events, by firm size}\\[4pt]
 \begin{tabular}{lcccccc}
 \toprule
- & Gold & No gold & \multicolumn{2}{c}{Raw} & \multicolumn{2}{c}{Beta-adjusted} \\
-\cmidrule(lr){4-5}\cmidrule(lr){6-7}
- & exposure & exposure & Diff. & $t$ & Diff. & $t$ \\
+ & \multicolumn{2}{c}{Portfolio return} & \multicolumn{4}{c}{Differential (gold $-$ no gold)} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-7}
+ & Gold & No gold & Raw & $t$ & $\beta$-adj. & $t$ \\
 \midrule
-\multicolumn{7}{c}{\textit{Panel A: First gold-clause hearing, \textit{Irving Trust} (May 22--24, 1933)}} \\
+\multicolumn{7}{c}{\makebox[0pt][c]{\textit{Panel A: First gold-clause hearing, \textit{Irving Trust} (May 22--24, 1933)}}} \\
 \midrule
 Pooled & 8.3\% & 6.9\% & +1.4 & (1.3) & +0.8 & (0.7) \\
 Small & 8.8\% & 6.7\% & +2.1 & (0.9) & +1.9 & (0.8) \\
 Medium & 8.6\% & 7.7\% & +0.9 & (0.5) & -0.2 & (-0.1) \\
 Large & 7.4\% & 6.3\% & +1.2 & (1.2) & +0.5 & (0.5) \\
 \midrule
-\multicolumn{7}{c}{\textit{Panel B: \textit{In re Missouri Pacific} ruling (June 20--22, 1934)}} \\
+\multicolumn{7}{c}{\makebox[0pt][c]{\textit{Panel B: \textit{In re Missouri Pacific} ruling (June 20--22, 1934)}}} \\
 \midrule
 Pooled & -5.1\% & -3.9\% & -1.2 & (-1.1) & -0.8 & (-0.8) \\
 Small & -5.5\% & -3.9\% & -1.6 & (-0.7) & -1.5 & (-0.7) \\
 Medium & -5.1\% & -4.3\% & -0.9 & (-0.5) & -0.1 & (-0.1) \\
 Large & -4.7\% & -3.6\% & -1.1 & (-1.1) & -0.6 & (-0.6) \\
 \midrule
-\multicolumn{7}{c}{\textit{Panel C: \textit{Norman} affirmed, N.Y.\ Ct.\ App.\ (July 3--6, 1934)}} \\
+\multicolumn{7}{c}{\makebox[0pt][c]{\textit{Panel C: \textit{Norman} affirmed, N.Y.\ Ct.\ App.\ (July 3--6, 1934)}}} \\
 \midrule
 Pooled & 2.2\% & 1.5\% & +0.7 & (0.6) & +0.4 & (0.4) \\
 Small & 1.6\% & 1.8\% & -0.2 & (-0.1) & -0.2 & (-0.1) \\
 Medium & 2.0\% & 1.1\% & +0.9 & (0.5) & +0.4 & (0.2) \\
 Large & 2.9\% & 1.7\% & +1.2 & (1.2) & +0.9 & (0.9) \\
 \midrule
-\multicolumn{7}{c}{\textit{Panel D: Certiorari granted, \textit{Norman} (Oct.\ 8--10, 1934)}} \\
+\multicolumn{7}{c}{\makebox[0pt][c]{\textit{Panel D: Certiorari granted, \textit{Norman} (Oct.\ 8--10, 1934)}}} \\
 \midrule
 Pooled & 2.1\% & 1.4\% & +0.7 & (0.6) & +0.6 & (0.5) \\
 Small & 4.5\% & 2.4\% & +2.1 & (0.9) & +2.1 & (0.9) \\

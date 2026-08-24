@@ -292,7 +292,8 @@ def _size_panel_body(inputs, events):
     for i, (title, start, nd) in enumerate(events):
         if i:
             lines.append(r"\midrule")
-        lines.append(rf"\multicolumn{{7}}{{c}}{{\textit{{{title}}}}} \\")
+        # zero-width box: long titles must not inflate the spanned columns
+        lines.append(rf"\multicolumn{{7}}{{c}}{{\makebox[0pt][c]{{\textit{{{title}}}}}}} \\")
         lines.append(r"\midrule")
         for gname in ("Pooled", "Small", "Medium", "Large"):
             d = inputs[gname]
@@ -324,9 +325,9 @@ def _size_table_tex(body, caption, label, notes):
 \begin{{adjustbox}}{{max width=\textwidth}}
 \begin{{tabular}}{{lcccccc}}
 \toprule
- & Gold & No gold & \multicolumn{{2}}{{c}}{{Raw}} & \multicolumn{{2}}{{c}}{{Beta-adjusted}} \\
-\cmidrule(lr){{4-5}}\cmidrule(lr){{6-7}}
- & exposure & exposure & Diff. & $t$ & Diff. & $t$ \\
+ & \multicolumn{{2}}{{c}}{{Portfolio return}} & \multicolumn{{4}}{{c}}{{Differential (gold $-$ no gold)}} \\
+\cmidrule(lr){{2-3}}\cmidrule(lr){{4-7}}
+ & Gold & No gold & Raw & $t$ & $\beta$-adj. & $t$ \\
 \midrule
 {body}
 \bottomrule
@@ -341,40 +342,28 @@ def _size_table_tex(body, caption, label, notes):
 def write_size_split_tables(gold, zero):
     inputs = size_split_inputs(gold, zero)
     gs = inputs
-    counts = (f"pooled {gs['Pooled']['ny']}/{gs['Pooled']['nn']}, "
-              f"small {gs['Small']['ny']}/{gs['Small']['nn']}, "
-              f"medium {gs['Medium']['ny']}/{gs['Medium']['nn']}, "
-              f"large {gs['Large']['ny']}/{gs['Large']['nn']}")
-    beta_note = (rf"pooled: $\beta_G={gs['Pooled']['by']:.2f}$, $\beta_N={gs['Pooled']['bn']:.2f}$; "
-                 rf"small: $\beta_G={gs['Small']['by']:.2f}$, $\beta_N={gs['Small']['bn']:.2f}$; "
-                 rf"medium: $\beta_G={gs['Medium']['by']:.2f}$, $\beta_N={gs['Medium']['bn']:.2f}$; "
-                 rf"large: $\beta_G={gs['Large']['by']:.2f}$, $\beta_N={gs['Large']['bn']:.2f}$")
 
     notes_main = (
-        r"This table reports cumulative raw returns---the compound product of daily CRSP "
-        r"returns over each event window---of two equal-weighted portfolios: firms with "
-        r"gold-clause exposure ($\tilde{d}_j>0$) and firms without ($\tilde{d}_j=0$), where "
-        r"$\tilde{d}_j$ is the frozen exposure measure defined in "
-        r"equation~(\ref{eq:tilde_d}). Portfolios are rebalanced daily over firms with a "
-        r"return on each day. Within each panel, rows report the full sample (``Pooled'') "
-        r"and size terciles formed on market capitalization at the end of 1932, before the "
-        rf"litigation events (gold/non-gold firm counts: {counts}). ``Diff.''\ is the "
-        r"gold-minus-non-gold differential in percentage points. The beta-adjusted "
-        r"differential subtracts $(\beta_G-\beta_N)\times R_m$, where $R_m$ is the "
-        r"value-weighted market return over the window and portfolio betas are "
-        r"equal-weighted averages of firm-level market betas estimated from daily returns "
-        rf"over the full 1926--1940 sample ({beta_note}). "
-        r"$t$-statistics (in parentheses) scale each differential by $\hat\sigma\sqrt{h}$, "
-        r"where $h$ is the number of trading days in the window and $\hat\sigma$ is the "
-        r"standard deviation of the corresponding daily differential over the "
-        r"pre-abrogation period (July 1926--December 1932). For the Supreme Court decision "
-        r"(February~18, 1935), the benchmark is the close of February~16---the last trading "
-        r"day before the ruling, as the exchange was open on Saturdays. The November window "
-        r"combines the certiorari grant in \textit{United States v.\ Bankers Trust Co.} "
-        r"(Monday, November~5) with the midterm election (Tuesday, November~6, for which "
-        r"the exchange was closed). Internet Appendix "
-        r"Section~\ref{sec:ia_other_events} examines the intermediate legal events of the "
-        r"litigation period in the same format.")
+        r"Cumulative raw returns, from daily CRSP returns, of equal-weighted portfolios of "
+        r"firms with ($\tilde{d}_j>0$) and without ($\tilde{d}_j=0$) gold-clause exposure "
+        r"(equation~(\ref{eq:tilde_d})) over each event window, pooled and within size "
+        r"terciles formed on market capitalization at the end of 1932 (gold/non-gold firm "
+        rf"counts: {gs['Pooled']['ny']}/{gs['Pooled']['nn']} pooled; "
+        rf"{gs['Small']['ny']}/{gs['Small']['nn']}, {gs['Medium']['ny']}/{gs['Medium']['nn']}, "
+        rf"{gs['Large']['ny']}/{gs['Large']['nn']} across terciles). "
+        r"Differentials are gold minus non-gold, in percentage points; the beta-adjusted "
+        r"differential subtracts $(\beta_G-\beta_N)\times R_m$, where $R_m$ is the market "
+        r"return over the window and portfolio betas are estimated from daily returns over "
+        rf"1926--1940 (pooled: $\beta_G={gs['Pooled']['by']:.2f}$, "
+        rf"$\beta_N={gs['Pooled']['bn']:.2f}$). $t$-statistics (in parentheses) scale each "
+        r"differential by $\hat\sigma\sqrt{h}$, where $h$ is the number of trading days in "
+        r"the window and $\hat\sigma$ is the standard deviation of the daily differential "
+        r"over the pre-abrogation period (July 1926--December 1932). The decision-day "
+        r"benchmark is the close of Saturday, February~16, 1935. The November window "
+        r"combines the certiorari grant in \textit{United States v.\ Bankers Trust Co.}\ "
+        r"with the midterm election, for which the exchange was closed. Internet Appendix "
+        r"Section~\ref{sec:ia_other_events} examines the intermediate legal events in the "
+        r"same format.")
     notes_int = (
         r"Same portfolio construction, size terciles, and $t$-statistic convention as "
         r"Table~\ref{tab:event_study} in the main text; each window is three "
