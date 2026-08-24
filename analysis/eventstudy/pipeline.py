@@ -286,9 +286,14 @@ def size_split_inputs(gold, zero):
 
 
 def _size_panel_body(inputs, events):
+    """Panel layout follows the manuscript house style (Tables 2 and 8):
+    centered panel titles between \midrule pairs, unindented row labels."""
     lines = []
-    for title, start, nd in events:
-        lines.append(rf"\multicolumn{{7}}{{l}}{{\textit{{{title}}}}} \\")
+    for i, (title, start, nd) in enumerate(events):
+        if i:
+            lines.append(r"\midrule")
+        lines.append(rf"\multicolumn{{7}}{{c}}{{\textit{{{title}}}}} \\")
+        lines.append(r"\midrule")
         for gname in ("Pooled", "Small", "Medium", "Large"):
             d = inputs[gname]
             wy = d["y"].loc[start:].head(nd)
@@ -303,10 +308,8 @@ def _size_panel_body(inputs, events):
             t_r = raw / (_calm_sd(d["y"] - d["n"]) * np.sqrt(h))
             t_a = adj / (_calm_sd((d["y"] - d["by"] * d["m"])
                                   - (d["n"] - d["bn"] * d["m"])) * np.sqrt(h))
-            lines.append(rf"\quad {gname} & {ry*100:.1f}\% & {rn*100:.1f}\% & "
+            lines.append(rf"{gname} & {ry*100:.1f}\% & {rn*100:.1f}\% & "
                          rf"{raw*100:+.1f} & ({t_r:.1f}) & {adj*100:+.1f} & ({t_a:.1f}) \\")
-        if (title, start, nd) != events[-1]:
-            lines.append(r"\addlinespace")
     return chr(10).join(lines)
 
 
