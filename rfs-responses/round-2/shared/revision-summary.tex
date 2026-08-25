@@ -10,52 +10,52 @@
 
 \bigskip
 \noindent\textbf{Corrections identified while rebuilding the replication code.}
-As part of this revision we rebuilt the paper's replication code end to end, so that every table and figure regenerates from the raw data. This exercise surfaced two issues in Table~4 of the previous draft, which we have corrected; neither affects any result the paper relies on, and we report both columns before and after the corrections below for completeness. First, the note to column~5 misdescribed the specification: the column uses an alternative exposure measure that scales gold-clause debt by the firm's total fixed claims (bank debt, bonds, and preferred shares), rather than the baseline $\tilde{d}$ on a restricted sample. The column header, the table note, and the corresponding text in Section~5 now describe the specification correctly; the estimates are unchanged except for one standard error in the third decimal. Second, the ``no redemption'' sample of column~4 (and of Internet Appendix Table~IA.12, column~1) inadvertently excluded 37 unexposed firms that lacked a prior-year observation during 1931--1935, an artifact of missing-value handling in the original code; the revised sample excludes only the 90 firms that retired their gold-clause debt during the litigation window. The only significance change is that the marginally significant $1928\times\tilde{d}$ interaction in column~4 loses its 10\% star.
+As part of this revision we rebuilt the paper's replication code end to end, so that every table and figure regenerates from the raw data. This exercise surfaced two issues in Table~4 of the previous draft, which we have corrected; neither affects any result the paper relies on. First, the note to column~5 misdescribed the specification: the column uses an alternative exposure measure that scales gold-clause debt by the firm's total fixed claims (bank debt, bonds, and preferred shares), rather than the baseline $\tilde{d}$ on a restricted sample. This is purely a labeling issue: the column header, the table note, and the corresponding text in Section~5 now describe the specification correctly, and the estimates are unchanged. Second, the ``no redemption'' sample of column~4 (and of Internet Appendix Table~IA.12, column~1) inadvertently excluded 37 unexposed firms that lacked a prior-year observation during 1931--1935, an artifact of missing-value handling in the original code; the revised sample excludes only the 90 firms that retired their gold-clause debt during the litigation window. The only significance change is that the marginally significant $1928\times\tilde{d}$ interaction in column~4 loses its 10\% star. We report column~4 before and after the correction below.
 
 \begin{center}
 {\singlespacing\small
 \def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
-\begin{tabular}{lcccc}
+\begin{tabular}{lcc}
 \toprule
- & \multicolumn{2}{c}{Column 4 (No redemption)} & \multicolumn{2}{c}{Column 5 (Fixed claims)} \\
-\cmidrule(lr){2-3}\cmidrule(lr){4-5}
- & Round 1 & Revised & Round 1 & Revised \\
+ & \multicolumn{2}{c}{Column 4 (No redemption)} \\
+\cmidrule(lr){2-3}
+ & Round 1 & Revised \\
 \midrule
-Q & 0.085\sym{***} & 0.086\sym{***} & 0.123\sym{***} & 0.123\sym{***} \\
- & (0.015) & (0.014) & (0.022) & (0.022) \\
-\ensuremath{\tilde{d}} & -0.097\sym{**} & -0.094\sym{**} & -0.057\sym{*} & -0.057\sym{*} \\
- & (0.033) & (0.034) & (0.030) & (0.030) \\
-\ensuremath{\text{1926} \times \tilde{d}} & 0.057\sym{**} & 0.061\sym{**} & 0.033 & 0.033 \\
- & (0.021) & (0.022) & (0.026) & (0.026) \\
-\ensuremath{\text{1927} \times \tilde{d}} & 0.026 & 0.010 & 0.043 & 0.043 \\
- & (0.028) & (0.030) & (0.031) & (0.031) \\
-\ensuremath{\text{1928} \times \tilde{d}} & 0.061\sym{*} & 0.039 & 0.020 & 0.020 \\
- & (0.030) & (0.031) & (0.028) & (0.028) \\
-\ensuremath{\text{1929} \times \tilde{d}} & 0.046 & 0.040 & 0.005 & 0.005 \\
- & (0.029) & (0.029) & (0.025) & (0.025) \\
-\ensuremath{\text{1930} \times \tilde{d}} & -0.018 & -0.024 & -0.038 & -0.038 \\
- & (0.022) & (0.022) & (0.024) & (0.024) \\
-\ensuremath{\text{1931} \times \tilde{d}} & 0.004 & 0.004 & -0.015 & -0.015 \\
- & (0.014) & (0.014) & (0.014) & (0.014) \\
-\ensuremath{\text{1933} \times \tilde{d}} & -0.068\sym{***} & -0.064\sym{***} & -0.058\sym{***} & -0.058\sym{***} \\
- & (0.013) & (0.013) & (0.013) & (0.014) \\
-\ensuremath{\text{1934} \times \tilde{d}} & -0.032\sym{***} & -0.036\sym{***} & -0.043\sym{***} & -0.043\sym{***} \\
- & (0.011) & (0.010) & (0.009) & (0.009) \\
-\ensuremath{\text{1935} \times \tilde{d}} & 0.025\sym{**} & 0.027\sym{**} & 0.018\sym{**} & 0.018\sym{**} \\
- & (0.010) & (0.010) & (0.008) & (0.008) \\
-\ensuremath{\text{1936} \times \tilde{d}} & 0.001 & 0.006 & -0.011 & -0.011 \\
- & (0.012) & (0.011) & (0.012) & (0.012) \\
-\ensuremath{\text{1937} \times \tilde{d}} & 0.015 & 0.005 & -0.007 & -0.007 \\
- & (0.016) & (0.016) & (0.017) & (0.017) \\
-\ensuremath{\text{1938} \times \tilde{d}} & 0.000 & 0.009 & -0.006 & -0.006 \\
- & (0.019) & (0.019) & (0.019) & (0.019) \\
-\ensuremath{\text{1939} \times \tilde{d}} & -0.021 & -0.025 & -0.034\sym{*} & -0.034\sym{*} \\
- & (0.015) & (0.016) & (0.017) & (0.017) \\
-\ensuremath{\text{1940} \times \tilde{d}} & -0.005 & -0.013 & -0.013 & -0.013 \\
- & (0.016) & (0.016) & (0.016) & (0.016) \\
+Q & 0.085\sym{***} & 0.086\sym{***} \\
+ & (0.015) & (0.014) \\
+\ensuremath{\tilde{d}} & -0.097\sym{**} & -0.094\sym{**} \\
+ & (0.033) & (0.034) \\
+\ensuremath{\text{1926} \times \tilde{d}} & 0.057\sym{**} & 0.061\sym{**} \\
+ & (0.021) & (0.022) \\
+\ensuremath{\text{1927} \times \tilde{d}} & 0.026 & 0.010 \\
+ & (0.028) & (0.030) \\
+\ensuremath{\text{1928} \times \tilde{d}} & 0.061\sym{*} & 0.039 \\
+ & (0.030) & (0.031) \\
+\ensuremath{\text{1929} \times \tilde{d}} & 0.046 & 0.040 \\
+ & (0.029) & (0.029) \\
+\ensuremath{\text{1930} \times \tilde{d}} & -0.018 & -0.024 \\
+ & (0.022) & (0.022) \\
+\ensuremath{\text{1931} \times \tilde{d}} & 0.004 & 0.004 \\
+ & (0.014) & (0.014) \\
+\ensuremath{\text{1933} \times \tilde{d}} & -0.068\sym{***} & -0.064\sym{***} \\
+ & (0.013) & (0.013) \\
+\ensuremath{\text{1934} \times \tilde{d}} & -0.032\sym{***} & -0.036\sym{***} \\
+ & (0.011) & (0.010) \\
+\ensuremath{\text{1935} \times \tilde{d}} & 0.025\sym{**} & 0.027\sym{**} \\
+ & (0.010) & (0.010) \\
+\ensuremath{\text{1936} \times \tilde{d}} & 0.001 & 0.006 \\
+ & (0.012) & (0.011) \\
+\ensuremath{\text{1937} \times \tilde{d}} & 0.015 & 0.005 \\
+ & (0.016) & (0.016) \\
+\ensuremath{\text{1938} \times \tilde{d}} & 0.000 & 0.009 \\
+ & (0.019) & (0.019) \\
+\ensuremath{\text{1939} \times \tilde{d}} & -0.021 & -0.025 \\
+ & (0.015) & (0.016) \\
+\ensuremath{\text{1940} \times \tilde{d}} & -0.005 & -0.013 \\
+ & (0.016) & (0.016) \\
 \midrule
-\ensuremath{R^2} & 0.221 & 0.224 & 0.252 & 0.252 \\
-Observations & 5,572 & 5,918 & 6,048 & 6,048 \\
+\ensuremath{R^2} & 0.221 & 0.224 \\
+Observations & 5,572 & 5,918 \\
 \bottomrule
 \end{tabular}
 }
