@@ -59,6 +59,12 @@ SERIES4 = [
     ("ew_yes", "Gold exposure (equal-wt.)",       "#2ca02c", "-.", 2.0),
     ("dwret",  "Gold exposure (exposure-wt.)",    "#1f77b4", "--", 2.2),
 ]
+# The paper's adopted representation: the two equal-weighted portfolios only
+# (the four-series versions are reproduced in the R2 response letter).
+SERIES2 = [
+    ("ew_yes", "Gold exposure (equal-wt.)",       "#2ca02c", "-",  2.2),
+    ("ew_no",  "No gold exposure (equal-wt.)",    "#d62728", "--", 2.0),
+]
 # (stem, title, window start, window end) -- Table 1 / manuscript figures
 EVENTS = [
     ("event1_joint_resolution", "Joint Resolution (May 26–June 6, 1933)",
@@ -410,9 +416,12 @@ def main():
     sd_daily = diff_se(s)
     print(f"pre-abrogation daily raw diff SD {sd_daily*100:.2f}pp")
 
-    # figures
+    # figures: IA versions show the adopted two-series representation; the
+    # four-series versions (suffix _allseries) are embedded in the R2 letter
     for stem, title, start, end in EVENTS:
-        save(make_event_zoom(s, SERIES4, title, start, end), stem, MS_IA_FIG)
+        save(make_event_zoom(s, SERIES2, title, start, end), stem, MS_IA_FIG)
+        save(make_event_zoom(s, SERIES4, title, start, end),
+             f"{stem}_allseries", MS_IA_FIG)
 
     # tables
     write_size_split_tables(gold, zero)
