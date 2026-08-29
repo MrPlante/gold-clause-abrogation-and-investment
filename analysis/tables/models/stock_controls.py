@@ -86,7 +86,9 @@ def run_models(df: pd.DataFrame) -> dict[str, object]:
     for var in ANN_VARS:
         ann_linear.extend([f"{var}_before", f"{var}_1933", f"{var}_1934", f"{var}_after"])
 
+    # Raw contemporaneous ann_* ride along for column 1, matching the round-1
+    # A20 do-file's `ann*` wildcard (decision 2026-08-29).
     cols = (["permno", "year", "var_inv_rate"]
-            + CORE_TERMS + LINEAR_CONTROLS + ann_linear
+            + CORE_TERMS + LINEAR_CONTROLS + ANN_VARS + ann_linear
             + [c for prefix in DECILE_PREFIX_BY_MODEL.values() for c in ann_portfolio_cols(prefix)])
     return stata_models("ia17_stock_controls", panel[cols])

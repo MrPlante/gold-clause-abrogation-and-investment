@@ -3,10 +3,12 @@
 * Engine: reghdfe legacy version(5) - the vintage of the submitted table
 * (DISCREPANCIES.md D-023). Note the ret_sd decile column (column 4 in the
 * manuscript layout) is degenerate under reghdfe 6 (all-missing e(V));
-* version(5) is the only engine that produces its standard errors. Column 1's
-* sample retains a small reconstruction gap vs the round-1 table (N 7,039 vs
-* published 7,033), and a handful of decile-column coefficients differ in the
-* last printed digit - lost-state fossils, engine-independent (D-022).
+* version(5) is the only engine that produces its standard errors. Column 1
+* includes the five raw contemporaneous ann_* variables alongside the
+* characteristic-period interactions, reproducing round-1's A20 `ann*`
+* wildcard exactly (N 7,033; decision 2026-08-29). A handful of
+* decile-column coefficients differ in the last printed digit vs round 1 -
+* lost-state fossils, engine-independent (D-022).
 * Input:  data/processed/stata_inputs/ia17_stock_controls.dta
 *         (written by analysis/tables/appendix/ia17_stock_controls.py per
 *         A20_retcontrols.do: chars_annual merge, characteristic-period
@@ -40,12 +42,14 @@ foreach c in var_Q var_logasset var_netinc var_cash var_payout var_booklev var_m
 }
 local annlin
 foreach c in ann_ret_mean ann_ret_sd ann_beta_mktrf ann_beta_smb ann_beta_hml {
+    local annlin `annlin' `c'
     foreach p in before 1933 1934 after {
         local annlin `annlin' `c'_`p'
     }
 }
 
 * Column 1: all characteristic-period and return-based linear controls
+* (raw ann_* included: round-1 A20's `ann*` wildcard)
 reghdfe var_inv_rate `lin' `annlin' `core', absorb(permno year) vce(cluster permno year) version(5)
 dumpcol linear_ann "`lin' `annlin' `core'"
 
