@@ -18,11 +18,8 @@ TABLE4_NOTES = (
     r"baseline debt overhang specification (equation (\ref{eq:parameterization})). Columns "
     r"3 and 4 report estimation results using the baseline specification on restricted "
     r"samples: Column 3 excludes firms with bonds maturing between 1931 and 1934, and Column 4 "
-    r"excludes firms that retired their gold-clause debt between 1931 and 1935. Column 5 uses an "
-    r"alternative exposure measure that scales gold-clause debt by the firm's total fixed "
-    r"claims---bank debt, bonds, and preferred stock. The measure is frozen at its 1930 value "
-    r"after 1930; before 1930, it uses the lagged bond share of fixed claims. It is defined only "
-    r"for firms with fixed claims, which restricts the sample accordingly. Columns 6 and 7 "
+    r"excludes firms that retired their gold-clause debt between 1931 and 1935. Column 5 "
+    r"restricts the sample to firms with positive long-term liabilities. Columns 6 and 7 "
     r"report results from placebo tests that replace the numerator of $\tilde{d}$ with "
     r"preferred shares and bank debt, respectively---securities that did not contain gold "
     r"clauses. All regressions include firm and year fixed effects. All variables are "
@@ -36,7 +33,7 @@ COLUMN_HEADERS = [
     ("Overhang", "(2)"),
     ("No maturity", "(3)"),
     ("No redemption", "(4)"),
-    ("Fixed claims", "(5)"),
+    ("With LT Lia.", "(5)"),
     ("Pref. shares", "(6)"),
     ("Bank Debt", "(7)"),
 ]
