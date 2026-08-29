@@ -38,17 +38,21 @@ def load_panel() -> pd.DataFrame:
 def _exclude_repurchasers(df: pd.DataFrame) -> pd.Series:
     """Column 4 sample: drop firms whose gold exposure d went from positive to
     zero during the litigation window (1931-1935), i.e. firms that retired
-    their gold-clause debt. This is Mete's A16_balanced.do ``repay`` flag
-    (Stata: gen repay2 = 1 if d == 0 & L.d > 0 & year >= 1931 & year <= 1935),
-    adopted as the closest reconstruction of the published column 4 (published
-    d = -0.097, N = 5,572; this sample gives d = -0.094, N = 5,918; the
-    original RFS-era do-file defining the exact sample is lost)."""
-    lag = df[["permno", "year", "d"]].copy()
-    lag["year"] += 1
-    lag = lag.rename(columns={"d": "_Ld"})
-    m = df[["permno", "year", "d"]].merge(lag, on=["permno", "year"], how="left")
-    repay2 = (m["d"] == 0) & (m["_Ld"] > 0) & m["year"].between(1931, 1935)
-    bad = set(m.loc[repay2.to_numpy(), "permno"])
+    their gold-clause debt. The lag is the firm's most recent prior
+    observation (positional shift), so a transition that straddles a gap in
+    coverage still flags the firm; this matches IA.12 column 1 exactly
+    (decision 2026-08-29: the two columns share one sample, 96 firms
+    dropped, N = 5,853). Mete's A16_balanced.do used Stata's calendar lag
+    L.d, which misses 6 gap-straddling firms; the published column 4
+    (d = -0.097, N = 5,572) came from a lost RFS-era do-file."""
+    ordered = df[["permno", "year", "d"]].sort_values(["permno", "year"])
+    d_lag = ordered.groupby("permno", observed=True)["d"].shift(1)
+    repay2 = (
+        (ordered["d"] == 0)
+        & (d_lag > 0)
+        & ordered["year"].between(1931, 1935)
+    )
+    bad = set(ordered.loc[repay2, "permno"])
     return ~df["permno"].isin(bad)
 
 
