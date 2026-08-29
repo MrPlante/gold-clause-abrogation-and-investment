@@ -36,8 +36,6 @@ def render_stock_controls_table(models: dict[str, object]) -> str:
     header = " & ".join([""] + [rf"\multicolumn{{1}}{{c}}{{({i + 1})}}" for i in range(n_cols)])
     fe_row = " & ".join(["Firm FE"] + [r"\multicolumn{1}{c}{Yes}"] * n_cols)
     year_fe_row = " & ".join(["Year FE"] + [r"\multicolumn{1}{c}{Yes}"] * n_cols)
-    ind_fe = ["No"] * n_cols
-    ind_fe_row = " & ".join(["Industry-year FE"] + [rf"\multicolumn{{1}}{{c}}{{{v}}}" for v in ind_fe])
     r2_row = " & ".join([r"\ensuremath{R^2}"] + [f"{m._r2:.3f}" for m in ordered])
     n_row = " & ".join(
         ["Observations"]
@@ -63,7 +61,6 @@ def render_stock_controls_table(models: dict[str, object]) -> str:
             r"\midrule",
             f"{fe_row} \\\\",
             f"{year_fe_row} \\\\",
-            f"{ind_fe_row} \\\\",
             f"{r2_row} \\\\",
             f"{n_row} \\\\",
             r"\bottomrule",
