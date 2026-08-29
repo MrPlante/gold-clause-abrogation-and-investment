@@ -55,29 +55,32 @@ def _stata_quantile(values: pd.Series, q: float) -> float:
 
 
 def prepare_firm_indicators(df: pd.DataFrame) -> pd.DataFrame:
-    """Replicate A17_sizecashlev.do exactly.
+    """Corrected A17_sizecashlev.do (Mete, 2026-08: `if year == min_year`
+    restored on the gen lines).
 
     The cutoff is the Stata summarize,detail median of the variable over
-    min-year observations of d>0 firms. The constraint measure is then the
-    FIRM-LEVEL MEAN of a time-varying indicator evaluated on every
-    firm-year (``bys permno: egen small = mean(small2)``) — a fraction in
-    [0,1], defined for all firms, not a min-year 0/1 snapshot. Stata
-    missing semantics: missing < p50 is FALSE, missing > p50 is TRUE.
+    min-year observations of d>0 firms. Each firm is classified 0/1 at its
+    min year (1930 or first year thereafter); firms with no min-year
+    observation are dropped. The original do-file lacked the min-year
+    condition on the indicator, yielding a fraction-of-years measure; the
+    round-1 table was built from that version (see revision summary).
+    Stata missing semantics: missing < p50 is FALSE, missing > p50 is TRUE.
     """
     out = df.copy()
+    at_base = out["year"] == out["min_year"]
     for var, col, high in [
         ("var_logasset", "small", False),
         ("var_cash", "lowcash", False),
         ("var_booklev", "highlev", True),
     ]:
-        base = out.loc[(out["year"] == out["min_year"]) & (out["d"] > 0), var]
+        base = out.loc[at_base & (out["d"] > 0), var]
         p50 = _stata_quantile(base, 0.50)
         if high:
             flag = (out[var] > p50) | out[var].isna()
         else:
             flag = out[var] < p50
         out = out.drop(columns=[col], errors="ignore")
-        out[col] = flag.astype(float).groupby(out["permno"]).transform("mean")
+        out[col] = flag.astype(float).where(at_base).groupby(out["permno"]).transform("mean")
     return out
 
 
