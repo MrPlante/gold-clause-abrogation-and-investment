@@ -64,7 +64,7 @@ def load_panel():
 
 def validate_against_manuscript(panels: dict) -> list[tuple[str, float, float]]:
     parsed = parse_distribution_table(
-        MANUSCRIPT_APPENDIX_TABLES / "ia10_summary_pos_ps_bond.tex"
+        MANUSCRIPT_APPENDIX_TABLES / "ia17_summary_pos_ps_bond.tex"
     )
     return validate_distribution_panels(
         panels, parsed, tol=TOL, percentile_tol=PERCENTILE_TOL
@@ -72,7 +72,7 @@ def validate_against_manuscript(panels: dict) -> list[tuple[str, float, float]]:
 
 
 def write_latex_table(panels: dict, path: Path | None = None) -> Path:
-    out = path or (MANUSCRIPT_APPENDIX_TABLES / "ia10_summary_pos_ps_bond.tex")
+    out = path or (MANUSCRIPT_APPENDIX_TABLES / "ia17_summary_pos_ps_bond.tex")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(
         render_distribution_table(

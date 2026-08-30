@@ -89,7 +89,7 @@ def _parse_manuscript_table(tex_path: Path) -> dict[str, list[float | None]]:
 
 def validate_against_manuscript(models: dict[str, object]) -> list[tuple[str, float, float]]:
     parsed = _parse_manuscript_table(
-        MANUSCRIPT_APPENDIX_TABLES / "ia09_credit_ratings_full.tex"
+        MANUSCRIPT_APPENDIX_TABLES / "ia13_credit_ratings_full.tex"
     )
     checks: list[tuple[str, float, float]] = []
 
@@ -119,7 +119,7 @@ def validate_against_manuscript(models: dict[str, object]) -> list[tuple[str, fl
 
 
 def write_latex_table(models: dict[str, object], path: Path | None = None) -> Path:
-    out = path or (MANUSCRIPT_APPENDIX_TABLES / "ia09_credit_ratings_full.tex")
+    out = path or (MANUSCRIPT_APPENDIX_TABLES / "ia13_credit_ratings_full.tex")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(render_credit_ratings_full_table(models), encoding="utf-8")
     return out

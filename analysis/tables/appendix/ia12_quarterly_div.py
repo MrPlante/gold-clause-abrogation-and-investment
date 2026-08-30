@@ -1,5 +1,7 @@
 """
-Internet Appendix Table 14 — Extensive-margin indicators (Stata A19).
+Internet Appendix Table 12 — Quarter-specific dividend regressions.
+
+Port of the retired quarterly-div.py (git show d54b0c3:code/legacy/seb/quarterly-div.py) (cluster SEs by permno only).
 """
 
 from __future__ import annotations
@@ -7,37 +9,39 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
-from config import PANEL_PATH, COEF_TOLERANCE, MANUSCRIPT_APPENDIX_TABLES, MANUSCRIPT_APPENDIX_TABLES
-from tables.models.indicators_d import DISPLAY_TERMS, MODEL_ORDER, TERM_LABELS, run_models
-from pipeline.lib.io import read_dta
-from tables.render.indicators_d import render_indicators_d_table
+from config import COEF_TOLERANCE, MANUSCRIPT_APPENDIX_TABLES, MANUSCRIPT_APPENDIX_TABLES
+from tables.models.quarterly_div import MODEL_ORDER, run_models
+from tables.render.quarterly_div import render_quarterly_div_table
+
+KEY_TERMS_ANNUAL = ["var_Q", "d"] + [f"d_year_{y}" for y in range(1926, 1941) if y != 1932]
+KEY_TERMS_QUARTER = ["d_year_1933", "d_year_1934"]
+
+
+def _normalize_label(raw: str) -> str | None:
+    line = raw.strip()
+    if not line or line.startswith("("):
+        return None
+    if line.startswith("Q") or line == "Q":
+        return "var_Q"
+    if "tilde{d}" in line and "times" not in line and "text{" not in line:
+        return "d"
+    if "times" in line:
+        m = re.search(r"(\d{4})", line)
+        return f"d_year_{m.group(1)}" if m else None
+    return None
 
 
 def _parse_manuscript(tex_path: Path) -> dict[str, list[float | None]]:
     rows: dict[str, list[float | None]] = {}
-    label_to_term = {v: k for k, v in TERM_LABELS.items()}
-
     for line in tex_path.read_text(encoding="utf-8").splitlines():
         if "&" not in line:
             continue
         parts = [p.strip() for p in line.split("&")]
-        if len(parts) != 4:
+        if len(parts) != 6:
             continue
-        raw = parts[0].strip()
-        if not raw or raw.startswith("("):
+        label = _normalize_label(parts[0])
+        if label is None:
             continue
-
-        key = None
-        if raw.startswith("Q"):
-            key = "var_Q"
-        else:
-            for label, term in label_to_term.items():
-                if label in raw:
-                    key = term
-                    break
-        if key is None:
-            continue
-
         vals: list[float | None] = []
         for cell in parts[1:]:
             cell = re.sub(r"\\sym\{[*]+\}", "", cell).rstrip("\\").strip()
@@ -46,17 +50,18 @@ def _parse_manuscript(tex_path: Path) -> dict[str, list[float | None]]:
             except ValueError:
                 vals.append(None)
         if any(v is not None for v in vals):
-            rows[key] = vals
+            rows[label] = vals
     return rows
 
 
 def validate_against_manuscript(models: dict[str, object]) -> list[tuple[str, float, float]]:
-    parsed = _parse_manuscript(MANUSCRIPT_APPENDIX_TABLES / "ia16_indicators_d.tex")
+    parsed = _parse_manuscript(MANUSCRIPT_APPENDIX_TABLES / "ia12_quarterly_div.tex")
     checks: list[tuple[str, float, float]] = []
 
     for col_idx, col_key in enumerate(MODEL_ORDER):
+        terms = KEY_TERMS_ANNUAL if col_key == "annual" else KEY_TERMS_QUARTER
         m = models[col_key]
-        for term in DISPLAY_TERMS:
+        for term in terms:
             if term not in parsed:
                 continue
             expected = parsed[term][col_idx]
@@ -69,14 +74,14 @@ def validate_against_manuscript(models: dict[str, object]) -> list[tuple[str, fl
 
 
 def write_latex_table(models: dict[str, object], path: Path | None = None) -> Path:
-    out = path or (MANUSCRIPT_APPENDIX_TABLES / "ia16_indicators_d.tex")
+    out = path or (MANUSCRIPT_APPENDIX_TABLES / "ia12_quarterly_div.tex")
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(render_indicators_d_table(models), encoding="utf-8")
+    out.write_text(render_quarterly_div_table(models), encoding="utf-8")
     return out
 
 
 def main() -> dict[str, object]:
-    models = run_models(read_dta(PANEL_PATH))
+    models = run_models()
     checks = validate_against_manuscript(models)
     failures = [
         f"{name}: expected {exp:.4f}, got {act:.4f}"
@@ -85,12 +90,16 @@ def main() -> dict[str, object]:
     ]
     if failures:
         print(
-            f"IA Table 14 validation failed ({len(failures)}/{len(checks)} checks):\n"
+            f"IA Table 12 validation failed ({len(failures)}/{len(checks)} checks):\n"
             + "\n".join(failures[:20])
         )
 
     else:
-        print(f"IA Table 14 — all {len(checks)} manuscript checks passed (tol={COEF_TOLERANCE})")
+        print(f"IA Table 12 — all {len(checks)} manuscript checks passed (tol={COEF_TOLERANCE})")
+    for key in MODEL_ORDER:
+        m = models[key]
+        print(f"  {key}: N={int(m._N)}, R2={m._r2:.3f}")
+
     out_path = write_latex_table(models)
     print(f"  Wrote LaTeX table -> {out_path}")
     return models

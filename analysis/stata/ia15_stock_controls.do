@@ -9,18 +9,18 @@
 * wildcard exactly (N 7,033; decision 2026-08-29). A handful of
 * decile-column coefficients differ in the last printed digit vs round 1 -
 * lost-state fossils, engine-independent (D-022).
-* Input:  data/processed/stata_inputs/ia17_stock_controls.dta
-*         (written by analysis/tables/appendix/ia17_stock_controls.py per
+* Input:  data/processed/stata_inputs/ia15_stock_controls.dta
+*         (written by analysis/tables/appendix/ia15_stock_controls.py per
 *         A20_retcontrols.do: chars_annual merge, characteristic-period
 *         linears and decile-period dummies)
-* Output: analysis/stata/results/ia17_stock_controls_results.csv
-* Run:    stata-mp -b do analysis/stata/ia17_stock_controls.do [project_root]
+* Output: analysis/stata/results/ia15_stock_controls_results.csv
+* Run:    stata-mp -b do analysis/stata/ia15_stock_controls.do [project_root]
 version 16
 set more off
 args root
 if "`root'" == "" local root .
 
-use "`root'/data/processed/stata_inputs/ia17_stock_controls.dta", clear
+use "`root'/data/processed/stata_inputs/ia15_stock_controls.dta", clear
 
 capture program drop dumpcol
 program define dumpcol
@@ -30,7 +30,7 @@ program define dumpcol
     }
 end
 
-file open fh using "`root'/analysis/stata/results/ia17_stock_controls_results.csv", write replace
+file open fh using "`root'/analysis/stata/results/ia15_stock_controls_results.csv", write replace
 file write fh "col,term,b,se,df,r2,N" _n
 
 local core var_Q d d_1933 d_1934 d_After

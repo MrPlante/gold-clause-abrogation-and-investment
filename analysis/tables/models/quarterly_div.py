@@ -72,4 +72,4 @@ def run_models(qreg: pd.DataFrame | None = None) -> dict[str, object]:
         qdf["mkey"] = f"Q{q}"
         frames.append(qdf[keep])
 
-    return stata_models("ia14_quarterly_div", pd.concat(frames))
+    return stata_models("ia12_quarterly_div", pd.concat(frames))

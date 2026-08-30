@@ -3,17 +3,17 @@
 * Engine: reghdfe legacy version(5) - the vintage of the submitted table
 * (DISCREPANCIES.md D-023). Column 1's sample is the D-017-family
 * reconstruction (the published sample, N = 5,572, is a lost esttab state).
-* Input:  data/processed/stata_inputs/ia12_repayers_balanced.dta
-*         (written by analysis/tables/appendix/ia12_repayers_balanced.py
+* Input:  data/processed/stata_inputs/ia09_repayers_balanced.dta
+*         (written by analysis/tables/appendix/ia09_repayers_balanced.py
 *         with the four sample flags from A16_balanced.do)
-* Output: analysis/stata/results/ia12_repayers_balanced_results.csv
-* Run:    stata-mp -b do analysis/stata/ia12_repayers_balanced.do [project_root]
+* Output: analysis/stata/results/ia09_repayers_balanced_results.csv
+* Run:    stata-mp -b do analysis/stata/ia09_repayers_balanced.do [project_root]
 version 16
 set more off
 args root
 if "`root'" == "" local root .
 
-use "`root'/data/processed/stata_inputs/ia12_repayers_balanced.dta", clear
+use "`root'/data/processed/stata_inputs/ia09_repayers_balanced.dta", clear
 
 capture program drop dumpcol
 program define dumpcol
@@ -23,7 +23,7 @@ program define dumpcol
     }
 end
 
-file open fh using "`root'/analysis/stata/results/ia12_repayers_balanced_results.csv", write replace
+file open fh using "`root'/analysis/stata/results/ia09_repayers_balanced_results.csv", write replace
 file write fh "col,term,b,se,df,r2,N" _n
 
 local yrs d_year_1926 d_year_1927 d_year_1928 d_year_1929 d_year_1930 ///

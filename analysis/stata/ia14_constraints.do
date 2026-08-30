@@ -5,18 +5,18 @@
 * reproducible state under any engine - fossils of a lost intermediate run
 * (D-022 addendum); this do-file's output is the adopted reproducible
 * version.
-* Input:  data/processed/stata_inputs/ia13_constraints.dta
-*         (written by analysis/tables/appendix/ia13_constraints.py: the
+* Input:  data/processed/stata_inputs/ia14_constraints.dta
+*         (written by analysis/tables/appendix/ia14_constraints.py: the
 *         three A17_sizecashlev.do model panels stacked with mkey =
 *         small / lowcash / highlev, interactions prebuilt per model)
-* Output: analysis/stata/results/ia13_constraints_results.csv
-* Run:    stata-mp -b do analysis/stata/ia13_constraints.do [project_root]
+* Output: analysis/stata/results/ia14_constraints_results.csv
+* Run:    stata-mp -b do analysis/stata/ia14_constraints.do [project_root]
 version 16
 set more off
 args root
 if "`root'" == "" local root .
 
-use "`root'/data/processed/stata_inputs/ia13_constraints.dta", clear
+use "`root'/data/processed/stata_inputs/ia14_constraints.dta", clear
 
 capture program drop dumpcol
 program define dumpcol
@@ -26,7 +26,7 @@ program define dumpcol
     }
 end
 
-file open fh using "`root'/analysis/stata/results/ia13_constraints_results.csv", write replace
+file open fh using "`root'/analysis/stata/results/ia14_constraints_results.csv", write replace
 file write fh "col,term,b,se,df,r2,N" _n
 
 local rhs var_Q d d_x y1933_x y1934_x After_x d_1933 d_1934 d_After d_1933_x d_1934_x d_After_x

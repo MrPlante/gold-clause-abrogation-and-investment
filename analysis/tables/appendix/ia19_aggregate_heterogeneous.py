@@ -57,7 +57,7 @@ def _parse_manuscript(tex_path: Path) -> dict[str, dict[str, PeriodValues]]:
 
 
 def validate_against_manuscript(panels: dict[str, HeteroGoldEffects]) -> list[str]:
-    parsed = _parse_manuscript(MANUSCRIPT_APPENDIX_TABLES / "ia18_aggregate_heterogeneous.tex")
+    parsed = _parse_manuscript(MANUSCRIPT_APPENDIX_TABLES / "ia19_aggregate_heterogeneous.tex")
     failures: list[str] = []
 
     for panel_key, rows in parsed.items():
@@ -75,7 +75,7 @@ def validate_against_manuscript(panels: dict[str, HeteroGoldEffects]) -> list[st
 
 
 def write_latex_table(panels: dict[str, HeteroGoldEffects], path: Path | None = None) -> Path:
-    out = path or (MANUSCRIPT_APPENDIX_TABLES / "ia18_aggregate_heterogeneous.tex")
+    out = path or (MANUSCRIPT_APPENDIX_TABLES / "ia19_aggregate_heterogeneous.tex")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(render_aggregate_hetero_table(panels), encoding="utf-8")
     return out

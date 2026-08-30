@@ -88,7 +88,7 @@ def _parse_manuscript(tex_path: Path) -> dict[str, list[float | None]]:
 
 
 def validate_against_manuscript(models: dict[str, object]) -> list[tuple[str, float, float]]:
-    parsed = _parse_manuscript(MANUSCRIPT_APPENDIX_TABLES / "ia13_constraints.tex")
+    parsed = _parse_manuscript(MANUSCRIPT_APPENDIX_TABLES / "ia14_constraints.tex")
     checks: list[tuple[str, float, float]] = []
 
     for col_idx, col_key in enumerate(MODEL_ORDER):
@@ -111,7 +111,7 @@ def validate_against_manuscript(models: dict[str, object]) -> list[tuple[str, fl
 
 
 def write_latex_table(models: dict[str, object], path: Path | None = None) -> Path:
-    out = path or (MANUSCRIPT_APPENDIX_TABLES / "ia13_constraints.tex")
+    out = path or (MANUSCRIPT_APPENDIX_TABLES / "ia14_constraints.tex")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(render_constraints_table(models), encoding="utf-8")
     return out

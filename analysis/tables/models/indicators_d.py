@@ -102,4 +102,4 @@ def run_models(df: pd.DataFrame) -> dict[str, object]:
     panel = prepare_indicators(df)
     cols = (["permno", "year", "var_inv_rate", "var_Q", "dind", "dind2", "dind3"]
             + [f"{p}_{s}" for p in ("d", "d2", "d3") for s in ("1933", "1934", "After")])
-    return stata_models("ia16_indicators_d", panel[cols])
+    return stata_models("ia10_indicators_d", panel[cols])

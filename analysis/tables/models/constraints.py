@@ -128,4 +128,4 @@ def run_models(df: pd.DataFrame) -> dict[str, object]:
         sub = _add_interactions(panel, ind)[keep].copy()
         sub["mkey"] = key
         frames.append(sub)
-    return stata_models("ia13_constraints", pd.concat(frames))
+    return stata_models("ia14_constraints", pd.concat(frames))

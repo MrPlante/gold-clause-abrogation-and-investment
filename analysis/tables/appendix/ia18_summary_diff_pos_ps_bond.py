@@ -108,7 +108,7 @@ def _label_key(label: str) -> str:
 
 def validate_against_manuscript(panels: dict) -> list[tuple[str, float, float]]:
     parsed = _parse_manuscript(
-        MANUSCRIPT_APPENDIX_TABLES / "ia11_summary_diff_pos_ps_bond.tex"
+        MANUSCRIPT_APPENDIX_TABLES / "ia18_summary_diff_pos_ps_bond.tex"
     )
     checks: list[tuple[str, float, float]] = []
 
@@ -135,7 +135,7 @@ def validate_against_manuscript(panels: dict) -> list[tuple[str, float, float]]:
 
 
 def write_latex_table(panels: dict, path: Path | None = None) -> Path:
-    out = path or (MANUSCRIPT_APPENDIX_TABLES / "ia11_summary_diff_pos_ps_bond.tex")
+    out = path or (MANUSCRIPT_APPENDIX_TABLES / "ia18_summary_diff_pos_ps_bond.tex")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(
         render_group_means_table(

@@ -91,4 +91,4 @@ def run_models(df: pd.DataFrame) -> dict[str, object]:
     cols = (["permno", "year", "var_inv_rate"]
             + CORE_TERMS + LINEAR_CONTROLS + ANN_VARS + ann_linear
             + [c for prefix in DECILE_PREFIX_BY_MODEL.values() for c in ann_portfolio_cols(prefix)])
-    return stata_models("ia17_stock_controls", panel[cols])
+    return stata_models("ia15_stock_controls", panel[cols])

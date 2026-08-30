@@ -85,4 +85,4 @@ def run_models(df: pd.DataFrame) -> dict[str, object]:
         sub["mkey"] = key
         frames.append(sub[keep])
 
-    return stata_models("ia15_dividend_additional", pd.concat(frames))
+    return stata_models("ia11_dividend_additional", pd.concat(frames))

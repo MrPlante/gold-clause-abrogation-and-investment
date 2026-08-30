@@ -1,8 +1,8 @@
 """
 IA Table 17 — Table 6 columns 2-10 re-estimated with industry-year FEs.
 
-Reads Stata output from analysis/stata/ia19_controls_indyear.csv (produced by
-code/stata/ia19_controls_indyear.do) and renders a landscape LaTeX table.
+Reads Stata output from analysis/stata/ia16_controls_indyear.csv (produced by
+code/stata/ia16_controls_indyear.do) and renders a landscape LaTeX table.
 """
 
 from __future__ import annotations
@@ -17,7 +17,7 @@ from config import MANUSCRIPT_APPENDIX_TABLES
 
 CSV_PATH = (
     Path(__file__).resolve().parents[3]
-    / "analysis" / "stata" / "ia19_controls_indyear.csv"
+    / "analysis" / "stata" / "ia16_controls_indyear.csv"
 )
 
 MANUSCRIPT_APPENDIX = (
@@ -189,11 +189,11 @@ def main() -> Path:
 
     for out_dir in [MANUSCRIPT_APPENDIX_TABLES, MANUSCRIPT_APPENDIX]:
         out_dir.mkdir(parents=True, exist_ok=True)
-        out = out_dir / "ia19_controls_indyear.tex"
+        out = out_dir / "ia16_controls_indyear.tex"
         out.write_text(tex, encoding="utf-8")
         print(f"Wrote -> {out}")
 
-    return MANUSCRIPT_APPENDIX / "ia19_controls_indyear.tex"
+    return MANUSCRIPT_APPENDIX / "ia16_controls_indyear.tex"
 
 
 if __name__ == "__main__":

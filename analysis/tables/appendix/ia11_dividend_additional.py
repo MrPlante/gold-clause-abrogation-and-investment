@@ -52,7 +52,7 @@ def _parse_manuscript(tex_path: Path) -> dict[str, list[float | None]]:
 def validate_against_manuscript(
     models: dict[str, object],
 ) -> tuple[list[tuple[str, float, float]], list[str], list[str]]:
-    parsed = _parse_manuscript(MANUSCRIPT_APPENDIX_TABLES / "ia15_dividend_additional.tex")
+    parsed = _parse_manuscript(MANUSCRIPT_APPENDIX_TABLES / "ia11_dividend_additional.tex")
     checks: list[tuple[str, float, float]] = []
     hard_failures: list[str] = []
     soft_failures: list[str] = []
@@ -79,7 +79,7 @@ def validate_against_manuscript(
 
 
 def write_latex_table(models: dict[str, object], path: Path | None = None) -> Path:
-    out = path or (MANUSCRIPT_APPENDIX_TABLES / "ia15_dividend_additional.tex")
+    out = path or (MANUSCRIPT_APPENDIX_TABLES / "ia11_dividend_additional.tex")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(render_dividend_additional_table(models), encoding="utf-8")
     return out

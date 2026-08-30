@@ -66,7 +66,7 @@ def _parse_manuscript(tex_path: Path) -> dict[str, list[float | None]]:
 def validate_against_manuscript(
     models: dict[str, object],
 ) -> tuple[list[tuple[str, float, float]], list[str], list[str]]:
-    parsed = _parse_manuscript(MANUSCRIPT_APPENDIX_TABLES / "ia17_stock_controls.tex")
+    parsed = _parse_manuscript(MANUSCRIPT_APPENDIX_TABLES / "ia15_stock_controls.tex")
     checks: list[tuple[str, float, float]] = []
     hard_failures: list[str] = []
     soft_failures: list[str] = []
@@ -95,7 +95,7 @@ def validate_against_manuscript(
 
 
 def write_latex_table(models: dict[str, object], path: Path | None = None) -> Path:
-    out = path or (MANUSCRIPT_APPENDIX_TABLES / "ia17_stock_controls.tex")
+    out = path or (MANUSCRIPT_APPENDIX_TABLES / "ia15_stock_controls.tex")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(render_stock_controls_table(models), encoding="utf-8")
     return out

@@ -58,4 +58,4 @@ def run_models(df: pd.DataFrame) -> dict[str, object]:
     years = [y for y in range(SAMPLE_YEARS[0], SAMPLE_YEARS[1] + 1) if y != OMITTED_YEAR]
     cols = (["permno", "year", "var_inv_rate", "var_Q", "d"]
             + [f"d_year_{y}" for y in years] + COLUMN_ORDER)
-    return stata_models("ia12_repayers_balanced", prepared[cols])
+    return stata_models("ia09_repayers_balanced", prepared[cols])
