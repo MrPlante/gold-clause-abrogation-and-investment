@@ -35,7 +35,7 @@
 % green via \rev{...} (inline text) and the revblock environment (whole floats
 % or multi-paragraph blocks). Flip to \showeditsfalse for a clean copy.
 \newif\ifshowedits
-\showeditstrue
+\showeditsfalse
 \definecolor{RevGreen}{rgb}{0.00,0.42,0.10}
 \newcommand{\rev}[1]{\ifshowedits{\color{RevGreen}#1}\else#1\fi}
 % Floats call \normalcolor when their box is built, which would undo the
