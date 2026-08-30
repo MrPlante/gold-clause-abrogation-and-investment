@@ -6,7 +6,7 @@ produces the numbers in the paper from data/processed/firm_year_panel.dta.
 
 Stage names match manuscript labels: --stage table4 builds manuscript
 Table 4, --stage ia19 builds Internet Appendix Table IA.19. Manuscript
-Table 1 and Table IA.20 are built by the eventstudy stage.
+Table 1 is built by the eventstudy stage.
 """
 
 from __future__ import annotations
@@ -66,7 +66,7 @@ STAGES = {
     "figures": "figures.build",
     # Reads data/raw/crsp_daily.dta (local dump of gold_claude.crsp; no
     # researchdb access needed). Builds Table 1, Figures 3-5, IA.2, IA.3,
-    # and Table IA.20 directly into manuscript/.
+    # directly into manuscript/.
     "eventstudy": "eventstudy.pipeline",
 }
 

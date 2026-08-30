@@ -12,7 +12,7 @@ carries the manuscript's current label, end to end. `--stage table4` runs
 `manuscript/tables/body/table4_investment.tex` — manuscript Table 4. Same
 for the appendix: `--stage ia19` → `tables/appendix/ia19_controls_indyear.py`
 → `ia19_controls_indyear.tex` — Table IA.19. Manuscript Table 1 and Table
-IA.20 come from the `eventstudy` stage. If the manuscript renumbers between
+come from the `eventstudy` stage. If the manuscript renumbers between
 rounds, rename the files with it; the label→file mapping must never need a
 lookup table again.
 
@@ -40,7 +40,7 @@ analysis/
 │   ├── models/         # per-topic computations, shared across body/IA tables
 │   └── render/         # per-topic LaTeX emitters (regression_table.py is the
 │                       #   shared regression-table renderer)
-├── eventstudy/         # Table 1, Figs 3-5, IA.2/IA.3, Table IA.20
+├── eventstudy/         # Table 1 and the event figures
 │   └── pipeline.py     #   production event-study pipeline (fully offline:
 │                       #   reads data/raw/crsp_daily.dta)
 ├── figures/            # Figures 1-2, 6, 7 (+ source-data/ transcriptions)
@@ -68,7 +68,7 @@ The Table 7 / IA.17 specs segfault the in-process Stata vcov bridge;
 attach_cluster_vcov falls back to the CGM fix automatically for exactly
 those regressions (printed as a [vcov] note during the run).
 
-### Event study (Table 1, Figures 3–5, IA.2, IA.3, Table IA.20)
+### Event study (Table 1 and the event figures)
 
 ```bash
 .venv/bin/python analysis/run.py --stage eventstudy
