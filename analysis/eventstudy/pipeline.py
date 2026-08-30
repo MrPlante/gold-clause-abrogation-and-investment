@@ -213,7 +213,7 @@ def fmt_pct(x, dec=1):
 # in the R2 response letter and in the appendix figures, not in the body.
 
 
-# ------------------------------------- size-split table (Table 1)
+# ------------------------------------- size-split tables (Table 1 / IA.20)
 
 SIZE_CAP_DATE = "1932-12-31"    # tercile formation: pre-litigation market caps
 BETA_SAMPLE_END = "1940-12-31"  # full-sample firm-level market betas
@@ -369,7 +369,18 @@ def write_size_split_tables(gold, zero):
         r"over the pre-abrogation period (July 1926--December 1932). The decision-day "
         r"benchmark is the close of Saturday, February~16, 1935. The November window "
         r"combines the certiorari grant in \textit{United States v.\ Bankers Trust Co.}\ "
-        r"with the midterm election, for which the exchange was closed.")
+        r"with the midterm election, for which the exchange was closed. Internet Appendix "
+        r"Table~\ref{tabapp:size_split_intermediate} examines the intermediate legal events "
+        r"in the same format.")
+    notes_int = (
+        r"Same portfolio construction, size terciles, and $t$-statistic convention as "
+        r"Table~\ref{tab:event_study} in the main text; each window is three "
+        r"trading days from the event date. The Irving Trust hearing (May~22--24, 1933) was "
+        r"the first court hearing on the enforceability of gold clauses. \textit{In re "
+        r"Missouri Pacific} (E.D.~Mo., June~20, 1934) was the first federal ruling upholding "
+        r"the constitutionality of the Joint Resolution; the New York Court of Appeals "
+        r"affirmed \textit{Norman v.\ Baltimore \& Ohio R.~Co.} on July~3, 1934. Certiorari "
+        r"was granted in \textit{Norman} on October~8, 1934.")
 
     # Panel F: the full litigation episode, eve of the Joint Resolution
     # window through the Supreme Court decision, in the same format.
@@ -383,6 +394,9 @@ def write_size_split_tables(gold, zero):
         (MS_BODY_TAB, "table1_event_study.tex", main_events,
          "Stock market responses to key legal events",
          "tab:event_study", notes_main),
+        (MS_IA_TAB, "ia20_size_split_intermediate.tex", SIZE_INTERMEDIATE_EVENTS,
+         "Intermediate legal events, by firm size",
+         "tabapp:size_split_intermediate", notes_int),
     ]:
         body = _size_panel_body(inputs, events)
         path = os.path.join(out_dir, fname)

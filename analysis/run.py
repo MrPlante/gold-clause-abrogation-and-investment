@@ -6,7 +6,7 @@ produces the numbers in the paper from data/processed/firm_year_panel.dta.
 
 Stage names match manuscript labels: --stage table4 builds manuscript
 Table 4, --stage ia19 builds Internet Appendix Table IA.19. Manuscript
-Table 1 is built by the eventstudy stage.
+Table 1 and Table IA.20 are built by the eventstudy stage.
 """
 
 from __future__ import annotations
